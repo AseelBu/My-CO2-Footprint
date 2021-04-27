@@ -8,6 +8,8 @@ public class ItemInfo {
         this.name = name;
         this.imgId = imgId;
     }
+    public ItemInfo() {
+    }
 
     public String getName() {
         return name;

@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         itemInfos.add(new ItemInfo("Account Settings",R.drawable.user__1_));
         itemInfos.add(new ItemInfo("Notification Settings",R.drawable.bell));
         itemInfos.add(new ItemInfo("share with Friend",R.drawable.share));
+        itemInfos.add(new ItemInfo());
 //        itemInfos.add(new ItemInfo("Dark Mode",R.drawable.darkmode));
         list = (ListView) findViewById(R.id.list);
 

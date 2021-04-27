@@ -68,7 +68,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="530dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="150dp">
+        android:layout_marginBottom="60dp">
 
         <ImageView
             android:id="@+id/imageView5"
