@@ -17,13 +17,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup);
+        setContentView(R.layout.settingsmain);
 
         List<ItemInfo> itemInfos = new ArrayList<ItemInfo>();
         itemInfos.add(new ItemInfo("Account Settings",R.drawable.user__1_));
-        itemInfos.add(new ItemInfo("NotificationSettings",R.drawable.bell));
+        itemInfos.add(new ItemInfo("Notification Settings",R.drawable.bell));
         itemInfos.add(new ItemInfo("share with Friend",R.drawable.share));
-        itemInfos.add(new ItemInfo("Dark Mode",R.drawable.darkmode));
+//        itemInfos.add(new ItemInfo("Dark Mode",R.drawable.darkmode));
         list = (ListView) findViewById(R.id.list);
 
         adapter = new CustomListAdapter(this, itemInfos);

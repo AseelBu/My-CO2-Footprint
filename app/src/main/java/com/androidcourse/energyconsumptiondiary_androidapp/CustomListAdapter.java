@@ -41,11 +41,10 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
 
         TextView txtTitle = (TextView) rowView.findViewById(R.id.itemInfo);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        TextView extratxt = (TextView) rowView.findViewById(R.id.extratext);
         final ItemInfo itemInfo = dataList.get(position);
         txtTitle.setText(itemInfo.getName());
         imageView.setImageResource(itemInfo.getImgId());
-        extratxt.setText("Description "+ itemInfo.getName());
+
 
 //		imageView.setOnClickListener(new View.OnClickListener() {
 //            @Override

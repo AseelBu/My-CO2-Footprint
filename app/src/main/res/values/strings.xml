@@ -20,4 +20,11 @@
 
 <!--    Titels-->
     <string name="resultPageTitle">Your total CO2 footprint for today</string>
+    <!-- new password-->
+    <string name="oldpassword">Old Password</string>
+    <string name="newpassword">New Password</string>
+    <string name="confirmnewpassword">Confirm New Password</string>
+
+
+
 </resources>

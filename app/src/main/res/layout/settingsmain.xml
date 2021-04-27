@@ -1,0 +1,101 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}"
+    android:id="@+id/rootRL"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_background">
+    >
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="?attr/homeAsUpIndicator"
+        tools:layout_editor_absoluteX="-11dp"
+        tools:layout_editor_absoluteY="7dp" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="200dp"
+        android:padding="50dp"
+        android:scrollbarDefaultDelayBeforeFade="0"
+        android:scrollbarFadeDuration="0"
+        android:scrollbarSize="2dp"
+        android:scrollbars="none"></ListView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="144dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="90dp"
+        android:src="@drawable/settings" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/_" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="630dp"
+        android:layout_marginEnd="300dp"
+        android:layout_marginBottom="300dp"
+        android:text="Logout" />
+
+    <RelativeLayout
+        android:layout_width="311dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="530dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="150dp">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+
+            android:src="@drawable/darkmode" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="112dp"
+            android:layout_height="37dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="10dp"
+            android:padding="1dp"
+            android:text="Dark Mode"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#33CC33" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="10dp"
+            android:text="" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
