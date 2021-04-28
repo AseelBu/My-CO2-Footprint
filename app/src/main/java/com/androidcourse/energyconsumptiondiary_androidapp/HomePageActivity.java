@@ -43,9 +43,9 @@ public class HomePageActivity extends AppCompatActivity {
 
     }
     public void leaderboardBtnClicked(View v){
-        //        TODO change class Name
-//        Intent intent = new Intent(context, .class);
-//        startActivity(intent);
+
+        Intent intent = new Intent(context, LeaderboardAndPointsActivity.class);
+        startActivity(intent);
 
     }
     public void settingsBtnClicked(View v){

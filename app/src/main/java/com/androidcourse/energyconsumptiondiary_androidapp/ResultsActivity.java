@@ -39,6 +39,6 @@ public class ResultsActivity extends AppCompatActivity {
     public void tipsBtnClicked(View v){
         Intent intent = new Intent(context, TipsActivity.class);
         startActivity(intent);
-        this.finish();
+        
     }
 }
