@@ -15,5 +15,11 @@
     <color name="lightGreen">#BDD2B6</color>
     <color name="yellowGreen">#FEFFDE</color>
 
+<!--    gauge chart colors-->
+    <color name="bestGreen">#35A845</color>
+    <color name="warningYellow">#FFEA06</color>
+    <color name="warningOrange">#EC8711</color>
+    <color name="dangerRed">#BF2222</color>
+
 
 </resources>
