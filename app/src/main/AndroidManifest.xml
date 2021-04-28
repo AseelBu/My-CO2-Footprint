@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EnergyConsumptionDiary">
-        <activity android:name=".PreviousResultsActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".PreviousResultsActivity" />
         <activity android:name=".TipsActivity" />
         <activity android:name=".HomePageActivity" />
         <activity android:name=".EntryActivity" />

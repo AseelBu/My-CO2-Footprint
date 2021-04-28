@@ -49,7 +49,7 @@
             android:padding="20dp">
 
             <TextView
-                android:id="@+id/signupTitle"
+                android:id="@+id/updatepassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -103,7 +103,7 @@
                 android:singleLine="true" />
 
             <EditText
-                android:id="@+id/editPasswordSignup"
+                android:id="@+id/oldpassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -133,7 +133,7 @@
                 android:singleLine="true" />
 
             <Button
-                android:id="@+id/loginBtn"
+                android:id="@+id/updatepasswordBtn"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="264dp"
                 android:layout_height="wrap_content"

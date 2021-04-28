@@ -27,7 +27,7 @@
     <!--        <item>New Entery</item>-->
     <!--        <item>Previous Results</item>-->
     <!--        <item>Leaderboard and Points</item>-->
-    <!--        <item>Settings</item>-->
+    <!--        <item>SettingsActivity</item>-->
     <!--    </string-array>-->
 
     <string name="newEntery">New Entery</string>
@@ -36,6 +36,11 @@
     <string name="settings">Settings</string>
     <string name="tipsBtn">Tips to reduce my CO2 footprint</string>
 
+
+    <!-- new password-->
+    <string name="oldpassword">Old Password</string>
+    <string name="newpassword">New Password</string>
+    <string name="confirmnewpassword">Confirm New Password</string>
 
 
 </resources>

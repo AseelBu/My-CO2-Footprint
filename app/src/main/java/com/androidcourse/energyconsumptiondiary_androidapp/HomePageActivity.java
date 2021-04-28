@@ -49,9 +49,9 @@ public class HomePageActivity extends AppCompatActivity {
 
     }
     public void settingsBtnClicked(View v){
-//        TODO change class Name
-//        Intent intent = new Intent(context, .class);
-//        startActivity(intent);
+
+        Intent intent = new Intent(context, SettingsActivity.class);
+        startActivity(intent);
 
     }
 }
