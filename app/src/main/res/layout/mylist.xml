@@ -29,7 +29,7 @@
             android:textColor="@color/darkGreen" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/arrowbtn"
 
             android:layout_width="73dp"
             android:layout_height="match_parent"

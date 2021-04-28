@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">My CO2 Footprint</string>
 
-    <!--    Login-->
+<!--    Login-->
     <string name="loginTitle">Login</string>
-    <string name="emailHint">email@email.com</string>
+    <string name="emailHint">Email@email.com</string>
     <string name="passwordHint">Password</string>
     <string name="forgotPassword">Forgot Password?</string>
     <string name="loginButton">Login</string>
@@ -18,29 +18,18 @@
     <string name="signupBtn">Sign up</string>
     <string name="alreadyAMember">I am already a member</string>
 
-    <!--Titles-->
+<!--    Titels-->
     <string name="resultPageTitle">Your total CO2 footprint for today</string>
-    <string name="tipsPageTitle">Green Tips</string>
-    <string name="prevResultsTitle">Previous Results</string>
-    <!--Button names    -->
-    <!--    <string-array name="homeButtonsNames">-->
-    <!--        <item>New Entery</item>-->
-    <!--        <item>Previous Results</item>-->
-    <!--        <item>Leaderboard and Points</item>-->
-    <!--        <item>SettingsActivity</item>-->
-    <!--    </string-array>-->
-
-    <string name="newEntery">New Entery</string>
-    <string name="previousResults">Previous Results</string>
-    <string name="leaderboard">Leaderboard and Points</string>
-    <string name="settings">Settings</string>
-    <string name="tipsBtn">Tips to reduce my CO2 footprint</string>
-
-
     <!-- new password-->
     <string name="oldpassword">Old Password</string>
     <string name="newpassword">New Password</string>
     <string name="confirmnewpassword">Confirm New Password</string>
+
+
+    <string name="logoutbtn">Logout</string>
+    <string name="logoutbtn2">Logout</string>
+    <string name="imageButton3">Update Password</string>
+    <string name="updatpass">Update Password</string>
 
 
 </resources>
