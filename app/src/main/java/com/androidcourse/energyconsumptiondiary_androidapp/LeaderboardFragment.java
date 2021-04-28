@@ -14,14 +14,16 @@ import android.view.ViewGroup;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.dummy.DummyContent;
 
+import java.util.ArrayList;
+
 /**
  * A fragment representing a list of Items.
  */
 public class LeaderboardFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
+
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
+
     private int mColumnCount = 1;
 
     /**
@@ -31,8 +33,8 @@ public class LeaderboardFragment extends Fragment {
     public LeaderboardFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
+
+
     public static LeaderboardFragment newInstance(int columnCount) {
         LeaderboardFragment fragment = new LeaderboardFragment();
         Bundle args = new Bundle();
@@ -64,7 +66,7 @@ public class LeaderboardFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyLeaderboardRecyclerViewAdapter(DummyContent.ITEMS));
+//            recyclerView.setAdapter(new MyLeaderboardRecyclerViewAdapter(new ArrayList<>({})));
         }
         return view;
     }

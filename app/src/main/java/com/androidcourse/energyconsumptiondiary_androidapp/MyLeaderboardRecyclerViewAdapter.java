@@ -5,22 +5,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidcourse.energyconsumptiondiary_androidapp.dummy.DummyContent.DummyItem;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
+
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem}.
- * TODO: Replace the implementation with code for your data type.
- */
+
 public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLeaderboardRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<User> mUsers;
 
-    public MyLeaderboardRecyclerViewAdapter(List<DummyItem> items) {
-        mValues = items;
+    public MyLeaderboardRecyclerViewAdapter(List<User> leadUsers) {
+        mUsers = leadUsers;
     }
 
     @Override
@@ -32,32 +31,41 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        User user = mUsers.get(position);
+        holder.setData(user,position);
+
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mUsers.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView mIndex;
+        public final TextView  mName;
+        public final ImageView  mImg;
+        public final TextView  mPoints;
+        public User user=null;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIndex = (TextView) view.findViewById(R.id.userIndex);
+             mName = (TextView) view.findViewById(R.id.userName);
+             mImg = (ImageView) view.findViewById(R.id.userImg);
+             mPoints = (TextView) view.findViewById((R.id.userPoints));
         }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+        public void setData(User user,int position){
+            this.user=user;
+            mIndex.setText(position);
+            mName.setText(user.getName());
+            mPoints.setText(user.getPoints());
+            mImg.setImageDrawable(user.getImage());
         }
+
+
     }
 }
