@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:layout_marginBottom="200dp"
+        android:cacheColorHint="#FFFFFF"
         android:padding="50dp"
         android:scrollbarDefaultDelayBeforeFade="0"
         android:scrollbarFadeDuration="0"
@@ -52,7 +53,7 @@
         android:src="@drawable/_" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/logoutbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="300dp"
@@ -60,7 +61,7 @@
         android:layout_marginTop="630dp"
         android:layout_marginEnd="300dp"
         android:layout_marginBottom="300dp"
-        android:text="Logout" />
+        android:text="@string/logoutbtn" />
 
     <RelativeLayout
         android:layout_width="311dp"

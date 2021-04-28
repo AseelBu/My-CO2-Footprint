@@ -26,5 +26,10 @@
     <string name="confirmnewpassword">Confirm New Password</string>
 
 
+    <string name="logoutbtn">Logout</string>
+    <string name="logoutbtn2">Logout</string>
+    <string name="imageButton3">Update Password</string>
+    <string name="updatpass">Update Password</string>
+
 
 </resources>
