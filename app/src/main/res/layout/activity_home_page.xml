@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ConstraintLayout_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomePageActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/newEnteryBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="entryBtnClicked"
+            android:text="@string/newEntery" />
+
+        <Button
+            android:id="@+id/previousResultsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:onClick="prevResultsBtnClicked"
+            android:text="@string/previousResults" />
+
+        <Button
+            android:id="@+id/leaderboardBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/leaderboard" />
+
+        <Button
+            android:id="@+id/settingsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:onClick="settingsBtnClicked"
+            android:text="@string/settings" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

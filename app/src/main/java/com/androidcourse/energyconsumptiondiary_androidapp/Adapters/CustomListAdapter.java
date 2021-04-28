@@ -1,4 +1,4 @@
-package com.androidcourse.energyconsumptiondiary_androidapp;
+package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
 
 
 
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.androidcourse.energyconsumptiondiary_androidapp.ItemInfo;
+import com.androidcourse.energyconsumptiondiary_androidapp.R;
 
 import java.util.List;
 
