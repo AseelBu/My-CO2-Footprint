@@ -39,7 +39,7 @@ public class TipsActivity extends AppCompatActivity {
     private void createList(int size) {
 
         List<Tip> result = new ArrayList<Tip>();
-        Drawable img=getResources().getDrawable(R.drawable.ic_baseline_directions_car_24);
+        Drawable img=getResources().getDrawable(R.drawable.car);
         for (int i = 1; i <= size; i++) {
             dh.addTip("Title",lorem,img);
 
