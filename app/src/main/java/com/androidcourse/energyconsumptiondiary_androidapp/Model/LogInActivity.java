@@ -39,7 +39,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         email=(EditText)findViewById(R.id.editEmailSignup);
-        email.setText("George Klien@gmail.com");
+        email.setText("George_Klien@gmail.com");
         password=(EditText)findViewById(R.id.oldpassword);
         email.setText("12345678");
         TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
