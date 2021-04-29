@@ -2,7 +2,9 @@ package com.androidcourse.energyconsumptiondiary_androidapp.Model;
 
 import android.graphics.drawable.Drawable;
 
-public class User {
+import java.util.Objects;
+
+public class User implements Comparable{
     private int userId;
     private String email;
     private String password;
@@ -21,11 +23,19 @@ public class User {
         this.points = points;
     }
 
-    public User(String email, String password, String firstName, String lastName) {
+    public User(String email, String password, String firstName, String lastName,int points) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.points = points;
+    }
+
+    public User(String firstName, String lastName, int points, Drawable image) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.points = points;
+        this.image = image;
     }
 
     public String getEmail() {
@@ -78,5 +88,23 @@ public class User {
 
     public String getName(){
         return this.firstName+" "+this.lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return userId == user.userId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return ((User)o).getPoints()-this.getPoints();
     }
 }

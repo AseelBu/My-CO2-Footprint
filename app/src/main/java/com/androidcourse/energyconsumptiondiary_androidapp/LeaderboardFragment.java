@@ -1,6 +1,7 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.dummy.DummyContent;
 
 import java.util.ArrayList;
@@ -23,8 +25,10 @@ public class LeaderboardFragment extends Fragment {
 
 
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final DataHolder dh =DataHolder.getInstance();
 
     private int mColumnCount = 1;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -66,8 +70,16 @@ public class LeaderboardFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-//            recyclerView.setAdapter(new MyLeaderboardRecyclerViewAdapter(new ArrayList<>({})));
+            createData(10);
+            recyclerView.setAdapter(new MyLeaderboardRecyclerViewAdapter(this.getContext(),dh.getLeaderboardUsers()));
         }
         return view;
+    }
+
+    public void createData(int size){
+        Drawable img= getResources().getDrawable(R.drawable.bell);
+        for(int i=0;i<=size;i++){
+            dh.addUser("go "+i,"go "+i,i*10,img);
+        }
     }
 }

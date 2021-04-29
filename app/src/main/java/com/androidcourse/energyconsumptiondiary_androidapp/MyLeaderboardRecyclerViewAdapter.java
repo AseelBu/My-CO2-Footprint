@@ -2,6 +2,8 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +19,11 @@ import java.util.List;
 public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLeaderboardRecyclerViewAdapter.ViewHolder> {
 
     private final List<User> mUsers;
+    private Context context;
 
-    public MyLeaderboardRecyclerViewAdapter(List<User> leadUsers) {
+    public MyLeaderboardRecyclerViewAdapter(Context context,List<User> leadUsers) {
         mUsers = leadUsers;
+        this.context = context;
     }
 
     @Override
@@ -32,7 +36,17 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         User user = mUsers.get(position);
-        holder.setData(user,position);
+        holder.setData(user,position+1);
+
+        //color first 3 places
+
+        if(position==0){
+            holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green1));
+        }else if(position==1){
+            holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green2));
+        }else if(position==2){
+            holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green3));
+        }
 
     }
 
@@ -60,9 +74,9 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
 
         public void setData(User user,int position){
             this.user=user;
-            mIndex.setText(position);
+            mIndex.setText(String.valueOf(position));
             mName.setText(user.getName());
-            mPoints.setText(user.getPoints());
+            mPoints.setText(String.valueOf(user.getPoints()));
             mImg.setImageDrawable(user.getImage());
         }
 
