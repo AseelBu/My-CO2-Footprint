@@ -9,19 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.androidcourse.energyconsumptiondiary_androidapp.EntryActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.HomePageActivity;
-import com.androidcourse.energyconsumptiondiary_androidapp.PreviousResultsActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
-import com.androidcourse.energyconsumptiondiary_androidapp.SettingsActivity;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -43,7 +34,7 @@ public class LogInActivity extends AppCompatActivity {
         password=(EditText)findViewById(R.id.oldpassword);
         email.setText("12345678");
         TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
-        Button login = (Button) findViewById(R.id.logoutbtn2);
+        Button login = (Button) findViewById(R.id.sendEmail);
         TextView signUp = (TextView) findViewById(R.id.loginLink);
 
     }

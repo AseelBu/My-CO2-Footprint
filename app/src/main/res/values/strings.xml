@@ -56,4 +56,6 @@
     <string name="editTextTime2">00:00:00</string>
     <string name="tips">tips:</string>
     <string name="save">Save</string>
+    <string name="forgetpassword">Forgot Password</string>
+    <string name="sendEmail">Send to email</string>
 </resources>
