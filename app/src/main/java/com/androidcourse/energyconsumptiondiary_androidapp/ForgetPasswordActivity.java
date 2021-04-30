@@ -1,5 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.app.Activity;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 public class ForgetPasswordActivity extends Activity  {
     private static final String TAG = "ForgetpasswordActivity";
     private EditText phone = null;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,7 @@ public class ForgetPasswordActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgetpassword);
         phone=(EditText) findViewById(R.id.email);
+        context=this;
 
     }
     public void sendSmsOnClick(View view) {
@@ -28,6 +31,13 @@ public class ForgetPasswordActivity extends Activity  {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+
+
+    }
+    public void returnClicked(View v){
+
+        Intent intent = new Intent(context, LogInActivity.class);
+        startActivity(intent);
 
     }
 }

@@ -36,6 +36,11 @@ public class HomePageActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+    public void logoutBtnClicked(View v){
+        Intent intent = new Intent(context, LogInActivity.class);
+        startActivity(intent);
+
+    }
     public void prevResultsBtnClicked(View v){
 
         Intent intent = new Intent(context, PreviousResultsActivity.class);

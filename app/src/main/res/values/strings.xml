@@ -61,6 +61,7 @@
 
     <string name="yourPoints">Your points</string>
     <string name="yourRank">Your rank</string>
+    <string name="logout">Logout</string>
 
 
 </resources>

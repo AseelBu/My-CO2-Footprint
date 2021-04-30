@@ -3,14 +3,18 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
+import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -18,7 +22,7 @@ import java.util.regex.Pattern;
 
 public class LogInActivity extends AppCompatActivity {
     public static final String TAG = "LogInActivity";
-    ArrayList<User> users=new ArrayList<User>();
+    private DataHolder dh = DataHolder.getInstance();
     public EditText email = null;
     public EditText password = null;
     private Context context;
@@ -29,18 +33,61 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         email=(EditText)findViewById(R.id.email);
-        email.setText("George@gmail.com");
+//        email.setText("George@gmail.com");
         password=(EditText)findViewById(R.id.password);
-        password.setText("12345678");
+//        password.setText("12345678");
         TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
         Button login = (Button) findViewById(R.id.sendEmail);
         TextView signUp = (TextView) findViewById(R.id.loginLink);
+        context=this;
 
     }
-    public void loginClicked(View v){
+    public void loginClicked(View v) {
+        boolean flag = true;
 
-        Intent intent = new Intent(context, HomePageActivity.class);
-        startActivity(intent);
+        try {
+            if (TextUtils.isEmpty(email.getText().toString()) ||
+                    TextUtils.isEmpty(password.getText().toString()))
+             {
+                flag = false;
+//                Log.d("email:", "something is empty");
+                Toast.makeText(LogInActivity.this,
+                        "Please enter all details",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } catch (NumberFormatException exception) {
+
+        }
+//
+        if(flag==true)
+        {
+        if (checkIfEmailExist() == false) {
+
+            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+
+            dlgAlert.setMessage("Unfortenatlly Email Not Found ):");
+            dlgAlert.setTitle("Error Message...");
+            dlgAlert.setPositiveButton("OK", null);
+            dlgAlert.setCancelable(true);
+            dlgAlert.create().show();
+
+        } else {
+            if (checkIfPasswordIsCorrect() == false) {
+
+                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+
+                dlgAlert.setMessage("Wrong Password,try again :)");
+                dlgAlert.setTitle("Error Message...");
+                dlgAlert.setPositiveButton("OK", null);
+                dlgAlert.setCancelable(true);
+                dlgAlert.create().show();
+            }  else {
+                Intent intent = new Intent(context, HomePageActivity.class);
+                startActivity(intent);
+
+            }
+            }
+    }
 
     }
 
@@ -55,17 +102,7 @@ public class LogInActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-    public boolean checkIfEmailisValid()
-    {
-        String emailString=null;
-        emailString=email.getText().toString();
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
 
-        Pattern pat = Pattern.compile(emailRegex);
-        if ( emailString == null)
-            return false;
-        return pat.matcher( emailString).matches();
-    }
 //    public boolean checkIfPasswordisValid()
 //    {
 //        String passwordString=null;
@@ -75,8 +112,8 @@ public class LogInActivity extends AppCompatActivity {
 //    }
     public boolean checkIfEmailExist()
     {
-        for (User u: users) {
-            if(email.equals(u.getEmail()))
+        for (User u: dh.getUsers()) {
+            if(email.getText().toString().equals(u.getEmail().toString()))
                 return true;
         }
         return false;
@@ -84,8 +121,14 @@ public class LogInActivity extends AppCompatActivity {
 
     public boolean checkIfPasswordIsCorrect()
     {
-        for (User u: users) {
-          if((email.equals(u.getEmail()))&&(!password.equals(u.getPassword())))
+        Log.d("44444444444444","$44444444444444");
+        for (User u: dh.getUsers()) {
+            Log.d("1:",email.getText().toString());
+            Log.d("2:",u.getEmail());
+            Log.d("1:",password.getText().toString());
+            Log.d("2",u.getPassword());
+          if((email.getText().toString().equals(u.getEmail()))&&
+                  (!password.getText().toString().equals(u.getPassword())))
               return false;
         }
          return true;

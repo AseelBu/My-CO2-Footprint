@@ -118,7 +118,7 @@
                 android:singleLine="true" />
 
             <EditText
-                android:id="@+id/editPasswordSignup2"
+                android:id="@+id/confirmPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -141,6 +141,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/button_round_shape"
                 android:gravity="center"
+                android:onClick="signupClicked"
                 android:text="@string/signupBtn"
                 android:textColor="@android:color/white" />
 
@@ -151,6 +152,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:gravity="center"
+                android:onClick="AlreadyAMemberClicked"
                 android:padding="5dp"
                 android:text="@string/alreadyAMember" />
 

@@ -40,6 +40,14 @@ public class User implements Comparable{
         this.image = image;
     }
 
+
+    public User(String firstName, String lastName, String email,String Password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email=email;
+        this.password=Password;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
