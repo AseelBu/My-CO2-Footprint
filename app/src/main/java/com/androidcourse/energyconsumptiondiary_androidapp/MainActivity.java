@@ -3,6 +3,7 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
@@ -12,11 +13,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.notification);
-//        context=this;
-//        Intent intent = new Intent(context,AcoountSettingsActivity.class);
-//        startActivity(intent);
-//        MainActivity.this.finish();
+        setContentView(R.layout.activity_main);
+        context=this;
+        Intent intent = new Intent(context,HomePageActivity.class);
+        startActivity(intent);
+        MainActivity.this.finish();
 
         }
         }

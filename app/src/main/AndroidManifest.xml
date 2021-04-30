@@ -9,14 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EnergyConsumptionDiary">
-        <activity android:name=".AcoountSettingsActivity"></activity>
         <activity android:name=".SettingsActivity" />
         <activity android:name=".PreviousResultsActivity" />
         <activity android:name=".TipsActivity" />
         <activity android:name=".HomePageActivity" />
         <activity android:name=".EntryActivity" />
         <activity android:name=".ResultsActivity" /> <!--  -->
+        <activity android:name=".NotificationSettingsActivity"/>
+        <activity android:name=".AccountSettingsActivity"/>
+        <activity android:name=".LogInActivity"/>
+        <activity android:name=".SignUpActivity"/>
+        <activity android:name=".ForgetPasswordActivity"/>
+        <activity android:name=".CameraDemoActivity"/>
+        <activity android:name=".UpdatePasswordActivity"/>
         <activity android:name=".MainActivity">
+
+
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

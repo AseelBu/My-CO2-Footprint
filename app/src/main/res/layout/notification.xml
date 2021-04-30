@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".NotificationSettingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +20,7 @@
             android:layout_width="84dp"
             android:layout_height="88dp"
             android:layout_weight="1"
+            android:onClick="returnBtnClicked"
             app:srcCompat="@drawable/abc_vector_test" />
 
         <LinearLayout
@@ -76,7 +78,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="bottom|center_horizontal"
+                    android:paddingBottom="15dp"
                     android:text="@string/entryreminderr" />
 
                 <EditText
@@ -85,7 +88,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:gravity="center"
+                    android:gravity="bottom|center_horizontal"
                     android:inputType="time"
                     android:text="@string/editTextTime2" />
 
@@ -102,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:gravity="center"
+                    android:gravity="center_horizontal|top"
                     android:text="tips" />
 
                 <TextView
@@ -122,6 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical"
+        android:onClick="save"
         android:text="@string/save" />
 
 </LinearLayout>

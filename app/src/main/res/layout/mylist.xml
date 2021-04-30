@@ -28,21 +28,6 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/darkGreen" />
 
-        <Button
-            android:id="@+id/arrowbtn"
-
-            android:layout_width="73dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:enabled="true"
-            android:shadowColor="#4CAF50"
-            android:text=">"
-            android:textColor="#000000"
-            android:textColorHighlight="#872323"
-            android:textCursorDrawable="@drawable/right"
-            android:textSize="50dp" />
-
     </LinearLayout>
 
 </LinearLayout>

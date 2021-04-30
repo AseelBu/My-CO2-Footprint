@@ -1,4 +1,4 @@
-package com.androidcourse.energyconsumptiondiary_androidapp.Model;
+package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.androidcourse.energyconsumptiondiary_androidapp.HomePageActivity;
-import com.androidcourse.energyconsumptiondiary_androidapp.R;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,10 +28,10 @@ public class LogInActivity extends AppCompatActivity {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        email=(EditText)findViewById(R.id.editEmailSignup);
-        email.setText("George_Klien@gmail.com");
-        password=(EditText)findViewById(R.id.oldpassword);
-        email.setText("12345678");
+        email=(EditText)findViewById(R.id.email);
+        email.setText("George@gmail.com");
+        password=(EditText)findViewById(R.id.password);
+        password.setText("12345678");
         TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
         Button login = (Button) findViewById(R.id.sendEmail);
         TextView signUp = (TextView) findViewById(R.id.loginLink);

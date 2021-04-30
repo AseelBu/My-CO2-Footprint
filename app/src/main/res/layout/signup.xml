@@ -88,7 +88,7 @@
                 android:singleLine="true" />
 
             <EditText
-                android:id="@+id/editEmailSignup"
+                android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -103,7 +103,7 @@
                 android:singleLine="true" />
 
             <EditText
-                android:id="@+id/oldpassword"
+                android:id="@+id/password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"

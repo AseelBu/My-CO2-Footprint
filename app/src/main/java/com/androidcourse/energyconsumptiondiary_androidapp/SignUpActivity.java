@@ -1,27 +1,15 @@
-package com.androidcourse.energyconsumptiondiary_androidapp.Model;
+package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.androidcourse.energyconsumptiondiary_androidapp.EntryActivity;
-import com.androidcourse.energyconsumptiondiary_androidapp.HomePageActivity;
-import com.androidcourse.energyconsumptiondiary_androidapp.PreviousResultsActivity;
-import com.androidcourse.energyconsumptiondiary_androidapp.R;
-import com.androidcourse.energyconsumptiondiary_androidapp.SettingsActivity;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
+
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -44,9 +32,9 @@ public class SignUpActivity extends AppCompatActivity{
         firstName.setText("George");
         lastName=(EditText)findViewById(R.id.editLastName);
         firstName.setText("klien");
-        email=(EditText)findViewById(R.id.editEmailSignup);
+        email=(EditText)findViewById(R.id.email);
         email.setText("George_Klien@gmail.com");
-        password=(EditText)findViewById(R.id.oldpassword);
+        password=(EditText)findViewById(R.id.password);
         password.setText("12345678");
         confirmPassword=(EditText)findViewById(R.id.editPasswordSignup2);
         confirmPassword.setText("12345678");

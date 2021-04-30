@@ -20,6 +20,21 @@
     <color name="warningYellow">#FFEA06</color>
     <color name="warningOrange">#EC8711</color>
     <color name="dangerRed">#BF2222</color>
+    <!--for Normal/Light Mode-->
+    <color name="backgroundColor">#FCFCFC</color>
+    <color name="textColor">#000000</color>
+    <!--for Night/Dark Mode-->
+    <color name="backgroundColor2">#212121</color>
+    <color name="textColor2">#FFFFFF</color>
+    <color name="mainText">#2D313D</color>
+    <color name="textAlt">#8D8F97</color>
+    <color name="mainBackground">#FFFFFF</color>
+    <color name="darkColorPrimary">#1e2756</color>
+    <color name="darkColorPrimaryDark">#141831</color>
+    <color name="darkColorAccent">#2aac4b</color>
+    <attr name="bgColor" format="color"/>
+    <attr name="textColor" format="color"/>
+    <attr name="metaTextColor" format="color"/>
 
 
 </resources>

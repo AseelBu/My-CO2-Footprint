@@ -12,6 +12,7 @@
         android:id="@+id/imageButton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="returnBtnClicked"
         app:srcCompat="@drawable/abc_vector_test" />
 
     <ImageView
@@ -109,7 +110,8 @@
                     android:layout_weight="3"
                     android:background="@null"
                     android:enabled="true"
-                    android:gravity="right|center_vertical"
+                    android:gravity="center"
+                    android:onClick="UpdatePasswordClicked"
                     android:shadowColor="#4CAF50"
                     android:text=">"
                     android:textColor="#000000"
