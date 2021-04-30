@@ -1,15 +1,22 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
 
-public class User {
-    public int userID;
-    public String email;
-    public String password;
-    public String firstName;
-    public String lastName;
-    public long points;
 
-    public User(int userID, String email, String password, String firstName, String lastName, long points) {
-        this.userID = userID;
+import android.graphics.drawable.Drawable;
+
+import java.util.Objects;
+
+public class User implements Comparable{
+    private int userId;
+    private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
+    private int points=0;
+    private Drawable image;
+
+
+    public User(int userId, String email, String password, String firstName, String lastName, int points) {
+        this.userId = userId;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -18,54 +25,104 @@ public class User {
     }
 
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public User(String email, String password, String firstName, String lastName,int points) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.points = points;
+    }
+
+    public User(String firstName, String lastName, int points, Drawable image) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.points = points;
+        this.image = image;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setUserId(int userID) {
+        this.userId = userID;
+
+    }
+
+    public int getUserId() {
+        return userId;
+
+    }
+
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+
+    public String getLastName() {
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public void setPoints(long points) {
-        this.points = points;
-    }
 
-    public int getUserID() {
-        return userID;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public long getPoints() {
+    public int getPoints() {
         return points;
     }
 
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public Drawable getImage() {
+        return image;
+    }
+
+    public void setImage(Drawable image) {
+        this.image = image;
+    }
+
+    public String getName(){
+        return this.firstName+" "+this.lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return userId == user.userId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
+    }
+
+    @Override
+    public int compareTo(Object o){
+            return ((User) o).getPoints() - this.getPoints();
+        }
     //adding points to user
     public void addpoints(int points)
     {
@@ -75,6 +132,7 @@ public class User {
     //remove points to user
     public void removepoints(int points)
     {
+
 
     }
 }

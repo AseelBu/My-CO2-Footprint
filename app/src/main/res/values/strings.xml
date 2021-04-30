@@ -44,7 +44,7 @@
     <!--        <item>SettingsActivity</item>-->
     <!--    </string-array>-->
 
-    <string name="newEntery">New Entery</string>
+    <string name="newEntry">New Entry</string>
     <string name="previousResults">Previous Results</string>
     <string name="leaderboard">Leaderboard and Points</string>
     <string name="settings">Settings</string>
@@ -58,5 +58,9 @@
     <string name="save">Save</string>
     <string name="forgetpassword">Forgot Password</string>
     <string name="sendEmail">Send to email</string>
-    <string name="number"></string>
+
+    <string name="yourPoints">Your points</string>
+    <string name="yourRank">Your rank</string>
+
+
 </resources>

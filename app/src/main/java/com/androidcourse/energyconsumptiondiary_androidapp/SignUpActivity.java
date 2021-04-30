@@ -74,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity{
     public boolean checkIfEmailExist()
     {
         for (User u: users) {
-            if(email.equals(u.email))
+            if(email.equals(u.getEmail()))
                 return true;
         }
         return false;

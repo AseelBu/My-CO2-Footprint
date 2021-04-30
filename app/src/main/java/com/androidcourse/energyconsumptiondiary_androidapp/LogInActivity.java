@@ -76,7 +76,7 @@ public class LogInActivity extends AppCompatActivity {
     public boolean checkIfEmailExist()
     {
         for (User u: users) {
-            if(email.equals(u.email))
+            if(email.equals(u.getEmail()))
                 return true;
         }
         return false;
@@ -85,7 +85,7 @@ public class LogInActivity extends AppCompatActivity {
     public boolean checkIfPasswordIsCorrect()
     {
         for (User u: users) {
-          if((email.equals(u.email))&&(!password.equals(u.password)))
+          if((email.equals(u.getEmail()))&&(!password.equals(u.getPassword())))
               return false;
         }
          return true;
