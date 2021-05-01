@@ -15,7 +15,6 @@ import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.time.Clock;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 public class SignUpActivity extends AppCompatActivity{
@@ -41,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity{
 //        lastName.setText("klien");
         email=(EditText)findViewById(R.id.email);
 //        email.setText("George_Klien@gmail.com");
-        password=(EditText)findViewById(R.id.password);
+        password=(EditText)findViewById(R.id.oldpassword);
 //        password.setText("12345678");
         confirmPassword=(EditText)findViewById(R.id.confirmPassword);
 //        confirmPassword.setText("12345678");
@@ -74,7 +73,7 @@ public class SignUpActivity extends AppCompatActivity{
         if (flag == true) {
             if (checkIfEmailExist() == false && checkIfEmailisValid() == true && checkIfTwoPasswordIsEquals() == true) {
 //                Log.d("email:", "yeaaaaaaaaaaaaaaaaaaaaaah");
-                dh.addUserDetails(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), password.getText().toString());
+                dh.addUserDetails(firstName.getText().toString(), lastName.getText().toString(),email.getText().toString(), password.getText().toString());
                 Toast.makeText(SignUpActivity.this,
                         "congratulations,You now a new member (: ",
                         Toast.LENGTH_SHORT).show();

@@ -17,9 +17,6 @@ import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-
 public class LogInActivity extends AppCompatActivity {
     public static final String TAG = "LogInActivity";
     private DataHolder dh = DataHolder.getInstance();
@@ -33,9 +30,9 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         email=(EditText)findViewById(R.id.email);
-//        email.setText("George@gmail.com");
-        password=(EditText)findViewById(R.id.password);
-//        password.setText("12345678");
+        email.setText("Admin@gmail.com");
+        password=(EditText)findViewById(R.id.oldpassword);
+        password.setText("Admin");
         TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
         Button login = (Button) findViewById(R.id.sendEmail);
         TextView signUp = (TextView) findViewById(R.id.loginLink);
@@ -121,12 +118,12 @@ public class LogInActivity extends AppCompatActivity {
 
     public boolean checkIfPasswordIsCorrect()
     {
-        Log.d("44444444444444","$44444444444444");
+//        Log.d("44444444444444","$44444444444444");
         for (User u: dh.getUsers()) {
-            Log.d("1:",email.getText().toString());
-            Log.d("2:",u.getEmail());
-            Log.d("1:",password.getText().toString());
-            Log.d("2",u.getPassword());
+//            Log.d("1:",email.getText().toString());
+//            Log.d("2:",u.getEmail());
+//            Log.d("1:",password.getText().toString());
+//            Log.d("2",u.getPassword());
           if((email.getText().toString().equals(u.getEmail()))&&
                   (!password.getText().toString().equals(u.getPassword())))
               return false;

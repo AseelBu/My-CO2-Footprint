@@ -6,15 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 
+public class MainActivity extends AppCompatActivity {
+    private DataHolder dh = DataHolder.getInstance();
 
     private Context context;
         @Override
         protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        context=this;
+        dh.addAdminDetails("Admin@gmail.com", "Admin");
+            context=this;
         Intent intent = new Intent(context,LogInActivity.class);
         startActivity(intent);
         MainActivity.this.finish();

@@ -49,6 +49,12 @@ public class DataHolder {
         this.usersList.add(new User(firstName2,lastName2,email2,password2));
 //        Log.d("arraylis",getUsers().get(0).getFirstName());
     }
+    public void addAdminDetails(String email2,String password2){
+//        Log.d("fffffffffffffffffffff",firstName);
+//        Log.d("lllllllllllllll",lastName);
+        this.usersList.add(new User(email2,password2));
+//        Log.d("arraylis",getUsers().get(0).getFirstName());
+    }
 
     public List<User> getLeaderboardUsers() {
         int size=10;

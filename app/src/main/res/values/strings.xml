@@ -18,13 +18,17 @@
     <string name="signupBtn">Sign up</string>
     <string name="alreadyAMember">I am already a member</string>
 
+
+
     <!--    Titels-->
 
     <!-- new password-->
     <string name="oldpassword">Old Password</string>
     <string name="newpassword">New Password</string>
     <string name="confirmnewpassword">Confirm New Password</string>
-
+    <string name="old">Old Password</string>
+    <string name="neww">New Password</string>
+    <string name="confirmm">Confirm New Password</string>
 
     <string name="logoutbtn">Logout</string>
     <string name="logoutbtn2">Logout</string>
@@ -62,6 +66,8 @@
     <string name="yourPoints">Your points</string>
     <string name="yourRank">Your rank</string>
     <string name="logout">Logout</string>
+    <string name="emailaccount2">Email@email.com</string>
+
 
 
 </resources>
