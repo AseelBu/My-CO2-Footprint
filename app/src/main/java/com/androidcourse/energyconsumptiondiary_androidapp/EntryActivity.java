@@ -3,6 +3,7 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -13,13 +14,28 @@ import android.view.View;
 import android.widget.Button;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Entry;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
+import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
-public class EntryActivity extends AppCompatActivity {
+import java.util.List;
+
+public class EntryActivity extends AppCompatActivity implements EntryDataFragmentListener {
 
     private static final String TAG = "EntryActivity";
+    private static final int TRANS = 0;
+    private static final int FOOD = 1;
+    private static final int ELECTRIC = 2;
+    private static final int SERVICE = 3;
 
     private Button resultsBtn = null;
-    Entry entryData= new Entry();
+
+    private Entry entryData= new Entry();
+    private int currentIndex=TRANS; //current fragment page number
+
+    private  EntryDataFragment transportFragment = EntryDataFragment.newInstance(ImpactType.TRANSPORTATIOIN);
+    private  EntryDataFragment foodFragment = EntryDataFragment.newInstance(ImpactType.FOOD);
+    private  EntryDataFragment electricFragment = EntryDataFragment.newInstance(ImpactType.ELECTRICAL);
+    private  EntryDataFragment serviceFragment = EntryDataFragment.newInstance(ImpactType.SERVICES);
     private Context context;
 
     @Override
@@ -30,8 +46,14 @@ public class EntryActivity extends AppCompatActivity {
         resultsBtn=(Button)findViewById(R.id.resultsBtn);
         FragmentManager fm = getFragmentManager();
 
+        fm.beginTransaction()
+                .replace(R.id.root_layout, transportFragment)
+                .addToBackStack(null)
+                .commit();
+
+
+        //action bar set up
         ActionBar ab = getSupportActionBar();
-//        ab.setTitle(R.string.yourResults);
         ab.setDisplayHomeAsUpEnabled(true);
 
         context = this;
@@ -54,5 +76,66 @@ public class EntryActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onFragmentNextClick(EntryDataFragment efragment,List<TypeEntry> entryData) {
+        int nextIndex = currentIndex+1;
+        FragmentManager fm = getFragmentManager();
+
+        switch (nextIndex){
+//            case TRANS:
+//                break;
+            case FOOD:
+
+                fm.beginTransaction()
+                        .replace(R.id.root_layout, foodFragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case ELECTRIC:
+
+                fm.beginTransaction()
+                        .replace(R.id.root_layout, electricFragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case SERVICE:
+                fm.beginTransaction()
+                        .replace(R.id.root_layout, serviceFragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            default:
+                if(nextIndex==SERVICE+1){
+                    //resultspage
+                    Intent intent = new Intent(context, ResultsActivity.class);
+//                    calculateResult(entry);
+                    //        intent.putExtra();
+                    startActivity(intent);
+                }
+
+        }
+
+    }
+
+    @Override
+    public void onFragmentBackClick(EntryDataFragment efragment, List<TypeEntry> entryData) {
+        int prevIndex = currentIndex-1;
+        switch (prevIndex){
+            case TRANS:
+//                break;
+            case FOOD:
+                break;
+            case ELECTRIC:
+                break;
+//            case SERVICE:
+//                break;
+            default:
+                if(prevIndex==TRANS-1){
+                    //date
+                }
+
+        }
     }
 }

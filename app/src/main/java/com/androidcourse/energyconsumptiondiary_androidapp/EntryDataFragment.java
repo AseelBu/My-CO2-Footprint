@@ -1,18 +1,28 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.EntryRecyclerAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.TipAdapter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.CO2Impacter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
+import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,10 +31,24 @@ import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
  */
 public class EntryDataFragment extends Fragment {
 
+    private static final String ENTRY_TYPE="entryType";
 
-DataHolder dh = DataHolder.getInstance();
+    private DataHolder dh = DataHolder.getInstance();
+    private Activity activity;
+
+   private ImpactType type;
+   private CO2Impacter data;
+
+
+   private Button nextBtn;
+   private Button backBtn;
+
+    EntryDataFragmentListener mListener;
+
+
     public EntryDataFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -35,13 +59,27 @@ DataHolder dh = DataHolder.getInstance();
      * @return A new instance of fragment EntryDataFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EntryDataFragment newInstance(String entryType) {
+    public static EntryDataFragment newInstance(ImpactType entryType) {
+
         EntryDataFragment fragment = new EntryDataFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
+        args.putString(ENTRY_TYPE, entryType.toString());
         fragment.setArguments(args);
         return fragment;
+    }
+
+    // Override the Fragment.onAttach() method to instantiate the MyAlertDialogFragmentListener
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the MyAlertDialogFragmentListener so we can send events to the host
+            mListener = (EntryDataFragmentListener) activity;
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -56,13 +94,29 @@ DataHolder dh = DataHolder.getInstance();
         createList(10);
 
 
-//        if (getArguments() != null) {
+        if (getArguments() != null) {
 
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-        EntryRecyclerAdapter ea = new EntryRecyclerAdapter(dh.getTransportation());
-        recList.setAdapter(ea);
-//        }
+            type = ImpactType.valueOf(getArguments().getString(ENTRY_TYPE));
+            EntryRecyclerAdapter ea=null;
+            switch (type) {
+                case TRANSPORTATIOIN:
+                 ea = new EntryRecyclerAdapter(dh.getTransportation());
+                recList.setAdapter(ea);
+                break;
+                case FOOD:
+                   ea = new EntryRecyclerAdapter(dh.getFood());
+                    recList.setAdapter(ea);
+                    break;
+                case ELECTRICAL:
+                 ea = new EntryRecyclerAdapter(dh.getElectricals());
+                    recList.setAdapter(ea);
+                    break;
+                case SERVICES:
+                     ea = new EntryRecyclerAdapter(dh.getServices());
+                    recList.setAdapter(ea);
+                    break;
+            }
+        }
     }
 
 
@@ -71,8 +125,25 @@ DataHolder dh = DataHolder.getInstance();
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_entry_data, container, false);
+       View v= inflater.inflate(R.layout.fragment_entry_data, container, false);
+        nextBtn = (Button) v.findViewById(R.id.nextBtn);
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               nextClicked();
+            }
+        });
+//        backBtn = (Button) v.findViewById(R.id.backBtn);
+       return v;
     }
     private void createList(int i) {
+
+    }
+
+    public void nextClicked(){
+       ArrayList <TypeEntry> data=new ArrayList<>();
+       data.add(new TypeEntry(1,1,type));
+
+        mListener.onFragmentNextClick(EntryDataFragment.this,data);
     }
 }

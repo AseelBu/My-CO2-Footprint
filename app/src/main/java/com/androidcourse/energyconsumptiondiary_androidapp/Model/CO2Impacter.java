@@ -16,6 +16,11 @@ public abstract class CO2Impacter {
         this.img = img;
     }
 
+    public CO2Impacter(String name, long CO2Amount) {
+        Name = name;
+        this.CO2Amount = CO2Amount;
+    }
+
     public int getImpacterID() {
         return impacterID;
     }
