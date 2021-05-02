@@ -6,10 +6,14 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-public class ForgetPasswordActivity extends Activity  {
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ForgetPasswordActivity extends AppCompatActivity {
     private static final String TAG = "ForgetpasswordActivity";
     private EditText phone = null;
     private Context context;
@@ -21,6 +25,10 @@ public class ForgetPasswordActivity extends Activity  {
         setContentView(R.layout.forgetpassword);
         phone=(EditText) findViewById(R.id.email);
         context=this;
+
+        ActionBar ab = getSupportActionBar();
+//        ab.setTitle(R.string.yourResults);
+        ab.setDisplayHomeAsUpEnabled(true);
 
     }
     public void sendSmsOnClick(View view) {
@@ -40,4 +48,15 @@ public class ForgetPasswordActivity extends Activity  {
         startActivity(intent);
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return false;
+    }
+
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.CustomListAdapter;
@@ -37,11 +39,15 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         oldPassword = (TextView) findViewById(R.id.oldpassword);
         newPassword = (TextView) findViewById(R.id.newpassword);
         confirmpassword = (EditText) findViewById(R.id.confirmnewpassword);
-        returnBtn = (ImageButton) findViewById(R.id.imageButton3);
+
         save = (Button) findViewById(R.id.sendEmail);
         email.setText("Admin@gmail.com");
 
         context = this;
+
+        ActionBar ab = getSupportActionBar();
+//        ab.setTitle(R.string.yourResults);
+        ab.setDisplayHomeAsUpEnabled(true);
     }
     public void returnBtnClicked(View v){
         Intent intent = new Intent(context, AccountSettingsActivity.class);
@@ -152,4 +158,14 @@ public class UpdatePasswordActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return false;
+    }
+
 }

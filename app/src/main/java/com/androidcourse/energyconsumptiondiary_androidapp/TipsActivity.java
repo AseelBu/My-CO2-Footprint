@@ -1,11 +1,13 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.TipAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Tip;
@@ -34,6 +36,10 @@ public class TipsActivity extends AppCompatActivity {
         createList(10);
         TipAdapter ta= new TipAdapter(dh.getTips());
         recList.setAdapter(ta);
+
+        ActionBar ab = getSupportActionBar();
+//        ab.setTitle(R.string.yourResults);
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void createList(int size) {
@@ -44,5 +50,16 @@ public class TipsActivity extends AppCompatActivity {
             dh.addTip("Title",lorem,img);
 
         }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return false;
     }
 }
