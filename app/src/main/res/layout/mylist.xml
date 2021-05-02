@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants"
+
     android:orientation="horizontal">
 
     <ImageView
@@ -30,12 +30,13 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/darkGreen" />
 
-        <Button
-            android:id="@+id/goBtn"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:background="#00FFFFFF"
+            android:gravity="center"
             android:text=">"
             android:textColor="@color/darkGreen"
             android:textSize="30sp"
