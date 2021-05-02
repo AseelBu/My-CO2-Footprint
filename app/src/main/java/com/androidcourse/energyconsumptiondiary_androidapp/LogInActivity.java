@@ -49,6 +49,7 @@ public class LogInActivity extends AppCompatActivity {
 
     }
     public void loginClicked(View v) {
+
         boolean flag = true;
 
         try {
@@ -95,8 +96,15 @@ public class LogInActivity extends AppCompatActivity {
                         Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
                     }
 
-                    Intent intent = new Intent(context, HomePageActivity.class);
-                    startActivity(intent);
+                    if(email.getText().toString().equals("Admin@gmail.com")) {
+                        Intent intent = new Intent(context, AdminHomePageActivity.class);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(context, HomePageActivity.class);
+                        startActivity(intent);
+                    }
 
                 }
             }

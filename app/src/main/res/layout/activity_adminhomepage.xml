@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/DataEdit222"
+            android:layout_width="223dp"
+            android:layout_height="72dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="DataEditBtnClicked"
+            android:text="@string/DataEdit222" />
+
+        <Button
+            android:id="@+id/NewEnt222"
+            android:layout_width="272dp"
+            android:layout_height="69dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="entryBtnClicked"
+            android:text="@string/NewEnt222" />
+
+        <Button
+            android:id="@+id/previousResultsBtn222"
+            android:layout_width="305dp"
+            android:layout_height="77dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="prevResultsBtnClicked"
+            android:text="@string/previousResultsBtn222" />
+
+        <Button
+            android:id="@+id/leaderboardBtn22"
+            android:layout_width="345dp"
+            android:layout_height="78dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="leaderboardBtnClicked"
+            android:text="@string/leaderboardBtn22" />
+
+        <Button
+            android:id="@+id/settingsBtn32"
+            android:layout_width="371dp"
+            android:layout_height="73dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="settingsBtnClicked"
+            android:text="@string/settingsBtn32" />
+
+        <Button
+            android:id="@+id/logout22"
+            android:layout_width="390dp"
+            android:layout_height="83dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="logoutBtnClicked"
+            android:text="@string/logoutbtn2" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

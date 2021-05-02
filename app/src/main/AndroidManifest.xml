@@ -20,7 +20,9 @@
         <activity android:name=".LogInActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ForgetPasswordActivity" />
+        <activity android:name=".AdminHomePageActivity" />
         <activity android:name=".CameraDemoActivity" />
+        <activity android:name=".EditMainActivity" />
         <activity android:name=".UpdatePasswordActivity" />
         <activity android:name=".ResultsActivity" /> <!--  -->
         <activity android:name=".MainActivity">
