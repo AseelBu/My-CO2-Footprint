@@ -4,16 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".EntryActivity">
 
-    <Button
-        android:id="@+id/resultsBtn"
-        android:layout_width="72dp"
-        android:layout_height="40dp"
-        android:onClick="resultsBtnClicked"
-        android:text="Results"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/newEntryTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/newEntry"
+        android:textSize="@dimen/headSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newEntryTitle">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/resultsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="resultsBtnClicked"
+        android:text="Results"
+        app:layout_constraintBottom_toTopOf="@+id/root_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newEntryTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,12 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,6 +34,10 @@ public class ResultsActivity extends AppCompatActivity {
 //        if(intent!=null){
 //
 //        }
+        ActionBar ab = getSupportActionBar();
+        ab.setTitle(R.string.yourResults);
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setIcon(R.drawable.ic_baseline_insert_chart_24);
         context=this;
 
     }
@@ -41,4 +47,15 @@ public class ResultsActivity extends AppCompatActivity {
         startActivity(intent);
         
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return false;
+    }
+
 }

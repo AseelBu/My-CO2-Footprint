@@ -9,10 +9,10 @@ public class User implements Comparable{
     private int userId;
     private String email;
     private String password;
-    private String firstName;
-    private String lastName;
+    private String firstName="";
+    private String lastName="";
     private int points=0;
-    private Drawable image;
+    private Drawable image=null;
 
 
     public User(int userId, String email, String password, String firstName, String lastName, int points) {
@@ -24,6 +24,17 @@ public class User implements Comparable{
         this.points = points;
     }
 
+    public User(int userId, String email, String password, String firstName, String lastName, int points,Drawable image) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.points = points;
+        this.image = image;
+    }
+
+
 
     public User(String email, String password, String firstName, String lastName,int points) {
         this.email = email;
@@ -33,25 +44,15 @@ public class User implements Comparable{
         this.points = points;
     }
 
-    public User(String firstName, String lastName, int points, Drawable image) {
+
+
+    public User(String email, String password, String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.points = points;
-        this.image = image;
     }
 
-
-    public User(String firstName, String lastName, String email,String Password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email=email;
-        this.password=Password;
-    }
-    public User(String email,String Password) {
-
-        this.email=email;
-        this.password=Password;
-    }
 
 
     public void setEmail(String email) {

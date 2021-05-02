@@ -12,29 +12,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_weight="1"
         android:orientation="vertical">
-
-        <ImageButton
-            android:id="@+id/imageButton6"
-            android:layout_width="84dp"
-            android:layout_height="88dp"
-            android:layout_weight="1"
-            android:onClick="returnBtnClicked"
-            app:srcCompat="@drawable/abc_vector_test" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imageView9"
-                android:layout_width="290dp"
-                android:layout_height="164dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 app:srcCompat="@drawable/set" />
 
             <ImageView
@@ -49,76 +43,98 @@
 
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="15dp"
-        android:layout_weight="5"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="5dp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="true">
+        android:layout_gravity="center"
+        android:layout_weight="1">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="700dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="209dp"
+            android:layout_weight="5"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/entryreminderr"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="bottom|center_horizontal"
-                    android:paddingBottom="15dp"
-                    android:text="@string/entryreminderr" />
-
-                <EditText
-                    android:id="@+id/editTextTime2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="bottom|center_horizontal"
-                    android:inputType="time"
-                    android:text="@string/editTextTime2" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/tips"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal|top"
-                    android:text="tips" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/emailaccount"
+                    android:id="@+id/notiText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notificationSent"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center" />
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/entryreminderr"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="bottom|center_horizontal"
+                        android:paddingBottom="15dp"
+                        android:text="@string/entryreminderr" />
+
+                    <EditText
+                        android:id="@+id/editTextTime2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:gravity="bottom|center_horizontal"
+                        android:inputType="time"
+                        android:text="@string/editTextTime2" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="3dp">
+
+                    <CheckBox
+                        android:id="@+id/tips"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_horizontal|top"
+                        android:text="tips" />
+
+                    <TextView
+                        android:id="@+id/emailaccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/save"

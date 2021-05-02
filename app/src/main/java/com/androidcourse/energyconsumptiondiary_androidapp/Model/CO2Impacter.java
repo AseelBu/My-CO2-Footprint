@@ -3,7 +3,7 @@ package com.androidcourse.energyconsumptiondiary_androidapp.Model;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 
-public class CO2Impacter {
+public abstract class CO2Impacter {
     public int impacterID;
     public  String Name;
     public long CO2Amount;

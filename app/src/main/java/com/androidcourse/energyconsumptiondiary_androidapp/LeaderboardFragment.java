@@ -70,16 +70,11 @@ public class LeaderboardFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            createData(10);
-            recyclerView.setAdapter(new MyLeaderboardRecyclerViewAdapter(this.getContext(),dh.getLeaderboardUsers()));
+
+            recyclerView.setAdapter(new MyLeaderboardRecyclerViewAdapter(this.getContext(),dh.getLeaderboardUsers(10)));
         }
         return view;
     }
 
-    public void createData(int size){
-        Drawable img= getResources().getDrawable(R.drawable.bell);
-        for(int i=0;i<=size;i++){
-            dh.addUser("go "+i,"go "+i,i*10,img);
-        }
-    }
+
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.ItemInfo;
@@ -40,10 +41,17 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
     @Override
     public View getView( int position, View view, ViewGroup parent) {
         LayoutInflater inflater= LayoutInflater.from(context);
-        View rowView=inflater.inflate(R.layout.mylist, null,false);
-
+        View rowView =null;
+        if(position!=3) {
+            rowView = inflater.inflate(R.layout.mylist, null, false);
+        }
+        else{
+           rowView = inflater.inflate(R.layout.dark_mode_list_item, null, false);
+        }
         TextView txtTitle = (TextView) rowView.findViewById(R.id.itemInfo);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+
+
         final ItemInfo itemInfo = dataList.get(position);
         txtTitle.setText(itemInfo.getName());
         imageView.setImageResource(itemInfo.getImgId());

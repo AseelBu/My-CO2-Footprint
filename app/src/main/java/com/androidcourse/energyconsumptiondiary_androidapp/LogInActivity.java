@@ -1,8 +1,11 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -19,16 +22,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LogInActivity extends AppCompatActivity {
     public static final String TAG = "LogInActivity";
+
+
+
     private DataHolder dh = DataHolder.getInstance();
     public EditText email = null;
     public EditText password = null;
     private Context context;
+
+    private SharedPreferences prefs = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         email=(EditText)findViewById(R.id.email);
         email.setText("Admin@gmail.com");
         password=(EditText)findViewById(R.id.oldpassword);
@@ -56,33 +65,40 @@ public class LogInActivity extends AppCompatActivity {
 
         }
 //
-        if(flag==true)
-        {
-        if (checkIfEmailExist() == false) {
-
-            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-
-            dlgAlert.setMessage("Unfortenatlly Email Not Found ):");
-            dlgAlert.setTitle("Error Message...");
-            dlgAlert.setPositiveButton("OK", null);
-            dlgAlert.setCancelable(true);
-            dlgAlert.create().show();
-
-        } else {
-            if (checkIfPasswordIsCorrect() == false) {
+        if(flag==true){
+            User user=checkIfEmailExist();
+            if (user == null) {
 
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
 
-                dlgAlert.setMessage("Wrong Password,try again :)");
+                dlgAlert.setMessage("Unfortunately Email Not Found ):");
                 dlgAlert.setTitle("Error Message...");
                 dlgAlert.setPositiveButton("OK", null);
                 dlgAlert.setCancelable(true);
                 dlgAlert.create().show();
-            }  else {
-                Intent intent = new Intent(context, HomePageActivity.class);
-                startActivity(intent);
 
-            }
+            } else {
+
+                if (checkIfPasswordIsCorrect() == false) {
+
+                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+
+                    dlgAlert.setMessage("Wrong Password,try again :)");
+                    dlgAlert.setTitle("Error Message...");
+                    dlgAlert.setPositiveButton("OK", null);
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
+                }  else {
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt(getResources().getString(R.string.prefLoggedUser), user.getUserId());
+                    if(editor.commit()){
+                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
+                    }
+
+                    Intent intent = new Intent(context, HomePageActivity.class);
+                    startActivity(intent);
+
+                }
             }
     }
 
@@ -107,13 +123,13 @@ public class LogInActivity extends AppCompatActivity {
 //        if(passwordString.length()<8) return false;
 //        return true;
 //    }
-    public boolean checkIfEmailExist()
+    public User checkIfEmailExist()
     {
         for (User u: dh.getUsers()) {
             if(email.getText().toString().equals(u.getEmail().toString()))
-                return true;
+                return u;
         }
-        return false;
+        return null;
     }
 
     public boolean checkIfPasswordIsCorrect()

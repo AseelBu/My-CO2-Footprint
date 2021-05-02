@@ -15,6 +15,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingEnd="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:text="@string/prevResultsTitle"
         android:textColor="@color/darkGreen"
         android:textSize="@dimen/headSize"
@@ -23,7 +27,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingEnd="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

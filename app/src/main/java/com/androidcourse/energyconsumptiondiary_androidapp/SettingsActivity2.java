@@ -149,16 +149,14 @@
 
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -173,14 +171,7 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.CustomListAd
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsActivity extends AppCompatActivity {
-
-    private static final String TAG = "EntryActivity";
-
-//    menu items positions
-    private final static  int  ACCOUNT_SETTINGS=0;
-    private final static  int  NOTIFICATION_SETTINGS=1;
-    private final static  int  SHARE=2;
+public class SettingsActivity2 extends AppCompatActivity {
 
     private Context context;
     private ListView list;
@@ -201,7 +192,8 @@ public class SettingsActivity extends AppCompatActivity {
         itemInfos.add(new ItemInfo("Account Settings",R.drawable.user__1_));
         itemInfos.add(new ItemInfo("Notification Settings",R.drawable.bell));
         itemInfos.add(new ItemInfo("share with Friend",R.drawable.share));
-        itemInfos.add(new ItemInfo("Dark Mode",R.drawable.darkmode));
+        itemInfos.add(new ItemInfo());
+//        itemInfos.add(new ItemInfo("Dark Mode",R.drawable.darkmode));
         list = (ListView) findViewById(R.id.list);
         accountSettings=(Button)findViewById(R.id.accountsettings);
         notificationsettings=(Button)findViewById(R.id.notificationSet);
@@ -209,9 +201,6 @@ public class SettingsActivity extends AppCompatActivity {
         returnBtn=(ImageButton)findViewById(R.id.returnbtn);
         btnToggleDark=(Switch)findViewById(R.id.dark);
 
-        ActionBar ab = getSupportActionBar();
-//        ab.setTitle(R.string.settings);
-        ab.setDisplayHomeAsUpEnabled(true);
 
         adapter = new CustomListAdapter(this, itemInfos);
 
@@ -224,26 +213,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 ItemInfo selecteditem = adapter.getItem(position);
-                Intent intent=null;
-
-
-                switch (position){
-                    case ACCOUNT_SETTINGS:
-                        intent = new Intent(context, AccountSettingsActivity.class);
-                        startActivity(intent);
-                        break;
-                    case NOTIFICATION_SETTINGS:
-                        intent = new Intent(context, NotificationSettingsActivity.class);
-                        startActivity(intent);
-                        break;
-                    case SHARE:
-                        share(view);
-                        break;
-                }
-
-
-//                Toast.makeText(getApplicationContext(), selecteditem.getName(),
-//                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), selecteditem.getName(),
+                        Toast.LENGTH_SHORT).show();
                 //adapter.remove(selecteditem);
             }
         });
@@ -251,33 +222,23 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }
-        return false;
+
+        public void returnBtnClicked(View v){
+        Intent intent = new Intent(context, HomePageActivity.class);
+        startActivity(intent);
+
     }
+    public void accountSettingsBtnClicked(View v){
 
+        Intent intent = new Intent(context, AccountSettingsActivity.class);
+        startActivity(intent);
 
-//        public void returnBtnClicked(View v){
-//        Intent intent = new Intent(context, HomePageActivity.class);
-//        startActivity(intent);
-//
-//    }
-//    public void accountSettingsBtnClicked(View v){
-//
-//        Intent intent = new Intent(context, AccountSettingsActivity.class);
-//        startActivity(intent);
-//
-//    }
-//    public void notificationSettingsBtnClicked(View v){
-//        Intent intent = new Intent(context, NotificationSettingsActivity.class);
-//        startActivity(intent);
-//
-//    }
+    }
+    public void notificationSettingsBtnClicked(View v){
+        Intent intent = new Intent(context, NotificationSettingsActivity.class);
+        startActivity(intent);
+
+    }
     public void logoutBtnClicked(View v){
         Intent intent = new Intent(context, LogInActivity.class);
         startActivity(intent);

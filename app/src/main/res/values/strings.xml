@@ -19,7 +19,6 @@
     <string name="alreadyAMember">I am already a member</string>
 
 
-
     <!--    Titels-->
 
     <!-- new password-->
@@ -67,7 +66,20 @@
     <string name="yourRank">Your rank</string>
     <string name="logout">Logout</string>
     <string name="emailaccount2">Email@email.com</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
+    <!--    <string name="hello_first_fragment">Hello first fragment</string>-->
+    <!--    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>-->
+    <string name="amount">Amount </string>
+    <string name="leaderboardTitle">Top 10</string>
+    <string name="prefLoggedUser">loggedUser</string>
+    <string name="notificationSent">About what would you like to be notified?</string>
+<string name="yourResults">Your Results</string>
 
 
 </resources>

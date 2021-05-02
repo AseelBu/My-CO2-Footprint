@@ -11,15 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
+import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 
 
 import java.util.List;
 
 
 public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLeaderboardRecyclerViewAdapter.ViewHolder> {
-
+    private DataHolder dh = DataHolder.getInstance();
     private final List<User> mUsers;
     private Context context;
+    private boolean isColored=false;// true if first 3 rows are colored
 
     public MyLeaderboardRecyclerViewAdapter(Context context,List<User> leadUsers) {
         mUsers = leadUsers;
@@ -39,13 +41,15 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
         holder.setData(user,position+1);
 
         //color first 3 places
-
-        if(position==0){
-            holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green1));
-        }else if(position==1){
-            holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green2));
-        }else if(position==2){
-            holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green3));
+        if(!isColored) {
+            if (position == 0) {
+                holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green1));
+            } else if (position == 1) {
+                holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green2));
+            } else if (position == 2) {
+                holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green3));
+                isColored = true;
+            }
         }
 
     }

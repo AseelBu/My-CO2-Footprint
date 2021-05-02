@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NavigationBar">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/prevResultsNav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/lightDarkGreen"
+            android:drawableTop="@drawable/ic_baseline_insert_chart_24"
+            android:text="@string/previousResults"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/leaderboardNav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/lightDarkGreen"
+            android:drawableTop="@drawable/ic_baseline_military_tech_24"
+            android:text="@string/leaderboard"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/newEntryNav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/darkGreen"
+            android:drawableTop="@drawable/ic_baseline_create_new_folder_24"
+            android:text="@string/newEntry"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/settingsNav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/lightDarkGreen"
+            android:drawableTop="@drawable/ic_baseline_settings_24"
+            android:text="@string/settings"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/logoutNav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/lightDarkGreen"
+            android:cropToPadding="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_logout_white" />
+
+    </LinearLayout>
+
+</FrameLayout>

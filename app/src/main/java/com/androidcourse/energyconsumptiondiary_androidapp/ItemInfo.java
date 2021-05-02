@@ -4,9 +4,11 @@ public class ItemInfo {
     private String name;
     private int imgId;
 
+
     public ItemInfo(String name, int imgId) {
         this.name = name;
         this.imgId = imgId;
+
     }
     public ItemInfo() {
     }
@@ -26,4 +28,6 @@ public class ItemInfo {
     public void setImgId(int imgId) {
         this.imgId = imgId;
     }
+
+
 }
