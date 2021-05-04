@@ -2,15 +2,18 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 
 public class PreviousResultsActivity extends AppCompatActivity {
     private DataHolder dh = DataHolder.getInstance();
     private static final String TAG = "PreviousResultsActivity";
+    private CardView cv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +21,10 @@ public class PreviousResultsActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setTitle(R.string.prevResultsTitle);
         ab.setDisplayHomeAsUpEnabled(true);
+        cv=(CardView)findViewById(R.id.dayResultCard);
+        cv.setVisibility(View.GONE);
+
+
 
 
     }
