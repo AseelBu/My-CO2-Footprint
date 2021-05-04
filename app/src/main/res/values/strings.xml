@@ -122,9 +122,9 @@
     <string name="editItemc">Edit Services</string>
     <string name="typeeditc">gas2</string>
     <string name="amounteditc">400</string>
-    <string name="addItema">Add Electric</string>
-    <string name="addItemb">Add Food</string>
-    <string name="addItemc">Add Services</string>
+    <string name="adda">Add Electric</string>
+    <string name="addb">Add Food</string>
+    <string name="addc">Add Services</string>
 
 
 

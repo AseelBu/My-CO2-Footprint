@@ -46,11 +46,11 @@
                 android:padding="20dp">
 
                 <TextView
-                    android:id="@+id/addItema"
+                    android:id="@+id/adda"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="@string/editItema"
+                    android:text="@string/adda"
                     android:textAlignment="center"
                     android:textSize="30dp" />
 
