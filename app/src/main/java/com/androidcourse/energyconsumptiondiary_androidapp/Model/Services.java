@@ -7,10 +7,13 @@ import android.os.Parcelable;
 public class Services extends CO2Impacter implements Parcelable {
     public int serviceID;
 
-    public Services(int impacterID, String name, int CO2Amount, int img) {
+    public Services(int impacterID, String name, int CO2Amount, Drawable img) {
         super(impacterID, name, CO2Amount, img);
     }
-    public Services(String name, int CO2Amount, int img) {
+    public Services() {
+        super();
+    }
+    public Services(String name, int CO2Amount, Drawable  img) {
         super(name, CO2Amount, img);
     }
     public Services(String name, int  CO2Amount) {

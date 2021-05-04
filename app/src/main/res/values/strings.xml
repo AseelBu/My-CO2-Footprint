@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">My CO2 Footprint</string>
-
-    <!--    Login-->
     <string name="loginTitle">Login</string>
     <string name="emailHint">Email@email.com</string>
     <string name="passwordHint">Password</string>
@@ -9,44 +7,25 @@
     <string name="loginButton">Login</string>
     <string name="newUser">New User?</string>
     <string name="signupLink">Sign Up</string>
-
-    <!--Signup page-->
     <string name="signupTitle">Sign-up</string>
     <string name="firstNameHint">First Name</string>
     <string name="lastNameHint">Last Name</string>
     <string name="confirmPasswordHint">Confirm password</string>
     <string name="signupBtn">Sign up</string>
     <string name="alreadyAMember">I am already a member</string>
-
-
-    <!--    Titels-->
-
-    <!-- new password-->
     <string name="oldpassword">Old Password</string>
     <string name="newpassword">New Password</string>
     <string name="confirmnewpassword">Confirm New Password</string>
     <string name="old">Old Password</string>
     <string name="neww">New Password</string>
     <string name="confirmm">Confirm New Password</string>
-
     <string name="logoutbtn">Logout</string>
     <string name="logoutbtn2">Logout</string>
     <string name="imageButton3">Update Password</string>
     <string name="updatepass">Update Password</string>
-
-
-    <!--Titles-->
     <string name="resultPageTitle">Your total CO2 footprint for today</string>
     <string name="tipsPageTitle">Green Tips</string>
     <string name="prevResultsTitle">Previous Results</string>
-    <!--Button names    -->
-    <!--    <string-array name="homeButtonsNames">-->
-    <!--        <item>New Entery</item>-->
-    <!--        <item>Previous Results</item>-->
-    <!--        <item>Leaderboard and Points</item>-->
-    <!--        <item>SettingsActivity</item>-->
-    <!--    </string-array>-->
-
     <string name="newEntry">New Entry</string>
     <string name="previousResults">Previous Results</string>
     <string name="leaderboard">Leaderboard and Points</string>
@@ -61,40 +40,30 @@
     <string name="save">Save</string>
     <string name="forgetpassword">Forgot Password</string>
     <string name="sendEmail">Send to email</string>
-
     <string name="yourPoints">Your points</string>
     <string name="yourRank">Your rank</string>
     <string name="logout">Logout</string>
     <string name="emailaccount2">Email@email.com</string>
     <string name="title_activity_main2">MainActivity</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
-    <!--    <string name="hello_first_fragment">Hello first fragment</string>-->
-    <!--    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>-->
     <string name="amount">Amount </string>
     <string name="leaderboardTitle">Top 10</string>
     <string name="prefLoggedUser">loggedUser</string>
     <string name="notificationSent">About what would you like to be notified?</string>
     <string name="yourResults">Your Results</string>
-
     <string name="title_activity_admin_home_page">AdminHomePageActivity</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_edit_admin">EditAdmin</string>
-
     <string name="DataEdit222">Data Edit</string>
     <string name="NewEnt222">New Entry</string>
     <string name="previousResultsBtn222">Previous Results</string>
     <string name="leaderboardBtn22">Leaderboard and points</string>
     <string name="settingsBtn32">Settings</string>
     <string name="logout22">Logout</string>
-
-
     <string name="transportation">Transportation</string>
     <string name="food">Food</string>
     <string name="electric">Electric</string>
@@ -110,7 +79,20 @@
     <string name="amountt">CO2 Amount</string>
     <string name="editItem">Edit Transpotation</string>
     <string name="edititem2">Edit</string>
-
-
+    <string name="typeedit">Motorbike</string>
+    <string name="fueledit">Diesel</string>
+    <string name="amountedit">400</string>
+    <string name="editItema">Edit Electric</string>
+    <string name="typeedita">Camera</string>
+    <string name="amountedita">500</string>
+    <string name="editItemb">Edit Food</string>
+    <string name="typeeditb">Meat</string>
+    <string name="amounteditb">600</string>
+    <string name="editItemc">Edit Services</string>
+    <string name="typeeditc">gas2</string>
+    <string name="amounteditc">400</string>
+    <string name="addItema">Add Electric</string>
+    <string name="addItemb">Add Food</string>
+    <string name="addItemc">Add Services</string>
 
 </resources>

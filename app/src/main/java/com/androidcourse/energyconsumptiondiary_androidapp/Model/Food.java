@@ -7,17 +7,19 @@ import android.os.Parcelable;
 public class Food extends CO2Impacter implements Parcelable{
     public int foodID;
 
-    public Food(int impacterID, String name, int  CO2Amount,int img) {
+    public Food(int impacterID, String name, int  CO2Amount,Drawable img) {
         super(impacterID, name, CO2Amount, img);
     }
-    public Food(String name, int  CO2Amount,int img) {
+    public Food(String name, int  CO2Amount,Drawable  img) {
         super(name, CO2Amount, img);
     }
 
     public Food(String name, int  CO2Amount) {
         super(name, CO2Amount);
     }
-
+    public Food() {
+        super();
+    }
     public int getFoodID() {
         return foodID;
     }

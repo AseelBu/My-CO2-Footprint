@@ -1,33 +1,19 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.Toast;
-
-import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.CustomListAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.ElectricListAdapter;
-import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.TransportationListAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ElectricMain extends AppCompatActivity {
-
     private static final String TAG = "ElectricMain";
     private static  final int Adding_REQ_CODE=111;
     private static  final int Edit_REQ_CODE=123;
@@ -42,12 +28,10 @@ public class ElectricMain extends AppCompatActivity {
         setContentView(R.layout.activity_edit_electric);
         context=this;
         List<ElectricalHouseSupplies> itemInfos = new ArrayList<>();
-        itemInfos.add(new ElectricalHouseSupplies("Washing machine",700,R.drawable.washingmachine));
-        itemInfos.add(new ElectricalHouseSupplies("Dish washer",100,R.drawable.dishwasher));
-        itemInfos.add(new ElectricalHouseSupplies("Kettele",200,R.drawable.kett));
-        itemInfos.add(new ElectricalHouseSupplies("Lamps",200,R.drawable.lamps));
-
-
+        itemInfos.add(new ElectricalHouseSupplies("Washing machine",700,getDrawable(R.drawable.washingmachine)));
+        itemInfos.add(new ElectricalHouseSupplies("Dish washer",100,getDrawable(R.drawable.dishwasher)));
+        itemInfos.add(new ElectricalHouseSupplies("Kettele",200,getDrawable(R.drawable.kett)));
+        itemInfos.add(new ElectricalHouseSupplies("Lamps",200,getDrawable(R.drawable.lamps)));
         list = (ListView) findViewById(R.id.electriclist);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -72,7 +56,6 @@ public class ElectricMain extends AppCompatActivity {
             ElectricalHouseSupplies elec = (ElectricalHouseSupplies) extras.get("data");
             adapter.addToList(elec);
             adapter.notifyDataSetChanged();
-
         }
         if (requestCode == Edit_REQ_CODE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
@@ -82,17 +65,11 @@ public class ElectricMain extends AppCompatActivity {
             adapter.removeFromList(position);
             adapter.addToList(e);
             adapter.notifyDataSetChanged();
-
         }
     }
-
+    //open adding item activity
     public void addClicked(View v) {
         Intent intent = new Intent(context, AddingItemActivitya.class);
         startActivityForResult(intent,Adding_REQ_CODE);
-
-
     }
-
-
-
 }

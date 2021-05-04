@@ -1,7 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +9,6 @@ import android.widget.Button;
 
 public class HomePageActivity extends AppCompatActivity {
     private static final String TAG = "HomePageActivity";
-
     private Button enteryBtn = null;
     private Button prevResultsBtn = null;
     private Button leaderboardBtn = null;
@@ -30,31 +27,32 @@ public class HomePageActivity extends AppCompatActivity {
 
         context=this;
     }
-
+    //open new entry activity
     public void entryBtnClicked(View v){
         Intent intent = new Intent(context, EntryActivity.class);
         startActivity(intent);
 
     }
+    //logout
     public void logoutBtnClicked(View v){
         Intent intent = new Intent(context, LogInActivity.class);
         startActivity(intent);
 
     }
+    //open previous result activity
     public void prevResultsBtnClicked(View v){
-
         Intent intent = new Intent(context, PreviousResultsActivity.class);
         startActivity(intent);
 
     }
+    //open leaderboard and points activity
     public void leaderboardBtnClicked(View v){
-
         Intent intent = new Intent(context, LeaderboardAndPointsActivity.class);
         startActivity(intent);
 
     }
+    //open settings activity
     public void settingsBtnClicked(View v){
-
         Intent intent = new Intent(context, SettingsActivity.class);
         startActivity(intent);
 

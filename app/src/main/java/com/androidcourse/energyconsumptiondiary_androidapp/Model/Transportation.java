@@ -8,15 +8,17 @@ public class Transportation extends CO2Impacter implements Parcelable {
 
     public String FuelType;
 
-    public Transportation(int impacterID, String name, int  CO2Amount, int img) {
+    public Transportation(int impacterID, String name, int  CO2Amount, Drawable img) {
         super(impacterID, name, CO2Amount, img);
     }
-
-    public Transportation(String name, int CO2Amount, int img) {
+    public Transportation() {
+        super();
+    }
+    public Transportation(String name, int CO2Amount, Drawable img) {
         super(name, CO2Amount, img);
     }
 
-    public Transportation(String name,String type, int CO2Amount, int img) {
+    public Transportation(String name,String type, int CO2Amount, Drawable img) {
         super(name, CO2Amount, img);
         this.FuelType=type;
     }
@@ -25,8 +27,9 @@ public class Transportation extends CO2Impacter implements Parcelable {
         this.FuelType=type;
     }
 
+
     protected Transportation(Parcel in) {
-        super();
+        super(in);
         FuelType = in.readString();
     }
 
@@ -42,7 +45,7 @@ public class Transportation extends CO2Impacter implements Parcelable {
         }
     };
 
-    public int getImg()
+    public Drawable getImg()
    {
        return img;
    }

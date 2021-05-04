@@ -1,13 +1,10 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.CO2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
@@ -15,12 +12,11 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Services;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
-
 import java.util.List;
 
 public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdapter.entryCardViewHolder>{
-
     List<? extends CO2Impacter> impacters;
+
 
     public EntryRecyclerAdapter(List<? extends CO2Impacter> impacters) {
         this.impacters = impacters;

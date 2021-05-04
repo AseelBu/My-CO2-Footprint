@@ -1,22 +1,15 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.ekn.gruzer.gaugelibrary.HalfGauge;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
-
 import java.util.ArrayList;
 
 

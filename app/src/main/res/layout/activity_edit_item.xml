@@ -71,7 +71,8 @@
                         android:inputType="textEmailAddress"
                         android:padding="5dp"
                         android:selectAllOnFocus="true"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:text="@string/typeedit" />
 
                     <EditText
                         android:id="@+id/fueledit"
@@ -86,7 +87,8 @@
                         android:inputType="textEmailAddress"
                         android:padding="5dp"
                         android:selectAllOnFocus="true"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:text="@string/fueledit" />
 
                     <EditText
                         android:id="@+id/amountedit"
@@ -96,7 +98,8 @@
                         android:ems="10"
                         android:gravity="center|center_horizontal"
                         android:hint="@string/amountt"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:text="@string/amountedit" />
 
                     <Button
                         android:id="@+id/editBtn"

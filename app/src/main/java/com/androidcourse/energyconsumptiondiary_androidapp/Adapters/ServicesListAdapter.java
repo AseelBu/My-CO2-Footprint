@@ -51,6 +51,7 @@ public class ServicesListAdapter extends ArrayAdapter<Services> {
     public ServicesListAdapter(Context context, List<Services> dataList) {
         super(context, R.layout.services_list, dataList);
         this.dataList = dataList;
+        this.dataList.add(0,new Services());
         this.context = context;
     }
 
@@ -92,7 +93,7 @@ public class ServicesListAdapter extends ArrayAdapter<Services> {
             ImageView imageView = (ImageView) rowView.findViewById(R.id.services2);
             final Services itemInfo = dataList.get(position);
             txtTitle3.setText(String.valueOf(itemInfo.getCO2Amount()));
-            imageView.setImageResource(itemInfo.getImg());
+            imageView.setImageDrawable(itemInfo.getImg());
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

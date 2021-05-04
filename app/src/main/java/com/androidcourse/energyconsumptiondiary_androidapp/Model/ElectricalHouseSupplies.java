@@ -7,10 +7,13 @@ import android.os.Parcelable;
 public class ElectricalHouseSupplies extends CO2Impacter  implements Parcelable {
     public int ElectID;
 
-    public ElectricalHouseSupplies(int impacterID, String name,int CO2Amount, int img) {
+    public ElectricalHouseSupplies(int impacterID, String name,int CO2Amount, Drawable  img) {
         super(impacterID, name, CO2Amount, img);
     }
-    public ElectricalHouseSupplies(String name,int CO2Amount, int img) {
+    public ElectricalHouseSupplies() {
+        super();
+    }
+    public ElectricalHouseSupplies(String name,int CO2Amount, Drawable  img) {
         super(name, CO2Amount, img);
     }
     public ElectricalHouseSupplies(String name,int CO2Amount) {

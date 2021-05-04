@@ -1,9 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +9,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Entry;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
-
 import java.util.List;
 
 public class EntryActivity extends AppCompatActivity implements EntryDataFragmentListener {
@@ -26,12 +21,9 @@ public class EntryActivity extends AppCompatActivity implements EntryDataFragmen
     private static final int FOOD = 1;
     private static final int ELECTRIC = 2;
     private static final int SERVICE = 3;
-
     private Button resultsBtn = null;
-
     private Entry entryData= new Entry();
     private int currentIndex=TRANS; //current fragment page number
-
     private  EntryDataFragment transportFragment = EntryDataFragment.newInstance(ImpactType.TRANSPORTATIOIN);
     private  EntryDataFragment foodFragment = EntryDataFragment.newInstance(ImpactType.FOOD);
     private  EntryDataFragment electricFragment = EntryDataFragment.newInstance(ImpactType.ELECTRICAL);
@@ -50,24 +42,16 @@ public class EntryActivity extends AppCompatActivity implements EntryDataFragmen
                 .replace(R.id.root_layout, transportFragment)
                 .addToBackStack(null)
                 .commit();
-
-
         //action bar set up
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-
         context = this;
     }
-
+    //open result activity
     public void resultsBtnClicked(View v){
-
         Intent intent = new Intent(context, ResultsActivity.class);
-//        intent.putExtra();
         startActivity(intent);
-
     }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -77,15 +61,11 @@ public class EntryActivity extends AppCompatActivity implements EntryDataFragmen
         }
         return false;
     }
-
     @Override
     public void onFragmentNextClick(EntryDataFragment efragment,List<TypeEntry> entryData) {
         int nextIndex = currentIndex+1;
         FragmentManager fm = getFragmentManager();
-
         switch (nextIndex){
-//            case TRANS:
-//                break;
             case FOOD:
 
                 fm.beginTransaction()
@@ -94,7 +74,6 @@ public class EntryActivity extends AppCompatActivity implements EntryDataFragmen
                         .commit();
                 break;
             case ELECTRIC:
-
                 fm.beginTransaction()
                         .replace(R.id.root_layout, electricFragment)
                         .addToBackStack(null)
@@ -108,34 +87,23 @@ public class EntryActivity extends AppCompatActivity implements EntryDataFragmen
                 break;
             default:
                 if(nextIndex==SERVICE+1){
-                    //resultspage
                     Intent intent = new Intent(context, ResultsActivity.class);
-//                    calculateResult(entry);
-                    //        intent.putExtra();
                     startActivity(intent);
                 }
-
         }
-
     }
-
     @Override
     public void onFragmentBackClick(EntryDataFragment efragment, List<TypeEntry> entryData) {
         int prevIndex = currentIndex-1;
         switch (prevIndex){
             case TRANS:
-//                break;
             case FOOD:
                 break;
             case ELECTRIC:
                 break;
-//            case SERVICE:
-//                break;
             default:
                 if(prevIndex==TRANS-1){
-                    //date
                 }
-
         }
     }
 }

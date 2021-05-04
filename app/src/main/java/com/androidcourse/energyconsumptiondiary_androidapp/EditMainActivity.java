@@ -1,8 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,65 +30,72 @@ public class EditMainActivity extends AppCompatActivity {
         leaderboardBtn=(Button)findViewById(R.id.leaderboardBtn22);
         settingsBtn=(Button)findViewById(R.id.settingsBtn32);
         logoutBtn=(Button)findViewById(R.id.logout22);
-
         context=this;
         ActionBar ab = getSupportActionBar();
-//        ab.setTitle(R.string.yourResults);
         ab.setDisplayHomeAsUpEnabled(true);
     }
-
-
-    public void transportationBtnClicked(View v){
+    //open transportation main activity
+    public void transportationBtnClicked(View v)
+    {
         Intent intent = new Intent(context, TransportationMain.class);
         startActivity(intent);
 
     }
-    public void foodBtnClicked(View v){
+    //open food main activity
+    public void foodBtnClicked(View v)
+    {
         Intent intent = new Intent(context, FoodMain.class);
         startActivity(intent);
 
     }
-    public void electricBtnClicked(View v){
+    //open electric main activity
+    public void electricBtnClicked(View v)
+    {
         Intent intent = new Intent(context, ElectricMain.class);
         startActivity(intent);
 
     }
-    public void servicesBtnClicked(View v){
+    //open services main activity
+    public void servicesBtnClicked(View v)
+    {
         Intent intent = new Intent(context, ServicesMain.class);
         startActivity(intent);
 
     }
-    public void logoutBtnClicked(View v){
+    //logout
+    public void logoutBtnClicked(View v)
+    {
         Intent intent = new Intent(context, LogInActivity.class);
         startActivity(intent);
 
     }
-    public void prevResultsBtnClicked(View v){
-
+    //open previous result activity
+    public void prevResultsBtnClicked(View v)
+    {
         Intent intent = new Intent(context, PreviousResultsActivity.class);
         startActivity(intent);
-
     }
-    public void DataEditBtnClicked(View v){
-
+    //open dataedit activity
+    public void DataEditBtnClicked(View v)
+    {
         Intent intent = new Intent(context,EditMainActivity.class);
         startActivity(intent);
-
     }
-    public void leaderboardBtnClicked(View v){
-
+    //open leaderboard activity
+    public void leaderboardBtnClicked(View v)
+    {
         Intent intent = new Intent(context, LeaderboardAndPointsActivity.class);
         startActivity(intent);
-
     }
-    public void settingsBtnClicked(View v){
-
+    //open settings activity
+    public void settingsBtnClicked(View v)
+    {
         Intent intent = new Intent(context, SettingsActivity.class);
         startActivity(intent);
-
     }
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();

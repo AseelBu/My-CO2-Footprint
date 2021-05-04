@@ -23,6 +23,7 @@
             android:background="@drawable/button_round_shape"
             android:onClick="transportationBtnClicked"
             android:text="@string/transportation"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintCircleRadius="@dimen/activity_horizontal_margin"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -36,6 +37,7 @@
             android:background="@drawable/button_round_shape"
             android:onClick="servicesBtnClicked"
             android:text="@string/services"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -48,6 +50,7 @@
             android:background="@drawable/button_round_shape"
             android:onClick="foodBtnClicked"
             android:text="@string/food"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -60,6 +63,7 @@
             android:background="@drawable/button_round_shape"
             android:onClick="electricBtnClicked"
             android:text="@string/electric"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

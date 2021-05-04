@@ -50,11 +50,11 @@
                     android:padding="20dp">
 
                     <TextView
-                        android:id="@+id/editItema"
+                        android:id="@+id/addItema"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:text="@string/editItem"
+                        android:text="@string/editItema"
                         android:textAlignment="center"
                         android:textSize="30dp" />
 
@@ -71,8 +71,8 @@
                         android:inputType="textEmailAddress"
                         android:padding="5dp"
                         android:selectAllOnFocus="true"
-                        android:singleLine="true" />
-
+                        android:singleLine="true"
+                        android:text="@string/typeedita" />
 
 
                     <EditText
@@ -83,7 +83,8 @@
                         android:ems="10"
                         android:gravity="center|center_horizontal"
                         android:hint="@string/amountt"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:text="@string/amountedita" />
 
                     <Button
                         android:id="@+id/editBtna"
