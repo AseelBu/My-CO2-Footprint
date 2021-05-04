@@ -133,7 +133,6 @@ public class TransportationListAdapter extends ArrayAdapter<Transportation> {
             intent.putExtra("position",position);
             intent.putExtra("Type",dataList.get(position).getName());
               intent.putExtra("FuelType",dataList.get(position).getFuelType());
-//              Log.i("aaaaaaaaaaaa",(String.valueOf(dataList.get(position).getCO2Amount())));
               intent.putExtra("CO2Amount",(String.valueOf(dataList.get(position).getCO2Amount())));
             ((TransportationMain)context).startActivityForResult(intent,REQ_CODE);
 

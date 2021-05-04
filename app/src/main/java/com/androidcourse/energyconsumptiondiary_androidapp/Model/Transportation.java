@@ -57,16 +57,6 @@ public class Transportation extends CO2Impacter implements Parcelable {
         FuelType = fuelType;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
-
 //    @Override
 //    public int describeContents() {
 //        return 0;
@@ -74,8 +64,18 @@ public class Transportation extends CO2Impacter implements Parcelable {
 //
 //    @Override
 //    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeString(FuelType);
+//
 //    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(FuelType);
+    }
 
 
     }

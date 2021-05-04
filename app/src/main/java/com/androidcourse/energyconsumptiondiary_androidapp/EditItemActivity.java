@@ -34,7 +34,6 @@ public class EditItemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
         name=(EditText)findViewById(R.id.typeedit);
@@ -44,11 +43,8 @@ public class EditItemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent!=null) {
             name.setText(intent.getStringExtra("Type"));
-//            Log.d("ssss",String.valueOf(intent.getIntExtra("CO2Amount",0)));
             fuelType.setText(intent.getStringExtra("FuelType"));
-//            Log.d("eeeeeeeeeeeeeeee",String.valueOf(intent.getStringExtra("FuelType")));
             String x=intent.getStringExtra("CO2Amount");
-            Log.d("tttttttttttttttt",x);
             CO2Amount.setText(x);
             id=intent.getIntExtra("position",-1);
 
@@ -68,23 +64,16 @@ public class EditItemActivity extends AppCompatActivity {
             if ((TextUtils.isEmpty(name.getText().toString())==false) ||
                     (TextUtils.isEmpty(fuelType.getText().toString())==false))
             {
-//                ArrayList<Transportation> tlist=dh.getTransportation();
-//                tlist.add(new Transportation(name.getText().toString(),fuelType.getText().toString(),Integer.parseInt(CO2Amount.getText().toString())));
-//                dh.setTransportation(tlist);
-//                adapter.notifyDataSetChanged();
 
                 Toast.makeText(context,
                         "save successfully",
                         Toast.LENGTH_SHORT).show();
-//                ad.notifyDataSetChanged();
                 Intent intent =new Intent();
                 Transportation t=new Transportation(name.getText().toString(),fuelType.getText().toString(),Integer.parseInt(CO2Amount.getText().toString()));
                 intent.putExtra("position",id);
                 intent.putExtra("data",t);
                 setResult(RESULT_OK,intent);
                 finish();
-
-//                startActivity(intent);
             }
         } catch (NumberFormatException exception) {
 
