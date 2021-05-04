@@ -1,8 +1,11 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -18,20 +21,17 @@ import com.androidcourse.energyconsumptiondiary_androidapp.R;
 
 import java.util.List;
 
-public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdapter.entryCardViewHolder>{
+public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdapter.EntryCardViewHolder>{
 
     List<? extends CO2Impacter> impacters;
+    Context context;
 
-    public EntryRecyclerAdapter(List<? extends CO2Impacter> impacters) {
+    public EntryRecyclerAdapter(Context context, List<? extends CO2Impacter> impacters) {
         this.impacters = impacters;
+        this.context=context;
     }
 
-    @Override
-    public void onBindViewHolder( entryCardViewHolder holder, int position) {
-        CO2Impacter impacterItem = impacters.get(position);
-        holder.setData(impacterItem);
 
-    }
 
     @Override
     public int getItemCount() {
@@ -39,38 +39,61 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
     }
 
     @Override
-    public entryCardViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+    public EntryCardViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.
                 from(parent.getContext()).
                 inflate(R.layout.entry_card_recycler, parent, false);
 
-        return new EntryRecyclerAdapter.entryCardViewHolder(itemView);
+        return new EntryCardViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder( EntryCardViewHolder holder, int position) {
+        Log.i("EntryAdapter","entering onBindView");
+        CO2Impacter impacterItem = impacters.get(position);
+        holder.setData(impacterItem);
+
     }
 
 
-    public class entryCardViewHolder extends RecyclerView.ViewHolder{
-        CO2Impacter impacterItem=null;
-        TypeEntry cardData=new TypeEntry();
-        int amount =-1;
-        NumberPicker numPicker ;
-        TextView cardId;
+    public class EntryCardViewHolder extends RecyclerView.ViewHolder{
+        private CO2Impacter impacterItem=null;
+        private TypeEntry cardData=new TypeEntry();
+        private int amount =-1;
+        private NumberPicker numPicker ;
+        private TextView cardId;
+        private TextView question;
+        private ImageView cardImg;
 
-        public entryCardViewHolder( View v) {
+        public EntryCardViewHolder( View v) {
             super(v);
             numPicker=(NumberPicker)v.findViewById(R.id.amountValue);
+            numPicker.setMinValue(0);
+            numPicker.setMaxValue(200);
+            numPicker.setWrapSelectorWheel(false);
+
             numPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                     cardData.setValue(newVal);
+                    Log.i("EntryAdapter","value choosed= "+cardData.getValue());
                 }
             });
             cardId=(TextView) v.findViewById(R.id.cardId);
+            question=(TextView) v.findViewById(R.id.questionTxt);
+            cardImg=(ImageView)v.findViewById(R.id.entryImg);
         }
 
+
         public void setData(CO2Impacter impacterItem) {
+            Log.i("EntryAdapter","entering setData");
+            question.setText(impacterItem.getContent());
+            cardId.setText(String.valueOf(impacterItem.getImpacterID()));
+            cardImg.setImageDrawable(impacterItem.getImg());
             //check item type
             if(impacterItem instanceof Transportation) {
                 this.impacterItem=(Transportation)impacterItem;
+
             }
             else if(impacterItem instanceof Food){
                 this.impacterItem=(Food)impacterItem;

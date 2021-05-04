@@ -4,42 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EntryDataFragment">
-
+    tools:context=".EntryDateFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/entryTitle"
+            android:id="@+id/dateTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:gravity="center"
-            android:text="@string/newEntry"
+            android:text="@string/chooseDate"
+            android:textColor="@color/darkGreen"
             android:textSize="@dimen/headSize"
-            app:layout_constraintBottom_toTopOf="@id/impactersList"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/impactersList"
-            android:layout_width="0dp"
+        <DatePicker
+            android:id="@+id/entryDateCal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:foregroundGravity="center"
+            android:headerBackground="@color/darkGreen"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/entryTitle">
-
-        </androidx.recyclerview.widget.RecyclerView>
+            app:layout_constraintTop_toBottomOf="@id/dateTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

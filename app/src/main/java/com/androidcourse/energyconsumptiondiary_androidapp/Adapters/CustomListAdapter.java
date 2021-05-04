@@ -52,6 +52,7 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 
 
+
         final ItemInfo itemInfo = dataList.get(position);
         txtTitle.setText(itemInfo.getName());
         imageView.setImageResource(itemInfo.getImgId());

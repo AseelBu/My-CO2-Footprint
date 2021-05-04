@@ -77,7 +77,9 @@
                     android:id="@+id/notiText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:text="@string/notificationSent"
+                    android:textColor="@color/darkGreen"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -89,23 +91,28 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/entryreminderr"
+                        android:id="@+id/entryreminderCk"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="bottom|center_horizontal"
-                        android:paddingBottom="15dp"
-                        android:text="@string/entryreminderr" />
+                        android:gravity="start|center_vertical"
+                        android:text="@string/entryReminder"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/editTextTime2"
+                    <TextView
+                        android:id="@+id/reminderTime"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:gravity="bottom|center_horizontal"
-                        android:inputType="time"
-                        android:text="@string/editTextTime2" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:clickable="true"
+                        android:focusable="auto"
+                        android:focusableInTouchMode="false"
+                        android:gravity="center"
+                        android:text="@string/emptyDash"
+                        android:textColor="@android:color/secondary_text_dark"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -116,19 +123,14 @@
                     android:padding="3dp">
 
                     <CheckBox
-                        android:id="@+id/tips"
+                        android:id="@+id/tipsCk"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:gravity="center_horizontal|top"
-                        android:text="tips" />
-
-                    <TextView
-                        android:id="@+id/emailaccount"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center" />
+                        android:gravity="left|center_vertical"
+                        android:text="@string/tipsSettings"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
