@@ -16,10 +16,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_edit_transportation);
         addDataToDataHolder();
         context=this;
-        Intent intent = new Intent(context,LogInActivity.class);
+        Intent intent = new Intent(context, TransportationMain.class);
         startActivity(intent);
         MainActivity.this.finish();
 

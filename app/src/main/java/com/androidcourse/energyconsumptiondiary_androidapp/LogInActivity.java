@@ -1,6 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,12 +37,12 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        email=(EditText)findViewById(R.id.email);
+        email=(EditText)findViewById(R.id.co2Amount);
         email.setText("Admin@gmail.com");
         password=(EditText)findViewById(R.id.oldpassword);
         password.setText("Admin");
         TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
-        Button login = (Button) findViewById(R.id.sendEmail);
+        Button login = (Button) findViewById(R.id.edititem2);
         TextView signUp = (TextView) findViewById(R.id.loginLink);
         context=this;
 
@@ -73,7 +72,7 @@ public class LogInActivity extends AppCompatActivity {
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
 
                 dlgAlert.setMessage("Unfortunately Email Not Found ):");
-                dlgAlert.setTitle("Error Message...");
+                dlgAlert.setTitle("Message...");
                 dlgAlert.setPositiveButton("OK", null);
                 dlgAlert.setCancelable(true);
                 dlgAlert.create().show();
@@ -85,7 +84,7 @@ public class LogInActivity extends AppCompatActivity {
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
 
                     dlgAlert.setMessage("Wrong Password,try again :)");
-                    dlgAlert.setTitle("Error Message...");
+                    dlgAlert.setTitle("Message...");
                     dlgAlert.setPositiveButton("OK", null);
                     dlgAlert.setCancelable(true);
                     dlgAlert.create().show();

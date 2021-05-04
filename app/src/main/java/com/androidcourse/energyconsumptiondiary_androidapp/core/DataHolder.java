@@ -19,6 +19,7 @@ public class DataHolder {
 
 
     private ArrayList<Tip> tipsList = new ArrayList<>();
+     private ArrayList<Transportation> transportation = new ArrayList<>();
     private ArrayList<User> usersList= new ArrayList();
     private HashMap<ImpactType, ArrayList<? extends CO2Impacter>> impacterMap=new HashMap<>();
 
@@ -61,6 +62,9 @@ public class DataHolder {
 
         return list;
     }
+    public void setTransportation(ArrayList<Transportation> t) {
+        transportation = t;
+    }
 
     public ArrayList<Food> getFood(){
         ArrayList<Food>list =new ArrayList<>();
@@ -101,6 +105,11 @@ public class DataHolder {
     public void addUserDetails(String firstName2,String lastName2,String email2,String password2){
 
         this.usersList.add(new User(firstName2,lastName2,email2,password2));
+
+    }
+    public void addTransportaion(String name,String fuel,int amount){
+
+        this.getTransportation().add(new Transportation(name,fuel,amount));
 
     }
     public void addAdminDetails(int id,String email2,String password2,String firstName,String lastName,Drawable img){

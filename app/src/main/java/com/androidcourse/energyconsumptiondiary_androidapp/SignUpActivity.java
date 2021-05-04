@@ -34,11 +34,11 @@ public class SignUpActivity extends AppCompatActivity{
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
-        firstName=(EditText)findViewById(R.id.editFirstName);
+        firstName=(EditText)findViewById(R.id.type);
 //        firstName.setText("George");
-        lastName=(EditText)findViewById(R.id.editLastName);
+        lastName=(EditText)findViewById(R.id.fuel3);
 //        lastName.setText("klien");
-        email=(EditText)findViewById(R.id.email);
+        email=(EditText)findViewById(R.id.co2Amount);
 //        email.setText("George_Klien@gmail.com");
         password=(EditText)findViewById(R.id.oldpassword);
 //        password.setText("12345678");
@@ -84,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity{
                     AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
 
                     dlgAlert.setMessage("Email must be like Email@email.com");
-                    dlgAlert.setTitle("Error Message...");
+                    dlgAlert.setTitle("Message...");
                     dlgAlert.setPositiveButton("OK", null);
                     dlgAlert.setCancelable(true);
                     dlgAlert.create().show();
@@ -93,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity{
                         AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
 
                         dlgAlert.setMessage("Email Alraedy Exists");
-                        dlgAlert.setTitle("Error Message...");
+                        dlgAlert.setTitle("Message...");
                         dlgAlert.setPositiveButton("OK", null);
                         dlgAlert.setCancelable(true);
                         dlgAlert.create().show();
@@ -102,7 +102,7 @@ public class SignUpActivity extends AppCompatActivity{
                             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
 
                             dlgAlert.setMessage("The two passwords are not the same!");
-                            dlgAlert.setTitle("Error Message...");
+                            dlgAlert.setTitle("Message...");
                             dlgAlert.setPositiveButton("OK", null);
                             dlgAlert.setCancelable(true);
                             dlgAlert.create().show();

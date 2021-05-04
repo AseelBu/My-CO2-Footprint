@@ -23,7 +23,19 @@
         <activity android:name=".AdminHomePageActivity" />
         <activity android:name=".CameraDemoActivity" />
         <activity android:name=".EditMainActivity" />
+        <activity android:name=".TransportationMain" />
+        <activity android:name=".ServicesMain" />
+        <activity android:name=".FoodMain" />
         <activity android:name=".UpdatePasswordActivity" />
+        <activity android:name=".AddingItemActivity" />
+        <activity android:name=".AddingItemActivitya" />
+        <activity android:name=".AddingItemActivityb" />
+        <activity android:name=".AddingItemActivityc" />
+        <activity android:name=".ElectricMain" />
+        <activity android:name=".EditItemActivity" />
+        <activity android:name=".EditItemActivitya" />
+        <activity android:name=".EditItemActivityb" />
+        <activity android:name=".EditItemActivityc" />
         <activity android:name=".ResultsActivity" /> <!--  -->
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -100,5 +100,17 @@
     <string name="electric">Electric</string>
     <string name="services">Services</string>
     <string name="edittips">tips</string>
+    <string name="type">Type</string>
+    <string name="fueltype">Fuel Type</string>
+    <string name="co2">CO2 Amount</string>
+    <string name="addingItem">Adding Transportation</string>
+    <string name="fuel">Fuel type</string>
+    <string name="co2Amount">CO2 Amount</string>
+    <string name="addItem">Add</string>
+    <string name="amountt">CO2 Amount</string>
+    <string name="editItem">Edit Transpotation</string>
+    <string name="edititem2">Edit</string>
+
+
 
 </resources>

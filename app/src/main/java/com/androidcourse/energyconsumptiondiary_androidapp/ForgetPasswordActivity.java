@@ -2,7 +2,6 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +22,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgetpassword);
-        phone=(EditText) findViewById(R.id.email);
+        phone=(EditText) findViewById(R.id.co2Amount);
         context=this;
 
         ActionBar ab = getSupportActionBar();

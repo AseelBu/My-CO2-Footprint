@@ -40,7 +40,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         newPassword = (TextView) findViewById(R.id.newpassword);
         confirmpassword = (EditText) findViewById(R.id.confirmnewpassword);
 
-        save = (Button) findViewById(R.id.sendEmail);
+        save = (Button) findViewById(R.id.edititem2);
         email.setText("Admin@gmail.com");
 
         context = this;

@@ -48,7 +48,7 @@
             android:padding="20dp">
 
             <TextView
-                android:id="@+id/forgetPassword"
+                android:id="@+id/editItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -57,7 +57,7 @@
                 android:textSize="30dp" />
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/co2Amount"
                 android:layout_width="268dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
@@ -89,7 +89,7 @@
                 android:singleLine="true" />
 
             <Button
-                android:id="@+id/sendEmail"
+                android:id="@+id/edititem2"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="264dp"
                 android:layout_height="wrap_content"

@@ -6,19 +6,30 @@ import android.media.Image;
 public abstract class CO2Impacter {
     public int impacterID;
     public  String Name;
-    public long CO2Amount;
-    public Drawable img;
+    public int CO2Amount;
+    public int img;
 
-    public CO2Impacter(int impacterID, String name, long CO2Amount, Drawable img) {
+
+    public CO2Impacter(int impacterID, String name, int CO2Amount, int img) {
         this.impacterID = impacterID;
         Name = name;
         this.CO2Amount = CO2Amount;
         this.img = img;
     }
-
-    public CO2Impacter(String name, long CO2Amount) {
+    public CO2Impacter(String name, int CO2Amount, int img) {
         Name = name;
         this.CO2Amount = CO2Amount;
+        this.img = img;
+    }
+
+
+    public CO2Impacter(String name, int CO2Amount) {
+        Name = name;
+        this.CO2Amount = CO2Amount;
+    }
+
+    public CO2Impacter() {
+
     }
 
     public int getImpacterID() {
@@ -33,23 +44,24 @@ public abstract class CO2Impacter {
         return Name;
     }
 
+
     public void setName(String name) {
         Name = name;
     }
 
-    public long getCO2Amount() {
+    public int getCO2Amount() {
         return CO2Amount;
     }
 
-    public void setCO2Amount(long CO2Amount) {
+    public void setCO2Amount(int CO2Amount) {
         this.CO2Amount = CO2Amount;
     }
 
-    public Drawable getImg() {
+    public int getImg() {
         return img;
     }
 
-    public void setImg(Drawable img) {
+    public void setImg(int img) {
         this.img = img;
     }
 

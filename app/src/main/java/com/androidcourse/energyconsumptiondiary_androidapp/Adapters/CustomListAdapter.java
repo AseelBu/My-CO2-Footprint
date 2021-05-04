@@ -28,6 +28,7 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
         this.context = context;
     }
 
+
     @Override
     public int getCount() {
         return dataList.size();

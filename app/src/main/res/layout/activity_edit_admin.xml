@@ -16,56 +16,49 @@
         <Button
             android:id="@+id/transportation"
             style="@style/Widget.AppCompat.Button"
-            android:layout_width="160dp"
-            android:layout_height="63dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="536dp"
+            android:layout_width="182dp"
+            android:layout_height="66dp"
+            android:layout_marginEnd="128dp"
+            android:layout_marginBottom="532dp"
             android:background="@drawable/button_round_shape"
+            android:onClick="transportationBtnClicked"
             android:text="@string/transportation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintCircleRadius="@dimen/activity_horizontal_margin"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
-            android:id="@+id/edittips"
-            android:layout_width="153dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="76dp"
-            android:layout_marginBottom="276dp"
-            android:background="@drawable/button_round_shape"
-            android:text="@string/edittips"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
             android:id="@+id/services"
-            android:layout_width="156dp"
-            android:layout_height="53dp"
-            android:layout_marginStart="112dp"
-            android:layout_marginBottom="336dp"
+            android:layout_width="321dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginBottom="216dp"
             android:background="@drawable/button_round_shape"
+            android:onClick="servicesBtnClicked"
             android:text="@string/services"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/food"
-            android:layout_width="174dp"
-            android:layout_height="54dp"
-            android:layout_marginEnd="64dp"
-            android:layout_marginBottom="468dp"
+            android:layout_width="221dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="112dp"
+            android:layout_marginBottom="436dp"
             android:background="@drawable/button_round_shape"
+            android:onClick="foodBtnClicked"
             android:text="@string/food"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/electric"
-            android:layout_width="177dp"
-            android:layout_height="54dp"
-            android:layout_marginEnd="88dp"
-            android:layout_marginBottom="400dp"
+            android:layout_width="275dp"
+            android:layout_height="71dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginBottom="324dp"
             android:background="@drawable/button_round_shape"
+            android:onClick="electricBtnClicked"
             android:text="@string/electric"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

@@ -40,8 +40,23 @@ public class EditMainActivity extends AppCompatActivity {
     }
 
 
-    public void entryBtnClicked(View v){
-        Intent intent = new Intent(context, EntryActivity.class);
+    public void transportationBtnClicked(View v){
+        Intent intent = new Intent(context, TransportationMain.class);
+        startActivity(intent);
+
+    }
+    public void foodBtnClicked(View v){
+        Intent intent = new Intent(context, FoodMain.class);
+        startActivity(intent);
+
+    }
+    public void electricBtnClicked(View v){
+        Intent intent = new Intent(context, ElectricMain.class);
+        startActivity(intent);
+
+    }
+    public void servicesBtnClicked(View v){
+        Intent intent = new Intent(context, ServicesMain.class);
         startActivity(intent);
 
     }
