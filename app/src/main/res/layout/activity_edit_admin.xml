@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -8,65 +8,59 @@
     android:background="@drawable/gradient_background"
     tools:context=".EditMainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <Button
+        android:id="@+id/services"
+        android:layout_width="321dp"
+        android:layout_height="70dp"
+        android:background="@drawable/button_round_shape"
+        android:onClick="servicesBtnClicked"
+        android:text="@string/services"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/electric" />
 
-        <Button
-            android:id="@+id/transportation"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="182dp"
-            android:layout_height="66dp"
-            android:layout_marginEnd="128dp"
-            android:layout_marginBottom="532dp"
-            android:background="@drawable/button_round_shape"
-            android:onClick="transportationBtnClicked"
-            android:text="@string/transportation"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintCircleRadius="@dimen/activity_horizontal_margin"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <Button
+        android:id="@+id/transportation"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="182dp"
+        android:layout_height="66dp"
+        android:background="@drawable/button_round_shape"
+        android:onClick="transportationBtnClicked"
+        android:text="@string/transportation"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/food"
+        app:layout_constraintCircleRadius="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <Button
-            android:id="@+id/services"
-            android:layout_width="321dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginBottom="216dp"
-            android:background="@drawable/button_round_shape"
-            android:onClick="servicesBtnClicked"
-            android:text="@string/services"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/food"
+        android:layout_width="221dp"
+        android:layout_height="60dp"
+        android:background="@drawable/button_round_shape"
+        android:onClick="foodBtnClicked"
+        android:text="@string/food"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/electric"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transportation" />
 
-        <Button
-            android:id="@+id/food"
-            android:layout_width="221dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="112dp"
-            android:layout_marginBottom="436dp"
-            android:background="@drawable/button_round_shape"
-            android:onClick="foodBtnClicked"
-            android:text="@string/food"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <Button
+        android:id="@+id/electric"
+        android:layout_width="275dp"
+        android:layout_height="71dp"
+        android:background="@drawable/button_round_shape"
+        android:onClick="electricBtnClicked"
+        android:text="@string/electric"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/services"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/food" />
 
-        <Button
-            android:id="@+id/electric"
-            android:layout_width="275dp"
-            android:layout_height="71dp"
-            android:layout_marginEnd="80dp"
-            android:layout_marginBottom="324dp"
-            android:background="@drawable/button_round_shape"
-            android:onClick="electricBtnClicked"
-            android:text="@string/electric"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

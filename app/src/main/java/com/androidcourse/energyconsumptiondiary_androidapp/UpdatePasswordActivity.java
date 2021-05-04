@@ -133,6 +133,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(context, SettingsActivity.class);
                         startActivity(intent);
+                        this.finish();
                     }
                 }
             }

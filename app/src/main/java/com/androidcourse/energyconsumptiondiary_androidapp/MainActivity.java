@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         //add users method
         private void addUsers() {
             dh.addAdminDetails(1,"Admin@gmail.com", "Admin","Admin","Admin",getResources().getDrawable(R.drawable.ic_baseline_person_24));
-            dh.addAdminDetails(1,"Morad@gmail.com", "Morad","Morad","Badarni",getResources().getDrawable(R.drawable.ic_baseline_person_24));
+            dh.addAdminDetails(2,"User@gmail.com", "User","User","regular",getResources().getDrawable(R.drawable.ic_baseline_person_24));
             createUsers(9);
         }
     //create users method
@@ -48,27 +48,27 @@ public class MainActivity extends AppCompatActivity {
     private void createTransportation(int size){
         Drawable img= getResources().getDrawable(R.drawable.ic_baseline_directions_car_24_dark);
         for(int i=0;i<=size;i++){
-            dh.addTransportation(i+1,"car"+i,"car "+i+"?",img);
+            dh.addTransportation(i+40,"car"+i,"car "+i+"?",img);
         }
     }
     private void createFood(int size){
         Drawable img= getResources().getDrawable(R.drawable.ic_baseline_fastfood_24);
         for(int i=0;i<=size;i++){
-            dh.addFood(i+1,"food"+i,"food "+i+"?",img);
+            dh.addFood(i+10,"food"+i,"food "+i+"?",img);
         }
     }
 
     private void createElectricals(int size){
         Drawable img= getResources().getDrawable(R.drawable.ic_baseline_flash_on_24);
         for(int i=0;i<=size;i++){
-            dh.addElectrics(i+1,"elec"+i,"elec "+i+"?",img);
+            dh.addElectrics(i+20,"elec"+i,"elec "+i+"?",img);
         }
     }
 
     private void createService(int size){
         Drawable img= getResources().getDrawable(R.drawable.ic_baseline_wash_24);
         for(int i=0;i<=size;i++){
-            dh.addService(i+1,"service"+i,"service "+i+"?",img);
+            dh.addService(i+30,"service"+i,"service "+i+"?",img);
         }
     }
 
