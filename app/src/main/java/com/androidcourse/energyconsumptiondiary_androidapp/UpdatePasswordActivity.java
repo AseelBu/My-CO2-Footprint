@@ -1,5 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.CustomListAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
@@ -39,22 +36,18 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         oldPassword = (TextView) findViewById(R.id.oldpassword);
         newPassword = (TextView) findViewById(R.id.newpassword);
         confirmpassword = (EditText) findViewById(R.id.confirmnewpassword);
-
-        save = (Button) findViewById(R.id.sendEmail);
+        save = (Button) findViewById(R.id.edititem2);
         email.setText("Admin@gmail.com");
-
         context = this;
-
         ActionBar ab = getSupportActionBar();
-//        ab.setTitle(R.string.yourResults);
         ab.setDisplayHomeAsUpEnabled(true);
     }
+    //return to the previous activity
     public void returnBtnClicked(View v){
         Intent intent = new Intent(context, AccountSettingsActivity.class);
         startActivity(intent);
-
     }
-
+   //check If Email Exist
     public boolean checkIfEmailExist()
     {
         for (User u: dh.getUsers()) {
@@ -63,40 +56,29 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         }
         return false;
     }
+    //check If Password Is Correct
     public boolean checkIfPasswordIsCorrect()
     {
-//        Log.d("44444444444444","$44444444444444");
         for (User u: dh.getUsers()) {
-//            Log.d("1:",email.getText().toString());
-//            Log.d("2:",u.getEmail());
-//            Log.d("1:",password.getText().toString());
-//            Log.d("2",u.getPassword());
             if((email.getText().toString().equals(u.getEmail()))&&
                     (!oldPassword.getText().toString().equals(u.getPassword())))
                 return false;
         }
         return true;
     }
-
-
+    //check If Two Password Is Equals
     public boolean checkIfTwoPasswordIsEquals()
     {
-
         return newPassword.getText().toString().equals(confirmpassword.getText().toString());
-
     }
+    //check If new Password Equal To Old Password
     public boolean checkIfnewPasswordEqualToOldPassword()
     {
-
         return newPassword.getText().toString().equals(oldPassword.getText().toString());
-
     }
-
-
+    //save the new password
     public void saveClicked(View v){
-
         boolean flag = true;
-
         try {
             if (TextUtils.isEmpty(email.getText().toString()) ||
                     TextUtils.isEmpty(oldPassword.getText().toString()) ||
@@ -104,16 +86,13 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                     TextUtils.isEmpty(confirmpassword.getText().toString())
             ) {
                 flag = false;
-//                Log.d("email:", "something is empty");
                 Toast.makeText(UpdatePasswordActivity.this,
                         "Please enter all details",
                         Toast.LENGTH_SHORT).show();
             }
         } catch (NumberFormatException exception) {
-//            Toast.makeText(context, lastName + "something wrong", Toast.LENGTH_SHORT).show();
         }
         if (flag == true) {
-
             String emailTheAccount, oldpass, newpass;
             emailTheAccount = email.getText().toString();
             oldpass = oldPassword.getText().toString();
@@ -122,18 +101,23 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                 Toast.makeText(UpdatePasswordActivity.this,
                         "Email Not Found ",
                         Toast.LENGTH_SHORT).show();
-
-            } else {
-                if (checkIfTwoPasswordIsEquals() == false) {
+            } else
+                {
+                if (checkIfTwoPasswordIsEquals() == false)
+                {
                     Toast.makeText(UpdatePasswordActivity.this,
                             "Two Passwords you enter not equals,try again. ",
                             Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else
+                    {
                     if (checkIfnewPasswordEqualToOldPassword() == true) {
                         Toast.makeText(UpdatePasswordActivity.this,
                                 "New password you enter like the old password.Please enter a different password ",
                                 Toast.LENGTH_SHORT).show();
-                    } else {
+                    }
+                    else
+                        {
                         if (checkIfPasswordIsCorrect() == false) {
                             Toast.makeText(UpdatePasswordActivity.this,
                                     "your currently password not correct",
@@ -153,10 +137,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                 }
             }
                 }
-
         }
-
-
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -167,5 +148,4 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         }
         return false;
     }
-
 }

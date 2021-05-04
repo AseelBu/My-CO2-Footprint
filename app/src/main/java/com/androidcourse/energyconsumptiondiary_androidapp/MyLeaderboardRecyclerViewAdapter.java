@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,9 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
     private final List<User> mUsers;
     private Context context;
     private boolean isColored=false;// true if first 3 rows are colored
+    public boolean flag1=true;
+    public boolean flag2=true;
+    public boolean flag3=true;
 
     public MyLeaderboardRecyclerViewAdapter(Context context,List<User> leadUsers) {
         mUsers = leadUsers;
@@ -37,16 +41,28 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
         User user = mUsers.get(position);
         holder.setData(user,position+1);
 
         //color first 3 places
         if(!isColored) {
-            if (position == 0) {
+            if (position == 0&&flag1==true) {
+                Log.d("flag1 is", String.valueOf(flag1));
+                Log.d("position is :", String.valueOf(position));
+                flag1=false;
                 holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green1));
-            } else if (position == 1) {
+            } else if (position == 1&&flag2==true) {
+
+                Log.d("flag2 is", String.valueOf(flag2));
+                Log.d("position is :", String.valueOf(position));
+                flag2=false;
                 holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green2));
-            } else if (position == 2) {
+            } else if (position == 2&&flag3==true) {
+
+                Log.d("flag3 is", String.valueOf(flag3));
+                Log.d("position is :", String.valueOf(position));
+                flag3=false;
                 holder.mView.setBackgroundColor(context.getResources().getColor(R.color.green3));
                 isColored = true;
             }

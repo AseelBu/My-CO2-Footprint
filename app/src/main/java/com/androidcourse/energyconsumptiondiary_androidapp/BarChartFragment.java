@@ -103,7 +103,6 @@ public class BarChartFragment extends Fragment {
             }
         });
         barChart.setFitBars(true);
-
         barChart.getDescription().setEnabled(false);
         barChart.animateY(1600);
     }

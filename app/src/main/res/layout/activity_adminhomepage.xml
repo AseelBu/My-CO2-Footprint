@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/DataEdit222"
+            android:layout_width="141dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="DataEditBtnClicked"
+            android:text="@string/DataEdit222"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/NewEnt222"
+            android:layout_width="186dp"
+            android:layout_height="59dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="entryBtnClicked"
+            android:text="@string/NewEnt222"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/previousResultsBtn222"
+            android:layout_width="238dp"
+            android:layout_height="61dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="prevResultsBtnClicked"
+            android:text="@string/previousResultsBtn222"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/leaderboardBtn22"
+            android:layout_width="286dp"
+            android:layout_height="63dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="leaderboardBtnClicked"
+            android:text="@string/leaderboardTitle"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/settingsBtn32"
+            android:layout_width="326dp"
+            android:layout_height="64dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="settingsBtnClicked"
+            android:text="@string/settingsBtn32"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/logout22"
+            android:layout_width="368dp"
+            android:layout_height="64dp"
+            android:background="@drawable/button_round_shape"
+            android:onClick="logoutBtnClicked"
+            android:text="@string/logoutbtn2"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

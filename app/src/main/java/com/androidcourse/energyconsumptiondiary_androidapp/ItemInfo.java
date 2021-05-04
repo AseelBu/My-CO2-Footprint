@@ -3,8 +3,7 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 public class ItemInfo {
     private String name;
     private int imgId;
-
-
+    //itemInfo constructer
     public ItemInfo(String name, int imgId) {
         this.name = name;
         this.imgId = imgId;
@@ -12,22 +11,24 @@ public class ItemInfo {
     }
     public ItemInfo() {
     }
-
-    public String getName() {
+      //get name
+    public String getName()
+    {
         return name;
     }
-
-    public int getImgId() {
+      //get image id
+    public int getImgId()
+    {
         return imgId;
     }
-
-    public void setName(String name) {
+    //set name
+    public void setName(String name)
+    {
         this.name = name;
     }
-
-    public void setImgId(int imgId) {
+    //set image id
+    public void setImgId(int imgId)
+    {
         this.imgId = imgId;
     }
-
-
 }

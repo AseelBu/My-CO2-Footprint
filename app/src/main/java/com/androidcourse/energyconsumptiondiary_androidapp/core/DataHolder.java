@@ -31,7 +31,6 @@ public class DataHolder {
     private static DataHolder instance = null;
 
 
-
     private DataHolder(){
 //        impacterMap.put(ImpactType.TRANSPORTATIOIN,new ArrayList<Transportation>());
 //        impacterMap.put(ImpactType.FOOD,new ArrayList<Food>());
@@ -54,10 +53,6 @@ public class DataHolder {
         return this.usersList;
     }
 
-//    public HashMap<ImpactType, ArrayList<? extends CO2Impacter>> getImpacterMap() {
-//        return impacterMap;
-//    }
-
     public ArrayList<Transportation> getTransportation(){
         return  this.transList;
     }
@@ -70,6 +65,11 @@ public class DataHolder {
     public ArrayList<Services> getServices(){
         return  this.serviceList;
     }
+
+//    public HashMap<ImpactType, ArrayList<? extends CO2Impacter>> getImpacterMap() {
+//        return impacterMap;
+//    }
+
 //    public ArrayList<Transportation> getTransportation(){
 //        ArrayList<Transportation>list =new ArrayList<>();
 //        for(CO2Impacter item: impacterMap.get(ImpactType.TRANSPORTATIOIN)){
@@ -78,7 +78,7 @@ public class DataHolder {
 //
 //        return list;
 //    }
-
+//
 //    public ArrayList<Food> getFood(){
 //        ArrayList<Food>list =new ArrayList<>();
 //        for(CO2Impacter item: impacterMap.get(ImpactType.FOOD)){
@@ -88,7 +88,7 @@ public class DataHolder {
 //        return list;
 //    }
 //
-//    public ArrayList<ElectricalHouseSupplies> getElectrics(){
+//    public ArrayList<ElectricalHouseSupplies> getElectricals(){
 //        ArrayList<ElectricalHouseSupplies>list =new ArrayList<>();
 //        for(CO2Impacter item: impacterMap.get(ImpactType.ELECTRICAL)){
 //            list.add((ElectricalHouseSupplies)item);
@@ -106,6 +106,7 @@ public class DataHolder {
 //        return list;
 //    }
 
+
     // ---------------Tips---------
     public void addTip(String title, String content, Drawable img){
         this.tipsList.add(new Tip(title,content, img));
@@ -118,6 +119,11 @@ public class DataHolder {
     public void addUserDetails(String firstName2,String lastName2,String email2,String password2){
 
         this.usersList.add(new User(firstName2,lastName2,email2,password2));
+
+    }
+    public void addTransportaion(String name,String fuel,int amount){
+
+        this.getTransportation().add(new Transportation(name,fuel,amount));
 
     }
     public void addAdminDetails(int id,String email2,String password2,String firstName,String lastName,Drawable img){
@@ -167,7 +173,6 @@ public class DataHolder {
     }
 
 
-
     public void addTransportation(int id,String name, String content, Drawable img) {
         transList.add(new Transportation(id,name,content,img));
     }
@@ -180,4 +185,5 @@ public class DataHolder {
     public void addService(int id,String name, String content, Drawable img) {
         serviceList.add(new Services(id,name,content,img));
     }
+
 }
