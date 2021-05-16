@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <ImageButton
+        android:id="@+id/deleteAdminRow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#00FFFFFF"
+        app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
+    <ImageView
+        android:id="@+id/imImageAdminList"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_weight="1"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/imNameAdminList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="name" />
+
+    <TextView
+        android:id="@+id/imfuelTypeAdminList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/fueltype" />
+
+    <TextView
+        android:id="@+id/imCo2AdminList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/co2Amount" />
+
+    <ImageButton
+        android:id="@+id/editAdminRow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#00FFFFFF"
+        app:srcCompat="@drawable/ic_baseline_edit_24" />
+
+</LinearLayout>

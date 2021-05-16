@@ -8,8 +8,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EnergyConsumptionDiary">
-
+        android:theme="@style/Theme.EnergyConsumptionDiary"
+        android:largeHeap="true">
+        <activity android:name=".AdminEditListActivity"></activity>
         <activity android:name=".AccountSettingsActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".PreviousResultsActivity" />
@@ -21,21 +22,10 @@
         <activity android:name=".LogInActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ForgetPasswordActivity" />
-        <activity android:name=".AdminHomePageActivity" />
         <activity android:name=".EditMainActivity" />
-        <activity android:name=".TransportationMain" />
-        <activity android:name=".ServicesMain" />
-        <activity android:name=".FoodMain" />
         <activity android:name=".UpdatePasswordActivity" />
         <activity android:name=".AddingItemActivity" />
-        <activity android:name=".AddingItemActivitya" />
-        <activity android:name=".AddingItemActivityb" />
-        <activity android:name=".AddingItemActivityc" />
-        <activity android:name=".ElectricMain" />
         <activity android:name=".EditItemActivity" />
-        <activity android:name=".EditItemActivitya" />
-        <activity android:name=".EditItemActivityb" />
-        <activity android:name=".EditItemActivityc" />
         <activity android:name=".ResultsActivity" /> <!--  -->
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -1,41 +1,39 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.core;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.CO2Impacter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.Services;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Tip;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 public class DataHolder {
 
 
     private ArrayList<Tip> tipsList = new ArrayList<>();
     private ArrayList<User> usersList= new ArrayList();
-//    private HashMap<ImpactType, ArrayList<? extends CO2Impacter>> impacterMap=new HashMap<>();
-    private ArrayList<Transportation> transList = new ArrayList<>();
-    private ArrayList<Food> foodList= new ArrayList<>();
-    private ArrayList<ElectricalHouseSupplies> electricsList= new ArrayList<>();
-    private ArrayList<Services> serviceList= new ArrayList<>();
 
-
+    //CO2 impacter types
+    private TreeSet<Transportation> transList = new TreeSet<>();
+    private TreeSet<Food> foodList = new TreeSet<>();
+    private TreeSet<ElectricalHouseSupplies> electricsList= new TreeSet<>();
+    private TreeSet<Service> serviceList= new TreeSet<>();
 
     private static DataHolder instance = null;
 
 
     private DataHolder(){
-//        impacterMap.put(ImpactType.TRANSPORTATIOIN,new ArrayList<Transportation>());
-//        impacterMap.put(ImpactType.FOOD,new ArrayList<Food>());
-//        impacterMap.put(ImpactType.ELECTRICAL,new ArrayList<ElectricalHouseSupplies>());
-//        impacterMap.put(ImpactType.SERVICES,new ArrayList<Services>());
+
     }
 
 
@@ -54,84 +52,64 @@ public class DataHolder {
     }
 
     public ArrayList<Transportation> getTransportation(){
-        return  this.transList;
+        return  new ArrayList<Transportation>(this.transList);
     }
     public ArrayList<Food> getFood(){
-        return  this.foodList;
+        return  new ArrayList<Food>(this.foodList);
     }
     public ArrayList<ElectricalHouseSupplies> getElectrics(){
-        return  this.electricsList;
+        return  new ArrayList<ElectricalHouseSupplies>(this.electricsList);
     }
-    public ArrayList<Services> getServices(){
-        return  this.serviceList;
+    public ArrayList<Service> getServices(){
+        return  new ArrayList<Service>(this.serviceList);
     }
-
-//    public HashMap<ImpactType, ArrayList<? extends CO2Impacter>> getImpacterMap() {
-//        return impacterMap;
-//    }
-
-//    public ArrayList<Transportation> getTransportation(){
-//        ArrayList<Transportation>list =new ArrayList<>();
-//        for(CO2Impacter item: impacterMap.get(ImpactType.TRANSPORTATIOIN)){
-//            list.add((Transportation)item);
-//        }
-//
-//        return list;
-//    }
-//
-//    public ArrayList<Food> getFood(){
-//        ArrayList<Food>list =new ArrayList<>();
-//        for(CO2Impacter item: impacterMap.get(ImpactType.FOOD)){
-//            list.add((Food) item);
-//        }
-//
-//        return list;
-//    }
-//
-//    public ArrayList<ElectricalHouseSupplies> getElectricals(){
-//        ArrayList<ElectricalHouseSupplies>list =new ArrayList<>();
-//        for(CO2Impacter item: impacterMap.get(ImpactType.ELECTRICAL)){
-//            list.add((ElectricalHouseSupplies)item);
-//        }
-//
-//        return list;
-//    }
-//
-//    public ArrayList<Services> getServices(){
-//        ArrayList<Services>list =new ArrayList<>();
-//        for(CO2Impacter item: impacterMap.get(ImpactType.SERVICES)){
-//            list.add((Services) item);
-//        }
-//
-//        return list;
-//    }
 
 
     // ---------------Tips---------
-    public void addTip(String title, String content, Drawable img){
+    public void addTip(String title, String content, Bitmap img){
         this.tipsList.add(new Tip(title,content, img));
     }
     // ---------------Users---------
-    public void addUser(int userId,String firstName,String lastName,int points, Drawable img){
-        this.usersList.add(new User(userId,firstName+lastName+"@g.com",firstName+lastName+"",firstName,lastName,points,img));
+    //with points + image
+    public void addUser(int userId,String firstName,String lastName,String email, String password,int points, Drawable img){
+        this.usersList.add(new User(userId,email,password,firstName,lastName,points,img));
+    }
+    //with points+no image
+    public void addUser(int userId,String firstName,String lastName,String email, String password,int points){
+        this.usersList.add(new User(userId,email,password,firstName,lastName,points));
     }
 
-    public void addUserDetails(String firstName2,String lastName2,String email2,String password2){
-
-        this.usersList.add(new User(firstName2,lastName2,email2,password2));
-
+    //without points+image
+    public void addUser(int userId,String firstName,String lastName,String email, String password, Drawable img){
+        this.usersList.add(new User(userId,email,password,firstName,lastName,img));
     }
-    public void addTransportaion(String name,String fuel,int amount){
-
-        this.getTransportation().add(new Transportation(name,fuel,amount));
-
-    }
-    public void addAdminDetails(int id,String email2,String password2,String firstName,String lastName,Drawable img){
-
-        this.usersList.add(new User(id,email2,password2,firstName,lastName,100,img));
-
+    //without points+ no image
+    public void addUser(int userId,String firstName,String lastName,String email, String password){
+        this.usersList.add(new User(userId,email,password,firstName,lastName));
     }
 
+//    public void addUserDetails(String firstName2,String lastName2,String email2,String password2){
+//
+//        this.usersList.add(new User(firstName2,lastName2,email2,password2));
+//
+//    }
+//    public void addTransportaion(String name,String fuel,int amount){
+//
+//        this.getTransportation().add(new Transportation2(name,fuel,amount));
+//
+//    }
+    public void addAdmin(int id, String email, String password, String firstName, String lastName, Drawable img){
+        User user= (new User(id,email,password,firstName,lastName,100,img));
+        user.setAdmin(true);
+        this.usersList.add(user);
+
+    }
+
+    /**
+     * returns user by id
+     * @param id of the wanted user
+     * @return User if found,else returns null
+     */
     public User getUserById(int id){
         for(User user:usersList){
             if(user.getUserId()==id){
@@ -141,21 +119,48 @@ public class DataHolder {
         return null;
     }
 
+    /**
+     * get registered admins
+     * @return ArrayList<User> list of admins if there is any,else returns null
+     */
+    public ArrayList<User> getAdmins(){
+        ArrayList<User> adminsList=new ArrayList<>();
+        for(User user:usersList){
+            if(user.isAdmin()){
+
+                adminsList.add(user);
+            }
+        }
+        if(adminsList.isEmpty()){
+            return null;
+        }
+        return adminsList;
+    }
+
     // ---------------Leaderboard---------
 
+    /**
+     * Gets all the users sorted by points DESC
+     * @return  List<User> -all users sorted by amount of points DESC
+     */
     public List<User> getAllLeaderboardUsers() {
 
         List<User> users= new ArrayList<User>(this.usersList);
-        Collections.sort(users);
+        Collections.sort(users);    //sorts users by number of points DESC
         return users;
     }
 
-    public List<User> getLeaderboardUsers(int size) {
+    /**
+     * gets the first k users in leaderboard ,sorted by points DESC
+     * @param k -value of the k as in the first k users in leaderboard
+     * @return List<User> -k long list of leaderboard users;
+     */
+    public List<User> getLeaderboardUsers(int k) {
 
         List<User>leadUsers =new ArrayList<User>();
         List<User> users= getAllLeaderboardUsers();
 
-        for(int i=0;i<size;i++){
+        for(int i=0;i<k;i++){
             leadUsers.add(users.get(i));
         }
         return leadUsers;
@@ -172,18 +177,130 @@ public class DataHolder {
         return String.valueOf(position+1)+"/"+String.valueOf(users.size());
     }
 
+//----------------Co2 impacters-----------
+    public void addTransportation(Transportation transportation) {
+        transList.add(transportation);
+    }
+    public void addTransportation(int id, String name, String question, Units unit, int co2Amount, Bitmap img, String fuelType) {
+        transList.add(new Transportation(id,name,question,unit,co2Amount ,img,fuelType));
+    }
+    public void addTransportation( String name, String question,Units unit, int co2Amount, Bitmap img, String fuelType) {
+        transList.add(new Transportation(name, question, unit, co2Amount ,img,fuelType));
+    }
 
-    public void addTransportation(int id,String name, String content, Drawable img) {
-        transList.add(new Transportation(id,name,content,img));
+
+    public void addFood(Food food) {
+        foodList.add(food);
     }
-    public void addFood(int id,String name, String content, Drawable img) {
-        foodList.add(new Food(id,name,content,img));
+    public void addFood(int id,String name, String question,Units unit,  int co2Amount,Bitmap img) {
+        foodList.add(new Food(id,name,question, unit,co2Amount,img));
     }
-    public void addElectrics(int id,String name, String content, Drawable img) {
-        electricsList.add(new ElectricalHouseSupplies(id,name,content,img));
+
+    public void addFood(String name, String question,Units unit,int co2Amount, Bitmap img) {
+        foodList.add(new Food(name,question, unit,co2Amount,img));
     }
-    public void addService(int id,String name, String content, Drawable img) {
-        serviceList.add(new Services(id,name,content,img));
+
+
+    public void addElectrics(ElectricalHouseSupplies electric) {
+        electricsList.add(electric);
+    }
+    public void addElectrics(int id,String name, String question,Units unit, int co2Amount,Bitmap img) {
+        electricsList.add(new ElectricalHouseSupplies(id,name,question, unit,co2Amount,img));
+    }
+
+    public void addElectrics(String name, String question, Units unit,int co2Amount,Bitmap img) {
+        electricsList.add(new ElectricalHouseSupplies(name,question,unit,co2Amount,img));
+    }
+
+
+    public void addService(Service service) {
+        serviceList.add(service);
+    }
+    public void addService(int id,String name, String question,Units unit, int co2Amount,Bitmap img) {
+        serviceList.add(new Service(id,name,question,unit,co2Amount,img));
+    }
+
+    public void addService(String name, String question,Units unit,int co2Amount, Bitmap img) {
+        serviceList.add(new Service(name,question,unit,co2Amount,img));
+    }
+
+    public ArrayList<? extends Co2Impacter> getImpactersByType(ImpactType type){
+        ArrayList<? extends Co2Impacter> data=new ArrayList<>();
+    switch (type){
+        case TRANSPORTATIOIN:
+            data=getTransportation();
+            break;
+        case FOOD:
+            data=getFood();
+            break;
+        case ELECTRICAL:
+            data=getElectrics();
+            break;
+        case SERVICES:
+            data=getServices();
+            break;
+    }
+    return data;
+
+    }
+
+    public void addImpacter(ImpactType type, Co2Impacter impacter){
+        switch (type){
+            case TRANSPORTATIOIN:
+                transList.add((Transportation) impacter);
+                break;
+            case FOOD:
+                foodList.add((Food) impacter);
+                break;
+            case ELECTRICAL:
+                electricsList.add((ElectricalHouseSupplies) impacter);
+                break;
+            case SERVICES:
+                serviceList.add((Service) impacter);
+                break;
+        }
+    }
+
+    public void removeImpacter(ImpactType type, Co2Impacter impacter){
+        switch (type){
+            case TRANSPORTATIOIN:
+                transList.remove(impacter);
+                break;
+            case FOOD:
+                foodList.remove(impacter);
+                break;
+            case ELECTRICAL:
+                electricsList.remove(impacter);
+                break;
+            case SERVICES:
+                serviceList.remove(impacter);
+                break;
+        }
+    }
+
+    public Co2Impacter getImpacterByid(ImpactType type, int id) {
+        ArrayList<Co2Impacter> impacterList=new ArrayList<>();
+        switch (type){
+            case TRANSPORTATIOIN:
+                impacterList=new ArrayList<>(getTransportation());
+                break;
+            case FOOD:
+                impacterList=new ArrayList<>(getFood());
+                break;
+            case ELECTRICAL:
+                impacterList=new ArrayList<>(getElectrics());
+                break;
+            case SERVICES:
+                impacterList=new ArrayList<>(getServices());
+                break;
+        }
+
+        for(Co2Impacter im: impacterList){
+            if(im.getImpacterID()==id){
+                return im;
+            }
+        }
+        return null;
     }
 
 }

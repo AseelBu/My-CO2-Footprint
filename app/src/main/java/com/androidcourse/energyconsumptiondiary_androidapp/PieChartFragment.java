@@ -80,10 +80,10 @@ public class PieChartFragment extends Fragment {
 
     private void loadPieChartData(){
 //        ArrayList<PieEntry> entries =new ArrayList<>();
-        MyPieData[] pieValues = {new MyPieData(0.2f,"Transportation"),
-                new MyPieData(0.3f,"Food"),
+        MyPieData[] pieValues = {new MyPieData(0.2f,"Transportation2"),
+                new MyPieData(0.3f,"Food2"),
                 new MyPieData(0.4f,"Electricity"),
-                new MyPieData(0.1f,"Services")};
+                new MyPieData(0.1f,"Services2")};
         List<PieEntry> entries = new ArrayList<PieEntry>();
         for (MyPieData data : pieValues) {
             // turn your data into Entry objects

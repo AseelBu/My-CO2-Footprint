@@ -7,15 +7,15 @@ public class Tip {
     protected int tipId;
     protected String title;
     protected String content;
-    protected Drawable img;
+    protected Bitmap img;
 
-    public Tip(String title, String content,Drawable img) {
+    public Tip(String title, String content,Bitmap img) {
         this.title = title;
         this.content = content;
         this.img=img;
     }
 
-    public Tip(int tipId, String title, String content, Drawable img) {
+    public Tip(int tipId, String title, String content, Bitmap img) {
         this.tipId = tipId;
         this.title = title;
         this.content = content;
@@ -46,11 +46,11 @@ public class Tip {
         this.content = content;
     }
 
-    public Drawable getImg() {
+    public Bitmap getImg() {
         return img;
     }
 
-    public void setImg(Drawable img) {
+    public void setImg(Bitmap img) {
         this.img = img;
     }
 }

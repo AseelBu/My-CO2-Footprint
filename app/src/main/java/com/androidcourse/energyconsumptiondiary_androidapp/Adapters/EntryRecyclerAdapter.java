@@ -1,6 +1,7 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.CO2Impacter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.Services;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
@@ -23,10 +24,10 @@ import java.util.List;
 
 public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdapter.EntryCardViewHolder>{
 
-    List<? extends CO2Impacter> impacters;
+    List<? extends Co2Impacter> impacters;
     Context context;
 
-    public EntryRecyclerAdapter(Context context, List<? extends CO2Impacter> impacters) {
+    public EntryRecyclerAdapter(Context context, List<? extends Co2Impacter> impacters) {
         this.impacters = impacters;
         this.context=context;
     }
@@ -50,14 +51,14 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
     @Override
     public void onBindViewHolder( EntryCardViewHolder holder, int position) {
         Log.i("EntryAdapter","entering onBindView");
-        CO2Impacter impacterItem = impacters.get(position);
+        Co2Impacter impacterItem = impacters.get(holder.getAdapterPosition());
         holder.setData(impacterItem);
 
     }
 
 
     public class EntryCardViewHolder extends RecyclerView.ViewHolder{
-        private CO2Impacter impacterItem=null;
+        private Co2Impacter impacterItem=null;
         private TypeEntry cardData=new TypeEntry();
         private int amount =-1;
         private NumberPicker numPicker ;
@@ -85,11 +86,11 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
         }
 
 
-        public void setData(CO2Impacter impacterItem) {
+        public void setData(Co2Impacter impacterItem) {
             Log.i("EntryAdapter","entering setData");
-            question.setText(impacterItem.getContent());
+            question.setText(impacterItem.getQuestion());
             cardId.setText(String.valueOf(impacterItem.getImpacterID()));
-            cardImg.setImageDrawable(impacterItem.getImg());
+            cardImg.setImageDrawable(new BitmapDrawable(context.getResources(), impacterItem.getImg()));
             //check item type
             if(impacterItem instanceof Transportation) {
                 this.impacterItem=(Transportation)impacterItem;
@@ -101,8 +102,8 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
             else if(impacterItem instanceof ElectricalHouseSupplies){
                 this.impacterItem=(ElectricalHouseSupplies)impacterItem;
             }
-            else if(impacterItem instanceof Services){
-                this.impacterItem=(Services)impacterItem;
+            else if(impacterItem instanceof Service){
+                this.impacterItem=(Service)impacterItem;
             }
         }
     }

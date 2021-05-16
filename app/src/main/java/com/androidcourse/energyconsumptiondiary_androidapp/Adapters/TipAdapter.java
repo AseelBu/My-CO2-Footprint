@@ -1,5 +1,7 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
 
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +20,10 @@ import java.util.List;
 
 public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
     private List<Tip> tipsList;
+    private Context context;
 
-    public TipAdapter(List<Tip> tipsList) {
+    public TipAdapter(Context context,List<Tip> tipsList) {
+        this.context=context;
         this.tipsList = tipsList;
     }
 
@@ -63,7 +67,7 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
             this.tip = tip;
             vTitle.setText(tip.getTitle());
             vContent.setText(tip.getContent());
-            vImage.setImageDrawable(tip.getImg());
+            vImage.setImageDrawable(new BitmapDrawable(context.getResources(),tip.getImg()));
 
         }
     }

@@ -34,6 +34,7 @@ public class SignUpActivity extends AppCompatActivity{
         password=(EditText)findViewById(R.id.oldpassword);
         confirmPassword=(EditText)findViewById(R.id.confirmPassword);
         context=this;
+        getSupportActionBar().hide();
     }
     //sign up to the app
     public void signupClicked(View v) {
@@ -56,7 +57,7 @@ public class SignUpActivity extends AppCompatActivity{
         if (flag == true) {
             //if the email not exists and email is valid,two password equals as add new user and show a toast
             if (checkIfEmailExist() == false && checkIfEmailisValid() == true && checkIfTwoPasswordIsEquals() == true) {
-                dh.addUserDetails(firstName.getText().toString(), lastName.getText().toString(),email.getText().toString(), password.getText().toString());
+                dh.addUser(dh.getUsers().size()+1,firstName.getText().toString(), lastName.getText().toString(),email.getText().toString(), password.getText().toString());
                 Toast.makeText(SignUpActivity.this,
                         "congratulations,You now a new member (: ",
                         Toast.LENGTH_SHORT).show();

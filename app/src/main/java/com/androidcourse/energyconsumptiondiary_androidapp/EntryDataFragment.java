@@ -12,11 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.EntryRecyclerAdapter;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.CO2Impacter;
+
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
@@ -32,7 +32,7 @@ public class EntryDataFragment extends Fragment {
     private Activity activity;
 
    private ImpactType type;
-   private CO2Impacter data;
+   private Co2Impacter data;
     private ArrayList <TypeEntry> entries=new ArrayList<>();
 
 

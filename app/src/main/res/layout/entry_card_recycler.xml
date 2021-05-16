@@ -28,7 +28,7 @@
                 <ImageView
                     android:id="@+id/entryImg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:layout_weight="3"
                     tools:srcCompat="@tools:sample/avatars" />
 
@@ -38,6 +38,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="start|center_vertical"
+                    android:padding="5dp"
                     android:text="Question?"
                     android:textSize="20sp"
                     android:textStyle="bold" />

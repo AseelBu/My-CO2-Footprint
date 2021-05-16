@@ -39,11 +39,11 @@ public class SettingsActivity extends AppCompatActivity {
         itemInfos.add(new ItemInfo("share with Friend",R.drawable.share));
         itemInfos.add(new ItemInfo("Dark Mode",R.drawable.darkmode));
         list = (ListView) findViewById(R.id.list);
-        accountSettings=(Button)findViewById(R.id.accountsettings);
-        notificationsettings=(Button)findViewById(R.id.notificationSet);
-        shareWithFriends=(Button)findViewById(R.id.sharewithfriends);
-        returnBtn=(ImageButton)findViewById(R.id.returnbtn);
-        btnToggleDark=(Switch)findViewById(R.id.dark);
+//        accountSettings=(Button)findViewById(R.id.accountsettings);
+//        notificationsettings=(Button)findViewById(R.id.notificationSet);
+//        shareWithFriends=(Button)findViewById(R.id.sharewithfriends);
+//        returnBtn=(ImageButton)findViewById(R.id.returnbtn);
+//        btnToggleDark=(Switch)findViewById(R.id.dark);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         adapter = new CustomListAdapter(this, itemInfos);

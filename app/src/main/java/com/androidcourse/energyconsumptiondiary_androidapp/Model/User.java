@@ -2,6 +2,7 @@ package com.androidcourse.energyconsumptiondiary_androidapp.Model;
 
 
 import android.graphics.drawable.Drawable;
+import com.androidcourse.energyconsumptiondiary_androidapp.R;
 
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ public class User implements Comparable{
     private String lastName="";
     private int points=0;
     private Drawable image=null;
+    private boolean isAdmin=false;
 
 
     public User(int userId, String email, String password, String firstName, String lastName, int points) {
@@ -22,6 +24,14 @@ public class User implements Comparable{
         this.firstName = firstName;
         this.lastName = lastName;
         this.points = points;
+    }
+    public User(int userId, String email, String password, String firstName, String lastName) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+
     }
 
     public User(int userId, String email, String password, String firstName, String lastName, int points,Drawable image) {
@@ -34,6 +44,15 @@ public class User implements Comparable{
         this.image = image;
     }
 
+    public User(int userId, String email, String password, String firstName, String lastName,Drawable image) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.image = image;
+    }
+
 
 
     public User(String email, String password, String firstName, String lastName,int points) {
@@ -42,6 +61,16 @@ public class User implements Comparable{
         this.firstName = firstName;
         this.lastName = lastName;
         this.points = points;
+    }
+
+
+    public User(String email, String password, String firstName, String lastName,int points,Drawable image) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.points = points;
+        this.image = image;
     }
 
 
@@ -121,6 +150,14 @@ public class User implements Comparable{
         return this.firstName+" "+this.lastName;
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -150,4 +187,6 @@ public class User implements Comparable{
 
 
     }
+
+
 }

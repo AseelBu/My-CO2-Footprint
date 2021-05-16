@@ -1,5 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.core;
 
-public class Utils {
-
+public enum Units {
+    HOUR,MINUTE,KM,UNIT,TIMES
 }

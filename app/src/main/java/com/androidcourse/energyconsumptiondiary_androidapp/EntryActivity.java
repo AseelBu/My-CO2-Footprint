@@ -72,7 +72,6 @@ public class EntryActivity extends AppCompatActivity  {
 
         fm.beginTransaction()
                 .replace(R.id.root_layout, dateFragment)
-
                 .commit();
 
         backBtn.setVisibility(View.GONE);
@@ -88,15 +87,7 @@ public class EntryActivity extends AppCompatActivity  {
 
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onFragmentBackClick(getCurrentFragmentEntries());
-                return true;
-        }
-        return false;
-    }
+
 
     private ArrayList<TypeEntry> getCurrentFragmentEntries(){
         EntryDataFragment fr=null;
@@ -305,4 +296,15 @@ public class EntryActivity extends AppCompatActivity  {
 //
 //        }
 //    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+//                onFragmentBackClick(getCurrentFragmentEntries());
+                finish();
+                return true;
+        }
+        return false;
+    }
 }

@@ -37,6 +37,7 @@ public class LogInActivity extends AppCompatActivity {
         Button login = (Button) findViewById(R.id.edititem2);
         TextView signUp = (TextView) findViewById(R.id.loginLink);
         context=this;
+        getSupportActionBar().hide();
     }
     //log in to the home page with check if email and password is correct,valid,and exists
     public void loginClicked(View v) {
@@ -79,17 +80,21 @@ public class LogInActivity extends AppCompatActivity {
                         Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
                     }
                     if(email.getText().toString().equals("Admin@gmail.com")) {
-                        Intent intent = new Intent(context, AdminHomePageActivity.class);
+                        Intent intent = new Intent(context, HomePageActivity.class);
+                        intent.putExtra("Admin",true);
                         startActivity(intent);
+                        finish();
                     }
                     else
                     {
                         Intent intent = new Intent(context, HomePageActivity.class);
+                        intent.putExtra("Admin",false);
                         startActivity(intent);
+                        finish();
                     }
                 }
             }
-    }
+        }
     }
   //eneter to Forget Password activity
     public void ForgetPasswordClicked(View v){

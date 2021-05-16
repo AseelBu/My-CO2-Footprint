@@ -1,7 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,10 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.MyLeaderboardRecyclerViewAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
-import com.androidcourse.energyconsumptiondiary_androidapp.dummy.DummyContent;
-
-import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -65,6 +62,7 @@ public class LeaderboardFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView.setHasFixedSize(true);
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {

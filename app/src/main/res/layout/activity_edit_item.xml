@@ -50,13 +50,21 @@
                     android:padding="20dp">
 
                     <TextView
-                        android:id="@+id/editItem"
+                        android:id="@+id/editingActivityTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:text="@string/editItem"
                         android:textAlignment="center"
                         android:textSize="30dp" />
+
+                    <ImageButton
+                        android:id="@+id/uploadImgEdit"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/ic_baseline_image_24" />
 
                     <EditText
                         android:id="@+id/typeedit"

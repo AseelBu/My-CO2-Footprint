@@ -1,9 +1,8 @@
-package com.androidcourse.energyconsumptiondiary_androidapp;
+package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
+import com.androidcourse.energyconsumptiondiary_androidapp.R;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 
 
