@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Tip;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
@@ -139,5 +140,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onResume() {
+        MyCo2FootprintManager.getInstance().openDataBase(this);
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        MyCo2FootprintManager.getInstance().closeDataBase();
+        super.onPause();
+    }
 
 }
