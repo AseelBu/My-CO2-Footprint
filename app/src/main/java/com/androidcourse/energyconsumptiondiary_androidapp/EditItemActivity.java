@@ -39,6 +39,7 @@ public class EditItemActivity extends AppCompatActivity {
     private ImageButton imageUpload;
     private EditText name = null;
     private EditText fuelType = null;
+    private EditText Question = null;
     private EditText co2Amount = null;
     private Context context;
     private SharedPreferences prefs = null;
@@ -56,6 +57,7 @@ public class EditItemActivity extends AppCompatActivity {
         title=(TextView)findViewById(R.id.editingActivityTitle);
 
         name=(EditText)findViewById(R.id.typeedit);
+        Question=(EditText)findViewById(R.id.Question2);
         fuelType=(EditText)findViewById(R.id.fueledit);
         co2Amount=(EditText)findViewById(R.id.amountedit);
         editBtn=(Button)findViewById(R.id.editBtn);
@@ -98,10 +100,11 @@ public class EditItemActivity extends AppCompatActivity {
     //add new item instead of the old item in data list
     public void editClicked() {
         try {
-            if ((!TextUtils.isEmpty(name.getText().toString())) ||
-                    (!TextUtils.isEmpty(fuelType.getText().toString())))
+            if ((!TextUtils.isEmpty(name.getText().toString())) ||(!TextUtils.isEmpty(Question.getText().toString()))||
+            (!TextUtils.isEmpty(fuelType.getText().toString())))
             {
                 impacter.setName(name.getText().toString());
+                impacter.setQuestion(Question.getText().toString());
                 if(impacterType.equals(ImpactType.TRANSPORTATIOIN)){
                     ((Transportation)impacter).setFuelType(fuelType.getText().toString());
                 }
@@ -130,6 +133,7 @@ public class EditItemActivity extends AppCompatActivity {
     private void setData(Co2Impacter impacter,ImpactType type){
 
         name.setText(impacter.getName());
+        Question.setText(impacter.getQuestion());
         co2Amount.setText(String.valueOf(impacter.getCo2Amount()));
         imageUpload.setImageDrawable(new BitmapDrawable(context.getResources(), impacter.getImg()));
 

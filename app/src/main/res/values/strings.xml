@@ -128,6 +128,7 @@
     <string name="editOptionsTitle">What would you like to Edit ?</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="Question">Question</string>
 
 
 </resources>

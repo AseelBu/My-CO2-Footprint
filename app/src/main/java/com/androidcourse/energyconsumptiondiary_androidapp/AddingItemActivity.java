@@ -43,6 +43,7 @@ public class AddingItemActivity extends AppCompatActivity {
     public EditText name = null;
     public EditText fuelType = null;
     public EditText co2Amount= null;
+    public EditText Question= null;
 
     private Context context;
     private final DataHolder dh = DataHolder.getInstance();
@@ -61,6 +62,8 @@ public class AddingItemActivity extends AppCompatActivity {
         name=(EditText)findViewById(R.id.type);
         fuelType=(EditText)findViewById(R.id.fuel3);
         co2Amount=(EditText)findViewById(R.id.amountt);
+        Question=(EditText)findViewById(R.id.Question);
+
 
         Intent intent = getIntent();
         if(intent!=null) {
@@ -152,12 +155,12 @@ public class AddingItemActivity extends AppCompatActivity {
     {
         try {
             //if the input is empty
-            if ((!TextUtils.isEmpty(name.getText().toString())) ||
+            if ((!TextUtils.isEmpty(name.getText().toString())) ||(!TextUtils.isEmpty(Question.getText().toString()))||
                     (!TextUtils.isEmpty(fuelType.getText().toString())))
             {
 //                setting data in impacter
                 impacter.setName(name.getText().toString());
-
+                impacter.setQuestion(Question.getText().toString());
                 if(impacterType.equals(ImpactType.TRANSPORTATIOIN)){
                     ((Transportation)impacter).setFuelType(fuelType.getText().toString());
                 }
