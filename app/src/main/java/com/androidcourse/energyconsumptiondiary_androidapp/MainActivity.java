@@ -63,73 +63,59 @@ public class MainActivity extends AppCompatActivity {
         //create Co2 impacters
     private void createTransportation(int size){
         Bitmap img= BitmapFactory.decodeResource(getResources(),R.drawable.ic_baseline_directions_car_24_dark);
-        int i;
-        for(i=0;i<=size;i++){
-            dh.addTransportation(i+40,"car"+i,"car "+i+"?", Units.HOUR,100, img,null);
-        }
-
-        dh.addTransportation((i+40),"Plane","How many hours did you fly today?",Units.HOUR,700, BitmapFactory.decodeResource(context.getResources(),R.drawable.travelling),null);
+        int i=0;
+        dh.addTransportation((i),"Plane","How many hours did you fly today?",Units.HOUR,700, BitmapFactory.decodeResource(context.getResources(),R.drawable.travelling),"Diesel");
         i++;
-        dh.addTransportation(i+40,"Bus","How many hours did you travel today using the bus?",Units.HOUR,500,BitmapFactory.decodeResource(context.getResources(),R.drawable.bus),"Diesel");
+        dh.addTransportation(i,"Bus","How many hours did you travel today using the bus?",Units.HOUR,500,BitmapFactory.decodeResource(context.getResources(),R.drawable.bus),"Diesel");
         i++;
-        dh.addTransportation(i+40,"Bicycle","How many hours did you travel today using the bicycle?",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.bycicle),null);
+        dh.addTransportation(i,"Bicycle","How many hours did you travel today using the bicycle?",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.bycicle),"Diesel");
         i++;
-        dh.addTransportation(i+40,"Bicycle2","",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.car2),"Diesel2");
+        dh.addTransportation(i,"delivery truck","How many hours did you travel today using the delivery truck?",Units.HOUR,600,BitmapFactory.decodeResource(context.getResources(),R.drawable.delivery),"Diesel");
         i++;
-        dh.addTransportation(i+40,"Bicycle3","",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.travelling),"Diesel3");
-        i++;
-        dh.addTransportation(i+40,"Bicycle4","",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.bus),"Diesel4");
-
     }
 
     private void createFood(int size){
         Bitmap img= BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_baseline_fastfood_24);
-        int i;
-        for(i=0;i<=size;i++){
-            dh.addFood(i+10,"food"+i,"food "+i+"?",Units.UNIT,i,img);
-        }
+        int i=0;
+        dh.addFood(i,"Fish","How many grams did you eat?",Units.UNIT,700,BitmapFactory.decodeResource(context.getResources(),R.drawable.fish));
+        i++;
+        dh.addFood(i,"Eggs","How many grams did you eat?",Units.UNIT,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.eggs));
+        i++;
+        dh.addFood(i,"Chocolate","How many grams did you eat?",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.chocolate));
+        i++;
+        dh.addFood(i,"pizza","How many grams did you eat?",Units.UNIT,400,BitmapFactory.decodeResource(context.getResources(),R.drawable.pizza));
+        dh.addFood(i,"humburger","How many grams did you eat?",Units.UNIT,700,BitmapFactory.decodeResource(context.getResources(),R.drawable.hamburger));
+        i++;
+        dh.addFood(i,"salad","How many grams did you eat?",Units.UNIT,140,BitmapFactory.decodeResource(context.getResources(),R.drawable.salad));
+        i++;
+        dh.addFood(i,"hotdog","How many grams did you eat?",Units.UNIT,300,BitmapFactory.decodeResource(context.getResources(),R.drawable.hotdog));
+        i++;
+        dh.addFood(i,"fast food","How many grams did you eat?",Units.UNIT,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.fastfood));
+        i++;
+        dh.addFood(i,"cake","How many grams did you eat?",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.cake));
 
-        dh.addFood(i+10,"Fish","",Units.UNIT,700,BitmapFactory.decodeResource(context.getResources(),R.drawable.fish));
-        i++;
-        dh.addFood(i+10,"Eggs","",Units.UNIT,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.eggs));
-        i++;
-        dh.addFood(i+10,"Chocolate","",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.chocolate));
-        i++;
-        dh.addFood(i+10,"Water","",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.water));
     }
 
     private void createElectricals(int size){
         Bitmap img= BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_baseline_flash_on_24);
-        int i;
-        for( i=0;i<=size;i++){
-            dh.addElectrics(i+20,"elec"+i,"elec "+i+"?",Units.HOUR,i,img);
-        }
+        int i=0;
         i++;
-        dh.addElectrics(i+20,"Washing machine","?",Units.HOUR,700,BitmapFactory.decodeResource(context.getResources(),R.drawable.washingmachine));
+        dh.addElectrics(i,"Washing machine","How many hours you use it?",Units.HOUR,700,BitmapFactory.decodeResource(context.getResources(),R.drawable.washingmachine));
         i++;
-        dh.addElectrics(i+20,"Dish washer","?",Units.HOUR,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.dishwasher));
+        dh.addElectrics(i,"Dish washer","How many hours you use it?",Units.HOUR,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.dishwasher));
         i++;
-        dh.addElectrics(i+20,"Kettele","?",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.kett));
+        dh.addElectrics(i,"Kettele","How many hours you use it?",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.kett));
         i++;
-        dh.addElectrics(i+20,"Lamps","?",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.lamps));
+        dh.addElectrics(i,"Lamps","How many hours you use it?",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.lamps));
     }
 
     private void createService(int size){
         Bitmap img=BitmapFactory.decodeResource(context.getResources(),R.drawable.ic_baseline_wash_24);
-        int i;
-        for(i=0;i<=size;i++){
-            dh.addService(i+30,"service"+i,"service "+i+"?",Units.HOUR,i,img);
-        }
+        int i=0;
+        dh.addService(i,"water consumption ","How many liters have you used?",Units.Liter,700,BitmapFactory.decodeResource(context.getResources(),R.drawable.wat));
         i++;
-        dh.addService(i+30,"water consumption ","?",Units.HOUR,700,BitmapFactory.decodeResource(context.getResources(),R.drawable.wat));
+        dh.addService(i,"gas1","How many times you use it?",Units.TIMES,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.gas));
         i++;
-        dh.addService(i+30,"gas1","?",Units.HOUR,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.gas));
-        i++;
-        dh.addService(i+30,"gas2","?",Units.HOUR,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.gas));
-        i++;
-        dh.addService(i+30,"water consumption1 ","?",Units.HOUR,700,BitmapFactory.decodeResource(context.getResources(),R.drawable.wat));
-        i++;
-        dh.addService(i+30,"water consumption2 ","?",Units.HOUR,700,BitmapFactory.decodeResource(context.getResources(),R.drawable.wat));
     }
 
 //-----create tips

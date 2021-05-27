@@ -38,6 +38,7 @@ public abstract class  Co2Impacter implements Comparable<Co2Impacter>{
         return impacterID;
     }
 
+
     public String getName() {
         return name;
     }
