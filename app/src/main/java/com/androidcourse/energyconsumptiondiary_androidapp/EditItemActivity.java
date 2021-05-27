@@ -10,11 +10,15 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +29,16 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
+import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
-public class EditItemActivity extends AppCompatActivity {
+public class EditItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     public static final String TAG = "EditItemActivity";
     private static final String IMPACTERTYPE = "ImpacterType";
     public static final int REQUEST_IMAGE_GET = 3;
@@ -45,7 +53,7 @@ public class EditItemActivity extends AppCompatActivity {
     private EditText co2Amount = null;
     private Context context;
     private SharedPreferences prefs = null;
-//    private  TransportationListAdapter adapter;
+    public Spinner spinner;
     private Button editBtn;
     private int id;
     private ImpactType impacterType;
@@ -58,7 +66,7 @@ public class EditItemActivity extends AppCompatActivity {
         context=this;
         setContentView(R.layout.activity_edit_item);
         title=(TextView)findViewById(R.id.editingActivityTitle);
-
+        spinner = (Spinner) findViewById(R.id.spinner2);
         name=(EditText)findViewById(R.id.typeedit);
         Question=(EditText)findViewById(R.id.Question2);
         fuelType=(EditText)findViewById(R.id.fueledit);
@@ -73,6 +81,21 @@ public class EditItemActivity extends AppCompatActivity {
                 }
             }
         });
+        // Spinner click listener
+        spinner.setOnItemSelectedListener(this);
+
+        // Spinner Drop down elements
+        Units[] categories = Units.values();
+
+        // Creating adapter for spinner
+        ArrayAdapter<Units> dataAdapter = new ArrayAdapter<Units>(this, android.R.layout.simple_spinner_item, categories);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
+
         imageUpload.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -188,12 +211,28 @@ public class EditItemActivity extends AppCompatActivity {
         }
     }
 
+    // Function to find the index of an element
+    public  int findIndex(List<Units> arr, Units t)
+    {
+        int i=0;
+        for (Units a : arr) {
+            if (a.equals(t)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
     //set data info in view fields
     private void setData(Co2Impacter impacter,ImpactType type){
 
         name.setText(impacter.getName());
         Question.setText(impacter.getQuestion());
         co2Amount.setText(String.valueOf(impacter.getCo2Amount()));
+        List<Units> enumValues = Arrays.asList(Units.values());
+        Log.d("get(0)",enumValues.get(0).toString());
+        Log.d("find method",String.valueOf(findIndex(enumValues,impacter.getUnit())));
+        spinner.setSelection(findIndex(enumValues,impacter.getUnit()));
         imageUpload.setImageDrawable(new BitmapDrawable(context.getResources(), impacter.getImg()));
 
         if(impacter instanceof Transportation){
@@ -235,5 +274,21 @@ public class EditItemActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        Units item = (Units) parent.getItemAtPosition(position);
+        impacter.setUnit(item);
+        // Showing selected spinner item
+//        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+//        Units item = (Units) parent.getItemAtPosition(0);
+//        impacter.setUnit(item);
+//        Toast.makeText(parent.getContext(), "Please select units " , Toast.LENGTH_LONG).show();
     }
 }

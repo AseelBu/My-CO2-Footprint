@@ -38,6 +38,14 @@ public abstract class  Co2Impacter implements Comparable<Co2Impacter>{
         return impacterID;
     }
 
+    public Units getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Units unit) {
+        this.unit = unit;
+    }
+
     public String getName() {
         return name;
     }
