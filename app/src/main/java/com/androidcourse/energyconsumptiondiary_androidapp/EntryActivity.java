@@ -130,9 +130,9 @@ public class EntryActivity extends AppCompatActivity  {
 
     public void onFragmentNextClick(List<TypeEntry> fragmentData) {
         Log.d("EntryActivity","entered next clicked");
-        Toast.makeText(EntryActivity.this,
-                        ""+fragmentData.toString(),
-                        Toast.LENGTH_SHORT).show();
+//        Toast.makeText(EntryActivity.this,
+//                        ""+fragmentData.toString(),
+//                        Toast.LENGTH_SHORT).show();
         int nextIndex = currentIndex+1;
         currentIndex+=1;
         Log.d("EntryActivity","next index =" +nextIndex);
