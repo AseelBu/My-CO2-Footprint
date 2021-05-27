@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Locale;
 
 public class AddingItemActivity extends AppCompatActivity {
     public static final String TAG = "AddingItemActivity";
@@ -44,12 +46,12 @@ public class AddingItemActivity extends AppCompatActivity {
     public EditText fuelType = null;
     public EditText co2Amount= null;
     public EditText Question= null;
-
     private Context context;
     private final DataHolder dh = DataHolder.getInstance();
     private SharedPreferences prefs = null;
     private Button addBtn;
     private ImageButton uploadImgBtn;
+    TextToSpeech t1;
 
 
 
@@ -63,8 +65,14 @@ public class AddingItemActivity extends AppCompatActivity {
         fuelType=(EditText)findViewById(R.id.fuel3);
         co2Amount=(EditText)findViewById(R.id.amountt);
         Question=(EditText)findViewById(R.id.Question);
-
-
+        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.UK);
+                }
+            }
+        });
         Intent intent = getIntent();
         if(intent!=null) {
             impacterType= ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
@@ -153,32 +161,83 @@ public class AddingItemActivity extends AppCompatActivity {
     //add item to the data holder
     public void addBtnClicked()
     {
-        try {
-            //if the input is empty
-            if ((!TextUtils.isEmpty(name.getText().toString())) ||(!TextUtils.isEmpty(Question.getText().toString()))||
-                    (!TextUtils.isEmpty(fuelType.getText().toString())))
-            {
-//                setting data in impacter
-                impacter.setName(name.getText().toString());
-                impacter.setQuestion(Question.getText().toString());
-                if(impacterType.equals(ImpactType.TRANSPORTATIOIN)){
-                    ((Transportation)impacter).setFuelType(fuelType.getText().toString());
-                }
-                impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
+        if(impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
+            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
+                    (TextUtils.isEmpty(co2Amount.getText().toString())) || (TextUtils.isEmpty(fuelType.getText().toString()))) {
+//                Toast.makeText(context,
+//                        "add failed..There are empty input!",
+//                        Toast.LENGTH_SHORT).show();
+                String toSpeak = "add failed..There are empty input!";
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 
-                dh.addImpacter(impacterType,impacter);
-                Intent intent = new Intent();
-
-                //Transportation2 t=new Transportation2(name.getText().toString(),fuelType.getText().toString(),Integer.parseInt(CO2Amount.getText().toString()),uploadImgBtn.getDrawable());
-
-                setResult(RESULT_OK,intent);
-                Toast.makeText(context,
-                        "add successfully",
-                        Toast.LENGTH_SHORT).show();
-                finish();
             }
-        } catch (NumberFormatException exception) {
+            else {
+                try {
+                    //if the input is empty
+                    if ((!TextUtils.isEmpty(name.getText().toString())) || (!TextUtils.isEmpty(Question.getText().toString())) ||
+                            (!TextUtils.isEmpty(fuelType.getText().toString()))) {
+//                setting data in impacter
+                        impacter.setName(name.getText().toString());
+                        impacter.setQuestion(Question.getText().toString());
+                            ((Transportation) impacter).setFuelType(fuelType.getText().toString());
+                        impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
 
+                        dh.addImpacter(impacterType, impacter);
+                        Intent intent = new Intent();
+
+                        //Transportation2 t=new Transportation2(name.getText().toString(),fuelType.getText().toString(),Integer.parseInt(CO2Amount.getText().toString()),uploadImgBtn.getDrawable());
+
+                        setResult(RESULT_OK, intent);
+//                        Toast.makeText(context,
+//                                "add successfully",
+//                                Toast.LENGTH_SHORT).show();
+                        String toSpeak = "add successfully";
+                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                        finish();
+                    }
+                } catch (NumberFormatException exception) {
+
+                }
+            }
+        }
+        if((impacterType.equals(ImpactType.ELECTRICAL))||(impacterType.equals(ImpactType.SERVICES))||(impacterType.equals(ImpactType.FOOD)))
+        {
+            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
+                    (TextUtils.isEmpty(co2Amount.getText().toString())))
+            {
+//                Toast.makeText(context,
+//                        "add failed..There are empty input!",
+//                        Toast.LENGTH_SHORT).show();
+                String toSpeak = "add failed..There are empty input!";
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+
+
+            }
+            else {
+                try {
+                    //if the input is empty
+                    if ((!TextUtils.isEmpty(name.getText().toString())) || (!TextUtils.isEmpty(Question.getText().toString()))) {
+                        impacter.setName(name.getText().toString());
+                        impacter.setQuestion(Question.getText().toString());
+                        impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
+                        dh.addImpacter(impacterType, impacter);
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
+//                        Toast.makeText(context,
+//                                "add successfully",
+//                                Toast.LENGTH_SHORT).show();
+                        String toSpeak = "add successfully";
+                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                        finish();
+                    }
+                } catch (NumberFormatException exception) {
+
+                }
+            }
         }
     }
 

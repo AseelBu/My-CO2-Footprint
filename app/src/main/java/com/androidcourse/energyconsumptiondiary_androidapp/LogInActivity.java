@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Locale;
+
 public class LogInActivity extends AppCompatActivity {
     public static final String TAG = "LogInActivity";
     private DataHolder dh = DataHolder.getInstance();
@@ -23,6 +26,8 @@ public class LogInActivity extends AppCompatActivity {
     public EditText password = null;
     private Context context;
     private SharedPreferences prefs = null;
+    TextToSpeech t1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
@@ -36,6 +41,14 @@ public class LogInActivity extends AppCompatActivity {
         TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
         Button login = (Button) findViewById(R.id.edititem2);
         TextView signUp = (TextView) findViewById(R.id.loginLink);
+        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.UK);
+                }
+            }
+        });
         context=this;
         getSupportActionBar().hide();
     }
@@ -82,6 +95,9 @@ public class LogInActivity extends AppCompatActivity {
                     if(email.getText().toString().equals("Admin@gmail.com")) {
                         Intent intent = new Intent(context, HomePageActivity.class);
                         intent.putExtra("Admin",true);
+                        String toSpeak = "Welcome Admin";
+                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                         startActivity(intent);
                         finish();
                     }
@@ -89,6 +105,9 @@ public class LogInActivity extends AppCompatActivity {
                     {
                         Intent intent = new Intent(context, HomePageActivity.class);
                         intent.putExtra("Admin",false);
+                        String toSpeak = "Welcome";
+                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                         startActivity(intent);
                         finish();
                     }

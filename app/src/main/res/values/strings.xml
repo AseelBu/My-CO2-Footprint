@@ -107,12 +107,12 @@
     <string name="fuel">Fuel type</string>
     <string name="co2Amount">CO2 Amount</string>
     <string name="addItem">Add</string>
-    <string name="amountt">CO2 Amount</string>
+    <string name="amountt">CO2 Amount(Only Numbers)</string>
     <string name="editItem">Edit Transpotation</string>
     <string name="edititem2">Edit</string>
     <string name="typeedit">Motorbike</string>
     <string name="fueledit">Diesel</string>
-    <string name="amountedit">400</string>
+    <string name="amountedit">CO2Amount(Only Numbers)</string>
     <string name="editItema">Edit Electric</string>
     <string name="typeedita">Camera</string>
     <string name="amountedita">500</string>
