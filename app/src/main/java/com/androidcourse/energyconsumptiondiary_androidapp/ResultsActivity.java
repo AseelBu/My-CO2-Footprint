@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.ekn.gruzer.gaugelibrary.HalfGauge;
 import com.github.mikephil.charting.charts.PieChart;
 
@@ -56,6 +57,19 @@ public class ResultsActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        MyCo2FootprintManager.getInstance().openDataBase(this);
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        MyCo2FootprintManager.getInstance().closeDataBase();
+        super.onPause();
     }
 
 }

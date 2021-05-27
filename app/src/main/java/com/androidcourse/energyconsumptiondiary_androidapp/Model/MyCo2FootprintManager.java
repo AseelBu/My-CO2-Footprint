@@ -27,6 +27,25 @@ public class MyCo2FootprintManager {
 
     }
 
+    /**********************START-QUERIES***************************/
+
+
+    //------ type Entry
+
+    public void createTypeEntry(int entryId,TypeEntry typeEntry) {
+        if (db != null) {
+            db.createTypeEntry(entryId,typeEntry);
+        }
+    }
+    //------- Entry
+    public int createEntry(Entry entry) {
+        if (db != null) {
+            return db.createEntry(entry);
+        }
+        return -1;
+    }
+    /**********************END-QUERIES***************************/
+
     public void openDataBase(Context context) {
         this.context = context;
         if (context != null) {

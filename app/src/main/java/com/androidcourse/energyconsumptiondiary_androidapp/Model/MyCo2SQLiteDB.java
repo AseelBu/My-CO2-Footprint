@@ -1,5 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -48,10 +49,21 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     //TODO rest of the fields
     private static final String[] TABLE_TIP_COLUMNS ={};
 
+
+    //Entry Type Table
+    private static final String TABLE_TYPE_ENTRY_NAME = "entry_type";
+    private static final String TYPE_ENTRY_COLUMN_ID ="id";
+    private static final String TYPE_ENTRY_COLUMN_VALUE ="value";
+    private static final String TYPE_ENTRY_COLUMN_IMPACTER_TYPE ="impacter_type";
+    private static final String TYPE_ENTRY_COLUMN_ENTRYID ="entryId";
+    private static final String[] TABLE_TYPE_ENTRY_COLUMNS ={TYPE_ENTRY_COLUMN_ID, TYPE_ENTRY_COLUMN_VALUE, TYPE_ENTRY_COLUMN_IMPACTER_TYPE, TYPE_ENTRY_COLUMN_ENTRYID};
+
     //Entry Table
     private static final String TABLE_ENTRY_NAME = "entry";
-    //TODO rest of the fields
-    private static final String[] TABLE_ENTRY_COLUMNS ={};
+    private static final String ENTRY_COLUMN_ID ="id";
+    private static final String ENTRY_COLUMN_USERID ="userId";
+    private static final String ENTRY_COLUMN_DATE ="entry_date";
+    private static final String[] TABLE_ENTRY_COLUMNS ={ENTRY_COLUMN_ID,ENTRY_COLUMN_USERID,ENTRY_COLUMN_DATE};
 
 
     private SQLiteDatabase db = null;
@@ -91,8 +103,24 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         //create Tips table
         //TODO
 
+
+        //create Entry Type Table
+        String CREATE_ENTRY_TYPE_TABLE="create table if not exists "+TABLE_TYPE_ENTRY_NAME+"("
+                + TYPE_ENTRY_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TYPE_ENTRY_COLUMN_VALUE +" INTEGER,"
+                + TYPE_ENTRY_COLUMN_IMPACTER_TYPE +" TEXT,"
+                + TYPE_ENTRY_COLUMN_ENTRYID +" INTEGER"
+                +")";
+        db.execSQL(CREATE_ENTRY_TYPE_TABLE);
+
         //create Entries Table
-        //TODO
+        String CREATE_ENTRY_TABLE="create table if not exists "+TABLE_ENTRY_NAME+"("
+                +ENTRY_COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                +ENTRY_COLUMN_USERID+" INTEGER,"
+                +ENTRY_COLUMN_DATE+" TEXT"
+                +")";
+        db.execSQL(CREATE_ENTRY_TABLE);
+
 
 
     }catch (Throwable t){
@@ -113,6 +141,40 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
     //----------------------START OF-Methods queries and actions----------------------------
     /*********methods go in here***********/
+
+
+    //---Entry type queries
+    public void createTypeEntry(int entryId,TypeEntry typeEntry){
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put(TYPE_ENTRY_COLUMN_VALUE,typeEntry.getValue());
+            values.put(TYPE_ENTRY_COLUMN_IMPACTER_TYPE,typeEntry.getType().name());
+            values.put(TYPE_ENTRY_COLUMN_ENTRYID,entryId);
+
+            // insert item
+            db.insert(TABLE_TYPE_ENTRY_NAME, null, values);
+
+        }catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    //---Entry queries
+    public int createEntry(Entry entry){
+        long entryId=-1;
+        try {
+            ContentValues values = new ContentValues();
+            values.put(ENTRY_COLUMN_USERID,entry.getUserId());
+            values.put(ENTRY_COLUMN_DATE,entry.getDate().toString());
+            // insert item
+            entryId=db.insert(TABLE_ENTRY_NAME, null, values);
+
+        }catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return Long.valueOf(entryId).intValue();
+    }
 
     //----------------------END OF-Methods queries and actions----------------------------
 

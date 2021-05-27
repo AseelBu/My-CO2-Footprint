@@ -2,10 +2,15 @@ package com.androidcourse.energyconsumptiondiary_androidapp.Model;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
+import java.util.Objects;
+
 public class TypeEntry {
-    int id;
-    int value;
-    ImpactType type;
+    private int id;
+    private int value;
+    private ImpactType type;
+
+    public TypeEntry() {
+    }
 
     public TypeEntry(int id, int value, ImpactType type) {
         this.id = id;
@@ -13,8 +18,7 @@ public class TypeEntry {
         this.type = type;
     }
 
-    public TypeEntry() {
-    }
+
 
     public int getId() {
         return id;
@@ -38,5 +42,18 @@ public class TypeEntry {
 
     public void setType(ImpactType type) {
         this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TypeEntry)) return false;
+        TypeEntry typeEntry = (TypeEntry) o;
+        return getId() == typeEntry.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

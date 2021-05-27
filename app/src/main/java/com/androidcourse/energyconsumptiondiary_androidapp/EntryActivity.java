@@ -7,14 +7,18 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Entry;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
@@ -31,6 +35,7 @@ public class EntryActivity extends AppCompatActivity  {
     private static final int ELECTRIC = 2;
     private static final int SERVICE = 3;
 
+    private MyCo2FootprintManager dbManager=MyCo2FootprintManager.getInstance();
 
     private Button nextBtn = null;
     private Button backBtn = null;
@@ -50,6 +55,11 @@ public class EntryActivity extends AppCompatActivity  {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreateView()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
+
+        //get user Id
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int userId=sharedPref.getInt(getResources().getString(R.string.prefLoggedUser),-1);
+        entryData.setUserId(userId);
 
         nextBtn=(Button)findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -110,14 +120,19 @@ public class EntryActivity extends AppCompatActivity  {
                 entries=fr.getEntries();
                 break;
             case DATE:
-                //TODO get date
+               EntryDateFragment dateFr=dateFragment;
+              entryData.setDate(dateFr.getSelectedDate());
                 break;
 
         }
         return entries;
     }
+
     public void onFragmentNextClick(List<TypeEntry> fragmentData) {
         Log.d("EntryActivity","entered next clicked");
+        Toast.makeText(EntryActivity.this,
+                        ""+fragmentData.toString(),
+                        Toast.LENGTH_SHORT).show();
         int nextIndex = currentIndex+1;
         currentIndex+=1;
         Log.d("EntryActivity","next index =" +nextIndex);
@@ -161,8 +176,12 @@ public class EntryActivity extends AppCompatActivity  {
             default:
                 if(nextIndex==SERVICE+1){
                     currentIndex-=1;
-                    //resultspage
+                    //go to results activity
                     Intent intent = new Intent(context, ResultsActivity.class);
+                    // save the new entry
+                   saveEntryToDB();
+
+
 //                    calculateResult(entry);
                     intent.putExtra("date",this.entryData.getDate());
                     startActivity(intent);
@@ -171,6 +190,15 @@ public class EntryActivity extends AppCompatActivity  {
 
         }
 
+    }
+
+    private void saveEntryToDB() {
+        ArrayList<Integer> typeEntryIds=new ArrayList<Integer>();
+        ArrayList<TypeEntry> entriesList=entryData.getEntries();
+        int entryId=dbManager.createEntry(entryData);
+        for(TypeEntry entry : entriesList){
+            dbManager.createTypeEntry(entryId,entry);
+        }
     }
 
     public void onFragmentBackClick( List<TypeEntry> fragmentData) {
@@ -306,5 +334,18 @@ public class EntryActivity extends AppCompatActivity  {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        MyCo2FootprintManager.getInstance().openDataBase(this);
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        MyCo2FootprintManager.getInstance().closeDataBase();
+        super.onPause();
     }
 }

@@ -70,6 +70,14 @@ public abstract class  Co2Impacter implements Comparable<Co2Impacter>{
         this.img = img;
     }
 
+    public Units getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Units unit) {
+        this.unit = unit;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
