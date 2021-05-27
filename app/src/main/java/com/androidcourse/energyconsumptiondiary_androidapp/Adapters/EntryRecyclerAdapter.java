@@ -19,16 +19,22 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
+import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdapter.EntryCardViewHolder>{
 
     List<? extends Co2Impacter> impacters;
+    ImpactType impacterType;
+   HashSet<TypeEntry> entries=new HashSet<>();
     Context context;
 
-    public EntryRecyclerAdapter(Context context, List<? extends Co2Impacter> impacters) {
+    public EntryRecyclerAdapter(Context context, List<? extends Co2Impacter> impacters, ImpactType impacterType) {
         this.impacters = impacters;
+        this.impacterType=impacterType;
         this.context=context;
     }
 
@@ -54,16 +60,19 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
         Co2Impacter impacterItem = impacters.get(holder.getAdapterPosition());
         holder.setData(impacterItem);
 
+
     }
 
 
     public class EntryCardViewHolder extends RecyclerView.ViewHolder{
         private Co2Impacter impacterItem=null;
+
         private TypeEntry cardData=new TypeEntry();
         private int amount =-1;
         private NumberPicker numPicker ;
         private TextView cardId;
         private TextView question;
+        private TextView txtUnit;
         private ImageView cardImg;
 
         public EntryCardViewHolder( View v) {
@@ -77,18 +86,26 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
                 @Override
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                     cardData.setValue(newVal);
+                    cardData.setType(impacterType);
+                    if(!entries.add(cardData)){
+                        updateEntry(cardData);
+                    }
                     Log.i("EntryAdapter","value choosed= "+cardData.getValue());
                 }
             });
             cardId=(TextView) v.findViewById(R.id.cardId);
             question=(TextView) v.findViewById(R.id.questionTxt);
+            txtUnit=(TextView)v.findViewById(R.id.txtUnit);
             cardImg=(ImageView)v.findViewById(R.id.entryImg);
+
         }
 
 
         public void setData(Co2Impacter impacterItem) {
             Log.i("EntryAdapter","entering setData");
+            cardData.setId(impacterItem.getImpacterID());
             question.setText(impacterItem.getQuestion());
+            txtUnit.setText(impacterItem.getUnit().name().toLowerCase());
             cardId.setText(String.valueOf(impacterItem.getImpacterID()));
             cardImg.setImageDrawable(new BitmapDrawable(context.getResources(), impacterItem.getImg()));
             //check item type
@@ -107,5 +124,13 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
             }
         }
     }
+    private void updateEntry(TypeEntry newCard){
+        entries.remove(newCard);
+        entries.add(newCard);
 
+    }
+
+    public HashSet<TypeEntry> getEntries() {
+        return entries;
+    }
 }

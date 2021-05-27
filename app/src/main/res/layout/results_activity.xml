@@ -60,6 +60,19 @@
                         android:layout_weight="1" />
                 </androidx.cardview.widget.CardView>
 
+                <Button
+                    android:id="@+id/tipsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/round_btn_dark_green"
+                    android:gravity="center"
+                    android:onClick="tipsBtnClicked"
+                    android:padding="5dp"
+                    android:text="@string/tipsBtn"
+                    android:textColor="@color/white" />
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -78,15 +91,6 @@
                         android:layout_weight="1" />
                 </androidx.cardview.widget.CardView>
 
-                <Button
-                    android:id="@+id/tipsBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="8dp"
-                    android:gravity="center"
-                    android:onClick="tipsBtnClicked"
-                    android:text="@string/tipsBtn" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

@@ -22,6 +22,8 @@ import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class EntryDataFragment extends Fragment {
@@ -35,6 +37,8 @@ public class EntryDataFragment extends Fragment {
    private Co2Impacter data;
     private ArrayList <TypeEntry> entries=new ArrayList<>();
 
+    EntryRecyclerAdapter eAdapter=null;
+
 
    private TextView title;
 
@@ -47,6 +51,7 @@ public class EntryDataFragment extends Fragment {
     }
 
     public ArrayList<TypeEntry> getEntries() {
+        entries=new ArrayList<>(eAdapter.getEntries());
         return entries;
     }
 
@@ -96,31 +101,31 @@ public class EntryDataFragment extends Fragment {
         if (getArguments() != null) {
 
             type = ImpactType.valueOf(getArguments().getString(ENTRY_TYPE));
-            EntryRecyclerAdapter ea=null;
+
 
             //add data to recycler depending on Entry Type
             switch (type) {
                 case TRANSPORTATIOIN:
-                    ea = new EntryRecyclerAdapter(this.getContext(),dh.getTransportation());
+                    eAdapter = new EntryRecyclerAdapter(this.getContext(),dh.getTransportation(),type);
                     title.setText(getString(R.string.transportationTitle));
                     break;
                 case FOOD:
-                    ea = new EntryRecyclerAdapter(this.getContext(),dh.getFood());
+                    eAdapter = new EntryRecyclerAdapter(this.getContext(),dh.getFood(),type);
                     title.setText(getString(R.string.foodTitle));
 
                     break;
                 case ELECTRICAL:
-                    ea = new EntryRecyclerAdapter(this.getContext(),dh.getElectrics());
+                    eAdapter = new EntryRecyclerAdapter(this.getContext(),dh.getElectrics(),type);
                     title.setText(getString(R.string.electricsTitle));
 
                     break;
                 case SERVICES:
-                    ea = new EntryRecyclerAdapter(this.getContext(),dh.getServices());
+                    eAdapter = new EntryRecyclerAdapter(this.getContext(),dh.getServices(),type);
                     title.setText(getString(R.string.servicesTitle));
 
                     break;
             }
-            recList.setAdapter(ea);
+            recList.setAdapter(eAdapter);
         }
 //        nextBtn = (Button) v.findViewById(R.id.nextBtn);
 //
@@ -130,9 +135,11 @@ public class EntryDataFragment extends Fragment {
 
 
     public void nextClicked(){
-       ArrayList <TypeEntry> data=new ArrayList<>();
+       ArrayList <TypeEntry> data=new ArrayList<>(eAdapter.getEntries());
        data.add(new TypeEntry(1,1,type));
 
         mListener.onFragmentNextClick(EntryDataFragment.this,data);
     }
+
+
 }

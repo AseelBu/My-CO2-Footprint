@@ -10,24 +10,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class EntryDateFragment extends Fragment {
 
 
     private DatePicker datePicker;
-    private Calendar date=Calendar.getInstance();
+    private Date selectedDate =Calendar.getInstance().getTime();
 
 
-
+    public Date getSelectedDate() {
+        return selectedDate;
+    }
 
     public EntryDateFragment() {
         // Required empty public constructor
     }
-
 
     public static EntryDateFragment newInstance() {
         EntryDateFragment fragment = new EntryDateFragment();
@@ -48,18 +49,27 @@ public class EntryDateFragment extends Fragment {
 //        }
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_entry_date, container, false);
         datePicker=(DatePicker)v.findViewById(R.id.entryDateCal);
-//        datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
-//            @Override
-//            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-//               date=new Date(year,monthOfYear,dayOfMonth);
-//            }
-//        });
+        datePicker.init(Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH),new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+               selectedDate =new GregorianCalendar(year,monthOfYear,dayOfMonth).getTime();
+//                Toast.makeText(getContext(),
+//                        "changed selectedDate "+selectedDate,
+//                        Toast.LENGTH_SHORT).show();
+            }
+        });
         return v;
     }
+
+
 }
