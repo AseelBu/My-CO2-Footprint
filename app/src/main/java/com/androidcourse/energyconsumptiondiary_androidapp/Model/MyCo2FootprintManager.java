@@ -29,6 +29,13 @@ public class MyCo2FootprintManager {
 
     /**********************START-QUERIES***************************/
 
+    //---co2 impacter
+//    public Co2Impacter getImpacterById(int impacterId) {
+//        if (db != null) {
+//            return db.getImpacterById(impacterId);
+//        }
+//        return null;
+//    }
 
     //------ type Entry
 
@@ -44,6 +51,15 @@ public class MyCo2FootprintManager {
         }
         return -1;
     }
+
+    //-------Result
+    public void createResult(Result result) {
+        if (db != null) {
+            db.createResult(result);
+        }
+    }
+
+
     /**********************END-QUERIES***************************/
 
     public void openDataBase(Context context) {
@@ -58,5 +74,6 @@ public class MyCo2FootprintManager {
             db.close();
         }
     }
+
 
 }
