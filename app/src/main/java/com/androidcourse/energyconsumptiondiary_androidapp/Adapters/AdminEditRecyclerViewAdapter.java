@@ -1,5 +1,7 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,12 +21,14 @@ import com.androidcourse.energyconsumptiondiary_androidapp.AdminEditListActivity
 import com.androidcourse.energyconsumptiondiary_androidapp.EditItemActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEditRecyclerViewAdapter.ViewHolder>{
 
@@ -60,7 +64,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                delete(holder.getAdapterPosition());
+                delete(holder.getAdapterPosition(),holder);
             }
         });
         holder.editBtn.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +130,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
     }
 
     //deletes impacter from data holder and from view
-    public void delete(int position) {
+    public void delete(int position, ViewHolder holder) {
         new AlertDialog.Builder(context)
                 .setIcon(android.R.drawable.ic_delete)
                 .setTitle("Are you sure ?")
@@ -134,9 +138,26 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        dh.removeImpacter(impacterType,data.get(position));
-                        updateImpactersData();
-                        notifyDataSetChanged();
+
+
+
+                        try {
+                            List<? extends Co2Impacter> impacters = null;
+                            Co2Impacter impacterItem = impacters.get(holder.getAdapterPosition());
+                            if (impacterItem instanceof Transportation) {
+                                Co2Impacter item = MyCo2FootprintManager.getInstance().getSelectedTransporatation();
+                                if (item != null) {
+                                    MyCo2FootprintManager.getInstance().deleteTransportation((Transportation) item);
+                                }
+                                dh.removeImpacter(impacterType, data.get(position));
+                                updateImpactersData();
+                                notifyDataSetChanged();
+
+
+                            }
+                        }catch (Throwable e) {
+                            e.printStackTrace();
+                        }
                     }
                 })
                 .setNegativeButton("No", null)
