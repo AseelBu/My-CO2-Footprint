@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Tip;
@@ -26,11 +28,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         context=this;
         setContentView(R.layout.login);
-        addDataToDataHolder();
+            MyCo2FootprintManager.getInstance().openDataBase(this);
+
+            addDataToDataHolder();
 
         Intent intent = new Intent(context, LogInActivity.class);
         startActivity(intent);
         MainActivity.this.finish();
+            hideKeyboard();
+
 
         }
 
@@ -138,6 +144,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
+    }
+    private void hideKeyboard() {
+        try {
+            View view = this.getCurrentFocus();
+            if (view != null) {
+                final InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 
 }

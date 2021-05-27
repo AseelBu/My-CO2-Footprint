@@ -12,7 +12,12 @@ public abstract class  Co2Impacter implements Comparable<Co2Impacter>{
     private String question;
     private Units unit=Units.UNIT;// type of unit that matches the question
     private int co2Amount=0;
+    private String Fuel;
     private Bitmap img=null;
+
+    public void setImpacterID(int impacterID) {
+        this.impacterID = impacterID;
+    }
 
     public Co2Impacter() {
     }
@@ -25,6 +30,16 @@ public abstract class  Co2Impacter implements Comparable<Co2Impacter>{
         this.co2Amount = co2Amount;
         this.img = img;
     }
+    public Co2Impacter(int impacterID, String name, String question,Units unit, int co2Amount, Bitmap img,String fuel) {
+        this.impacterID = impacterID;
+        this.name = name;
+        this.question = question;
+        this.unit=unit;
+        this.co2Amount = co2Amount;
+        this.img = img;
+        this.Fuel=fuel;
+    }
+
 
     public Co2Impacter(String name, String question,Units unit, int co2Amount, Bitmap img) {
         this.name = name;
@@ -45,7 +60,6 @@ public abstract class  Co2Impacter implements Comparable<Co2Impacter>{
     public void setUnit(Units unit) {
         this.unit = unit;
     }
-
     public String getName() {
         return name;
     }
@@ -60,6 +74,14 @@ public abstract class  Co2Impacter implements Comparable<Co2Impacter>{
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public String getFuel() {
+        return Fuel;
+    }
+
+    public void setFuel(String fuel) {
+        Fuel = fuel;
     }
 
     public int getCo2Amount() {
