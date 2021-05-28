@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
 import com.ekn.gruzer.gaugelibrary.HalfGauge;
 import com.github.mikephil.charting.charts.PieChart;
 
@@ -18,9 +19,13 @@ public class ResultsActivity extends AppCompatActivity {
 
     private static final String TAG = "ResultsActivity";
 
+    MyCo2FootprintManager dbManager= MyCo2FootprintManager.getInstance();
+
+    private Result result= null;
     private PieChart resultPie = null;
     private HalfGauge resultGauge = null;
     private Button tipsBtn = null;
+
 
     private Context context = null;
 
@@ -32,9 +37,11 @@ public class ResultsActivity extends AppCompatActivity {
         resultGauge=(HalfGauge) findViewById(R.id.halfGauge);
         tipsBtn=(Button)findViewById(R.id.tipsBtn);
         Intent intent = getIntent();
-//        if(intent!=null){
-//
-//        }
+        if(intent!=null){
+            int resultId =intent.getIntExtra("resultId",-1);
+            result=dbManager.getResultById(resultId);
+
+        }
         ActionBar ab = getSupportActionBar();
         ab.setTitle(R.string.yourResults);
         ab.setDisplayHomeAsUpEnabled(true);

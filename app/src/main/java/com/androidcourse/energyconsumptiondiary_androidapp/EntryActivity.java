@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Entry;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
@@ -138,6 +139,7 @@ public class EntryActivity extends AppCompatActivity  {
         Log.d("EntryActivity","next index =" +nextIndex);
         if(fragmentData.size()>0) {
             this.entryData.addEntryList(fragmentData);
+            nextBtn.setEnabled(true);
         }
         FragmentManager fm = getSupportFragmentManager();
 
@@ -168,6 +170,11 @@ public class EntryActivity extends AppCompatActivity  {
                 break;
             case SERVICE:
                 nextBtn.setText(getResources().getString(R.string.showMyResults));
+                if(entryData.getEntries().size()==0){
+                    nextBtn.setEnabled(false);
+                    nextBtn.setBackground(getDrawable(R.drawable.round_btn_dark_gray));
+                    nextBtn.setText(getResources().getString(R.string.entryForResults));
+                }
                 fm.beginTransaction()
                         .replace(R.id.root_layout, serviceFragment)
                         .commit();
@@ -180,9 +187,13 @@ public class EntryActivity extends AppCompatActivity  {
                     Intent intent = new Intent(context, ResultsActivity.class);
                     // save the new entry
                    saveEntryToDB();
-
-
-//                    calculateResult(entry);
+                    Result result=new Result(entryData.getUserId(),entryData.getDate());
+                    //TODO uncomment result calculations
+//                    result.calculateAndSetResult(entryData.getEntries());
+//                    int resultId= dbManager.createResult(result);
+//
+//
+//                    intent.putExtra("resultId",resultId);
                     intent.putExtra("date",this.entryData.getDate());
                     startActivity(intent);
                 }
@@ -227,6 +238,8 @@ public class EntryActivity extends AppCompatActivity  {
                 break;
             case ELECTRIC:
                 nextBtn.setText(getResources().getString(R.string.next));
+                nextBtn.setEnabled(true);
+                nextBtn.setBackground(getDrawable(R.drawable.round_btn_dark_green));
                 fm.beginTransaction()
                         .replace(R.id.root_layout, electricFragment)
 

@@ -8,10 +8,10 @@ public class MyPieData {
     private String label= null;
     private Drawable icon =null;
 
-    public MyPieData(float value, String label) {
+    public MyPieData(float value, String label,Drawable icon) {
         this.value = value;
         this.label = label;
-//        this.icon = icon;
+        this.icon = icon;
     }
 
     public float getValue() {

@@ -23,7 +23,8 @@ public class Result {
     public Result() {
     }
 
-    public Result(Date date) {
+    public Result(int userId,Date date) {
+        this.userId=userId;
         this.date = date;
     }
 
@@ -97,28 +98,28 @@ public class Result {
         return Objects.hash(getId());
     }
 
-//    public void calculateAndSetResult(ArrayList<TypeEntry> data){
-//        for(TypeEntry entry:data){
-//           int entryValue=entry.getValue();
-//           int impacterId = entry.getId();
-////           Co2Impacter impacter=dbManager.getImpacterById(impacterId);
-//           int impacterCo2=impacter.getCo2Amount();
-//
-//           int resultForEntry=impacterCo2*entryValue;
-//           if(impacter instanceof Transportation){
-//               transportationResult+=resultForEntry;
-//           }
-//           else if (impacter instanceof Food){
-//               foodResult+=resultForEntry;
-//           }
-//           else if (impacter instanceof ElectricalHouseSupplies){
-//                electricsResult+=resultForEntry;
-//           }
-//           else if (impacter instanceof Service){
-//                servicesResult+=resultForEntry;
-//           }
-//
-//        }
-//
-//    }
+    public void calculateAndSetResult(ArrayList<TypeEntry> data){
+        for(TypeEntry entry:data){
+           int entryValue=entry.getValue();
+           int impacterId = entry.getId();
+           Co2Impacter impacter=dbManager.getImpacterById(impacterId);
+           int impacterCo2=impacter.getCo2Amount();
+
+           int resultForEntry=impacterCo2*entryValue;
+           if(impacter instanceof Transportation){
+               transportationResult+=resultForEntry;
+           }
+           else if (impacter instanceof Food){
+               foodResult+=resultForEntry;
+           }
+           else if (impacter instanceof ElectricalHouseSupplies){
+                electricsResult+=resultForEntry;
+           }
+           else if (impacter instanceof Service){
+                servicesResult+=resultForEntry;
+           }
+
+        }
+
+    }
 }
