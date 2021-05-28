@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.Switch;
+
+import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -117,10 +120,16 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
         //create Service table
         //TODO
-
+        String CREATE_SERVICE_TABLE="create table if not exists "+TABLE_SERVICE_NAME+"("
+                +SERVICE_COLUMN_IMPACTERID+" INTEGER"
+                +")";
+        db.execSQL(CREATE_SERVICE_TABLE);
         //create ElectricalHouseSupplies table
         //TODO
-
+        String CREATE_Electric_TABLE="create table if not exists "+TABLE_ELECTRICS_NAME+"("
+                +ELECTRICS_COLUMN_IMPACTERID+" INTEGER"
+                +")";
+        db.execSQL(CREATE_Electric_TABLE);
         //create Tips table
         //TODO
 
@@ -252,22 +261,293 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 //
 //    }
 
-    //---transportation queries
-    public void createTransportation(Transportation t) {
+
+    //-----------------------------------transportation queries
+    public void createTransportation(int entryId,Transportation t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
-            values.put(TRANSPORTATION_COLUMN_IMPACTERID,t.getImpacterID());
             values.put(TRANSPORTATION_COLUMN_FUEL, t.getFuelType());
+            values.put(TRANSPORTATION_COLUMN_IMPACTERID, entryId);
+
+            // insert item
+            db.insert(TABLE_TRANSPORTATION_NAME, null, values);
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
 
 
+
+    public ArrayList<Co2Impacter> getImpactersByType(ImpactType impacterType)
+    {
+        ArrayList<Co2Impacter> list=new ArrayList<>();
+        switch(impacterType) {
+        case TRANSPORTATIOIN:
+            list=getAllTransportations();
+            break;
+        case ELECTRICAL:
+            list=getAllElectric();
+            break;
+        case FOOD:
+            list=getAllFood();
+            break;
+        case SERVICES:
+            list=getAllService();
+            break;
+    }
+                return list;
+    }
+
+    public Transportation readTransportation(int id) {
+        Transportation item = null;
+        Cursor cursor = null;
+        try {
+            // get  query
+            cursor = db
+                    .query(TABLE_TRANSPORTATION_NAME,
+                            TABLE_CO2IMPACTER_COLUMNS, TRANSPORTATION_COLUMN_IMPACTERID + " = ?",
+                            new String[]{String.valueOf(id)}, null, null,
+                            null, null);
+            // if results !=null, parse the first one
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                item = new Transportation();
+                item.setFuelType(cursor.getString(0));
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return item;
+    }
+
+    public ArrayList<Co2Impacter> getAllTransportations() {
+        ArrayList<Co2Impacter> result = new ArrayList<Co2Impacter>();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE_TRANSPORTATION_NAME, TABLE_TRANSPORTATION_COLUMNS, null, null,
+                    null, null, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                int id=cursor.getInt(0);
+                Co2Impacter item=(Transportation)getImpactersById(id);
+                item.setFuel(cursor.getString(1));
+                result.add(item);
+                cursor.moveToNext();
+            }
+
+        } catch (Throwable t) {
+            t.printStackTrace();
+        } finally {
+            // make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return result;
+    }
+    public ArrayList<Co2Impacter> getAllFood() {
+        ArrayList<Co2Impacter> result = new ArrayList<Co2Impacter>();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE_FOOD_NAME, TABLE_FOOD_COLUMNS, null, null,
+                    null, null, null);
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                int id=cursor.getInt(0);
+                result.add(getImpactersById(id));
+                cursor.moveToNext();
+            }
+
+        } catch (Throwable t) {
+            t.printStackTrace();
+        } finally {
+            // make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Co2Impacter> getAllElectric() {
+        ArrayList<Co2Impacter> result = new ArrayList<Co2Impacter>();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE_ELECTRICS_NAME, TABLE_ELECTRICS_COLUMNS, null, null,
+                    null, null, null);
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                int id=cursor.getInt(0);
+                result.add(getImpactersById(id));
+                cursor.moveToNext();
+            }
+
+        } catch (Throwable t) {
+            t.printStackTrace();
+        } finally {
+            // make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Co2Impacter> getAllService() {
+        ArrayList<Co2Impacter> result = new ArrayList<Co2Impacter>();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE_SERVICE_NAME, TABLE_SERVICE_COLUMNS, null, null,
+                    null, null, null);
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                int id=cursor.getInt(0);
+                result.add(getImpactersById(id));
+                cursor.moveToNext();
+            }
+
+        } catch (Throwable t) {
+            t.printStackTrace();
+        } finally {
+            // make sure to close the cursor
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return result;
+    }
+
+   public void removeImpacter(ImpactType impacterType, int id)
+   {
+       try {
+           switch (impacterType)
+           {
+               case TRANSPORTATIOIN: deleteTransportation(id);
+                   break;
+               case FOOD:deleteFood(id);
+                   break;
+               case SERVICES:deleteService(id);
+                   break;
+               case ELECTRICAL:deleteElectric(id);
+                   break;
+           }
+           deleteCO2Impacter(id);
+       } catch (Throwable t) {
+           t.printStackTrace();
+       }
+   }
+
+    private Food cursorToFood(Cursor cursor) {
+        cursorToCO2Impacter(cursor);
+        Food result = new Food();
+        try {
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return result;
+    }
+    private ElectricalHouseSupplies cursorToElectric(Cursor cursor) {
+        cursorToCO2Impacter(cursor);
+        ElectricalHouseSupplies result = new ElectricalHouseSupplies();
+        try {
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return result;
+    }
+    private Service cursorToService(Cursor cursor) {
+        cursorToCO2Impacter(cursor);
+        Service result = new Service();
+        try {
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return result;
+    }
+
+    private Transportation cursorToTransportation(Cursor cursor) {
+        cursorToCO2Impacter(cursor);
+        Transportation result = new Transportation();
+        try {
+            result .setFuelType(cursor.getString(0));
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return result;
+    }
+
+    public int updateTransportation(Transportation item) {
+        updateCO2Impacter(item);
+        int cnt = -1;
+        try {
+            // make values to be inserted
+            ContentValues values= new ContentValues();
+            values.put(TRANSPORTATION_COLUMN_FUEL, item.getFuelType());
+            // update
+            cnt = db.update(TABLE_TRANSPORTATION_NAME, values, CO2IMPACTER_COLUMN_CO2AMOUNT + " = ?",
+                    new String[] { String.valueOf(item.getImpacterID()) });
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return cnt;
+    }
+    public void deleteTransportation(int id) {
+        try {
+            // delete item
+            db.delete(TABLE_TRANSPORTATION_NAME, TRANSPORTATION_COLUMN_IMPACTERID+ " = ?",
+                    new String[] { String.valueOf(id) });
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    public void deleteService(int id) {
+        try {
+            // delete item
+            db.delete(TABLE_SERVICE_NAME, SERVICE_COLUMN_IMPACTERID+ " = ?",
+                    new String[] { String.valueOf(id) });
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+    public void deleteFood(int id) {
+        try {
+            // delete item
+            db.delete(TABLE_FOOD_NAME, FOOD_COLUMN_IMPACTERID+ " = ?",
+                    new String[] { String.valueOf(id) });
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+    public void deleteElectric(int id) {
+        try {
+            // delete item
+            db.delete(TABLE_ELECTRICS_NAME, ELECTRICS_COLUMN_IMPACTERID+ " = ?",
+                    new String[] { String.valueOf(id) });
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    //-----------------------------------CO2Impacter queries
+    public int createCO2Impacter(Co2Impacter t) {
+        long entryId=-1;
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
             values.put(CO2IMPACTER_COLUMN_NAME, t.getName());
             values.put(CO2IMPACTER_COLUMN_CO2AMOUNT, t.getCo2Amount());
-
             values.put(CO2IMPACTER_COLUMN_QUESTION, t.getQuestion());
             values.put(CO2IMPACTER_COLUMN_UNIT, t.getUnit().toString());
-
-
             //images
             Bitmap image1 = t.getImg();
             if (image1 != null) {
@@ -276,26 +556,23 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                     values.put(CO2IMPACTER_COLUMN_IMG, data);
                 }
             }
-
             // insert item
-            db.insert(TABLE_TRANSPORTATION_NAME, null, values);
-
+            entryId=db.insert(TABLE_CO2IMPACTER_NAME, null, values);
         } catch (Throwable e) {
             e.printStackTrace();
         }
-
-
+        return Long.valueOf(entryId).intValue();
     }
 
-    public Transportation readTransportation(int id) {
-        Transportation item = null;
+    public Co2Impacter  readCO2Impacter(int id) {
+        Co2Impacter  item = null;
         Cursor cursor = null;
         try {
 
             // get  query
             cursor = db
-                    .query(TABLE_TRANSPORTATION_NAME,
-                            TABLE_CO2IMPACTER_COLUMNS, TRANSPORTATION_COLUMN_IMPACTERID + " = ?",
+                    .query(TABLE_CO2IMPACTER_NAME,
+                            TABLE_CO2IMPACTER_COLUMNS, CO2IMPACTER_COLUMN_ID + " = ?",
                             new String[]{String.valueOf(id)}, null, null,
                             null, null);
 
@@ -304,14 +581,12 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
                 cursor.moveToFirst();
 
-                item = new Transportation();
+                item = new Co2Impacter ();
                 item.setImpacterID(cursor.getInt(0));
                 item.setName(cursor.getString(1));
                 item.setCo2Amount(cursor.getInt(2));
                 item.setQuestion(cursor.getString(3));
                 item.setUnit(Units.valueOf(cursor.getString(4)));
-                item.setFuelType(cursor.getString(5));
-
                 //images
                 byte[] img1Byte = cursor.getBlob(6);
                 if (img1Byte != null && img1Byte.length > 0) {
@@ -332,16 +607,16 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return item;
     }
 
-    public List<Transportation> getAllTransportations() {
-        List<Transportation> result = new ArrayList<Transportation>();
+    public List<Co2Impacter > getAllCO2Impacter() {
+        List<Co2Impacter > result = new ArrayList<Co2Impacter >();
         Cursor cursor = null;
         try {
-            cursor = db.query(TABLE_TRANSPORTATION_NAME, TABLE_TRANSPORTATION_COLUMNS, null, null,
+            cursor = db.query(TABLE_CO2IMPACTER_NAME, TABLE_CO2IMPACTER_COLUMNS, null, null,
                     null, null, null);
 
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                Transportation item = cursorToTransportation(cursor);
+                Co2Impacter  item = cursorToCO2Impacter(cursor);
                 result.add(item);
                 cursor.moveToNext();
             }
@@ -357,16 +632,14 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return result;
     }
 
-    private Transportation cursorToTransportation(Cursor cursor) {
-        Transportation result = new Transportation();
+    private Co2Impacter  cursorToCO2Impacter(Cursor cursor) {
+        Co2Impacter result = new Co2Impacter ();
         try {
             result .setImpacterID(cursor.getInt(0));
             result .setName(cursor.getString(1));
             result .setCo2Amount(cursor.getInt(2));
             result .setQuestion(cursor.getString(4));
             result .setUnit(Units.valueOf(cursor.getString(5)));
-            result .setFuelType(cursor.getString(6));
-
             //images
             byte[] img1Byte = cursor.getBlob(3);
             if (img1Byte != null && img1Byte.length > 0) {
@@ -382,16 +655,13 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return result;
     }
 
-    public int updateTransportation(Transportation item) {
+    public int updateCO2Impacter(Co2Impacter  item) {
         int cnt = 0;
         try {
-
             // make values to be inserted
             ContentValues values= new ContentValues();
-//            values.put(CO2IMPACTER_COLUMN_ID, item.getImpacterID());
             values.put(CO2IMPACTER_COLUMN_NAME, item.getName());
             values.put(CO2IMPACTER_COLUMN_CO2AMOUNT, item.getCo2Amount());
-            values.put(TRANSPORTATION_COLUMN_FUEL, item.getFuelType());
             values.put(CO2IMPACTER_COLUMN_QUESTION, item.getQuestion());
             values.put(CO2IMPACTER_COLUMN_UNIT, item.getUnit().toString());
 
@@ -408,7 +678,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             }
 
             // update
-            cnt = db.update(TABLE_TRANSPORTATION_NAME, values, CO2IMPACTER_COLUMN_CO2AMOUNT + " = ?",
+            cnt = db.update(TABLE_CO2IMPACTER_NAME, values, CO2IMPACTER_COLUMN_CO2AMOUNT + " = ?",
                     new String[] { String.valueOf(item.getImpacterID()) });
         } catch (Throwable t) {
             t.printStackTrace();
@@ -416,20 +686,20 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
         return cnt;
     }
-    public void deleteTransportation(Transportation item) {
-
+    public int deleteCO2Impacter(int id) {
+        int cnt = 0;
         try {
 
             // delete item
-            db.delete(TABLE_TRANSPORTATION_NAME, TRANSPORTATION_COLUMN_IMPACTERID+ " = ?",
-                    new String[] { String.valueOf(item.getImpacterID()) });
+            cnt = db.delete(TABLE_CO2IMPACTER_NAME, CO2IMPACTER_COLUMN_ID+ " = ?",
+                    new String[] { String.valueOf(id) });
         } catch (Throwable t) {
             t.printStackTrace();
         }
-
+        return cnt;
     }
 
-    //---Entry type queries
+    //--------------------------------------------------Entry type queries
     public void createTypeEntry(int entryId,TypeEntry typeEntry){
 
         try {

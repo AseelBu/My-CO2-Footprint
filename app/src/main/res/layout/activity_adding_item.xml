@@ -75,7 +75,8 @@
                     android:inputType="textEmailAddress"
                     android:padding="5dp"
                     android:selectAllOnFocus="true"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="aa" />
 
                 <EditText
                     android:id="@+id/fuel3"
@@ -90,7 +91,8 @@
                     android:inputType="textEmailAddress"
                     android:padding="5dp"
                     android:selectAllOnFocus="true"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="aa" />
 
 
                 <EditText
@@ -102,7 +104,8 @@
                     android:ems="10"
                     android:gravity="center|center_horizontal"
                     android:hint="@string/amountt"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:text="2" />
 
                 <EditText
                     android:id="@+id/Question"
@@ -117,7 +120,8 @@
                     android:inputType="textEmailAddress"
                     android:padding="5dp"
                     android:selectAllOnFocus="true"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="aa?" />
 
                 <Spinner
                     android:id="@+id/spinner"

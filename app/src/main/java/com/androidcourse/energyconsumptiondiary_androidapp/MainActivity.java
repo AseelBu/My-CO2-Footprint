@@ -21,6 +21,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 //    private String lorem="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ultrices tincidunt nisl eget semper. Nulla dictum feugiat tortor ac venenatis. Mauris id leo nisl. Donec vitae risus mauris. Suspendisse bibendum, nibh ac bibendum commodo, justo nisl eleifend tortor, sed rhoncus orci est nec risus. Maecenas scelerisque venenatis tellus vel porta. Vestibulum sed eros sodales, tincidunt neque in, consectetur dolor. Aenean eu nisi et massa suscipit lacinia. Integer hendrerit sapien viverra ante vulputate, non posuere augue condimentum. Sed mauris sapien, sollicitudin nec ullamcorper a, blandit ut sapien. ";
     private DataHolder dh = DataHolder.getInstance();
+    private MyCo2FootprintManager mg=MyCo2FootprintManager.getInstance();
 
     private Context context;
         @Override
@@ -68,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
         //create Co2 impacters
     private void createTransportation(int size){
+
+//        int id=MyCo2FootprintManager.getInstance().createCO2Impacter(item);
+//        MyCo2FootprintManager.getInstance().createTransportation(id,item);
+
         Bitmap img= BitmapFactory.decodeResource(getResources(),R.drawable.ic_baseline_directions_car_24_dark);
         int i=0;
         dh.addTransportation((i),"Plane","How many hours did you fly today?",Units.HOUR,700, BitmapFactory.decodeResource(context.getResources(),R.drawable.travelling),"Diesel");

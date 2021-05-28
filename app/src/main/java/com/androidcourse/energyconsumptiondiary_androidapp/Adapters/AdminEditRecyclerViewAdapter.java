@@ -37,6 +37,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
     private static final String IMPACTERTYPE = "ImpacterType";
 
     private final DataHolder dh = DataHolder.getInstance();
+    private MyCo2FootprintManager db=MyCo2FootprintManager.getInstance();
     private Context context;
     private ImpactType impacterType;
     private ArrayList<? extends Co2Impacter> data=new ArrayList<>();
@@ -45,6 +46,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
         this.context = context;
         this.impacterType=impacterType;
         this.data=dh.getImpactersByType(impacterType);
+        this.data=db.getImpactersByType(impacterType);
     }
 
     @NonNull
@@ -64,7 +66,9 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db.setSelectedCO2Impacter(impacter);
                 delete(holder.getAdapterPosition(),holder);
+
             }
         });
         holder.editBtn.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +131,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
     public void updateImpactersData(){
 
         this.data=dh.getImpactersByType(impacterType);
+        this.data=db.getImpactersByType(impacterType);
     }
 
     //deletes impacter from data holder and from view
@@ -138,23 +143,15 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
-
-
                         try {
-                            List<? extends Co2Impacter> impacters = null;
-                            Co2Impacter impacterItem = impacters.get(holder.getAdapterPosition());
-                            if (impacterItem instanceof Transportation) {
+                            List<? extends Co2Impacter> impacters = MyCo2FootprintManager.getInstance().getAllCo2Impacter();
                                 Co2Impacter item = MyCo2FootprintManager.getInstance().getSelectedTransporatation();
                                 if (item != null) {
-                                    MyCo2FootprintManager.getInstance().deleteTransportation((Transportation) item);
+                                    db.removeImpacter(impacterType,db.getSelectedCO2Impacter(impacterType).getImpacterID());
                                 }
-                                dh.removeImpacter(impacterType, data.get(position));
+
                                 updateImpactersData();
                                 notifyDataSetChanged();
-
-
-                            }
                         }catch (Throwable e) {
                             e.printStackTrace();
                         }
@@ -171,4 +168,5 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
             intent.putExtra(IMPACTERTYPE,impacterType.name());
             ((AdminEditListActivity)context).startActivityForResult(intent,EDIT_REQ_CODE);
         }
+
 }
