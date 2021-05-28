@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.EntryActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
@@ -90,6 +91,7 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
                     if(!entries.add(cardData)){
                         updateEntry(cardData);
                     }
+
                     Log.i("EntryAdapter","value choosed= "+cardData.getValue());
                 }
             });

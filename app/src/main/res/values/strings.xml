@@ -130,6 +130,7 @@
     <string name="edit">Edit</string>
     <string name="Question">Question</string>
     <string name="unit">Choose Unit:</string>
+    <string name="entryForResults">"Your Entry is Still Empty "</string>
 
 
 </resources>

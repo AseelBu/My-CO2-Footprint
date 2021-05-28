@@ -83,6 +83,13 @@ public void removeImpacter(ImpactType impacterType,int id)
         deleteCo2Impacter(id);
 
     }
+    //---co2 impacter
+    public Co2Impacter getImpacterById(int impacterId) {
+        if (db != null) {
+            return db.getImpacterById(impacterId);
+        }
+        return null;
+    }
 
     public int createCO2Impacter(Co2Impacter item) {
         int i=-1;
@@ -195,10 +202,26 @@ public void removeImpacter(ImpactType impacterType,int id)
     }
 
     //-------Result
-    public void createResult(Result result) {
+    public int createResult(Result result) {
         if (db != null) {
-            db.createResult(result);
+            return db.createResult(result);
         }
+        return -1;
+    }
+
+    public Result getResultById(int resultId) {
+        Result result = null;
+        if (db != null) {
+            result = db.getResultById(resultId);
+        }
+        return result;
+    }
+    public List<Result> getAllResults() {
+        List<Result> result = new ArrayList<Result>();
+        if (db != null) {
+            result = db.getAllResults();
+        }
+        return result;
     }
 
 
