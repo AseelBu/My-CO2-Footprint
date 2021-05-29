@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -20,6 +21,7 @@ public class EntryDateFragment extends Fragment {
 
     private DatePicker datePicker;
     private Date selectedDate =Calendar.getInstance().getTime();
+
 
 
     public Date getSelectedDate() {

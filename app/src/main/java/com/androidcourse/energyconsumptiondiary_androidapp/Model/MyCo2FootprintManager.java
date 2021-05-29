@@ -123,6 +123,14 @@ public class MyCo2FootprintManager {
         return result;
     }
 
+    public List<Result> getAllResults(int userId,int limit) {
+        List<Result> result = new ArrayList<Result>();
+        if (db != null) {
+            result = db.getAllResults(userId,limit);
+        }
+        return result;
+    }
+
     /**********************END-QUERIES***************************/
 
     public void openDataBase(Context context) {

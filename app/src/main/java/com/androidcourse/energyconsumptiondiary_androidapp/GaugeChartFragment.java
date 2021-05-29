@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
 import com.ekn.gruzer.gaugelibrary.HalfGauge;
 import com.ekn.gruzer.gaugelibrary.Range;
 import com.github.mikephil.charting.charts.PieChart;
@@ -17,8 +19,12 @@ import com.github.mikephil.charting.charts.PieChart;
 
 public class GaugeChartFragment extends Fragment {
 
+    MyCo2FootprintManager dbManager= MyCo2FootprintManager.getInstance();
     private static final String TAG = "GaugeFragment";
     private HalfGauge resultGauge=null;
+
+    private int resultId=-1;
+    private Result result=null;
 
     public GaugeChartFragment() {
         // Required empty public constructor
@@ -40,6 +46,12 @@ public class GaugeChartFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView= inflater.inflate(R.layout.fragment_gauge_chart, container, false);
         resultGauge=(HalfGauge) rootView.findViewById(R.id.halfGauge);
+
+        Bundle args = getArguments();
+        if(args!=null){
+            resultId=args.getInt("resultId");
+            result=dbManager.getResultById(resultId);
+        }
 
         //set colors
         setColors();
@@ -86,6 +98,7 @@ public class GaugeChartFragment extends Fragment {
 
     private void loadGaugeData(){
         resultGauge.setValue(70.0);
+//        resultGauge.setValue(result.getTotal());
 
     }
 }

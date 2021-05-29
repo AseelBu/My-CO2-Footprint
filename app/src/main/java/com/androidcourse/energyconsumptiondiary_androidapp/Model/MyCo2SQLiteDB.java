@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION =8;
     private static final String DATABASE_NAME="MyCo2FootprintDB";
 
 
@@ -70,17 +70,18 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private static final String[] TABLE_TYPE_ENTRY_COLUMNS ={TYPE_ENTRY_COLUMN_ID, TYPE_ENTRY_COLUMN_VALUE, TYPE_ENTRY_COLUMN_IMPACTER_TYPE, TYPE_ENTRY_COLUMN_ENTRYID};
 
     //Entry Table
-    private static final String TABLE_ENTRY_NAME = "entry";
+    private static final String TABLE_ENTRY_NAME ="entry";
+
     private static final String ENTRY_COLUMN_ID ="id";
     private static final String ENTRY_COLUMN_USERID ="userId";
     private static final String ENTRY_COLUMN_DATE ="entry_date";
     private static final String[] TABLE_ENTRY_COLUMNS ={ENTRY_COLUMN_ID,ENTRY_COLUMN_USERID,ENTRY_COLUMN_DATE};
 
     //Result Table
-    private static final String TABLE_RESULT_NAME = "entry";
+    private static final String TABLE_RESULT_NAME = "results";
     private static final String RESULT_COLUMN_ID ="id";
     private static final String RESULT_COLUMN_USERID ="userId";
-    private static final String RESULT_COLUMN_DATE ="entry_date";
+    private static final String RESULT_COLUMN_DATE ="result_date";
     private static final String RESULT_COLUMN_TRANSPORTATION ="transportation_result";
     private static final String RESULT_COLUMN_FOOD ="food_result";
     private static final String RESULT_COLUMN_ELECTRICS ="electrics_result";
@@ -106,12 +107,14 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 +CO2IMPACTER_COLUMN_IMG+" BLOB"
                 +")";
         db.execSQL(CREATE_CO2IMPACTER_TABLE);
+
         //create Transportation table
         String CREATE_TRANSPORTATION_TABLE = "create table if not exists " + TABLE_TRANSPORTATION_NAME + "("
                 + TRANSPORTATION_COLUMN_IMPACTERID + " INTEGER,"
                 + TRANSPORTATION_COLUMN_FUEL + " TEXT"
                 + ")";
         db.execSQL(CREATE_TRANSPORTATION_TABLE);
+
         //create Food table
         String CREATE_FOOD_TABLE="create table if not exists "+TABLE_FOOD_NAME+"("
                 +FOOD_COLUMN_IMPACTERID+" INTEGER"
@@ -147,7 +150,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(CREATE_ENTRY_TABLE);
 
         //create result table
-        String CREATE_RESULT_TABLE="create table if not exists "+TABLE_RESULT_NAME+"("
+        String CREATE_RESULT_TABLE="create table if not exists "+ TABLE_RESULT_NAME +"("
                 + RESULT_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "
                 +RESULT_COLUMN_USERID+" INTEGER,"
                 +RESULT_COLUMN_DATE+" TEXT,"
@@ -159,11 +162,9 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(CREATE_RESULT_TABLE);
 
 
-
-
-    }catch (Throwable t){
-        t.printStackTrace();
-    }
+        }catch (Throwable t){
+            t.printStackTrace();
+        }
     }
 
     @Override
@@ -552,7 +553,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
                 cursor.moveToFirst();
 
-               cursorToResult(cursor);
+               result=cursorToResult(cursor);
 
 
 
@@ -596,17 +597,50 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return results;
     }
 
+    /**
+     * get last k results for specific user
+     * @param userId
+     * @param k  the wanted amount of results
+     * @return List<Result>
+     */
+    public List<Result> getAllResults(int userId,int k) {
+        List<Result> results = new ArrayList<Result>();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE_RESULT_NAME, TABLE_RESULT_COLUMNS, RESULT_COLUMN_USERID+"= ? ",new String[] { String.valueOf(userId) } ,
+                    null, null, RESULT_COLUMN_DATE +" DESC ",String.valueOf(k));
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                Result result = cursorToResult(cursor);
+                results.add(result);
+                cursor.moveToNext();
+            }
+
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        finally {
+            // make sure to close the cursor
+            if(cursor!=null){
+                cursor.close();
+            }
+        }
+
+        return results;
+    }
+
     private Result cursorToResult(Cursor cursor) {
         Result result = new Result();
         try {
             result.setId(cursor.getInt(0));
             //item.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ITEM_COLUMN_ID))));
             result.setUserId(cursor.getInt(1));
-            result.setDate(new SimpleDateFormat("dd MM yyyy", Locale.ENGLISH).parse(cursor.getString(2)));
-            result.setTransportationResult(cursor.getInt(3));
-            result.setFoodResult(cursor.getInt(4));
-            result.setElectricsResult(cursor.getInt(5));
-            result.setServicesResult(cursor.getInt(6));
+            result.setDate(new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH).parse(cursor.getString(2)));
+            result.setTransportationResult(Integer.valueOf(cursor.getInt(3)).doubleValue());
+            result.setFoodResult(Integer.valueOf(cursor.getInt(4)).doubleValue());
+            result.setElectricsResult(Integer.valueOf(cursor.getInt(5)).doubleValue());
+            result.setServicesResult(Integer.valueOf(cursor.getInt(6)).doubleValue());
         } catch (Throwable t) {
             t.printStackTrace();
         }

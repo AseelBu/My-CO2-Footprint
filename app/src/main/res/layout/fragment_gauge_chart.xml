@@ -5,13 +5,32 @@
     android:layout_height="match_parent"
     tools:context=".GaugeChartFragment">
 
-    <com.ekn.gruzer.gaugelibrary.HalfGauge
-        android:id="@+id/halfGauge"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.ekn.gruzer.gaugelibrary.HalfGauge
+            android:id="@+id/halfGauge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
+
+        <TextView
+            android:id="@+id/gaugeTxt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:gravity="center_horizontal|top"
+            android:paddingBottom="3dp"
+            android:text="@string/gCo2"
+            android:textColor="@color/darkGreen"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </FrameLayout>
