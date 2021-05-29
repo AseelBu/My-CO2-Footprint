@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME="MyCo2FootprintDB";
+    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME="MyCo2FootprinttDB";
 
 
     //CO2 impacter table
@@ -330,6 +330,44 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
+    public void createFood(int entryId,Food t) {
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(FOOD_COLUMN_IMPACTERID, entryId);
+
+            // insert item
+            db.insert(TABLE_FOOD_NAME, null, values);
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+    public void createElectric(int entryId,ElectricalHouseSupplies t) {
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(ELECTRICS_COLUMN_IMPACTERID, entryId);
+            // insert item
+            db.insert(TABLE_ELECTRICS_NAME, null, values);
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+    public void createService(int entryId,Service t) {
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(SERVICE_COLUMN_IMPACTERID, entryId);
+            // insert item
+            db.insert(TABLE_ELECTRICS_NAME, null, values);
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 
@@ -589,6 +627,18 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         } catch (Throwable t) {
             t.printStackTrace();
         }
+    }
+
+    public boolean findIfImpacterIsExists(Co2Impacter impacter,ImpactType imp)
+    {
+        List<Co2Impacter> array;
+                array=getAllCO2Impacter();
+                for(Co2Impacter c:array)
+                {
+                    if(c.getName().equals(impacter.getName())) return true;
+                }
+
+        return false;
     }
 
     //-----------------------------------CO2Impacter queries

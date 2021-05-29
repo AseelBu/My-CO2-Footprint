@@ -196,7 +196,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     //add item to the data holder
     public void addBtnClicked()
     {
-        if(impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
+
             fuelType = (EditText) findViewById(R.id.fuel3);
             Log.d("xaa",fuelType.getText().toString());
             if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
@@ -216,21 +216,29 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                         String question2=Question.getText().toString();
                         Units unit2=Units.valueOf(String.valueOf(spinner.getSelectedItem()));
                         int amount2=Integer.parseInt(co2Amount.getText().toString());
-                        String fuel2= fuelType.getText().toString();
+                        String fuel2;
+                        if(impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
+                             fuel2 = fuelType.getText().toString();
+                            impacter.setFuel(fuel2);
+                        }
 
                        //setting data in impacter
                         impacter.setName(name2);
                         impacter.setQuestion(question2);
-                        impacter.setImg(bitmap);
-                        impacter.setFuel(fuel2);
                         impacter.setCo2Amount(amount2);
                         impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
                         dh.addImpacter(impacterType, impacter);
 
+
                         try{
-                            Transportation item = new Transportation(name2,question2,unit2,amount2,bitmap,fuel2);
-                                int id=MyCo2FootprintManager.getInstance().createCO2Impacter(item);
-                                MyCo2FootprintManager.getInstance().createTransportation(id,item);
+                                int id=MyCo2FootprintManager.getInstance().createCO2Impacter(impacter);
+                            switch (impacterType)
+                            {
+                                case TRANSPORTATIOIN: MyCo2FootprintManager.getInstance().createTransportation(id, (Transportation) impacter);break;
+                                case SERVICES: MyCo2FootprintManager.getInstance().createService(id, (Service) impacter);break;
+                                case FOOD:  MyCo2FootprintManager.getInstance().createFood(id, (Food) impacter);break;
+                                case ELECTRICAL: MyCo2FootprintManager.getInstance().createElectric(id, (ElectricalHouseSupplies) impacter);break;
+                            }
                             Intent intent = new Intent();
                             setResult(RESULT_OK, intent);
                             String toSpeak = "add successfully";
@@ -241,74 +249,12 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                         catch (Throwable ew) {
                             ew.printStackTrace();
                         }
-                    }
+                        }
+
 
                 } catch (NumberFormatException e) {
 
-                }
-            }
-        }
-        if((impacterType.equals(ImpactType.ELECTRICAL))||(impacterType.equals(ImpactType.SERVICES))||(impacterType.equals(ImpactType.FOOD)))
-        {
-            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
-                    (TextUtils.isEmpty(co2Amount.getText().toString())))
-            {
-//                Toast.makeText(context,
-//                        "add failed..There are empty input!",
-//                        Toast.LENGTH_SHORT).show();
-                String toSpeak = "add failed..There are empty input!";
-                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 
-
-            }
-            else {
-                try {
-                    //if the input is empty
-                    if ((!TextUtils.isEmpty(name.getText().toString())) || (!TextUtils.isEmpty(Question.getText().toString()))) {
-                        //                setting data in impacter
-                        impacter.setName(name.getText().toString());
-                        impacter.setQuestion(Question.getText().toString());
-                        impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
-                        impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-
-                        dh.addImpacter(impacterType, impacter);
-                        String name2 = name.getText().toString();
-                        String question2=Question.getText().toString();
-                        String unit2= spinner.getSelectedItem().toString();
-                        String amount2=co2Amount.getText().toString();
-                        Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
-                        try{
-                            Co2Impacter item = MyCo2FootprintManager.getInstance().getSelectedCO2Impacter(impacterType);
-                            if(item==null) {
-                                MyCo2FootprintManager.getInstance().setSelectedCO2Impacter(impacter);
-                                int id = MyCo2FootprintManager.getInstance().createCO2Impacter(item);
-                            }
-
-                            else {
-                                item.setUnit(Units.valueOf(unit2));
-                                item.setImg(bitmap);
-                                item.setQuestion(question2);
-                                item.setCo2Amount(Integer.parseInt(amount2));
-                                item.setName(name2);
-                                int id = MyCo2FootprintManager.getInstance().createCO2Impacter(item);
-                            }
-
-                            Intent intent = new Intent();
-                            setResult(RESULT_OK, intent);
-                            String toSpeak = "add successfully";
-                            Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                            t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                            finish();
-                        }
-                        catch (Throwable ew) {
-                            ew.printStackTrace();
-                        }
-                    }
-
-                } catch (NumberFormatException e) {
-
-                }
             }
         }
     }

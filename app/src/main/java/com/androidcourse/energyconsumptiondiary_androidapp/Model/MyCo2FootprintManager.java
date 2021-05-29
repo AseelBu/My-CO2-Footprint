@@ -25,7 +25,13 @@ public class MyCo2FootprintManager {
         return instance;
     }
 
-
+    public  boolean findIfImpacterIsExists(Co2Impacter c,ImpactType t)
+    {
+        if(db!=null) {
+            return  db.findIfImpacterIsExists(c,t);
+        }
+        return false;
+    }
     public static void releaseInstance() {
         if (instance != null) {
             instance.clean();
@@ -142,6 +148,24 @@ public void removeImpacter(ImpactType impacterType,int id)
     public int createTransportation(int id,Transportation item) {
         if (db != null) {
             db.createTransportation(id,item);
+        }
+        return  -1;
+    }
+    public int createFood(int id,Food item) {
+        if (db != null) {
+            db.createFood(id,item);
+        }
+        return  -1;
+    }
+    public int createElectric(int id,ElectricalHouseSupplies item) {
+        if (db != null) {
+            db.createElectric(id,item);
+        }
+        return  -1;
+    }
+    public int createService(int id,Service item) {
+        if (db != null) {
+            db.createService(id,item);
         }
         return  -1;
     }
