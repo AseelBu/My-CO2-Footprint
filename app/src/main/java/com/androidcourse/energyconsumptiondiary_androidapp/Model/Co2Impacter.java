@@ -6,7 +6,7 @@ import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 
 import java.util.Objects;
 
-public abstract class  Co2Impacter implements Comparable<Co2Impacter>{
+public class  Co2Impacter implements Comparable<Co2Impacter>{
     private int impacterID=-1;
     private   String name;
     private String question;

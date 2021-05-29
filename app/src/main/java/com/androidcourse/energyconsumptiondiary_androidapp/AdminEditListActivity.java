@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.AdminEditRecyclerViewAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.TipAdapter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
@@ -31,7 +33,6 @@ public class AdminEditListActivity extends AppCompatActivity {
     private AdminEditRecyclerViewAdapter adapter;
     private FloatingActionButton addFab = null;
     private ImpactType type=ImpactType.TRANSPORTATIOIN;
-
     private TextView txtFuel;
 
 
@@ -39,17 +40,15 @@ public class AdminEditListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_edit_list);
-
         txtFuel=(TextView)findViewById(R.id.txtFuelTypeAdminHeader);
-
         RecyclerView recList = (RecyclerView) findViewById(R.id.dataListAdmin);
-
+//        if(ImpactType instanceof Transportation)
+//         MyCo2FootprintManager.getInstance().readCO2Impacter(Transportation);
+//        MyCo2FootprintManager.getInstance().readTransportation(id,item);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-
         Intent intent=this.getIntent();
-
         if(intent!=null) {
             type = ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
             if(!type.equals(ImpactType.TRANSPORTATIOIN)){
@@ -108,5 +107,17 @@ public class AdminEditListActivity extends AppCompatActivity {
         Intent intent = new Intent(this,AddingItemActivity.class);
         intent.putExtra(IMPACTERTYPE, type.name());
         startActivityForResult(intent,ADDING_REQ_CODE);
+    }
+    @Override
+    protected void onResume() {
+        MyCo2FootprintManager.getInstance().openDataBase(this);
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        MyCo2FootprintManager.getInstance().closeDataBase();
+        super.onPause();
     }
 }

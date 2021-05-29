@@ -244,6 +244,7 @@ public class DataHolder {
 
     }
 
+
     public void addImpacter(ImpactType type, Co2Impacter impacter){
         switch (type){
             case TRANSPORTATIOIN:
