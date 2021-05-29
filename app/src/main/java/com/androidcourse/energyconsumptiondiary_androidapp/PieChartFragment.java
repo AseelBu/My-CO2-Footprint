@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyPieData;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
 import com.github.mikephil.charting.animation.Easing;
@@ -27,10 +28,15 @@ import java.util.List;
 
 public class PieChartFragment extends Fragment {
 
+    MyCo2FootprintManager dbManager= MyCo2FootprintManager.getInstance();
+
     private PieChart resultsPie =null;
+
+
 
     private static final String TAG = "PieChartFragment";
 
+    private int resultId=-1;
     private Result result=null;
 
     public PieChartFragment() {
@@ -53,6 +59,12 @@ public class PieChartFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView= inflater.inflate(R.layout.fragment_pie_chart, container, false);
         resultsPie=(PieChart) rootView.findViewById(R.id.resultsPie);
+
+        Bundle args = getArguments();
+        if(args!=null){
+            resultId=args.getInt("resultId");
+            result=dbManager.getResultById(resultId);
+        }
         // pie data
         loadPieChartData();
         animatePieChart();
@@ -85,12 +97,12 @@ public class PieChartFragment extends Fragment {
     private void loadPieChartData(){
         ArrayList<PieEntry> entries =new ArrayList<>();
 
-        MyPieData[] pieValues = {new MyPieData(0.2f,"Transportation2",getContext().getDrawable(R.drawable.ic_baseline_directions_car_24_white)),
-                new MyPieData(0.3f,"Food2",getContext().getDrawable(R.drawable.ic_baseline_fastfood_24_food)),
-                new MyPieData(0.4f,"Electricity",getContext().getDrawable(R.drawable.ic_baseline_flash_on_24_white)),
-                new MyPieData(0.1f,"Services2",getContext().getDrawable(R.drawable.ic_baseline_wash_24_white))};
+//        MyPieData[] pieValues = {new MyPieData(2.0f,"Transportation2",getContext().getDrawable(R.drawable.ic_baseline_directions_car_24_white)),
+//                new MyPieData(3.0f,"Food2",getContext().getDrawable(R.drawable.ic_baseline_fastfood_24_food)),
+//                new MyPieData(4.0f,"Electricity",getContext().getDrawable(R.drawable.ic_baseline_flash_on_24_white)),
+//                new MyPieData(1.0f,"Services2",getContext().getDrawable(R.drawable.ic_baseline_wash_24_white))};
 
-//        List<MyPieData> pieValues= createPieData(result);
+        List<MyPieData> pieValues= createPieData(result);
 
 
         for (MyPieData data : pieValues) {
@@ -112,9 +124,9 @@ public class PieChartFragment extends Fragment {
             colors.add(color);
         }
         dataSet.setColors(colors);
-        dataSet.setValueLinePart1OffsetPercentage(60.f);
-        dataSet.setValueLinePart1Length(0.40f);
-        dataSet.setValueLinePart2Length(.1f);
+        dataSet.setValueLinePart1OffsetPercentage(80.f);
+        dataSet.setValueLinePart1Length(0.4f);
+        dataSet.setValueLinePart2Length(.4f);
 //        dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setSliceSpace(2f);

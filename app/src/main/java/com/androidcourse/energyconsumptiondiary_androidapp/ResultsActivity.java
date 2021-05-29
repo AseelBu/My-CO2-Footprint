@@ -2,6 +2,8 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
 import com.ekn.gruzer.gaugelibrary.HalfGauge;
 import com.github.mikephil.charting.charts.PieChart;
 
@@ -19,9 +20,9 @@ public class ResultsActivity extends AppCompatActivity {
 
     private static final String TAG = "ResultsActivity";
 
-    MyCo2FootprintManager dbManager= MyCo2FootprintManager.getInstance();
 
-    private Result result= null;
+
+    private int resultId=-1;
     private PieChart resultPie = null;
     private HalfGauge resultGauge = null;
     private Button tipsBtn = null;
@@ -38,14 +39,34 @@ public class ResultsActivity extends AppCompatActivity {
         tipsBtn=(Button)findViewById(R.id.tipsBtn);
         Intent intent = getIntent();
         if(intent!=null){
-            int resultId =intent.getIntExtra("resultId",-1);
-            result=dbManager.getResultById(resultId);
+            resultId =intent.getIntExtra("resultId",-1);
+
 
         }
         ActionBar ab = getSupportActionBar();
         ab.setTitle(R.string.yourResults);
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setIcon(R.drawable.ic_baseline_insert_chart_24);
+
+
+        FragmentManager fm= getSupportFragmentManager();
+
+        //gauge fragment
+        Bundle argsGauge =new Bundle();
+        argsGauge.putInt("resultId",resultId);
+        GaugeChartFragment gaugeFragment=new GaugeChartFragment();
+        gaugeFragment.setArguments(argsGauge);
+        FragmentTransaction t1 = fm.beginTransaction();
+        t1.replace(R.id.fragmentGaugeChart,gaugeFragment);
+        t1.commit();
+        //pie fragment
+        Bundle argsPie =new Bundle();
+        argsPie.putInt("resultId",resultId);
+        PieChartFragment pieFragment=new PieChartFragment();
+        pieFragment.setArguments(argsPie);
+        FragmentTransaction t2 = fm.beginTransaction();
+        t2.replace(R.id.fragmentPieResults,pieFragment);
+        t2.commit();
         context=this;
 
     }

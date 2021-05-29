@@ -122,4 +122,9 @@ public class Result {
         }
 
     }
+
+    //return the sum of all results
+    public double getTotal(){
+        return transportationResult+foodResult+electricsResult+servicesResult;
+    }
 }

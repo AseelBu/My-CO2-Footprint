@@ -248,6 +248,14 @@ public void removeImpacter(ImpactType impacterType,int id)
         return result;
     }
 
+    public List<Result> getAllResults(int userId,int limit) {
+        List<Result> result = new ArrayList<Result>();
+        if (db != null) {
+            result = db.getAllResults(userId,limit);
+        }
+        return result;
+    }
+
 
     /**********************END-QUERIES***************************/
 
