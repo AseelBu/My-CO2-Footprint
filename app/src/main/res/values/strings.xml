@@ -132,6 +132,6 @@
     <string name="unit">Choose Unit:</string>
     <string name="entryForResults">"Your Entry is Still Empty "</string>
     <string name="gCo2">gCo2</string>
-
+   <string name="noResults">No Results to Show</string>
 
 </resources>

@@ -58,7 +58,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     Bitmap bitmap = null;
     Units unit;
     private Context context;
-    private final DataHolder dh = DataHolder.getInstance();
+//    private final DataHolder dh = DataHolder.getInstance();
     private final MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
     private SharedPreferences prefs = null;
     private Button addBtn;
@@ -219,7 +219,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
-                    dh.addImpacter(impacterType, impacter);
+//                    dh.addImpacter(impacterType, impacter);
 
                     //save impacter to DB
                     int id = db.createCO2Impacter(impacter);
@@ -261,24 +261,24 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
-                    dh.addImpacter(impacterType, impacter);
+//                    dh.addImpacter(impacterType, impacter);
 
                     int id = db.createCO2Impacter(impacter);
-//                    switch (impacterType)
-//                    {
-//                        case TRANSPORTATIOIN:
-//                            db.createTransportation(id, (Transportation) impacter);
-//                            break;
-//                        case SERVICES:
-//                            db.createService(id, (Service) impacter);
-//                            break;
-//                        case FOOD:
-//                            db.createFood(id, (Food) impacter);
-//                            break;
-//                        case ELECTRICAL:
-//                            db.createElectric(id, (ElectricalHouseSupplies)impacter);
-//                            break;
-//                    }
+                    switch (impacterType)
+                    {
+                        case TRANSPORTATIOIN:
+                            db.createTransportation(id, (Transportation) impacter);
+                            break;
+                        case SERVICES:
+                            db.createService(id, (Service) impacter);
+                            break;
+                        case FOOD:
+                            db.createFood(id, (Food) impacter);
+                            break;
+                        case ELECTRICAL:
+                            db.createElectric(id, (ElectricalHouseSupplies)impacter);
+                            break;
+                    }
 
 
                     Intent intent = new Intent();

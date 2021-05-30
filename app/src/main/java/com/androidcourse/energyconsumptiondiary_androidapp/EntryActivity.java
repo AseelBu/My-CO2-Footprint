@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -338,6 +340,17 @@ public class EntryActivity extends AppCompatActivity  {
 //        }
 //    }
 
+    //menu creation
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.entry_menu, menu);
+        return true;
+    }
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -345,6 +358,22 @@ public class EntryActivity extends AppCompatActivity  {
 //                onFragmentBackClick(getCurrentFragmentEntries());
                 finish();
                 return true;
+            case R.id.menuEntryPrevResults:
+                Intent intent1 = new Intent(this,PreviousResultsActivity.class);
+                startActivity(intent1);
+                finish();
+                return true;
+            case R.id.menuEntrySettings:
+                Intent intent2 = new Intent(this,SettingsActivity.class);
+                startActivity(intent2);
+                finish();
+                return true;
+            case R.id.menuEntryLogout:
+                Intent intent3 = new Intent(this,LogInActivity.class);
+                startActivity(intent3);
+                finish();
+                return true;
+
         }
         return false;
     }

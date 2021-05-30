@@ -107,11 +107,12 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         try {
+                            db.openDataBase(context);
                             List<? extends Co2Impacter> impacters = MyCo2FootprintManager.getInstance().getAllCo2Impacter();
-                            Co2Impacter item = MyCo2FootprintManager.getInstance().getSelectedTransporatation();
+                            Co2Impacter item = db.getSelectedCO2Impacter(impacterType);
                             if (item != null) {
-                                db.openDataBase(context);
-                                db.removeImpacter(impacterType, db.getSelectedCO2Impacter(impacterType).getImpacterID());
+
+                                db.removeImpacter(impacterType, item.getImpacterID());
                                 db.closeDataBase();
                             }
 

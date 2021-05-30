@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION =8;
+    private static final int DATABASE_VERSION =10;
     private static final String DATABASE_NAME="MyCo2FootprintDB";
 
 
@@ -231,7 +231,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 }
 
                 //images
-                byte[] imgByte = cursor.getBlob(6);
+                byte[] imgByte = cursor.getBlob(5);
                 if (imgByte != null && imgByte.length > 0) {
                     Bitmap image = BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length);
                     if (image != null) {
@@ -389,7 +389,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(SERVICE_COLUMN_IMPACTERID, entryId);
             // insert item
-            db.insert(TABLE_ELECTRICS_NAME, null, values);
+            db.insert(TABLE_SERVICE_NAME, null, values);
 
         } catch (Throwable e) {
             e.printStackTrace();
@@ -550,14 +550,17 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
        try {
            switch (impacterType)
            {
-               case TRANSPORTATIOIN: deleteTransportation(id);
+               case TRANSPORTATIOIN:
+                   deleteTransportation(id);
                    break;
                case FOOD:
                    deleteFood(id);
                    break;
-               case SERVICES:deleteService(id);
+               case SERVICES:
+                   deleteService(id);
                    break;
-               case ELECTRICAL:deleteElectric(id);
+               case ELECTRICAL:
+                   deleteElectric(id);
                    break;
            }
            deleteCO2Impacter(id);

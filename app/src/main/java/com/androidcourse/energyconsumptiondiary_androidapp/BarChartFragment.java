@@ -41,7 +41,7 @@ import java.util.List;
 public class BarChartFragment extends Fragment implements OnChartValueSelectedListener {
     private static final String TAG = "BarChartFragment";
     MyCo2FootprintManager dbManager= MyCo2FootprintManager.getInstance();
-    List<Result> allResults;
+    List<Result> allResults=new ArrayList<>();
     private BarChart barChart=null;
     private ArrayList<String> datesLabels=new ArrayList<>();
 //    String[] datesArr={"12.2", "15.2","18.2"};
@@ -78,10 +78,11 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
         int userId=sharedPref.getInt(getResources().getString(R.string.prefLoggedUser),-1);
         allResults=dbManager.getAllResults(userId,7);
-        //TODO result empty
-//        if(allResults.isEmpty()){
-//
-//        }
+
+        //if result empty
+        if(allResults.isEmpty()){
+
+        }
         //set colors
         setupBarChart();
         //set data
