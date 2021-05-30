@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.androidcourse.energyconsumptiondiary_androidapp">
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_myco2"
@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EnergyConsumptionDiary"
         android:largeHeap="true">
+
         <activity android:name=".AdminEditListActivity"></activity>
         <activity android:name=".AccountSettingsActivity" />
         <activity android:name=".SettingsActivity" />
@@ -24,6 +25,7 @@
         <activity android:name=".ForgetPasswordActivity" />
         <activity android:name=".EditMainActivity" />
         <activity android:name=".UpdatePasswordActivity" />
+
         <activity android:name=".AddingItemActivity" />
         <activity android:name=".EditItemActivity" />
         <activity android:name=".ResultsActivity" /> <!--  -->

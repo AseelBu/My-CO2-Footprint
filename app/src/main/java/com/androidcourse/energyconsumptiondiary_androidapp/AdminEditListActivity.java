@@ -28,7 +28,7 @@ public class AdminEditListActivity extends AppCompatActivity {
     private static  final int ADDING_REQ_CODE =100;
     private static  final int EDIT_REQ_CODE =101;
 
-    private DataHolder dh = DataHolder.getInstance();
+//    private DataHolder dh = DataHolder.getInstance();
     private static final String IMPACTERTYPE = "ImpacterType";
     private AdminEditRecyclerViewAdapter adapter;
     private FloatingActionButton addFab = null;
@@ -117,6 +117,7 @@ public class AdminEditListActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        Log.i("on pause ","entered on pause!!!!!");
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
     }

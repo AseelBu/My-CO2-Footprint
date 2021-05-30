@@ -135,8 +135,9 @@ public void removeImpacter(ImpactType impacterType,int id)
 
     public ArrayList<Co2Impacter> getImpactersByType(ImpactType impacterType)
     {
-        if(db !=null)
-        return db.getImpactersByType(impacterType);
+        if(db !=null) {
+            return db.getImpactersByType(impacterType);
+        }
         return new ArrayList<>();
     }
     public int createTransportation(int id,Transportation item) {

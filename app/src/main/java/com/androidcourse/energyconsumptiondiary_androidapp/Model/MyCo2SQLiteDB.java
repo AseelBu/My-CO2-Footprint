@@ -7,11 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.widget.Switch;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
-import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -189,7 +187,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
     //----------------------START OF-Methods queries and actions----------------------------
     /*********methods go in here***********/
-    //---Co2impacter
+    //---Co2impacter-----------
 
 
     public Co2Impacter getImpacterById(int impacterId) {
@@ -229,6 +227,10 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 co2Impacter.setQuestion(cursor.getString(2));
                 co2Impacter.setUnit(Units.valueOf(cursor.getString(3)));
                 co2Impacter.setCo2Amount(cursor.getInt(4));
+
+                if(type.equals(ImpactType.TRANSPORTATIOIN)){
+                    ((Transportation)co2Impacter).setFuelType(getTransportationFuel(co2Impacter.getImpacterID()));
+                }
 
                 //images
                 byte[] imgByte = cursor.getBlob(6);
@@ -315,14 +317,41 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     return impacterType;
     }
 
+    //--trans
+    public String getTransportationFuel(int id) {
+        String fuelType =" ";
+        Cursor cursor = null;
+
+        try {
+            /// get reference of the itemDB database
+            cursor = db
+                    .query(TABLE_TRANSPORTATION_NAME,
+                            TABLE_TRANSPORTATION_COLUMNS, TRANSPORTATION_COLUMN_IMPACTERID + " = ?",
+                            new String[] { String.valueOf(id) }, null, null,
+                            null, null);
+
+            // if results !=null, parse the first one
+            if(cursor!=null && cursor.getCount()>0){
+                fuelType=cursor.getString(cursor.getColumnIndex(TRANSPORTATION_COLUMN_FUEL));
+            }} catch (Throwable t) {
+            t.printStackTrace();
+        }
+        finally {
+            if(cursor!=null){
+                cursor.close();
+            }
+        }
+        return fuelType;
+    }
+
 
     //-----------------------------------transportation queries
-    public void createTransportation(int entryId,Transportation t) {
+    public void createTransportation(int id,Transportation t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
             values.put(TRANSPORTATION_COLUMN_FUEL, t.getFuelType());
-            values.put(TRANSPORTATION_COLUMN_IMPACTERID, entryId);
+            values.put(TRANSPORTATION_COLUMN_IMPACTERID, id);
 
             // insert item
             db.insert(TABLE_TRANSPORTATION_NAME, null, values);
@@ -351,7 +380,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             list=getAllService();
             break;
     }
-                return list;
+    return list;
     }
 
     public Transportation readTransportation(int id) {
@@ -390,7 +419,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             while (!cursor.isAfterLast()) {
                 int id=cursor.getInt(0);
                 Co2Impacter item=(Transportation)getImpacterById(id);
-                item.setFuel(cursor.getString(1));
+                ((Transportation)item).setFuelType(cursor.getString(1));
                 result.add(item);
                 cursor.moveToNext();
             }
@@ -487,7 +516,8 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
            {
                case TRANSPORTATIOIN: deleteTransportation(id);
                    break;
-               case FOOD:deleteFood(id);
+               case FOOD:
+                   deleteFood(id);
                    break;
                case SERVICES:deleteService(id);
                    break;
@@ -547,7 +577,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             ContentValues values= new ContentValues();
             values.put(TRANSPORTATION_COLUMN_FUEL, item.getFuelType());
             // update
-            cnt = db.update(TABLE_TRANSPORTATION_NAME, values, CO2IMPACTER_COLUMN_CO2AMOUNT + " = ?",
+            cnt = db.update(TABLE_TRANSPORTATION_NAME, values, TRANSPORTATION_COLUMN_IMPACTERID + " = ?",
                     new String[] { String.valueOf(item.getImpacterID()) });
         } catch (Throwable t) {
             t.printStackTrace();
@@ -603,9 +633,9 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             values.put(CO2IMPACTER_COLUMN_QUESTION, t.getQuestion());
             values.put(CO2IMPACTER_COLUMN_UNIT, t.getUnit().toString());
             //images
-            Bitmap image1 = t.getImg();
-            if (image1 != null) {
-                byte[] data = getBitmapAsByteArray(image1);
+            Bitmap image = t.getImg();
+            if (image != null) {
+                byte[] data = getBitmapAsByteArray(image);
                 if (data != null && data.length > 0) {
                     values.put(CO2IMPACTER_COLUMN_IMG, data);
                 }
@@ -641,7 +671,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 item.setCo2Amount(cursor.getInt(2));
                 item.setQuestion(cursor.getString(3));
                 item.setUnit(Units.valueOf(cursor.getString(4)));
-                item.setFuel(cursor.getString(5));
+
 
                 //images
                 byte[] img1Byte = cursor.getBlob(6);
@@ -734,7 +764,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             }
 
             // update
-            cnt = db.update(TABLE_CO2IMPACTER_NAME, values, CO2IMPACTER_COLUMN_CO2AMOUNT + " = ?",
+            cnt = db.update(TABLE_CO2IMPACTER_NAME, values, CO2IMPACTER_COLUMN_ID + " = ?",
                     new String[] { String.valueOf(item.getImpacterID()) });
         } catch (Throwable t) {
             t.printStackTrace();

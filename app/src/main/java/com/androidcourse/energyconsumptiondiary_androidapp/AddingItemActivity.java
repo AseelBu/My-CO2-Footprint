@@ -1,4 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -45,46 +46,44 @@ import java.util.Locale;
 
 public class AddingItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "AddingItemActivity";
-    private static final String IMPACTERTYPE = "ImpacterType";
     public static final int REQUEST_IMAGE_GET = 3;
-
-    private ImpactType impacterType;
-    private Co2Impacter impacter=null;
     protected static final int NEW_ITEM_TAG = -111;
-    private TextView title;
+    private static final String IMPACTERTYPE = "ImpacterType";
+    private final DataHolder dh = DataHolder.getInstance();
+    private final MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
     public EditText name = null;
     public EditText fuelType = null;
-    public EditText co2Amount= null;
-    public EditText Question= null;
-    public  Spinner spinner;
+    public EditText co2Amount = null;
+    public EditText Question = null;
+    public Spinner spinner;
     public ImageButton img;
     Bitmap bitmap = null;
     Units unit;
+    TextToSpeech t1;
+    private ImpactType impacterType;
+    private Co2Impacter impacter = null;
+    private TextView title;
     private Context context;
-    private final DataHolder dh = DataHolder.getInstance();
     private SharedPreferences prefs = null;
     private Button addBtn;
     private ImageButton uploadImgBtn;
-    TextToSpeech t1;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adding_item);
-        title=(TextView)findViewById(R.id.addingActivityTitle);
-        img=(ImageButton)findViewById(R.id.upload);
-        name=(EditText)findViewById(R.id.type);
-
-        co2Amount=(EditText)findViewById(R.id.amountt);
-        Question=(EditText)findViewById(R.id.Question);
+        title = (TextView) findViewById(R.id.addingActivityTitle);
+        img = (ImageButton) findViewById(R.id.upload);
+        name = (EditText) findViewById(R.id.type);
+        fuelType = (EditText) findViewById(R.id.fuel3);
+        co2Amount = (EditText) findViewById(R.id.amountt);
+        Question = (EditText) findViewById(R.id.Question);
         spinner = (Spinner) findViewById(R.id.spinner);
-        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
+                if (status != TextToSpeech.ERROR) {
                     t1.setLanguage(Locale.UK);
                 }
             }
@@ -106,46 +105,46 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         spinner.setAdapter(dataAdapter);
 
 
-
-
         Intent intent = getIntent();
-        if(intent!=null) {
-            impacterType= ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
-            title.setText("Add "+impacterType.name().toLowerCase());
+        if (intent != null) {
+            impacterType = ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
+            title.setText("Add " + impacterType.name().toLowerCase());
             createImpacter();
 
             //remove fuel type field if not transportation
-            if(!impacterType.equals(ImpactType.TRANSPORTATIOIN)){
+            if (!impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
                 fuelType.setVisibility(View.GONE);
             }
 
-        }else{
+        } else {
             finish();
         }
 
 
-        addBtn=(Button)findViewById(R.id.edititem2);
+        addBtn = (Button) findViewById(R.id.edititem2);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addBtnClicked();
             }
         });
-        uploadImgBtn =(ImageButton) findViewById(R.id.upload);
+        uploadImgBtn = (ImageButton) findViewById(R.id.upload);
         uploadImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Intent intent=new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 //                startActivityForResult(intent, REQUEST_IMAGE_GET);
-                Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(intent, REQUEST_IMAGE_GET);
+                    startActivityForResult(Intent.createChooser(intent,"Choose Picture"), REQUEST_IMAGE_GET);
+                }else{
+                    Toast.makeText(getApplicationContext(), "No permission for files", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        context=this;
+        context = this;
 
         //action bar
         ActionBar ab = getSupportActionBar();
@@ -154,10 +153,10 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //get picture from phone gallery
-        if(requestCode== REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             Bitmap bitmap = null;
             try {
@@ -176,140 +175,123 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
     //builder for the impacter by type
     private void createImpacter() {
-        switch (impacterType){
+        switch (impacterType) {
             case TRANSPORTATIOIN:
-                impacter= new Transportation();
+                impacter = new Transportation();
                 break;
             case FOOD:
-                impacter= new Food();
+                impacter = new Food();
                 break;
             case ELECTRICAL:
-                impacter= new ElectricalHouseSupplies();
+                impacter = new ElectricalHouseSupplies();
                 break;
             case SERVICES:
-                impacter= new Service();
+                impacter = new Service();
                 break;
         }
     }
 
 
     //add item to the data holder
-    public void addBtnClicked()
-    {
-        if(impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
-            fuelType = (EditText) findViewById(R.id.fuel3);
-            Log.d("xaa",fuelType.getText().toString());
-            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
-                    (TextUtils.isEmpty(co2Amount.getText().toString())) ||
-                    (TextUtils.isEmpty(fuelType.getText().toString()))) {
+    public void addBtnClicked() {
+        if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
+
+            Log.d("xaa", fuelType.getText().toString());
+            //if text field is empty
+            if ((TextUtils.isEmpty(name.getText().toString()))
+                    || (TextUtils.isEmpty(Question.getText().toString()))
+                    || (TextUtils.isEmpty(co2Amount.getText().toString()))
+                    || (TextUtils.isEmpty(fuelType.getText().toString()))) {
                 String toSpeak = "add failed..There are empty input!";
-                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
+//                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
+            //if the input is not empty
             else {
+
                 try {
-                    //if the input is empty
-                    if ((!TextUtils.isEmpty(name.getText().toString())) || (!TextUtils.isEmpty(Question.getText().toString())) ||
-                            (!TextUtils.isEmpty(fuelType.getText().toString()))) {
-                        //get text from input
-                        String name2 = name.getText().toString();
-                        String question2=Question.getText().toString();
-                        Units unit2=Units.valueOf(String.valueOf(spinner.getSelectedItem()));
-                        int amount2=Integer.parseInt(co2Amount.getText().toString());
-                        String fuel2= fuelType.getText().toString();
+                    //setting data in impacter
+                    impacter.setName(name.getText().toString());
+                    impacter.setQuestion(Question.getText().toString());
+                    impacter.setImg(bitmap);
+                    ((Transportation) impacter).setFuelType(fuelType.getText().toString());
+                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
+                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
-                       //setting data in impacter
-                        impacter.setName(name2);
-                        impacter.setQuestion(question2);
-                        impacter.setImg(bitmap);
-                        impacter.setFuel(fuel2);
-                        impacter.setCo2Amount(amount2);
-                        impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-                        dh.addImpacter(impacterType, impacter);
+                    dh.addImpacter(impacterType, impacter);
 
-                        try{
-                            Transportation item = new Transportation(name2,question2,unit2,amount2,bitmap,fuel2);
-                                int id=MyCo2FootprintManager.getInstance().createCO2Impacter(item);
-                                MyCo2FootprintManager.getInstance().createTransportation(id,item);
-                            Intent intent = new Intent();
-                            setResult(RESULT_OK, intent);
-                            String toSpeak = "add successfully";
-                            Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                            t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                            finish();
-                        }
-                        catch (Throwable ew) {
-                            ew.printStackTrace();
-                        }
-                    }
+                    //save impacter to DB
+                    int id = db.createCO2Impacter(impacter);
+                    db.createTransportation(id, (Transportation) impacter);
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    String toSpeak = "add successfully";
+                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
+                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                    finish();
 
-                } catch (NumberFormatException e) {
-
+                } catch (Throwable ew) {
+                    ew.printStackTrace();
                 }
             }
         }
-        if((impacterType.equals(ImpactType.ELECTRICAL))||(impacterType.equals(ImpactType.SERVICES))||(impacterType.equals(ImpactType.FOOD)))
-        {
-            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
-                    (TextUtils.isEmpty(co2Amount.getText().toString())))
-            {
-//                Toast.makeText(context,
-//                        "add failed..There are empty input!",
-//                        Toast.LENGTH_SHORT).show();
+        //if not transportation
+        else if ((impacterType.equals(ImpactType.ELECTRICAL)) || (impacterType.equals(ImpactType.SERVICES)) || (impacterType.equals(ImpactType.FOOD))) {
+            // if inputs are empty
+            if ((TextUtils.isEmpty(name.getText().toString()))
+                    || (TextUtils.isEmpty(Question.getText().toString()))
+                    || (TextUtils.isEmpty(co2Amount.getText().toString()))) {
+                Toast.makeText(context,
+                        "add failed..There are empty input!",
+                        Toast.LENGTH_SHORT).show();
                 String toSpeak = "add failed..There are empty input!";
-                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-
-
+                Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
+//                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
+
+
+            //if the input is empty
             else {
                 try {
-                    //if the input is empty
-                    if ((!TextUtils.isEmpty(name.getText().toString())) || (!TextUtils.isEmpty(Question.getText().toString()))) {
-                        //                setting data in impacter
-                        impacter.setName(name.getText().toString());
-                        impacter.setQuestion(Question.getText().toString());
-                        impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
-                        impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
+                    //                setting data in impacter
+                    impacter.setName(name.getText().toString());
+                    impacter.setQuestion(Question.getText().toString());
+                    impacter.setImg(bitmap);
+                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
+                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
-                        dh.addImpacter(impacterType, impacter);
-                        String name2 = name.getText().toString();
-                        String question2=Question.getText().toString();
-                        String unit2= spinner.getSelectedItem().toString();
-                        String amount2=co2Amount.getText().toString();
-                        Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
-                        try{
-                            Co2Impacter item = MyCo2FootprintManager.getInstance().getSelectedCO2Impacter(impacterType);
-                            if(item==null) {
-                                MyCo2FootprintManager.getInstance().setSelectedCO2Impacter(impacter);
-                                int id = MyCo2FootprintManager.getInstance().createCO2Impacter(item);
-                            }
+                    dh.addImpacter(impacterType, impacter);
 
-                            else {
-                                item.setUnit(Units.valueOf(unit2));
-                                item.setImg(bitmap);
-                                item.setQuestion(question2);
-                                item.setCo2Amount(Integer.parseInt(amount2));
-                                item.setName(name2);
-                                int id = MyCo2FootprintManager.getInstance().createCO2Impacter(item);
-                            }
+                    int id = db.createCO2Impacter(impacter);
+//                    switch (impacterType)
+//                    {
+//                        case TRANSPORTATIOIN:
+//                            db.createTransportation(id, (Transportation) impacter);
+//                            break;
+//                        case SERVICES:
+//                            db.createService(id, (Service) impacter);
+//                            break;
+//                        case FOOD:
+//                            db.createFood(id, (Food) impacter);
+//                            break;
+//                        case ELECTRICAL:
+//                            db.createElectric(id, (ElectricalHouseSupplies)impacter);
+//                            break;
+//                    }
 
-                            Intent intent = new Intent();
-                            setResult(RESULT_OK, intent);
-                            String toSpeak = "add successfully";
-                            Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                            t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                            finish();
-                        }
-                        catch (Throwable ew) {
-                            ew.printStackTrace();
-                        }
-                    }
 
-                } catch (NumberFormatException e) {
-
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    String toSpeak = "add successfully";
+                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
+//                            t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                    finish();
+                } catch (Throwable ew) {
+                    ew.printStackTrace();
                 }
             }
+
+
         }
     }
 
@@ -339,6 +321,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 //        impacter.setUnit(item);
 //        Toast.makeText(parent.getContext(), "Please select units " , Toast.LENGTH_LONG).show();
     }
+
     @Override
     protected void onResume() {
         MyCo2FootprintManager.getInstance().openDataBase(this);
