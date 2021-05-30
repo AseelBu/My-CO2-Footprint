@@ -46,7 +46,9 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
         this.context = context;
         this.impacterType = impacterType;
 //        this.data = dh.getImpactersByType(impacterType);
+        db.openDataBase(context);
         this.data = db.getImpactersByType(impacterType);
+        db.closeDataBase();
     }
 
     @NonNull

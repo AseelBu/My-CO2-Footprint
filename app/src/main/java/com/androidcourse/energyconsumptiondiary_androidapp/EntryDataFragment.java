@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.EntryRecyclerAdapter;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
@@ -30,7 +31,9 @@ public class EntryDataFragment extends Fragment {
 
     private static final String ENTRY_TYPE="entryType";
 
-    private DataHolder dh = DataHolder.getInstance();
+//    private DataHolder dh = DataHolder.getInstance();
+    private MyCo2FootprintManager db =MyCo2FootprintManager.getInstance();
+
     private Activity activity;
 
    private ImpactType type;
@@ -104,23 +107,23 @@ public class EntryDataFragment extends Fragment {
 
 
             //add data to recycler depending on Entry Type
+            eAdapter = new EntryRecyclerAdapter(this.getContext(),db.getImpactersByType(type),type);
             switch (type) {
                 case TRANSPORTATIOIN:
-                    eAdapter = new EntryRecyclerAdapter(this.getContext(),dh.getTransportation(),type);
                     title.setText(getString(R.string.transportationTitle));
                     break;
                 case FOOD:
-                    eAdapter = new EntryRecyclerAdapter(this.getContext(),dh.getFood(),type);
+//                    eAdapter = new EntryRecyclerAdapter(this.getContext(),db.getAllFood(),type);
                     title.setText(getString(R.string.foodTitle));
 
                     break;
                 case ELECTRICAL:
-                    eAdapter = new EntryRecyclerAdapter(this.getContext(),dh.getElectrics(),type);
+//                    eAdapter = new EntryRecyclerAdapter(this.getContext(),db.getAllElectrics(),type);
                     title.setText(getString(R.string.electricsTitle));
 
                     break;
                 case SERVICES:
-                    eAdapter = new EntryRecyclerAdapter(this.getContext(),dh.getServices(),type);
+//                    eAdapter = new EntryRecyclerAdapter(this.getContext(),db.getAllServices(),type);
                     title.setText(getString(R.string.servicesTitle));
 
                     break;

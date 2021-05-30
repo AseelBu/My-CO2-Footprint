@@ -40,6 +40,8 @@ public class HomePageActivity extends AppCompatActivity {
         //action bar set up
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(false);
+//        ab.setLogo(R.drawable.logo_co2);
+//        ab.setDisplayUseLogoEnabled(true);
 
 
     }
