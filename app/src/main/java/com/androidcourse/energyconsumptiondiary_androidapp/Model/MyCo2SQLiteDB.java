@@ -108,14 +108,12 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 +CO2IMPACTER_COLUMN_IMG+" BLOB"
                 +")";
         db.execSQL(CREATE_CO2IMPACTER_TABLE);
-
         //create Transportation table
         String CREATE_TRANSPORTATION_TABLE = "create table if not exists " + TABLE_TRANSPORTATION_NAME + "("
                 + TRANSPORTATION_COLUMN_IMPACTERID + " INTEGER,"
                 + TRANSPORTATION_COLUMN_FUEL + " TEXT"
                 + ")";
         db.execSQL(CREATE_TRANSPORTATION_TABLE);
-
         //create Food table
         String CREATE_FOOD_TABLE="create table if not exists "+TABLE_FOOD_NAME+"("
                 +FOOD_COLUMN_IMPACTERID+" INTEGER"
@@ -360,6 +358,44 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
+    public void createFood(int entryId,Food t) {
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(FOOD_COLUMN_IMPACTERID, entryId);
+
+            // insert item
+            db.insert(TABLE_FOOD_NAME, null, values);
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+    public void createElectric(int entryId,ElectricalHouseSupplies t) {
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(ELECTRICS_COLUMN_IMPACTERID, entryId);
+            // insert item
+            db.insert(TABLE_ELECTRICS_NAME, null, values);
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+    public void createService(int entryId,Service t) {
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(SERVICE_COLUMN_IMPACTERID, entryId);
+            // insert item
+            db.insert(TABLE_ELECTRICS_NAME, null, values);
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 
@@ -620,6 +656,18 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         } catch (Throwable t) {
             t.printStackTrace();
         }
+    }
+
+    public boolean findIfImpacterIsExists(Co2Impacter impacter,ImpactType imp)
+    {
+        List<Co2Impacter> array;
+                array=getAllCO2Impacter();
+                for(Co2Impacter c:array)
+                {
+                    if(c.getName().equals(impacter.getName())) return true;
+                }
+
+        return false;
     }
 
     //-----------------------------------CO2Impacter queries
