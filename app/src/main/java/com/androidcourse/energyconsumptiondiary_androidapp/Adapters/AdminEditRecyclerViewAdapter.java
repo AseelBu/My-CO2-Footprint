@@ -115,13 +115,16 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
                             if (item != null) {
 
                                 db.removeImpacter(impacterType, item.getImpacterID());
-                                db.closeDataBase();
+
                             }
+
 
                             updateImpactersData();
                             notifyDataSetChanged();
                         } catch (Throwable e) {
                             e.printStackTrace();
+                        }finally {
+                            db.closeDataBase();
                         }
                     }
                 })

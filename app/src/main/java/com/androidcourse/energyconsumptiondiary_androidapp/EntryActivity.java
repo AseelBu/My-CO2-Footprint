@@ -149,7 +149,6 @@ public class EntryActivity extends AppCompatActivity  {
             case TRANS:
                 fm.beginTransaction()
                         .replace(R.id.root_layout, transportFragment)
-
                         .commit();
 
                 backBtn.setVisibility(View.VISIBLE);
@@ -229,9 +228,9 @@ public class EntryActivity extends AppCompatActivity  {
 
         switch (prevIndex){
             case TRANS:
+
                 fm.beginTransaction()
                         .replace(R.id.root_layout, transportFragment)
-
                         .commit();
 
                 break;

@@ -158,7 +158,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-                    impacter.setImg(db.getSelectedCO2Impacter(impacterType).getImg());
+//                    impacter.setImg(db.getSelectedCO2Impacter(impacterType).getImg());
 //                    dh.addImpacter(impacterType, impacter);
 
                     //add to database
@@ -169,8 +169,8 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                     setResult(RESULT_OK, intent);
                     String toSpeak = "add successfully";
                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                    finish();
+//                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+//                    finish();
                 } catch (Throwable ew) {
                     ew.printStackTrace();
                 }

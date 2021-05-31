@@ -82,14 +82,14 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         co2Amount=(EditText)findViewById(R.id.amountt);
         question =(EditText)findViewById(R.id.Question);
         spinner = (Spinner) findViewById(R.id.spinner);
-        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.UK);
-                }
-            }
-        });
+//        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+//            @Override
+//            public void onInit(int status) {
+//                if (status != TextToSpeech.ERROR) {
+//                    t1.setLanguage(Locale.UK);
+//                }
+//            }
+//        });
 
         // Spinner click listener
         spinner.setOnItemSelectedListener(this);
@@ -139,9 +139,9 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 //                Intent intent=new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 //                startActivityForResult(intent, REQUEST_IMAGE_GET);
                 Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("images/*");
-                PackageManager pm=getPackageManager();
-                if (intent.resolveActivity(pm) != null) {
+                intent.setType("image/*");
+//                PackageManager pm=getPackageManager();
+                if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(Intent.createChooser(intent,"Choose Picture"), REQUEST_IMAGE_GET);
                 }else{
                     Toast.makeText(getApplicationContext(), "No permission for files", Toast.LENGTH_SHORT).show();
@@ -201,7 +201,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     public void addBtnClicked() {
         if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
 
-            Log.d("xaa", fuelType.getText().toString());
+
             //if text field is empty
             if ((TextUtils.isEmpty(name.getText().toString()))
                     || (TextUtils.isEmpty(question.getText().toString()))
@@ -218,7 +218,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     //setting data in impacter
                     impacter.setName(name.getText().toString());
                     impacter.setQuestion(question.getText().toString());
-                    impacter.setImg(bitmap);
+//                    impacter.setImg(bitmap);
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
@@ -232,8 +232,8 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     setResult(RESULT_OK, intent);
                     String toSpeak = "add successfully";
                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                    finish();
+//                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+//                    finish();
 
                 } catch (Throwable ew) {
                     ew.printStackTrace();
@@ -261,7 +261,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     //                setting data in impacter
                     impacter.setName(name.getText().toString());
                     impacter.setQuestion(question.getText().toString());
-                    impacter.setImg(bitmap);
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
@@ -287,7 +286,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
-                    String toSpeak = "add successfully";
+                    String toSpeak = "added successfully";
                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
 //                            t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                     finish();
@@ -329,14 +328,14 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
     @Override
     protected void onResume() {
-        MyCo2FootprintManager.getInstance().openDataBase(this);
+        db.openDataBase(this);
         super.onResume();
 
     }
 
     @Override
     protected void onPause() {
-        MyCo2FootprintManager.getInstance().closeDataBase();
+        db.closeDataBase();
         super.onPause();
     }
 }

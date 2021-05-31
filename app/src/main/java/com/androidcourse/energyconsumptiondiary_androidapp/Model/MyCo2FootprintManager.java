@@ -256,7 +256,8 @@ public void removeImpacter(ImpactType impacterType,int id)
         if (db != null) {
             results = db.getAllResults(userId);
             Collections.sort(results, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
-            for(int i=0;i<limit;i++){
+            int index= Math.min(limit,results.size());
+            for(int i=0;i<index;i++){
                 kResults.add(results.get(i));
             }
         }

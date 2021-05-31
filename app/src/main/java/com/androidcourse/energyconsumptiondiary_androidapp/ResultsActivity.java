@@ -68,6 +68,8 @@ public class ResultsActivity extends AppCompatActivity {
         FragmentTransaction t2 = fm.beginTransaction();
         t2.replace(R.id.fragmentPieResults,pieFragment);
         t2.commit();
+
+        tipsBtn.setVisibility(View.GONE);
         context=this;
 
     }

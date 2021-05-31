@@ -129,41 +129,47 @@ public class MainActivity extends AppCompatActivity {
             int id;
         impacterType=ImpactType.FOOD;
         createImpacter(ImpactType.FOOD);
-        impacter=new Food("Eggs","How many grams did you eat?",Units.UNIT,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.eggs));
+        impacter=new Food("Eggs","How many eggs did you eat today?",Units.UNIT,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.eggs));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = mg.createCO2Impacter(impacter);
             mg.createFood(id, (Food) impacter);
         }
-        impacter=new Food("cake","How many grams did you eat?",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.cake));
+        impacter=new Food("Chicken","How many chicken pieces did you eat today?",Units.UNIT,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.chicken_leg));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = mg.createCO2Impacter(impacter);
             mg.createFood(id, (Food) impacter);
         }
-        impacter=new Food("Chocolate","How many grams did you eat?",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.chocolate));
+        impacter=new Food("Meat","How many meat pieces did you eat today?",Units.UNIT,300,BitmapFactory.decodeResource(context.getResources(),R.drawable.meat));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = mg.createCO2Impacter(impacter);
             mg.createFood(id, (Food) impacter);
         }
-        impacter=new Food("hotdog","How many grams did you eat?",Units.UNIT,300,BitmapFactory.decodeResource(context.getResources(),R.drawable.hotdog));
+//        impacter=new Food("cake","How many cakes did you eat today?",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.cake));
+//        if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
+//            id = mg.createCO2Impacter(impacter);
+//            mg.createFood(id, (Food) impacter);
+//        }
+        impacter=new Food("Chocolate","How many pieces of chocolate did you eat today?",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.chocolate));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = mg.createCO2Impacter(impacter);
             mg.createFood(id, (Food) impacter);
         }
-        impacter=new Food("salad","How many grams did you eat?",Units.UNIT,140,BitmapFactory.decodeResource(context.getResources(),R.drawable.salad));
+        impacter=new Food("hotdog","How many hotdogs did you eat today?",Units.UNIT,300,BitmapFactory.decodeResource(context.getResources(),R.drawable.hotdog));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = mg.createCO2Impacter(impacter);
             mg.createFood(id, (Food) impacter);
         }
-        impacter=new Food("pizza","How many grams did you eat?",Units.UNIT,400,BitmapFactory.decodeResource(context.getResources(),R.drawable.pizza));
+        impacter=new Food("salad","How many grams did you eat today?",Units.UNIT,140,BitmapFactory.decodeResource(context.getResources(),R.drawable.salad));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = mg.createCO2Impacter(impacter);
             mg.createFood(id, (Food) impacter);
         }
-        impacter= new Food("cake","How many grams did you eat?",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.cake));
+        impacter=new Food("pizza","How many pizza slices did you eat today?",Units.UNIT,400,BitmapFactory.decodeResource(context.getResources(),R.drawable.pizza));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = mg.createCO2Impacter(impacter);
             mg.createFood(id, (Food) impacter);
         }
+
         }
 
     private void createElectricals(int size){
@@ -180,12 +186,12 @@ public class MainActivity extends AppCompatActivity {
             id = mg.createCO2Impacter(impacter);
             mg.createElectric(id, (ElectricalHouseSupplies) impacter);
         }
-        impacter=new ElectricalHouseSupplies("Kettele","How many hours you use it?",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.kett));
+        impacter=new ElectricalHouseSupplies("Kettle","How many hours you use it?",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.kett));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = mg.createCO2Impacter(impacter);
             mg.createElectric(id, (ElectricalHouseSupplies) impacter);
         }
-        impacter=new ElectricalHouseSupplies("Lamps","How many hours you use it?",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.lamps));
+        impacter=new ElectricalHouseSupplies("Lamps","How many hours you turned on the lights today?",Units.HOUR,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.lamps));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = mg.createCO2Impacter(impacter);
             mg.createElectric(id, (ElectricalHouseSupplies) impacter);
