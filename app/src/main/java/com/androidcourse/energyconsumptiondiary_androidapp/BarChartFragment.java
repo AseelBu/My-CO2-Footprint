@@ -35,6 +35,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -43,7 +45,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     MyCo2FootprintManager dbManager= MyCo2FootprintManager.getInstance();
     List<Result> allResults=new ArrayList<>();
     private BarChart barChart=null;
-    private ArrayList<String> datesLabels=new ArrayList<>();
+    private ArrayList<Date> datesLabels=new ArrayList<>();
 //    String[] datesArr={"12.2", "15.2","18.2"};
 
     PrevResultsFragmentListener mListener;
@@ -79,10 +81,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         int userId=sharedPref.getInt(getResources().getString(R.string.prefLoggedUser),-1);
         allResults=dbManager.getAllResults(userId,7);
 
-        //if result empty
-        if(allResults.isEmpty()){
 
-        }
         //set colors
         setupBarChart();
         //set data
@@ -98,19 +97,22 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
 //        for(int i=1; i<=4; i++){
 //        results.add(new BarEntry(i,i+1));
 //        }
-        //TODO uncomment
+        Collections.reverse(allResults);
         for(Result result:allResults){
+            int index=allResults.size()-allResults.indexOf(result)-1;
             results.add(new BarEntry(allResults.indexOf(result),Double.valueOf(result.getTotal()).floatValue(),result));
         }
 
         BarDataSet set= new BarDataSet(results,"");
-        //TODO uncomment
-//        for(Result result:allResults){
-//            datesLabels.add(result.getDate());
-//        }
 
-        datesLabels.add("12.2.21");
-        datesLabels.add("13.2.21");
+        for(Result result:allResults){
+
+            datesLabels.add(result.getDate());
+        }
+
+//        Collections.reverse(datesLabels);
+//        datesLabels.add("12.2.21");
+//        datesLabels.add("13.2.21");
 //        datesLabels.add("14.2.21");
 //        datesLabels.add("15.2.21");
 
@@ -129,40 +131,28 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         XAxis xAxis= barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 //        xAxis.setTypeface(tfRegular);
-        xAxis.setEnabled(false);
-        xAxis.setTextColor(Color.LTGRAY);
-        xAxis.setTextSize(13f);
+        xAxis.setEnabled(true);
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.setTextSize(12f);
         xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setLabelCount(datesLabels.size());
-        xAxis.setCenterAxisLabels(true);
-        xAxis.setLabelRotationAngle(-90);
+        xAxis.setGranularityEnabled(true);
+//        xAxis.setLabelCount(datesLabels.size());
+        xAxis.setCenterAxisLabels(false);
+        xAxis.setLabelRotationAngle(-45);
+//        barChart.getAxisLeft().setDrawAxisLine(false);
+//        barChart.getAxisRight().setDrawAxisLine(false);
+//        xAxis.setXOffset(2f);
 
         xAxis.setValueFormatter(
-//                new IndexAxisValueFormatter(datesLabels)
+
     new ValueFormatter() {
-//
-//            @Override
-//            public String getBarLabel(BarEntry barEntry) {
-////                super.getBarLabel(barEntry);
-//                return ((Result)(barEntry.getData())).getDate().toString();
-//            }
 
-
-//            @Override
-//            public String getAxisLabel(float value, AxisBase axis) {
-////                super.getAxisLabel(value, axis)
-//               if (value >= 0) {
-//                    if (value <= datesLabels.size() - 1) {
-//                        return datesLabels.get((int) value);
-//                    }
-//                }
-//               return "";
-//            }
             @Override
             public String getFormattedValue(float value) {
                 if (value >= 0) {
                     if (value <= datesLabels.size() - 1) {
-                        return datesLabels.get((int) value);
+                        String[] words = datesLabels.get((int) value).toString().split(" ");
+                        return words[2]+" "+words[1]+" "+words[5];
                     }
                 }
                 return "";
@@ -171,7 +161,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
 
         }
         );
-        barChart.setFitBars(true);
+        barChart.setFitBars(false);
         barChart.getDescription().setEnabled(false);
         barChart.animateY(1600);
         barChart.setDrawValueAboveBar(true);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,13 +69,11 @@ public class EntryDataFragment extends Fragment {
         return fragment;
     }
 
-    // Override the Fragment.onAttach() method to instantiate the MyAlertDialogFragmentListener
+
     @Override
-    public void onAttach(Activity activity) {
-        Log.i("EntryFragment","entering On attach view");
-        super.onAttach(activity);
-        this.activity = activity;
-        // Verify that the host activity implements the callback interface
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.activity=getActivity();
         try {
             // Instantiate the MyAlertDialogFragmentListener so we can send events to the host
             mListener = (EntryDataFragmentListener) activity;
@@ -82,9 +81,6 @@ public class EntryDataFragment extends Fragment {
             e.printStackTrace();
         }
     }
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

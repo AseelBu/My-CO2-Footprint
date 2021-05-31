@@ -190,12 +190,15 @@ public class EntryActivity extends AppCompatActivity  {
                     // save the new entry
                    saveEntryToDB();
                     Result result=new Result(entryData.getUserId(),entryData.getDate());
-                    //TODO uncomment result calculations
-//                    result.calculateAndSetResult(entryData.getEntries());
-//                    int resultId= dbManager.createResult(result);
+
+
+                    // result calculations
+                    result.calculateAndSetResult(entryData.getEntries());
+                    int resultId= dbManager.createResult(result);
 //
-//
-//                    intent.putExtra("resultId",resultId);
+
+
+                    intent.putExtra("resultId",resultId);
                     intent.putExtra("date",this.entryData.getDate());
                     startActivity(intent);
                 }
@@ -206,12 +209,14 @@ public class EntryActivity extends AppCompatActivity  {
     }
 
     private void saveEntryToDB() {
-        ArrayList<Integer> typeEntryIds=new ArrayList<Integer>();
+//        ArrayList<Integer> typeEntryIds=new ArrayList<Integer>();
+
         ArrayList<TypeEntry> entriesList=entryData.getEntries();
         int entryId=dbManager.createEntry(entryData);
         for(TypeEntry entry : entriesList){
             dbManager.createTypeEntry(entryId,entry);
         }
+
     }
 
     public void onFragmentBackClick( List<TypeEntry> fragmentData) {

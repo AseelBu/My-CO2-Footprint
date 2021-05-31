@@ -35,6 +35,7 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int userId=sharedPref.getInt(getResources().getString(R.string.prefLoggedUser),-1);
 
+        db.openDataBase(this);
         if(db.getAllResults(userId,7).isEmpty()){
             NoResultsFragment noResults = new NoResultsFragment();
             fm.beginTransaction()

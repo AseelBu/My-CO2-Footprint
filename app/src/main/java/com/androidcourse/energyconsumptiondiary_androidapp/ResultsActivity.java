@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,7 +42,6 @@ public class ResultsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent!=null){
             resultId =intent.getIntExtra("resultId",-1);
-
 
         }
         ActionBar ab = getSupportActionBar();
@@ -77,15 +78,44 @@ public class ResultsActivity extends AppCompatActivity {
         
     }
 
+    //menu creation
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.entry_menu, menu);
+        return true;
+    }
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+//                onFragmentBackClick(getCurrentFragmentEntries());
+                finish();
                 return true;
+            case R.id.menuEntryPrevResults:
+                Intent intent1 = new Intent(this,PreviousResultsActivity.class);
+                startActivity(intent1);
+                finish();
+                return true;
+            case R.id.menuEntrySettings:
+                Intent intent2 = new Intent(this,SettingsActivity.class);
+                startActivity(intent2);
+                finish();
+                return true;
+            case R.id.menuEntryLogout:
+                Intent intent3 = new Intent(this,LogInActivity.class);
+                startActivity(intent3);
+                finish();
+                return true;
+
         }
         return false;
     }
+
 
     @Override
     protected void onResume() {
