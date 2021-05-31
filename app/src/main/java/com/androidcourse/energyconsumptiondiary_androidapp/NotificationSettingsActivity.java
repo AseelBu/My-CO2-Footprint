@@ -1,7 +1,9 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,9 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
     private Button save;
     private TextView time;
 
+    private SharedPreferences prefs = null;
+    private boolean checkStatus;
+
 
 
     @Override
@@ -28,15 +33,20 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         Log.i("Notification", getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification_activity);
+        prefs=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         entryReminder= (CheckBox) findViewById(R.id.entryreminderCk);
         entryReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = prefs.edit();
                 if(entryReminder.isChecked()) {
                     showTimeDialog();
                 }
                 else if(!entryReminder.isChecked()){
                     time.setText(getString(R.string.emptyDash));
+                    checkStatus=false;
+                    editor.putBoolean(getString(R.string.isEntryNotificationSet), false);
+                    editor.commit();
                 }
             }
         });
@@ -49,6 +59,13 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         });
 //        returnbtn = (ImageButton) findViewById(R.id.imageButton6);
         save = (Button) findViewById(R.id.save);
+        if(prefs.getBoolean(getString(R.string.isEntryNotificationSet),false)) {
+            checkStatus=true;
+            entryReminder.setChecked(true);
+            time.setText(prefs.getString(getString(R.string.entryNotificationTime),getString(R.string.emptyDash)));
+        }else{
+            checkStatus=false;
+        }
         context=this;
 
         ActionBar ab = getSupportActionBar();
@@ -94,6 +111,15 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         String time= dialog.getChosenTime() ;
         this.time.setText(time);
         this.entryReminder.setChecked(true);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(getString(R.string.isEntryNotificationSet), true);
+        editor.putString(getString(R.string.entryNotificationTime), time);
+
+        if(editor.commit()){
+            Log.i("Notification", getClass().getSimpleName() + "notification settings are saved");
+        }
+        checkStatus=true;
 //        Toast.makeText(this, "onDialogPositiveClick " + res,Toast.LENGTH_SHORT).show();
     }
 
@@ -102,8 +128,11 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
 //        if(entryReminder.isChecked()) {
 //            showTimeDialog();
 //        }
-        if(!entryReminder.isChecked()){
+        SharedPreferences.Editor editor = prefs.edit();
+        if(!checkStatus){
            this.entryReminder.setChecked(false);
+            editor.putBoolean(getString(R.string.isEntryNotificationSet), false);
+            editor.commit();
         time.setText(getString(R.string.emptyDash));
         }
 
