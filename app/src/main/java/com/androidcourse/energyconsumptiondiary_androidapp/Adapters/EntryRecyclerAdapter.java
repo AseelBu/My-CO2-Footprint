@@ -31,12 +31,14 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
     List<? extends Co2Impacter> impacters;
     ImpactType impacterType;
    HashSet<TypeEntry> entries=new HashSet<>();
+    HashSet<TypeEntry> prevEntries=new HashSet<>();
     Context context;
 
     public EntryRecyclerAdapter(Context context, List<? extends Co2Impacter> impacters, ImpactType impacterType) {
         this.impacters = impacters;
         this.impacterType=impacterType;
         this.context=context;
+        this.prevEntries=new HashSet<>(((EntryActivity)context).getEntryData().getEntries());
     }
 
 
@@ -109,7 +111,15 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
             question.setText(impacterItem.getQuestion());
             txtUnit.setText(impacterItem.getUnit().name().toLowerCase());
             cardId.setText(String.valueOf(impacterItem.getImpacterID()));
+
             cardImg.setImageDrawable(new BitmapDrawable(context.getResources(), impacterItem.getImg()));
+            if(checkIfValueSet(impacterItem.getImpacterID())){
+                for(TypeEntry te:prevEntries){
+                    if(te.getId()==impacterItem.getImpacterID()){
+                        numPicker.setValue(te.getValue());
+                    }
+                }
+            }
             //check item type
             if(impacterItem instanceof Transportation) {
                 this.impacterItem=(Transportation)impacterItem;
@@ -134,5 +144,14 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
 
     public HashSet<TypeEntry> getEntries() {
         return entries;
+    }
+
+    private boolean checkIfValueSet(int id){
+        for(TypeEntry te:prevEntries){
+            if(te.getId()==id){
+                return true;
+            }
+        }
+        return false;
     }
 }
