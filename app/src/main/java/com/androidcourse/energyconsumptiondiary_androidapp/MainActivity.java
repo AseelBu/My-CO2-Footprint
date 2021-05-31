@@ -1,13 +1,19 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
@@ -23,10 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
     private DataHolder dh = DataHolder.getInstance();
     private MyCo2FootprintManager mg=MyCo2FootprintManager.getInstance();
+
+
     public Co2Impacter impacter;
     public ImpactType impacterType;
 
     private Context context;
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -36,10 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
             addDataToDataHolder();
 
+
+
         Intent intent = new Intent(context, LogInActivity.class);
         startActivity(intent);
         MainActivity.this.finish();
 //            hideKeyboard();
+
 
 
         }
@@ -228,5 +240,7 @@ public class MainActivity extends AppCompatActivity {
 //            t.printStackTrace();
 //        }
 //    }
+
+
 
 }

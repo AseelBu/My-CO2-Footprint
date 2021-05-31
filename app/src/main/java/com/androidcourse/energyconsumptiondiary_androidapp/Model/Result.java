@@ -127,4 +127,6 @@ public class Result {
     public double getTotal(){
         return transportationResult+foodResult+electricsResult+servicesResult;
     }
+
+
 }

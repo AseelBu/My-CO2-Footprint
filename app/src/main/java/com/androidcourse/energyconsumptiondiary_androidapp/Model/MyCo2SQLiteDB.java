@@ -951,17 +951,16 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     }
 
     /**
-     * get last k results for specific user
+     * get all results for specific user
      * @param userId
-     * @param k  the wanted amount of results
      * @return List<Result>
      */
-    public List<Result> getAllResults(int userId,int k) {
+    public List<Result> getAllResults(int userId ){
         List<Result> results = new ArrayList<Result>();
         Cursor cursor = null;
         try {
             cursor = db.query(TABLE_RESULT_NAME, TABLE_RESULT_COLUMNS, RESULT_COLUMN_USERID+"= ? ",new String[] { String.valueOf(userId) } ,
-                    null, null, RESULT_COLUMN_DATE +" DESC ",String.valueOf(k));
+                    null, null, null);
 
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {

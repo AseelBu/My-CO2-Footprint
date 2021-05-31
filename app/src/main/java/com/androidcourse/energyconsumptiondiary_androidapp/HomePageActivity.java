@@ -1,10 +1,14 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,10 +20,13 @@ import android.widget.Toast;
 
 public class HomePageActivity extends AppCompatActivity {
     private static final String TAG = "HomePageActivity";
+    public static final int PERMISSIONS_REQUEST = 1;
+    public static final String PERMISSION_READ_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
 
     private Button editDataBtn = null;
     private Context context;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
@@ -35,6 +42,8 @@ public class HomePageActivity extends AppCompatActivity {
             }
         }
 
+
+
         context=this;
 
         //action bar set up
@@ -43,7 +52,10 @@ public class HomePageActivity extends AppCompatActivity {
 //        ab.setLogo(R.drawable.logo_co2);
 //        ab.setDisplayUseLogoEnabled(true);
 
-
+        //permissions
+        if(!hasPermission()){
+            requestPermission();
+        }
     }
     //open new entry activity
     public void entryBtnClicked(View v){
@@ -104,5 +116,17 @@ public class HomePageActivity extends AppCompatActivity {
 
         }
         return false;
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean hasPermission(){
+        return checkSelfPermission(PERMISSION_READ_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestPermission(){
+        if(shouldShowRequestPermissionRationale(PERMISSION_READ_STORAGE)){
+            Toast.makeText(HomePageActivity.this,"Read storage permission is required",Toast.LENGTH_LONG).show();
+        }
+        requestPermissions(new String[]{PERMISSION_READ_STORAGE},PERMISSIONS_REQUEST);
     }
 }

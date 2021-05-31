@@ -6,6 +6,8 @@ import android.util.Log;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MyCo2FootprintManager {
@@ -249,11 +251,16 @@ public void removeImpacter(ImpactType impacterType,int id)
     }
 
     public List<Result> getAllResults(int userId,int limit) {
-        List<Result> result = new ArrayList<Result>();
+        List<Result> results = new ArrayList<Result>();
+        List<Result> kResults = new ArrayList<Result>();
         if (db != null) {
-            result = db.getAllResults(userId,limit);
+            results = db.getAllResults(userId);
+            Collections.sort(results, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
+            for(int i=0;i<limit;i++){
+                kResults.add(results.get(i));
+            }
         }
-        return result;
+        return kResults;
     }
 
 

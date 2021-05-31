@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -43,6 +44,8 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     public static final String TAG = "AddingItemActivity";
     private static final String IMPACTERTYPE = "ImpacterType";
     public static final int REQUEST_IMAGE_GET = 3;
+
+
 
     private ImpactType impacterType;
     private Co2Impacter impacter=null;
@@ -136,8 +139,9 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 //                Intent intent=new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 //                startActivityForResult(intent, REQUEST_IMAGE_GET);
                 Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                if (intent.resolveActivity(getPackageManager()) != null) {
+                intent.setType("images/*");
+                PackageManager pm=getPackageManager();
+                if (intent.resolveActivity(pm) != null) {
                     startActivityForResult(Intent.createChooser(intent,"Choose Picture"), REQUEST_IMAGE_GET);
                 }else{
                     Toast.makeText(getApplicationContext(), "No permission for files", Toast.LENGTH_SHORT).show();
