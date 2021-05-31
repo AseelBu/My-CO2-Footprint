@@ -1,19 +1,22 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class HomePageActivity extends AppCompatActivity {
     private static final String TAG = "HomePageActivity";
-    private Button enteryBtn = null;
-    private Button prevResultsBtn = null;
-    private Button leaderboardBtn = null;
-    private Button settingsBtn = null;
+
     private Button editDataBtn = null;
     private Context context;
 
@@ -23,10 +26,6 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page_grid);
 
-        enteryBtn=(Button)findViewById(R.id.newEnteryBtn);
-        prevResultsBtn=(Button)findViewById(R.id.previousResultsBtn);
-        leaderboardBtn=(Button)findViewById(R.id.leaderboardBtn);
-        settingsBtn=(Button)findViewById(R.id.previousResultsBtn);
         editDataBtn=(Button)findViewById(R.id.homeEditDataBtn);
         Intent intent = getIntent();
         if(intent!=null) {
@@ -40,7 +39,10 @@ public class HomePageActivity extends AppCompatActivity {
 
         //action bar set up
         ActionBar ab = getSupportActionBar();
-        ab.hide();
+        ab.setDisplayHomeAsUpEnabled(false);
+//        ab.setLogo(R.drawable.logo_co2);
+//        ab.setDisplayUseLogoEnabled(true);
+
 
     }
     //open new entry activity
@@ -80,5 +82,27 @@ public class HomePageActivity extends AppCompatActivity {
 
         Intent intent = new Intent(context,EditMainActivity.class);
         startActivity(intent);
+    }
+
+//menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.menuLogout:
+                Intent intent = new Intent(this,LogInActivity.class);
+                startActivity(intent);
+               finish();
+                return true;
+
+        }
+        return false;
     }
 }

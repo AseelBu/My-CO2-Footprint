@@ -35,6 +35,7 @@ public class GaugeChartFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
+        dbManager.openDataBase(getContext());
         super.onCreate(savedInstanceState);
 
     }
@@ -50,7 +51,9 @@ public class GaugeChartFragment extends Fragment {
         Bundle args = getArguments();
         if(args!=null){
             resultId=args.getInt("resultId");
+//            dbManager.openDataBase(getContext());
             result=dbManager.getResultById(resultId);
+//            dbManager.closeDataBase();
         }
 
         //set colors
@@ -97,8 +100,21 @@ public class GaugeChartFragment extends Fragment {
     }
 
     private void loadGaugeData(){
-        resultGauge.setValue(70.0);
-//        resultGauge.setValue(result.getTotal());
+//        resultGauge.setValue(70.0);
+        resultGauge.setValue(result.getTotal());
 
+    }
+
+    @Override
+    public void onResume() {
+        MyCo2FootprintManager.getInstance().openDataBase(getContext());
+        super.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        MyCo2FootprintManager.getInstance().closeDataBase();
+        super.onPause();
     }
 }

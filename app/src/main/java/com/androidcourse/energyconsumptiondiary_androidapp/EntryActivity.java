@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -188,12 +190,15 @@ public class EntryActivity extends AppCompatActivity  {
                     // save the new entry
                    saveEntryToDB();
                     Result result=new Result(entryData.getUserId(),entryData.getDate());
-                    //TODO uncomment result calculations
-//                    result.calculateAndSetResult(entryData.getEntries());
-//                    int resultId= dbManager.createResult(result);
+
+
+                    // result calculations
+                    result.calculateAndSetResult(entryData.getEntries());
+                    int resultId= dbManager.createResult(result);
 //
-//
-//                    intent.putExtra("resultId",resultId);
+
+
+                    intent.putExtra("resultId",resultId);
                     intent.putExtra("date",this.entryData.getDate());
                     startActivity(intent);
                 }
@@ -204,12 +209,14 @@ public class EntryActivity extends AppCompatActivity  {
     }
 
     private void saveEntryToDB() {
-        ArrayList<Integer> typeEntryIds=new ArrayList<Integer>();
+//        ArrayList<Integer> typeEntryIds=new ArrayList<Integer>();
+
         ArrayList<TypeEntry> entriesList=entryData.getEntries();
         int entryId=dbManager.createEntry(entryData);
         for(TypeEntry entry : entriesList){
             dbManager.createTypeEntry(entryId,entry);
         }
+
     }
 
     public void onFragmentBackClick( List<TypeEntry> fragmentData) {
@@ -338,6 +345,17 @@ public class EntryActivity extends AppCompatActivity  {
 //        }
 //    }
 
+    //menu creation
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.entry_menu, menu);
+        return true;
+    }
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -345,6 +363,22 @@ public class EntryActivity extends AppCompatActivity  {
 //                onFragmentBackClick(getCurrentFragmentEntries());
                 finish();
                 return true;
+            case R.id.menuEntryPrevResults:
+                Intent intent1 = new Intent(this,PreviousResultsActivity.class);
+                startActivity(intent1);
+                finish();
+                return true;
+            case R.id.menuEntrySettings:
+                Intent intent2 = new Intent(this,SettingsActivity.class);
+                startActivity(intent2);
+                finish();
+                return true;
+            case R.id.menuEntryLogout:
+                Intent intent3 = new Intent(this,LogInActivity.class);
+                startActivity(intent3);
+                finish();
+                return true;
+
         }
         return false;
     }

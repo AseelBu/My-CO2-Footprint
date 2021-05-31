@@ -52,10 +52,14 @@ public class MyCo2FootprintManager {
     //-----------------------co2 impacter
     public Co2Impacter getSelectedCO2Impacter(ImpactType c) {
         switch (c) {
-            case ELECTRICAL: return selectedElectricalHouseSupplies;
-            case SERVICES: return selectedService;
-            case FOOD:return selectedFood;
-            case TRANSPORTATIOIN: return selectedTransportation;
+            case ELECTRICAL:
+                return selectedElectricalHouseSupplies;
+            case SERVICES:
+                return selectedService;
+            case FOOD:
+                return selectedFood;
+            case TRANSPORTATIOIN:
+                return selectedTransportation;
         }
         return null;
     }
@@ -79,14 +83,9 @@ public class MyCo2FootprintManager {
     }
 public void removeImpacter(ImpactType impacterType,int id)
     {
-        switch (impacterType)
-        {
-            case ELECTRICAL: deleteElectric(id);break;
-            case FOOD:deleteFood(id); break;
-            case SERVICES:deleteService(id);break;
-            case TRANSPORTATIOIN:deleteTransportation(id);
+       if(db!=null){
+           db.removeImpacter(impacterType,id);
         }
-        deleteCo2Impacter(id);
 
     }
     //---co2 impacter
@@ -141,8 +140,9 @@ public void removeImpacter(ImpactType impacterType,int id)
 
     public ArrayList<Co2Impacter> getImpactersByType(ImpactType impacterType)
     {
-        if(db !=null)
-        return db.getImpactersByType(impacterType);
+        if(db !=null) {
+            return db.getImpactersByType(impacterType);
+        }
         return new ArrayList<>();
     }
     public int createTransportation(int id,Transportation item) {

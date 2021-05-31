@@ -55,6 +55,7 @@ public class PieChartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        dbManager.openDataBase(getContext());
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreateView()");
         // Inflate the layout for this fragment
         View rootView= inflater.inflate(R.layout.fragment_pie_chart, container, false);
@@ -107,9 +108,10 @@ public class PieChartFragment extends Fragment {
 
         for (MyPieData data : pieValues) {
             // turn your data into Entry objects
-
-            entries.add(new PieEntry(data.getValue(),data.getLabel(),data.getIcon()));
-        }
+            if(data.getValue()>0) {
+                entries.add(new PieEntry(data.getValue(), data.getLabel(), data.getIcon()));
+            }
+            }
 
         PieDataSet dataSet = new PieDataSet(entries,"");
 
@@ -157,5 +159,18 @@ public class PieChartFragment extends Fragment {
         values.add(new MyPieData(Double.valueOf(result.getServicesResult()).floatValue(),"Services",getContext().getDrawable(R.drawable.ic_baseline_wash_24_white)));
         return values;
 
+    }
+
+    @Override
+    public void onResume() {
+        MyCo2FootprintManager.getInstance().openDataBase(getContext());
+        super.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        MyCo2FootprintManager.getInstance().closeDataBase();
+        super.onPause();
     }
 }
