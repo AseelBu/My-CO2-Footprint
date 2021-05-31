@@ -717,14 +717,12 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         try {
             cursor = db.query(TABLE_CO2IMPACTER_NAME, TABLE_CO2IMPACTER_COLUMNS, null, null,
                     null, null, null);
-
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 Co2Impacter  item = cursorToCO2Impacter(cursor);
                 result.add(item);
                 cursor.moveToNext();
             }
-
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
@@ -735,7 +733,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         }
         return result;
     }
-
     private Co2Impacter  cursorToCO2Impacter(Cursor cursor) {
         Co2Impacter result = new Co2Impacter ();
         try {

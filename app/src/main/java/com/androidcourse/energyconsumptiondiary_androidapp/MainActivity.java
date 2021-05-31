@@ -54,22 +54,22 @@ public class MainActivity extends AppCompatActivity {
 
         }
 //    builder for the impacter by type
-    private void createImpacter(ImpactType t) {
-        switch (t){
-            case TRANSPORTATIOIN:
-                impacter= new Transportation();
-                break;
-            case FOOD:
-                impacter= new Food();
-                break;
-            case ELECTRICAL:
-                impacter= new ElectricalHouseSupplies();
-                break;
-            case SERVICES:
-                impacter= new Service();
-                break;
-        }
-    }
+//    private void createImpacter(ImpactType t) {
+//        switch (t){
+//            case TRANSPORTATIOIN:
+//                impacter= new Transportation();
+//                break;
+//            case FOOD:
+//                impacter= new Food();
+//                break;
+//            case ELECTRICAL:
+//                impacter= new ElectricalHouseSupplies();
+//                break;
+//            case SERVICES:
+//                impacter= new Service();
+//                break;
+//        }
+//    }
 
 
     //add users method
@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         //create Co2 impacters
     private void createTransportation(int size){
             int id;
-        createImpacter(ImpactType.TRANSPORTATIOIN);
         impacter=new Transportation("Plane","How many hours did you fly today?",Units.HOUR,700, BitmapFactory.decodeResource(context.getResources(),R.drawable.travelling),"Diesel");
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
              id = MyCo2FootprintManager.getInstance().createCO2Impacter(impacter);
@@ -114,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void createFood(int size){
             int id;
-        createImpacter(ImpactType.FOOD);
         impacter=new Food("Eggs","How many grams did you eat?",Units.UNIT,100,BitmapFactory.decodeResource(context.getResources(),R.drawable.eggs));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = MyCo2FootprintManager.getInstance().createCO2Impacter(impacter);
@@ -154,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void createElectricals(int size){
             int id;
-        createImpacter(ImpactType.ELECTRICAL);
         impacter=new ElectricalHouseSupplies("Washing machine","How many hours you use it?",Units.HOUR,700,BitmapFactory.decodeResource(context.getResources(),R.drawable.washingmachine));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = MyCo2FootprintManager.getInstance().createCO2Impacter(impacter);
@@ -179,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void createService(int size){
             int id;
-        createImpacter(ImpactType.SERVICES);
             impacter=new Service( "water consumption ", "How many liters have you used?", Units.Liter, 700, BitmapFactory.decodeResource(context.getResources(), R.drawable.wat));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = MyCo2FootprintManager.getInstance().createCO2Impacter(impacter);
