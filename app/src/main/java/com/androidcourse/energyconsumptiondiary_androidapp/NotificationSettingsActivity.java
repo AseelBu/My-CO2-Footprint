@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -57,7 +56,6 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
                 showTimeDialog();
             }
         });
-//        returnbtn = (ImageButton) findViewById(R.id.imageButton6);
         save = (Button) findViewById(R.id.save);
         if(prefs.getBoolean(getString(R.string.isEntryNotificationSet),false)) {
             checkStatus=true;
@@ -67,26 +65,18 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
             checkStatus=false;
         }
         context=this;
-
         ActionBar ab = getSupportActionBar();
-//        ab.setTitle(R.string.yourResults);
         ab.setDisplayHomeAsUpEnabled(true);
-
-
     }
 
     public void returnBtnClicked(View v) {
         Intent intent = new Intent(context, SettingsActivity.class);
         startActivity(intent);
-
     }
     public void save(View v) {
         Intent intent = new Intent(context, SettingsActivity.class);
         startActivity(intent);
-
     }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -97,11 +87,8 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         return false;
     }
     private void showTimeDialog() {
-
         FragmentManager fm = getSupportFragmentManager();
-
         TimePickerDialogFragment timeDialog = TimePickerDialogFragment.newInstance(getString(R.string.whenNotification));
-
         timeDialog.show(fm, "timeSettingsDialog");
 
     }
@@ -125,9 +112,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
 
     @Override
     public void onDialogNegativeClick(TimePickerDialogFragment dialog) {
-//        if(entryReminder.isChecked()) {
-//            showTimeDialog();
-//        }
+
         SharedPreferences.Editor editor = prefs.edit();
         if(!checkStatus){
            this.entryReminder.setChecked(false);
@@ -135,6 +120,5 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
             editor.commit();
         time.setText(getString(R.string.emptyDash));
         }
-
     }
 }

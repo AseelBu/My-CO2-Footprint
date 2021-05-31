@@ -1,23 +1,17 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 
 public class PreviousResultsActivity extends AppCompatActivity implements PrevResultsFragmentListener {
-//    private DataHolder dh = DataHolder.getInstance();
     private MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
-
-
     private static final String TAG = "PreviousResultsActivity";
     private CardView cv;
     private PieChartFragment pf;
@@ -30,31 +24,21 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
         ab.setDisplayHomeAsUpEnabled(true);
         cv=(CardView)findViewById(R.id.dayResultCard);
         cv.setVisibility(View.GONE);
-
         FragmentManager fm =getSupportFragmentManager();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int userId=sharedPref.getInt(getResources().getString(R.string.prefLoggedUser),-1);
-
         db.openDataBase(this);
         if(db.getAllResults(userId,7).isEmpty()){
             NoResultsFragment noResults = new NoResultsFragment();
             fm.beginTransaction()
                     .replace(R.id.barChartFragment, noResults)
                     .commit();
-
         }else{
             BarChartFragment prevResultsBars=new BarChartFragment();
             fm.beginTransaction()
                     .replace(R.id.barChartFragment, prevResultsBars)
                     .commit();
         }
-
-//        pf=(PieChartFragment)findViewById(R.id.pieChartPrevFragment);
-
-
-
-
-
     }
 
     @Override
@@ -71,7 +55,6 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
     protected void onResume() {
         MyCo2FootprintManager.getInstance().openDataBase(this);
         super.onResume();
-
     }
 
     @Override

@@ -1,5 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
-
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.EntryActivity;
@@ -21,13 +19,10 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdapter.EntryCardViewHolder>{
-
     List<? extends Co2Impacter> impacters;
     ImpactType impacterType;
    HashSet<TypeEntry> entries=new HashSet<>();
@@ -40,8 +35,6 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
         this.context=context;
         this.prevEntries=new HashSet<>(((EntryActivity)context).getEntryData().getEntries());
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -62,10 +55,7 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
         Log.i("EntryAdapter","entering onBindView");
         Co2Impacter impacterItem = impacters.get(holder.getAdapterPosition());
         holder.setData(impacterItem);
-
-
     }
-
 
     public class EntryCardViewHolder extends RecyclerView.ViewHolder{
         private Co2Impacter impacterItem=null;
@@ -84,7 +74,6 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
             numPicker.setMinValue(0);
             numPicker.setMaxValue(200);
             numPicker.setWrapSelectorWheel(false);
-
             numPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                 @Override
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -93,7 +82,6 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
                     if(!entries.add(cardData)){
                         updateEntry(cardData);
                     }
-
                     Log.i("EntryAdapter","value choosed= "+cardData.getValue());
                 }
             });
@@ -103,7 +91,6 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
             cardImg=(ImageView)v.findViewById(R.id.entryImg);
 
         }
-
 
         public void setData(Co2Impacter impacterItem) {
             Log.i("EntryAdapter","entering setData");
@@ -123,7 +110,6 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
             //check item type
             if(impacterItem instanceof Transportation) {
                 this.impacterItem=(Transportation)impacterItem;
-
             }
             else if(impacterItem instanceof Food){
                 this.impacterItem=(Food)impacterItem;
@@ -139,7 +125,6 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
     private void updateEntry(TypeEntry newCard){
         entries.remove(newCard);
         entries.add(newCard);
-
     }
 
     public HashSet<TypeEntry> getEntries() {

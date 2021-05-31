@@ -1,47 +1,29 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import android.app.Activity;
-import android.icu.util.Calendar;
-import android.icu.util.TimeZone;
 import android.os.Bundle;
-
 import androidx.fragment.app.DialogFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.Locale;
 
-
 public class TimePickerDialogFragment extends DialogFragment {
-
-
-
-
 private final static String TITLE="Title";
-
     private String title="";
     private String chosenTime="";
-
     private TimePicker tp;
     private Button saveBtn;
     private Button cancelBtn;
-
     TimePickerListener mListener;
-
     private Activity activity;
-
     public TimePickerDialogFragment() {
         // Required empty public constructor
     }
-
 
     public static TimePickerDialogFragment newInstance(String title) {
         TimePickerDialogFragment fragment = new TimePickerDialogFragment();
@@ -51,8 +33,6 @@ private final static String TITLE="Title";
         fragment.setArguments(args);
         return fragment;
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +46,6 @@ private final static String TITLE="Title";
         }
         if (getArguments() != null) {
             this.title = getArguments().getString(TITLE);
-
         }
     }
 
@@ -77,9 +56,7 @@ private final static String TITLE="Title";
         View view= inflater.inflate(R.layout.fragment_time_picker_dialog, container, false);
         getDialog().setTitle(this.title);
         tp=(TimePicker)view.findViewById(R.id.timePickerSettings) ;
-
         chosenTime= new SimpleDateFormat("HH:mm",Locale.getDefault()).format(new Date());
-
         tp.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
@@ -107,8 +84,8 @@ private final static String TITLE="Title";
         return view;
     }
 
-
-    public String getChosenTime() {
+    public String getChosenTime()
+    {
         return this.chosenTime;
     }
 }

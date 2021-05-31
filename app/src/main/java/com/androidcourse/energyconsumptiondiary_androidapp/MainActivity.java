@@ -29,11 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private DataHolder dh = DataHolder.getInstance();
     private MyCo2FootprintManager mg=MyCo2FootprintManager.getInstance();
-
-
     public Co2Impacter impacter;
     public ImpactType impacterType;
-
     private Context context;
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
@@ -42,18 +39,10 @@ public class MainActivity extends AppCompatActivity {
         context=this;
         setContentView(R.layout.login);
             MyCo2FootprintManager.getInstance().openDataBase(this);
-
             addDataToDataHolder();
-
-
-
         Intent intent = new Intent(context, LogInActivity.class);
         startActivity(intent);
         MainActivity.this.finish();
-//            hideKeyboard();
-
-
-
         }
 
         private void addDataToDataHolder(){
@@ -63,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
             createElectricals(5);
             createService(2);
             createTips(4);
-
         }
+
 //    builder for the impacter by type
     private void createImpacter(ImpactType t) {
         switch (t){
@@ -82,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
 
     //add users method
         private void addUsers() {
@@ -144,11 +132,6 @@ public class MainActivity extends AppCompatActivity {
             id = mg.createCO2Impacter(impacter);
             mg.createFood(id, (Food) impacter);
         }
-//        impacter=new Food("cake","How many cakes did you eat today?",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.cake));
-//        if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
-//            id = mg.createCO2Impacter(impacter);
-//            mg.createFood(id, (Food) impacter);
-//        }
         impacter=new Food("Chocolate","How many pieces of chocolate did you eat today?",Units.UNIT,200,BitmapFactory.decodeResource(context.getResources(),R.drawable.chocolate));
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
             id = mg.createCO2Impacter(impacter);
@@ -169,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
             id = mg.createCO2Impacter(impacter);
             mg.createFood(id, (Food) impacter);
         }
-
         }
 
     private void createElectricals(int size){
@@ -221,32 +203,14 @@ public class MainActivity extends AppCompatActivity {
             dh.addTip("Title","some Tip",img);
         }
     }
-
-
     @Override
     protected void onResume() {
         mg.openDataBase(this);
         super.onResume();
-
     }
-
     @Override
     protected void onPause() {
         mg.closeDataBase();
         super.onPause();
     }
-//    private void hideKeyboard() {
-//        try {
-//            View view = this.getCurrentFocus();
-//            if (view != null) {
-//                final InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-//            }
-//        } catch (Throwable t) {
-//            t.printStackTrace();
-//        }
-//    }
-
-
-
 }

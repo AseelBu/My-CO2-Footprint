@@ -35,16 +35,12 @@ public class AdminEditListActivity extends AppCompatActivity {
     private ImpactType type=ImpactType.TRANSPORTATIOIN;
     private TextView txtFuel;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_edit_list);
         txtFuel=(TextView)findViewById(R.id.txtFuelTypeAdminHeader);
         RecyclerView recList = (RecyclerView) findViewById(R.id.dataListAdmin);
-//        if(ImpactType instanceof Transportation)
-//         MyCo2FootprintManager.getInstance().readCO2Impacter(Transportation);
-//        MyCo2FootprintManager.getInstance().readTransportation(id,item);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
@@ -76,20 +72,9 @@ public class AdminEditListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == ADDING_REQ_CODE ||requestCode==EDIT_REQ_CODE) && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            Transportation2 trans = (Transportation2) extras.get("data");
-//            adapter.addToList(trans);
             adapter.updateImpactersData();
             adapter.notifyDataSetChanged();
         }
-//         if (requestCode == EDIT_REQ_CODE && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            Transportation2 trans = (Transportation2) extras.get("data");
-//            int position = (int) extras.get("position");
-//            adapter.removeFromList(position);
-//            adapter.addToList(trans);
-//            adapter.notifyDataSetChanged();
-//        }
         }
 
     @Override
@@ -117,10 +102,8 @@ public class AdminEditListActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        Log.i("AdminEditListActivity ","entered on pause!!!!!");
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
-        Log.i("FFFFFFFF ","entered on pause!!!!!");
 
     }
 }

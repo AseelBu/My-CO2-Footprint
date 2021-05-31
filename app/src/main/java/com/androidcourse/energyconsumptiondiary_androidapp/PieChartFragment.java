@@ -1,15 +1,11 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyPieData;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
@@ -21,35 +17,23 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PieChartFragment extends Fragment {
-
     MyCo2FootprintManager dbManager= MyCo2FootprintManager.getInstance();
-
     private PieChart resultsPie =null;
-
-
-
     private static final String TAG = "PieChartFragment";
-
     private int resultId=-1;
     private Result result=null;
-
     public PieChartFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -71,8 +55,6 @@ public class PieChartFragment extends Fragment {
         animatePieChart();
         //appearance
         setupPieChart();
-
-
         return rootView;
     }
 
@@ -81,11 +63,7 @@ public class PieChartFragment extends Fragment {
         resultsPie.setUsePercentValues(true);
         resultsPie.setEntryLabelTextSize(14);
         resultsPie.setEntryLabelColor(Color.BLACK);
-//        resultsPie.setCenterText("CO2 footprint by category");
-//        resultsPie.setCenterTextSize(24);
         resultsPie.getDescription().setEnabled(false);
-
-
         //setting legend
         Legend l =resultsPie.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -97,26 +75,14 @@ public class PieChartFragment extends Fragment {
 
     private void loadPieChartData(){
         ArrayList<PieEntry> entries =new ArrayList<>();
-
-//        MyPieData[] pieValues = {new MyPieData(2.0f,"Transportation2",getContext().getDrawable(R.drawable.ic_baseline_directions_car_24_white)),
-//                new MyPieData(3.0f,"Food2",getContext().getDrawable(R.drawable.ic_baseline_fastfood_24_food)),
-//                new MyPieData(4.0f,"Electricity",getContext().getDrawable(R.drawable.ic_baseline_flash_on_24_white)),
-//                new MyPieData(1.0f,"Services2",getContext().getDrawable(R.drawable.ic_baseline_wash_24_white))};
-
         List<MyPieData> pieValues= createPieData(result);
-
-
         for (MyPieData data : pieValues) {
             // turn your data into Entry objects
             if(data.getValue()>0) {
                 entries.add(new PieEntry(data.getValue(), data.getLabel(), data.getIcon()));
             }
             }
-
         PieDataSet dataSet = new PieDataSet(entries,"");
-
-
-
         //setting colors
         ArrayList<Integer> colors = new ArrayList<>();
         for(int color : ColorTemplate.MATERIAL_COLORS){
@@ -129,11 +95,8 @@ public class PieChartFragment extends Fragment {
         dataSet.setValueLinePart1OffsetPercentage(80.f);
         dataSet.setValueLinePart1Length(0.4f);
         dataSet.setValueLinePart2Length(.4f);
-//        dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setSliceSpace(2f);
-
-
         //configuring data appearance
         PieData data = new PieData(dataSet);
         data.setDrawValues(true);
@@ -143,14 +106,11 @@ public class PieChartFragment extends Fragment {
         resultsPie.setDrawEntryLabels(false);
         resultsPie.setData(data);
         resultsPie.invalidate();
-
-//        Legend legend=resultsPie.getLegend();
     }
 
     private void animatePieChart(){
         resultsPie.animateY(1600, Easing.EaseInQuad);
     }
-
     private List<MyPieData> createPieData(Result result){
         ArrayList<MyPieData> values= new ArrayList<>();
         values.add(new MyPieData(Double.valueOf(result.getTransportationResult()).floatValue(),"Transportation",getContext().getDrawable(R.drawable.ic_baseline_directions_car_24_white)));
@@ -158,14 +118,12 @@ public class PieChartFragment extends Fragment {
         values.add(new MyPieData(Double.valueOf(result.getElectricsResult()).floatValue(),"Electrics",getContext().getDrawable(R.drawable.ic_baseline_flash_on_24_white)));
         values.add(new MyPieData(Double.valueOf(result.getServicesResult()).floatValue(),"Services",getContext().getDrawable(R.drawable.ic_baseline_wash_24_white)));
         return values;
-
     }
 
     @Override
     public void onResume() {
         MyCo2FootprintManager.getInstance().openDataBase(getContext());
         super.onResume();
-
     }
 
     @Override

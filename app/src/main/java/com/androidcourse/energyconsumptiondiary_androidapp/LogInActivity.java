@@ -16,7 +16,6 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Locale;
 
 public class LogInActivity extends AppCompatActivity {
@@ -117,16 +116,13 @@ public class LogInActivity extends AppCompatActivity {
     }
   //eneter to Forget Password activity
     public void ForgetPasswordClicked(View v){
-
         Intent intent = new Intent(context, ForgetPasswordActivity.class);
         startActivity(intent);
-
     }
     //enter to sign up activity
     public void SignUpClicked(View v){
         Intent intent = new Intent(context, SignUpActivity.class);
         startActivity(intent);
-
     }
     //check If Email is Exist
     public User checkIfEmailExist()
@@ -147,9 +143,4 @@ public class LogInActivity extends AppCompatActivity {
         }
          return true;
     }
-
-
-
-
-
 }

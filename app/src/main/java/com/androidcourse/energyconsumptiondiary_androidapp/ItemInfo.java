@@ -1,5 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 public class ItemInfo {
     private String name;
     private int imgId;
@@ -7,7 +6,6 @@ public class ItemInfo {
     public ItemInfo(String name, int imgId) {
         this.name = name;
         this.imgId = imgId;
-
     }
     public ItemInfo() {
     }

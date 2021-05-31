@@ -1,5 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
-
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
@@ -7,15 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Tip;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
-
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
@@ -53,7 +46,6 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
         private TextView vTitle;
         private TextView vContent;
         private ImageView vImage;
-
         private Tip tip=null;
 
         public TipViewHolder(View v) {

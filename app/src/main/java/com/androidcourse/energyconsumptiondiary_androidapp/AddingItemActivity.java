@@ -3,7 +3,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,10 +20,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
@@ -36,18 +32,13 @@ import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Locale;
 
 public class AddingItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "AddingItemActivity";
     private static final String IMPACTERTYPE = "ImpacterType";
     public static final int REQUEST_IMAGE_GET = 3;
-
-
-
     private ImpactType impacterType;
     private Co2Impacter impacter=null;
-
     protected static final int NEW_ITEM_TAG = -111;
     private TextView title;
     public EditText name = null;
@@ -59,15 +50,11 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     Bitmap bitmap = null;
     Units unit;
     private Context context;
-//    private final DataHolder dh = DataHolder.getInstance();
     private final MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
     private SharedPreferences prefs = null;
     private Button addBtn;
     private ImageButton uploadImgBtn;
     TextToSpeech t1;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -80,39 +67,21 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         co2Amount=(EditText)findViewById(R.id.amountt);
         question =(EditText)findViewById(R.id.Question);
         spinner = (Spinner) findViewById(R.id.spinner);
-//        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-//            @Override
-//            public void onInit(int status) {
-//                if (status != TextToSpeech.ERROR) {
-//                    t1.setLanguage(Locale.UK);
-//                }
-//            }
-//        });
-
         // Spinner click listener
         spinner.setOnItemSelectedListener(this);
-
         // Spinner Drop down elements
         Units[] categories = Units.values();
-
         // Creating adapter for spinner
         ArrayAdapter<Units> dataAdapter = new ArrayAdapter<Units>(this, android.R.layout.simple_spinner_item, categories);
-
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
-
-
-
-
         Intent intent = getIntent();
         if (intent != null) {
             impacterType = ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
             title.setText("Add " + impacterType.name().toLowerCase());
             createImpacter();
-
             //remove fuel type field if not transportation
             if(!impacterType.equals(ImpactType.TRANSPORTATIOIN)){
                 fuelType.setVisibility(View.GONE);
@@ -121,7 +90,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         }else{
             finish();
         }
-
 
         addBtn=(Button)findViewById(R.id.edititem2);
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -134,8 +102,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         uploadImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent=new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-//                startActivityForResult(intent, REQUEST_IMAGE_GET);
                 Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 if (intent.resolveActivity(getPackageManager()) != null) {
@@ -145,15 +111,11 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                 }
             }
         });
-
         context=this;
-
         //action bar
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -193,7 +155,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         }
     }
 
-
     //add item to the data holder
     public void addBtnClicked() {
         if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
@@ -219,8 +180,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-
-
                     //save impacter to DB
                     int id = db.createCO2Impacter(impacter);
                     db.createTransportation(id, (Transportation) impacter);
@@ -279,7 +238,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                             break;
                     }
 
-
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
                     String toSpeak = "added successfully";
@@ -294,7 +252,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -312,14 +269,11 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         Units item = (Units) parent.getItemAtPosition(position);
         impacter.setUnit(item);
         // Showing selected spinner item
-//        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-//        Units item = (Units) parent.getItemAtPosition(0);
-//        impacter.setUnit(item);
-//        Toast.makeText(parent.getContext(), "Please select units " , Toast.LENGTH_LONG).show();
+
     }
 
     @Override
