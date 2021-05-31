@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -72,11 +74,25 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    //menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                return true;
+            case R.id.menuLogout:
+                Intent intent = new Intent(this,LogInActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
         }
         return false;
@@ -102,4 +118,6 @@ public class SettingsActivity extends AppCompatActivity {
             //e.toString();
         }
     }
+
+
 }
