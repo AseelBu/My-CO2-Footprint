@@ -32,13 +32,12 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
-import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
+
 
 public class AddingItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "AddingItemActivity";
@@ -139,8 +138,11 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 //                Intent intent=new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 //                startActivityForResult(intent, REQUEST_IMAGE_GET);
                 Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("images/*");
+                intent.setType("image/*");
                 PackageManager pm=getPackageManager();
+                Log.d("intent is:",intent.toString());
+                Log.d("pm is:",pm.toString());
+                Log.d("intpm is:",intent.resolveActivity(pm).toString());
                 if (intent.resolveActivity(pm) != null) {
                     startActivityForResult(Intent.createChooser(intent,"Choose Picture"), REQUEST_IMAGE_GET);
                 }else{
@@ -160,6 +162,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         //get picture from phone gallery
         if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
@@ -167,7 +170,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 impacter.setImg(bitmap);
-                uploadImgBtn.setImageDrawable(new BitmapDrawable(getResources(), bitmap));
+                img.setImageDrawable(new BitmapDrawable(getResources(), bitmap));
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -196,7 +199,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         }
     }
 
-
     //add item to the data holder
     public void addBtnClicked() {
         if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
@@ -218,14 +220,10 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     //setting data in impacter
                     impacter.setName(name.getText().toString());
                     impacter.setQuestion(question.getText().toString());
-                    impacter.setImg(bitmap);
+//                    impacter.setImg(bitmap);
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-
-//                    dh.addImpacter(impacterType, impacter);
-
-                    //save impacter to DB
                     int id = db.createCO2Impacter(impacter);
                     db.createTransportation(id, (Transportation) impacter);
                     Intent intent = new Intent();
@@ -261,7 +259,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     //                setting data in impacter
                     impacter.setName(name.getText().toString());
                     impacter.setQuestion(question.getText().toString());
-                    impacter.setImg(bitmap);
+//                    impacter.setImg(bitmap);
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
@@ -336,7 +334,9 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
     @Override
     protected void onPause() {
+        Log.d("Adding",",aa");
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
+        Log.d("FFFAdding",",aa");
     }
 }

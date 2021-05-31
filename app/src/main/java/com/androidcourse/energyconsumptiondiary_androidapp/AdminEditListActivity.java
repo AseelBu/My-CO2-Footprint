@@ -120,5 +120,7 @@ public class AdminEditListActivity extends AppCompatActivity {
         Log.i("on pause ","entered on pause!!!!!");
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
+        Log.i("FFFFFFFF ","entered on pause!!!!!");
+
     }
 }

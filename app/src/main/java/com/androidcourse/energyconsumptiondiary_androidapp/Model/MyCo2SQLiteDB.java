@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION =10;
+    private static final int DATABASE_VERSION =11;
     private static final String DATABASE_NAME="MyCo2FootprintDB";
 
 
