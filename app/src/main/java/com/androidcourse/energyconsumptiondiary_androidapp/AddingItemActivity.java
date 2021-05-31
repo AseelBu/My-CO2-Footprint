@@ -269,14 +269,11 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         Units item = (Units) parent.getItemAtPosition(position);
         impacter.setUnit(item);
         // Showing selected spinner item
-//        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-//        Units item = (Units) parent.getItemAtPosition(0);
-//        impacter.setUnit(item);
-//        Toast.makeText(parent.getContext(), "Please select units " , Toast.LENGTH_LONG).show();
+
     }
 
     @Override

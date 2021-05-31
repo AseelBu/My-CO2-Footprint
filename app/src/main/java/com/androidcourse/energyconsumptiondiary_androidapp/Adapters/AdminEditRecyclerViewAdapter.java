@@ -1,7 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
-
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,21 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.AdminEditListActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.EditItemActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
-import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
-
 import java.util.ArrayList;
 import java.util.List;
 
