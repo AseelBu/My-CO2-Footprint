@@ -1,5 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,25 +22,20 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-
 public class EditItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "EditItemActivity";
     public static final int REQUEST_IMAGE_GET = 3;
@@ -88,19 +81,14 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         });
         // Spinner click listener
         spinner.setOnItemSelectedListener(this);
-
         // Spinner Drop down elements
         Units[] categories = Units.values();
-
         // Creating adapter for spinner
         ArrayAdapter<Units> dataAdapter = new ArrayAdapter<Units>(this, android.R.layout.simple_spinner_item, categories);
-
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
-
         imageUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,32 +105,24 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         if (intent != null) {
             id = intent.getIntExtra("id", -1);
             impacterType = ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
-
             impacter = db.getSelectedCO2Impacter(impacterType);
-//            impacter = dh.getImpacterByid(impacterType, id);
             setData(impacter, impacterType);
             title.setText("Edit " + impacterType.name().toLowerCase());
-
         } else {
             finish();
         }
-
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editClicked();
             }
         });
-
         //action bar
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
-
     //add new item instead of the old item in data list
     public void editClicked() {
-
-
         new AlertDialog.Builder(context)
                 .setIcon(R.drawable.ic_baseline_warning_24)
                 .setTitle("Are you sure you want to save changes?")
@@ -153,7 +133,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                         if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
                             if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
                                     (TextUtils.isEmpty(co2Amount.getText().toString())) || (TextUtils.isEmpty(fuelType.getText().toString()))) {
-
                                 String toSpeak = "save failed..There are empty input!";
                                 Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
                                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
@@ -161,19 +140,14 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                             //if the input is empty
                             else {
                                 try {
-//                setting data in impacter
+                                    //setting data in impacter
                                     impacter.setName(name.getText().toString());
                                     impacter.setQuestion(Question.getText().toString());
                                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-//                    impacter.setImg(db.getSelectedCO2Impacter(impacterType).getImg());
-//                    dh.addImpacter(impacterType, impacter);
-
-                                    //add to database
                                     int id = db.updateCo2Impacter((Transportation) impacter);
                                     db.updateTransportation(id, (Transportation) impacter);
-
                                     Intent intent = new Intent();
                                     setResult(RESULT_OK, intent);
                                     String toSpeak = "save successfully";
@@ -185,33 +159,22 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                 }
                             }
                         }
-
-
-
         else{
             if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
                     (TextUtils.isEmpty(co2Amount.getText().toString()))) {
-//                Toast.makeText(context,
-//                        "add failed..There are empty input!",
-//                        Toast.LENGTH_SHORT).show();
                                 String toSpeak = "save failed..There are empty input!";
                                 Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
                                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-
-
                             }
                             //if the input is empty
                             else {
                                 try {
-                                    //                setting data in impacter
+                                    //setting data in impacter
                                     impacter.setName(name.getText().toString());
                                     impacter.setQuestion(Question.getText().toString());
                                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-//                    impacter.setImg(db.getSelectedCO2Impacter(impacterType).getImg());
-//                    dh.addImpacter(impacterType, impacter);
                                     db.updateCo2Impacter(impacter);
-
                                     Intent intent = new Intent();
                                     setResult(RESULT_OK, intent);
                                     String toSpeak = "save successfully";
@@ -224,7 +187,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                             }
                         }
                     }
-
                 })
                 .setNegativeButton("No", null)
                 .show();
@@ -243,7 +205,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
 
     //set data info in view fields
     private void setData(Co2Impacter impacter, ImpactType type) {
-
         name.setText(impacter.getName());
         Question.setText(impacter.getQuestion());
         co2Amount.setText(String.valueOf(impacter.getCo2Amount()));
@@ -252,14 +213,11 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         Log.d("find method", String.valueOf(findIndex(enumValues, impacter.getUnit())));
         spinner.setSelection(findIndex(enumValues, impacter.getUnit()));
         imageUpload.setImageDrawable(new BitmapDrawable(context.getResources(), impacter.getImg()));
-
         if (impacter instanceof Transportation) {
             fuelType.setText(((Transportation) impacter).getFuelType());
         } else {
             fuelType.setVisibility(View.GONE);
         }
-
-
     }
 
     @Override
@@ -283,7 +241,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         }
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -300,7 +257,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         Units item = (Units) parent.getItemAtPosition(position);
         impacter.setUnit(item);
         // Showing selected spinner item
-//        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -3,10 +3,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,7 +23,6 @@ public class HomePageActivity extends AppCompatActivity {
     private static final String TAG = "HomePageActivity";
     public static final int PERMISSIONS_REQUEST = 1;
     public static final String PERMISSION_READ_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
-
     private Button editDataBtn = null;
     private Context context;
     private Activity activity;
@@ -33,11 +30,8 @@ public class HomePageActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page_grid);
-
-
         editDataBtn=(Button)findViewById(R.id.homeEditDataBtn);
         Intent intent = getIntent();
         if(intent!=null) {
@@ -47,16 +41,10 @@ public class HomePageActivity extends AppCompatActivity {
             }
         }
 
-
-
         context=this;
-
         //action bar set up
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(false);
-//        ab.setLogo(R.drawable.logo_co2);
-//        ab.setDisplayUseLogoEnabled(true);
-
         //permissions
         if(!hasPermission()){
             requestPermission();
@@ -66,41 +54,34 @@ public class HomePageActivity extends AppCompatActivity {
     public void entryBtnClicked(View v){
         Intent intent = new Intent(context, EntryActivity.class);
         startActivity(intent);
-
     }
     //logout
     public void logoutBtnClicked(View v){
         Intent intent = new Intent(context, LogInActivity.class);
         startActivity(intent);
         finish();
-
     }
     //open previous result activity
     public void prevResultsBtnClicked(View v){
         Intent intent = new Intent(context, PreviousResultsActivity.class);
         startActivity(intent);
-
     }
     //open leaderboard and points activity
     public void leaderboardBtnClicked(View v){
         Intent intent = new Intent(context, LeaderboardAndPointsActivity.class);
         startActivity(intent);
-
     }
     //open settings activity
     public void settingsBtnClicked(View v){
         Intent intent = new Intent(context, SettingsActivity.class);
         startActivity(intent);
-
     }
-
     //enter to edit data activity
     public void editDataBtnClicked(View v){
 
         Intent intent = new Intent(context,EditMainActivity.class);
         startActivity(intent);
     }
-
 //menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,25 +93,21 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.menuLogout:
                 new AlertDialog.Builder(context)
                         .setIcon(R.drawable.ic_baseline_warning_24)
                         .setTitle("Are you sure ?")
                         .setMessage("Are you sure you want to logout?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(HomePageActivity.this, LogInActivity.class);
-
                                 startActivity(intent);
                                 finish();
                             }
                         }).setNegativeButton("No", null)
                         .show();
                 return true;
-
         }
         return false;
     }

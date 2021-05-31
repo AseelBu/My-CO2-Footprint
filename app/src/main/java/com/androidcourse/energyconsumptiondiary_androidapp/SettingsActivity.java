@@ -42,17 +42,11 @@ public class SettingsActivity extends AppCompatActivity {
         itemInfos.add(new ItemInfo("Notification Settings",R.drawable.bell));
         itemInfos.add(new ItemInfo("share with Friend",R.drawable.share));
         list = (ListView) findViewById(R.id.list);
-//        accountSettings=(Button)findViewById(R.id.accountsettings);
-//        notificationsettings=(Button)findViewById(R.id.notificationSet);
-//        shareWithFriends=(Button)findViewById(R.id.sharewithfriends);
-//        returnBtn=(ImageButton)findViewById(R.id.returnbtn);
-//        btnToggleDark=(Switch)findViewById(R.id.dark);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         adapter = new CustomListAdapter(this, itemInfos);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -74,7 +68,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
-
     //menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,7 +75,6 @@ public class SettingsActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -114,11 +106,9 @@ public class SettingsActivity extends AppCompatActivity {
     public void logoutBtnClicked(View v){
         Intent intent = new Intent(context, LogInActivity.class);
         startActivity(intent);
-
     }
       //share link of app in appstore
     public void share(View v){
-
         try {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");

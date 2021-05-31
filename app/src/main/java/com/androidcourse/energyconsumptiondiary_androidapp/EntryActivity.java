@@ -1,11 +1,8 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,15 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Entry;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +58,6 @@ public class EntryActivity extends AppCompatActivity  {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int userId=sharedPref.getInt(getResources().getString(R.string.prefLoggedUser),-1);
         entryData.setUserId(userId);
-
         nextBtn=(Button)findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +65,6 @@ public class EntryActivity extends AppCompatActivity  {
                 onFragmentNextClick(getCurrentFragmentEntries());
             }
         });
-
         backBtn=(Button)findViewById(R.id.backBtnEntry);
         backBtn.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -82,15 +73,11 @@ public class EntryActivity extends AppCompatActivity  {
                onFragmentBackClick(getCurrentFragmentEntries());
            }
        });
-
         FragmentManager fm = getSupportFragmentManager();
-
         fm.beginTransaction()
                 .replace(R.id.root_layout, dateFragment)
                 .commit();
-
         backBtn.setVisibility(View.GONE);
-
         //action bar set up
         ActionBar ab = getSupportActionBar();
         ab.setTitle(getString(R.string.newEntry));
@@ -98,11 +85,6 @@ public class EntryActivity extends AppCompatActivity  {
 
         context = this;
     }
-
-
-
-
-
 
     private ArrayList<TypeEntry> getCurrentFragmentEntries(){
         EntryDataFragment fr=null;
@@ -135,9 +117,6 @@ public class EntryActivity extends AppCompatActivity  {
 
     public void onFragmentNextClick(List<TypeEntry> fragmentData) {
         Log.d("EntryActivity","entered next clicked");
-//        Toast.makeText(EntryActivity.this,
-//                        ""+fragmentData.toString(),
-//                        Toast.LENGTH_SHORT).show();
         int nextIndex = currentIndex+1;
         currentIndex+=1;
         Log.d("EntryActivity","next index =" +nextIndex);
@@ -146,22 +125,17 @@ public class EntryActivity extends AppCompatActivity  {
             nextBtn.setEnabled(true);
         }
         FragmentManager fm = getSupportFragmentManager();
-
         switch (nextIndex){
             case TRANS:
                 fm.beginTransaction()
                         .replace(R.id.root_layout, transportFragment)
                         .commit();
-
                 backBtn.setVisibility(View.VISIBLE);
                 break;
             case FOOD:
-
                 fm.beginTransaction()
                         .replace(R.id.root_layout, foodFragment)
-
                         .commit();
-
                 break;
             case ELECTRIC:
 
@@ -169,7 +143,6 @@ public class EntryActivity extends AppCompatActivity  {
                         .replace(R.id.root_layout, electricFragment)
 
                         .commit();
-
                 break;
             case SERVICE:
                 nextBtn.setText(getResources().getString(R.string.showMyResults));
@@ -181,7 +154,6 @@ public class EntryActivity extends AppCompatActivity  {
                 fm.beginTransaction()
                         .replace(R.id.root_layout, serviceFragment)
                         .commit();
-
                 break;
             default:
                 if(nextIndex==SERVICE+1){
@@ -191,27 +163,17 @@ public class EntryActivity extends AppCompatActivity  {
                     // save the new entry
                    saveEntryToDB();
                     Result result=new Result(entryData.getUserId(),entryData.getDate());
-
-
                     // result calculations
                     result.calculateAndSetResult(entryData.getEntries());
                     int resultId= dbManager.createResult(result);
-//
-
-
                     intent.putExtra("resultId",resultId);
                     intent.putExtra("date",this.entryData.getDate());
                     startActivity(intent);
                 }
-
-
         }
-
     }
 
     private void saveEntryToDB() {
-//        ArrayList<Integer> typeEntryIds=new ArrayList<Integer>();
-
         ArrayList<TypeEntry> entriesList=entryData.getEntries();
         int entryId=dbManager.createEntry(entryData);
         for(TypeEntry entry : entriesList){
@@ -230,19 +192,14 @@ public class EntryActivity extends AppCompatActivity  {
 
         switch (prevIndex){
             case TRANS:
-
                 fm.beginTransaction()
                         .replace(R.id.root_layout, transportFragment)
                         .commit();
-
                 break;
             case FOOD:
-
                 fm.beginTransaction()
                         .replace(R.id.root_layout, foodFragment)
-
                         .commit();
-
                 break;
             case ELECTRIC:
                 nextBtn.setText(getResources().getString(R.string.next));
@@ -250,103 +207,24 @@ public class EntryActivity extends AppCompatActivity  {
                 nextBtn.setBackground(getDrawable(R.drawable.round_btn_dark_green));
                 fm.beginTransaction()
                         .replace(R.id.root_layout, electricFragment)
-
                         .commit();
-
                 break;
             case SERVICE:
                 nextBtn.setText(getResources().getString(R.string.showMyResults));
                 fm.beginTransaction()
                         .replace(R.id.root_layout, serviceFragment)
-
                         .commit();
-
                 break;
             case DATE:
-                    //date
-                    //nextBtn.setText(getResources().getString(R.string.showMyResults));
                     fm.beginTransaction()
                             .replace(R.id.root_layout, dateFragment)
-
                             .commit();
-
                     backBtn.setVisibility(View.GONE);
                     break;
             default:
                 finish();
-
         }
     }
-
-
-//    // TODO
-//    @Override
-//    public void onFragmentNextClick(EntryDataFragment efragment,List<TypeEntry> entryData) {
-//        int nextIndex = currentIndex+1;
-//        FragmentManager fm = getSupportFragmentManager();
-//
-//        switch (nextIndex){
-//            case TRANS:
-//                fm.beginTransaction()
-//                        .replace(R.id.root_layout, transportFragment)
-//
-//                        .commit();
-//                break;
-//            case FOOD:
-//
-//                fm.beginTransaction()
-//                        .replace(R.id.root_layout, foodFragment)
-//
-//                        .commit();
-//                break;
-//            case ELECTRIC:
-//
-//                fm.beginTransaction()
-//                        .replace(R.id.root_layout, electricFragment)
-//
-//                        .commit();
-//                break;
-//            case SERVICE:
-//                fm.beginTransaction()
-//                        .replace(R.id.root_layout, serviceFragment)
-//
-//                        .commit();
-//                break;
-//            default:
-//                if(nextIndex==SERVICE+1){
-//                    //resultspage
-//                    Intent intent = new Intent(context, ResultsActivity.class);
-////                    calculateResult(entry);
-//                    //        intent.putExtra();
-//                    startActivity(intent);
-//                }
-//
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onFragmentBackClick(EntryDataFragment efragment, List<TypeEntry> entryData) {
-//        int prevIndex = currentIndex-1;
-//        switch (prevIndex){
-//            case TRANS:
-//
-////                break;
-//            case FOOD:
-//                break;
-//            case ELECTRIC:
-//                break;
-////            case SERVICE:
-////                break;
-//            default:
-//                if(prevIndex==TRANS-1){
-//                    //date
-//                }
-//
-//        }
-//    }
-
-    //menu creation
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -354,8 +232,6 @@ public class EntryActivity extends AppCompatActivity  {
         inflater.inflate(R.menu.entry_menu, menu);
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -380,7 +256,6 @@ public class EntryActivity extends AppCompatActivity  {
                         .setTitle("Are you sure ?")
                         .setMessage("Are you sure you want to logout?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(EntryActivity.this, LogInActivity.class);
@@ -391,7 +266,6 @@ public class EntryActivity extends AppCompatActivity  {
                         }).setNegativeButton("No", null)
                         .show();
                 return true;
-
         }
         return false;
     }
@@ -400,7 +274,6 @@ public class EntryActivity extends AppCompatActivity  {
     protected void onResume() {
         MyCo2FootprintManager.getInstance().openDataBase(this);
         super.onResume();
-
     }
 
     @Override

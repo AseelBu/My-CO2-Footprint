@@ -1,8 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.core;
-
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
@@ -10,10 +8,8 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Tip;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -22,20 +18,15 @@ public class DataHolder {
 
     private ArrayList<Tip> tipsList = new ArrayList<>();
     private ArrayList<User> usersList= new ArrayList();
-
-    //CO2 impacter types
     private TreeSet<Transportation> transList = new TreeSet<>();
     private TreeSet<Food> foodList = new TreeSet<>();
     private TreeSet<ElectricalHouseSupplies> electricsList= new TreeSet<>();
     private TreeSet<Service> serviceList= new TreeSet<>();
-
     private static DataHolder instance = null;
-
 
     private DataHolder(){
 
     }
-
 
     public static DataHolder getInstance(){
         if(instance == null) {
@@ -44,26 +35,35 @@ public class DataHolder {
         return instance;
     }
 
-    public ArrayList<Tip> getTips(){
+    public ArrayList<Tip> getTips()
+    {
         return this.tipsList;
     }
-    public ArrayList<User> getUsers(){
+
+    public ArrayList<User> getUsers()
+    {
         return this.usersList;
     }
 
-    public ArrayList<Transportation> getTransportation(){
+    public ArrayList<Transportation> getTransportation()
+    {
         return  new ArrayList<Transportation>(this.transList);
     }
-    public ArrayList<Food> getFood(){
+
+    public ArrayList<Food> getFood()
+    {
         return  new ArrayList<Food>(this.foodList);
     }
-    public ArrayList<ElectricalHouseSupplies> getElectrics(){
+
+    public ArrayList<ElectricalHouseSupplies> getElectrics()
+    {
         return  new ArrayList<ElectricalHouseSupplies>(this.electricsList);
     }
-    public ArrayList<Service> getServices(){
+
+    public ArrayList<Service> getServices()
+    {
         return  new ArrayList<Service>(this.serviceList);
     }
-
 
     // ---------------Tips---------
     public void addTip(String title, String content, Bitmap img){
@@ -88,16 +88,6 @@ public class DataHolder {
         this.usersList.add(new User(userId,email,password,firstName,lastName));
     }
 
-//    public void addUserDetails(String firstName2,String lastName2,String email2,String password2){
-//
-//        this.usersList.add(new User(firstName2,lastName2,email2,password2));
-//
-//    }
-//    public void addTransportaion(String name,String fuel,int amount){
-//
-//        this.getTransportation().add(new Transportation2(name,fuel,amount));
-//
-//    }
     public void addAdmin(int id, String email, String password, String firstName, String lastName, Drawable img){
         User user= (new User(id,email,password,firstName,lastName,100,img));
         user.setAdmin(true);
@@ -177,7 +167,6 @@ public class DataHolder {
         return String.valueOf(position+1)+"/"+String.valueOf(users.size());
     }
 
-//----------------Co2 impacters-----------
     public void addTransportation(Transportation transportation) {
         transList.add(transportation);
     }
@@ -187,7 +176,6 @@ public class DataHolder {
     public void addTransportation( String name, String question,Units unit, int co2Amount, Bitmap img, String fuelType) {
         transList.add(new Transportation(name, question, unit, co2Amount ,img,fuelType));
     }
-
 
     public void addFood(Food food) {
         foodList.add(food);
@@ -211,7 +199,6 @@ public class DataHolder {
     public void addElectrics(String name, String question, Units unit,int co2Amount,Bitmap img) {
         electricsList.add(new ElectricalHouseSupplies(name,question,unit,co2Amount,img));
     }
-
 
     public void addService(Service service) {
         serviceList.add(service);
@@ -243,7 +230,6 @@ public class DataHolder {
     return data;
 
     }
-
 
     public void addImpacter(ImpactType type, Co2Impacter impacter){
         switch (type){
@@ -295,7 +281,6 @@ public class DataHolder {
                 impacterList=new ArrayList<>(getServices());
                 break;
         }
-
         for(Co2Impacter im: impacterList){
             if(im.getImpacterID()==id){
                 return im;

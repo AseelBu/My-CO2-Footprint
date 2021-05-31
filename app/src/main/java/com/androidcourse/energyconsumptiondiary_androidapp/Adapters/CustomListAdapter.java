@@ -10,29 +10,24 @@ import com.androidcourse.energyconsumptiondiary_androidapp.ItemInfo;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
 import java.util.List;
 
-
 public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
     private List<ItemInfo> dataList = null;
     private Context context = null;
-    //CustomListAdapter Constructor
     public CustomListAdapter(Context context, List<ItemInfo> dataList) {
         super(context, R.layout.mylist, dataList);
         this.dataList = dataList;
         this.context = context;
     }
-
     //get number of dataList size
     @Override
     public int getCount() {
         return dataList.size();
     }
-
     //get item in list
     @Override
     public ItemInfo getItem(int position) {
         return dataList.get(position);
     }
-
     //get view in list
     @Override
     public View getView( int position, View view, ViewGroup parent) {
@@ -45,6 +40,5 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
         txtTitle.setText(itemInfo.getName());
         imageView.setImageResource(itemInfo.getImgId());
         return rowView;
-
     };
 }

@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -20,8 +19,6 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
     private ImageButton returnbtn;
     private Button save;
     private TextView time;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,29 +44,20 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
                 showTimeDialog();
             }
         });
-//        returnbtn = (ImageButton) findViewById(R.id.imageButton6);
         save = (Button) findViewById(R.id.save);
         context=this;
-
         ActionBar ab = getSupportActionBar();
-//        ab.setTitle(R.string.yourResults);
         ab.setDisplayHomeAsUpEnabled(true);
-
-
     }
 
     public void returnBtnClicked(View v) {
         Intent intent = new Intent(context, SettingsActivity.class);
         startActivity(intent);
-
     }
     public void save(View v) {
         Intent intent = new Intent(context, SettingsActivity.class);
         startActivity(intent);
-
     }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -80,11 +68,8 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         return false;
     }
     private void showTimeDialog() {
-
         FragmentManager fm = getSupportFragmentManager();
-
         TimePickerDialogFragment timeDialog = TimePickerDialogFragment.newInstance(getString(R.string.whenNotification));
-
         timeDialog.show(fm, "timeSettingsDialog");
 
     }
@@ -94,18 +79,13 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         String time= dialog.getChosenTime() ;
         this.time.setText(time);
         this.entryReminder.setChecked(true);
-//        Toast.makeText(this, "onDialogPositiveClick " + res,Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDialogNegativeClick(TimePickerDialogFragment dialog) {
-//        if(entryReminder.isChecked()) {
-//            showTimeDialog();
-//        }
         if(!entryReminder.isChecked()){
            this.entryReminder.setChecked(false);
         time.setText(getString(R.string.emptyDash));
         }
-
     }
 }

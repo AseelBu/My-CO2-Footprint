@@ -46,13 +46,10 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     List<Result> allResults=new ArrayList<>();
     private BarChart barChart=null;
     private ArrayList<Date> datesLabels=new ArrayList<>();
-//    String[] datesArr={"12.2", "15.2","18.2"};
-
     PrevResultsFragmentListener mListener;
     private Activity activity;
 
     public BarChartFragment() {
-        // Required empty public constructor
     }
 
 
@@ -60,9 +57,6 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//
-//        }
         activity=getActivity();
         mListener = (PrevResultsFragmentListener) activity;
 
@@ -72,31 +66,21 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreateView()");
-        // Inflate the layout for this fragment
         View rootView= inflater.inflate(R.layout.fragment_bar_chart, container, false);
         barChart=(BarChart) rootView.findViewById(R.id.barChart);
-
-        //get user Id
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
         int userId=sharedPref.getInt(getResources().getString(R.string.prefLoggedUser),-1);
         allResults=dbManager.getAllResults(userId,7);
-
-
         //set colors
         setupBarChart();
         //set data
         loadBarChartData();
-
         return rootView;
-
     }
 
     private void loadBarChartData() {
 
         ArrayList<BarEntry> results = new ArrayList<>();
-//        for(int i=1; i<=4; i++){
-//        results.add(new BarEntry(i,i+1));
-//        }
         Collections.reverse(allResults);
         for(Result result:allResults){
             int index=allResults.size()-allResults.indexOf(result)-1;
@@ -109,13 +93,6 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
 
             datesLabels.add(result.getDate());
         }
-
-//        Collections.reverse(datesLabels);
-//        datesLabels.add("12.2.21");
-//        datesLabels.add("13.2.21");
-//        datesLabels.add("14.2.21");
-//        datesLabels.add("15.2.21");
-
         set.setColor(getActivity().getResources().getColor(R.color.darkGreen));
         set.setValueTextColor(Color.BLACK);
         set.setValueTextSize(12f);
@@ -127,22 +104,15 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     }
 
     private void setupBarChart() {
-
         XAxis xAxis= barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setTypeface(tfRegular);
         xAxis.setEnabled(true);
         xAxis.setTextColor(Color.BLACK);
         xAxis.setTextSize(12f);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setGranularityEnabled(true);
-//        xAxis.setLabelCount(datesLabels.size());
         xAxis.setCenterAxisLabels(false);
         xAxis.setLabelRotationAngle(-45);
-//        barChart.getAxisLeft().setDrawAxisLine(false);
-//        barChart.getAxisRight().setDrawAxisLine(false);
-//        xAxis.setXOffset(2f);
-
         xAxis.setValueFormatter(
 
     new ValueFormatter() {
@@ -156,7 +126,6 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
                     }
                 }
                 return "";
-
             }
 
         }
@@ -170,29 +139,13 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     private final RectF onValueSelectedRectF = new RectF();
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-
         if (e == null)
             return;
-
         RectF bounds = onValueSelectedRectF;
         barChart.getBarBounds((BarEntry) e, bounds);
         MPPointF position = barChart.getPosition(e, YAxis.AxisDependency.LEFT);
-
-        Log.i("bounds", bounds.toString());
-        Log.i("position", position.toString());
-
-        Log.i("x-index",
-                "low: " + barChart.getLowestVisibleX() + ", high: "
-                        + barChart.getHighestVisibleX());
-
-//        Toast.makeText(getContext(),
-//                "result clicked "+e.getY() ,
-//                Toast.LENGTH_SHORT).show();
-//        Log.i("resultId", "resultId: "+((Result)e.getData()).getId());
-
         int resultId=((Result)e.getData()).getId();
         mListener.onResultSelected(BarChartFragment.this,resultId);
-
         MPPointF.recycleInstance(position);
     }
 
@@ -200,6 +153,4 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     public void onNothingSelected() {
         mListener.onNothingSelected(BarChartFragment.this);
     }
-
-
 }

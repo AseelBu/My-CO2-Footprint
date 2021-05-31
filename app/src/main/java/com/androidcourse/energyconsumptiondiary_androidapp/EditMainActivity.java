@@ -15,27 +15,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class EditMainActivity extends AppCompatActivity {
     private static final String TAG = "AdminHomePageActivity";
     private static final String IMPACTERTYPE = "ImpacterType";
-
-//    private Button DataEdit=null;
-//    private Button enteryBtn = null;
-//    private Button prevResultsBtn = null;
-//    private Button leaderboardBtn = null;
-//    private Button settingsBtn = null;
-//    private Button logoutBtn = null;
-
     private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_options);
-
-//        DataEdit=(Button)findViewById(R.id.DataEdit222);
-//        enteryBtn =(Button)findViewById(R.id.NewEnt222);
-//        prevResultsBtn=(Button)findViewById(R.id.previousResultsBtn222);
-//        leaderboardBtn=(Button)findViewById(R.id.leaderboardBtn22);
-//        settingsBtn=(Button)findViewById(R.id.settingsBtn32);
-//        logoutBtn=(Button)findViewById(R.id.logout22);
         context=this;
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -72,16 +57,6 @@ public class EditMainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-    //logout
-//    public void logoutBtnClicked(View v)
-//    {
-//        Intent intent = new Intent(context, LogInActivity.class);
-//        startActivity(intent);
-//
-//    }
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

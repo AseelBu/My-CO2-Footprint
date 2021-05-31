@@ -1,8 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.Entry;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
-
 import java.util.List;
 
 public interface EntryDataFragmentListener {

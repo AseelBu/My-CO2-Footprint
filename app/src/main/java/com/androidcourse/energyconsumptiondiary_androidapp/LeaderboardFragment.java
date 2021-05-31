@@ -34,8 +34,6 @@ public class LeaderboardFragment extends Fragment {
     public LeaderboardFragment() {
     }
 
-
-
     public static LeaderboardFragment newInstance(int columnCount) {
         LeaderboardFragment fragment = new LeaderboardFragment();
         Bundle args = new Bundle();
@@ -57,7 +55,6 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
-
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -68,11 +65,8 @@ public class LeaderboardFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-
             recyclerView.setAdapter(new MyLeaderboardRecyclerViewAdapter(this.getContext(),dh.getLeaderboardUsers(10)));
         }
         return view;
     }
-
-
 }

@@ -1,8 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
-
-
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ItemInfo2;
-
 import java.util.List;
-
 
 public class CustomListAdapter2 extends ArrayAdapter<ItemInfo2> {
 
@@ -46,15 +39,6 @@ public class CustomListAdapter2 extends ArrayAdapter<ItemInfo2> {
         final ItemInfo2 itemInfo = dataList.get(position);
         txtTitle.setText(itemInfo.getName());
         imageView.setImageResource(itemInfo.getImgId());
-
-
-//		imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//				CustomListAdapter.this.remove(itemInfo);
-//            }
-//        });
         return rowView;
-
     };
 }

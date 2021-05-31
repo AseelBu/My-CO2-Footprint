@@ -1,12 +1,8 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 
 public class LeaderboardAndPointsActivity extends AppCompatActivity {
@@ -14,13 +10,9 @@ public class LeaderboardAndPointsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_leaderboard_and_points);
         ActionBar ab = getSupportActionBar();
-//        ab.setTitle(R.string.yourResults);
         ab.setDisplayHomeAsUpEnabled(true);
-
-
     }
 
     @Override
@@ -32,6 +24,4 @@ public class LeaderboardAndPointsActivity extends AppCompatActivity {
         }
         return false;
     }
-
-
 }

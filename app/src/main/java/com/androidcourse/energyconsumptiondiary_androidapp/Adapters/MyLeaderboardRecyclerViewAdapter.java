@@ -1,7 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,14 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
-
-
 import java.util.List;
-
 
 public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLeaderboardRecyclerViewAdapter.ViewHolder> {
     private DataHolder dh = DataHolder.getInstance();
@@ -44,8 +38,6 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
 
         User user = mUsers.get(position);
         holder.setData(user,position+1);
-
-        //color first 3 places
         if(!isColored) {
             if (position == 0&&flag1==true) {
                 Log.d("flag1 is", String.valueOf(flag1));
@@ -67,14 +59,12 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
                 isColored = true;
             }
         }
-
     }
 
     @Override
     public int getItemCount() {
         return mUsers.size();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIndex;
@@ -99,7 +89,5 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
             mPoints.setText(String.valueOf(user.getPoints()));
             mImg.setImageDrawable(user.getImage());
         }
-
-
     }
 }
