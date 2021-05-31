@@ -2,6 +2,7 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
@@ -139,79 +141,109 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
 
     //add new item instead of the old item in data list
     public void editClicked() {
-        if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
-            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
-                    (TextUtils.isEmpty(co2Amount.getText().toString())) || (TextUtils.isEmpty(fuelType.getText().toString()))) {
+
+
+        new AlertDialog.Builder(context)
+                .setIcon(android.R.drawable.ic_delete)
+                .setTitle("Are you sure you want to save changes?")
+                .setMessage("Do you want to edit")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        try {
+//                            db.openDataBase(context);
+//                            List<? extends Co2Impacter> impacters = MyCo2FootprintManager.getInstance().getAllCo2Impacter();
+//                            Co2Impacter item = db.getSelectedCO2Impacter(impacterType);
+//                            if (item != null) {
+//
+//                                db.removeImpacter(impacterType, item.getImpacterID());
+//                                db.closeDataBase();
+//                            }
+//
+//                            updateImpactersData();
+//                            notifyDataSetChanged();
+//                        } catch (Throwable e) {
+//                            e.printStackTrace();
+//                        }
+
+
+                        if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
+                            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
+                                    (TextUtils.isEmpty(co2Amount.getText().toString())) || (TextUtils.isEmpty(fuelType.getText().toString()))) {
 //                Toast.makeText(context,
 //                        "add failed..There are empty input!",
 //                        Toast.LENGTH_SHORT).show();
-                String toSpeak = "add failed..There are empty input!";
-                Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-            }
-            //if the input is empty
-            else {
-                try {
+                                String toSpeak = "add failed..There are empty input!";
+                                Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
+                                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                            }
+                            //if the input is empty
+                            else {
+                                try {
 //                setting data in impacter
-                    impacter.setName(name.getText().toString());
-                    impacter.setQuestion(Question.getText().toString());
-                    ((Transportation) impacter).setFuelType(fuelType.getText().toString());
-                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
-                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
+                                    impacter.setName(name.getText().toString());
+                                    impacter.setQuestion(Question.getText().toString());
+                                    ((Transportation) impacter).setFuelType(fuelType.getText().toString());
+                                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
+                                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 //                    impacter.setImg(db.getSelectedCO2Impacter(impacterType).getImg());
 //                    dh.addImpacter(impacterType, impacter);
 
-                    //add to database
-                    int id = db.updateCo2Impacter((Transportation) impacter);
-                    db.updateTransportation(id, (Transportation) impacter);
+                                    //add to database
+                                    int id = db.updateCo2Impacter((Transportation) impacter);
+                                    db.updateTransportation(id, (Transportation) impacter);
 
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
-                    String toSpeak = "add successfully";
-                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                    finish();
-                } catch (Throwable ew) {
-                    ew.printStackTrace();
-                }
-            }
-        } else if ((impacterType.equals(ImpactType.ELECTRICAL)) || (impacterType.equals(ImpactType.SERVICES)) || (impacterType.equals(ImpactType.FOOD))) {
-            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
-                    (TextUtils.isEmpty(co2Amount.getText().toString()))) {
+                                    Intent intent = new Intent();
+                                    setResult(RESULT_OK, intent);
+                                    String toSpeak = "add successfully";
+                                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
+                                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                                    finish();
+                                } catch (Throwable ew) {
+                                    ew.printStackTrace();
+                                }
+                            }
+                        } else if ((impacterType.equals(ImpactType.ELECTRICAL)) || (impacterType.equals(ImpactType.SERVICES)) || (impacterType.equals(ImpactType.FOOD))) {
+                            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
+                                    (TextUtils.isEmpty(co2Amount.getText().toString()))) {
 //                Toast.makeText(context,
 //                        "add failed..There are empty input!",
 //                        Toast.LENGTH_SHORT).show();
-                String toSpeak = "add failed..There are empty input!";
-                Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                                String toSpeak = "add failed..There are empty input!";
+                                Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
+                                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 
 
-            }
-            //if the input is empty
-            else {
-                try {
-                    //                setting data in impacter
-                    impacter.setName(name.getText().toString());
-                    impacter.setQuestion(Question.getText().toString());
-                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
-                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
+                            }
+                            //if the input is empty
+                            else {
+                                try {
+                                    //                setting data in impacter
+                                    impacter.setName(name.getText().toString());
+                                    impacter.setQuestion(Question.getText().toString());
+                                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
+                                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 //                    impacter.setImg(db.getSelectedCO2Impacter(impacterType).getImg());
 //                    dh.addImpacter(impacterType, impacter);
-                    db.updateCo2Impacter(impacter);
+                                    db.updateCo2Impacter(impacter);
 
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
-                    String toSpeak = "add successfully";
-                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                    finish();
-                } catch (Throwable ew) {
-                    ew.printStackTrace();
-                }
-            }
-        }
+                                    Intent intent = new Intent();
+                                    setResult(RESULT_OK, intent);
+                                    String toSpeak = "add successfully";
+                                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
+                                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                                    finish();
+                                } catch (Throwable ew) {
+                                    ew.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
-
     // Function to find the index of an element
     public int findIndex(List<Units> arr, Units t) {
         int i = 0;
