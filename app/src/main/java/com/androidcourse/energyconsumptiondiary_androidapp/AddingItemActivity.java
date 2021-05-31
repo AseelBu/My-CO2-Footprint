@@ -38,7 +38,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
 
-
 public class AddingItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "AddingItemActivity";
     private static final String IMPACTERTYPE = "ImpacterType";
@@ -81,14 +80,14 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         co2Amount=(EditText)findViewById(R.id.amountt);
         question =(EditText)findViewById(R.id.Question);
         spinner = (Spinner) findViewById(R.id.spinner);
-        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.UK);
-                }
-            }
-        });
+//        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+//            @Override
+//            public void onInit(int status) {
+//                if (status != TextToSpeech.ERROR) {
+//                    t1.setLanguage(Locale.UK);
+//                }
+//            }
+//        });
 
         // Spinner click listener
         spinner.setOnItemSelectedListener(this);
@@ -139,11 +138,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 //                startActivityForResult(intent, REQUEST_IMAGE_GET);
                 Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                PackageManager pm=getPackageManager();
-                Log.d("intent is:",intent.toString());
-                Log.d("pm is:",pm.toString());
-                Log.d("intpm is:",intent.resolveActivity(pm).toString());
-                if (intent.resolveActivity(pm) != null) {
+                if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(Intent.createChooser(intent,"Choose Picture"), REQUEST_IMAGE_GET);
                 }else{
                     Toast.makeText(getApplicationContext(), "No permission for files", Toast.LENGTH_SHORT).show();
@@ -162,7 +157,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
         //get picture from phone gallery
         if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
@@ -170,7 +164,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 impacter.setImg(bitmap);
-                img.setImageDrawable(new BitmapDrawable(getResources(), bitmap));
+                uploadImgBtn.setImageDrawable(new BitmapDrawable(getResources(), bitmap));
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -199,11 +193,12 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         }
     }
 
+
     //add item to the data holder
     public void addBtnClicked() {
         if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
 
-            Log.d("xaa", fuelType.getText().toString());
+
             //if text field is empty
             if ((TextUtils.isEmpty(name.getText().toString()))
                     || (TextUtils.isEmpty(question.getText().toString()))
@@ -224,14 +219,17 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
+
+
+                    //save impacter to DB
                     int id = db.createCO2Impacter(impacter);
                     db.createTransportation(id, (Transportation) impacter);
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
                     String toSpeak = "add successfully";
                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                    finish();
+//                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+//                    finish();
 
                 } catch (Throwable ew) {
                     ew.printStackTrace();
@@ -259,7 +257,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     //                setting data in impacter
                     impacter.setName(name.getText().toString());
                     impacter.setQuestion(question.getText().toString());
-//                    impacter.setImg(bitmap);
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
@@ -285,7 +282,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
-                    String toSpeak = "add successfully";
+                    String toSpeak = "added successfully";
                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
 //                            t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                     finish();
@@ -327,16 +324,14 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
     @Override
     protected void onResume() {
-        MyCo2FootprintManager.getInstance().openDataBase(this);
+        db.openDataBase(this);
         super.onResume();
 
     }
 
     @Override
     protected void onPause() {
-        Log.d("Adding",",aa");
-        MyCo2FootprintManager.getInstance().closeDataBase();
+        db.closeDataBase();
         super.onPause();
-        Log.d("FFFAdding",",aa");
     }
 }

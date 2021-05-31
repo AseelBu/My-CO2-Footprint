@@ -117,7 +117,7 @@ public class AdminEditListActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        Log.i("on pause ","entered on pause!!!!!");
+        Log.i("AdminEditListActivity ","entered on pause!!!!!");
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
         Log.i("FFFFFFFF ","entered on pause!!!!!");

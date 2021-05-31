@@ -1,9 +1,13 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -71,11 +75,37 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    //menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                return true;
+            case R.id.menuLogout:
+                new AlertDialog.Builder(context)
+                        .setIcon(R.drawable.ic_baseline_warning_24)
+                        .setTitle("Are you sure ?")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(SettingsActivity.this, LogInActivity.class);
+
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).setNegativeButton("No", null)
+                        .show();
                 return true;
         }
         return false;

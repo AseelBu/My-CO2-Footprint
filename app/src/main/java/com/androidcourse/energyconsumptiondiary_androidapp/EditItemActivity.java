@@ -144,36 +144,17 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
 
 
         new AlertDialog.Builder(context)
-                .setIcon(android.R.drawable.ic_delete)
+                .setIcon(R.drawable.ic_baseline_warning_24)
                 .setTitle("Are you sure you want to save changes?")
                 .setMessage("Do you want to edit")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-//                        try {
-//                            db.openDataBase(context);
-//                            List<? extends Co2Impacter> impacters = MyCo2FootprintManager.getInstance().getAllCo2Impacter();
-//                            Co2Impacter item = db.getSelectedCO2Impacter(impacterType);
-//                            if (item != null) {
-//
-//                                db.removeImpacter(impacterType, item.getImpacterID());
-//                                db.closeDataBase();
-//                            }
-//
-//                            updateImpactersData();
-//                            notifyDataSetChanged();
-//                        } catch (Throwable e) {
-//                            e.printStackTrace();
-//                        }
-
-
                         if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
                             if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
                                     (TextUtils.isEmpty(co2Amount.getText().toString())) || (TextUtils.isEmpty(fuelType.getText().toString()))) {
-//                Toast.makeText(context,
-//                        "add failed..There are empty input!",
-//                        Toast.LENGTH_SHORT).show();
-                                String toSpeak = "add failed..There are empty input!";
+
+                                String toSpeak = "save failed..There are empty input!";
                                 Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
                                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                             }
@@ -195,7 +176,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
 
                                     Intent intent = new Intent();
                                     setResult(RESULT_OK, intent);
-                                    String toSpeak = "add successfully";
+                                    String toSpeak = "save successfully";
                                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
                                     t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                                     finish();
@@ -203,13 +184,17 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     ew.printStackTrace();
                                 }
                             }
-                        } else if ((impacterType.equals(ImpactType.ELECTRICAL)) || (impacterType.equals(ImpactType.SERVICES)) || (impacterType.equals(ImpactType.FOOD))) {
-                            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
-                                    (TextUtils.isEmpty(co2Amount.getText().toString()))) {
+                        }
+
+
+
+        else{
+            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
+                    (TextUtils.isEmpty(co2Amount.getText().toString()))) {
 //                Toast.makeText(context,
 //                        "add failed..There are empty input!",
 //                        Toast.LENGTH_SHORT).show();
-                                String toSpeak = "add failed..There are empty input!";
+                                String toSpeak = "save failed..There are empty input!";
                                 Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
                                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 
@@ -229,7 +214,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
 
                                     Intent intent = new Intent();
                                     setResult(RESULT_OK, intent);
-                                    String toSpeak = "add successfully";
+                                    String toSpeak = "save successfully";
                                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
                                     t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                                     finish();
