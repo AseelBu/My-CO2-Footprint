@@ -1,11 +1,13 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -373,9 +375,21 @@ public class EntryActivity extends AppCompatActivity  {
                 finish();
                 return true;
             case R.id.menuEntryLogout:
-                Intent intent3 = new Intent(this,LogInActivity.class);
-                startActivity(intent3);
-                finish();
+                new AlertDialog.Builder(context)
+                        .setIcon(R.drawable.ic_baseline_warning_24)
+                        .setTitle("Are you sure ?")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(EntryActivity.this, LogInActivity.class);
+
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).setNegativeButton("No", null)
+                        .show();
                 return true;
 
         }

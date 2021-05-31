@@ -1,11 +1,14 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -25,6 +28,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     private Button editDataBtn = null;
     private Context context;
+    private Activity activity;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -32,6 +36,7 @@ public class HomePageActivity extends AppCompatActivity {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page_grid);
+
 
         editDataBtn=(Button)findViewById(R.id.homeEditDataBtn);
         Intent intent = getIntent();
@@ -109,9 +114,21 @@ public class HomePageActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.menuLogout:
-                Intent intent = new Intent(this,LogInActivity.class);
-                startActivity(intent);
-               finish();
+                new AlertDialog.Builder(context)
+                        .setIcon(R.drawable.ic_baseline_warning_24)
+                        .setTitle("Are you sure ?")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(HomePageActivity.this, LogInActivity.class);
+
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).setNegativeButton("No", null)
+                        .show();
                 return true;
 
         }
