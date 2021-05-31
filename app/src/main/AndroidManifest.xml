@@ -19,8 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EnergyConsumptionDiary"
-        android:largeHeap="true"
-        >
+        android:largeHeap="true">
 
         <activity android:name=".AdminEditListActivity"></activity>
         <activity android:name=".AccountSettingsActivity" />

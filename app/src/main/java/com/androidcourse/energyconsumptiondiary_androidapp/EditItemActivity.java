@@ -195,7 +195,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                     impacter.setQuestion(Question.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-                    impacter.setImg(db.getSelectedCO2Impacter(impacterType).getImg());
+//                    impacter.setImg(db.getSelectedCO2Impacter(impacterType).getImg());
 //                    dh.addImpacter(impacterType, impacter);
                     db.updateCo2Impacter(impacter);
 
@@ -302,6 +302,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     protected void onPause() {
+        Log.d("Edit",",aa");
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
     }

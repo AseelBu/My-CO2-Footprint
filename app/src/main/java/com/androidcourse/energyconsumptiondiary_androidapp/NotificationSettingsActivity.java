@@ -17,7 +17,6 @@ import androidx.fragment.app.FragmentManager;
 public class NotificationSettingsActivity extends AppCompatActivity implements TimePickerListener {
     private Context context;
     private CheckBox entryReminder;
-    private CheckBox tips;
     private ImageButton returnbtn;
     private Button save;
     private TextView time;
@@ -41,7 +40,6 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
                 }
             }
         });
-        tips = (CheckBox) findViewById(R.id.tipsCk);
         time=(TextView)findViewById(R.id.reminderTime);
         time.setOnClickListener(new View.OnClickListener() {
             @Override

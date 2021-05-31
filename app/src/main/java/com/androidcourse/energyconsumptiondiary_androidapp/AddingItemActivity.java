@@ -32,10 +32,8 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
-import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
@@ -140,7 +138,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 //                startActivityForResult(intent, REQUEST_IMAGE_GET);
                 Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-//                PackageManager pm=getPackageManager();
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(Intent.createChooser(intent,"Choose Picture"), REQUEST_IMAGE_GET);
                 }else{
@@ -223,7 +220,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
-//                    dh.addImpacter(impacterType, impacter);
 
                     //save impacter to DB
                     int id = db.createCO2Impacter(impacter);

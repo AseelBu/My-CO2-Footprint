@@ -38,12 +38,7 @@ public class CustomListAdapter extends ArrayAdapter<ItemInfo> {
     public View getView( int position, View view, ViewGroup parent) {
         LayoutInflater inflater= LayoutInflater.from(context);
         View rowView =null;
-//        if(position!=3) {
             rowView = inflater.inflate(R.layout.mylist, null, false);
-//        }
-//        else{
-//           rowView = inflater.inflate(R.layout.dark_mode_list_item, null, false);
-//        }
         TextView txtTitle = (TextView) rowView.findViewById(R.id.itemInfo);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         final ItemInfo itemInfo = dataList.get(position);
