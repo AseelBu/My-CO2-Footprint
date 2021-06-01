@@ -75,6 +75,7 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
 
         public ViewHolder(View view) {
             super(view);
+//            setIsRecyclable(false);
             mView = view;
             mIndex = (TextView) view.findViewById(R.id.userIndex);
              mName = (TextView) view.findViewById(R.id.userName);

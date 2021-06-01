@@ -84,6 +84,8 @@ public class AdminEditListActivity extends AppCompatActivity {
     public void addBtnClicked(){
         Intent intent = new Intent(this,AddingItemActivity.class);
         intent.putExtra(IMPACTERTYPE, type.name());
+        startActivity(intent);
+        finish();
         startActivityForResult(intent,ADDING_REQ_CODE);
     }
     @Override
