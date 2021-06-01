@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class EditMainActivity extends AppCompatActivity {
     private static final String TAG = "AdminHomePageActivity";
@@ -29,7 +27,7 @@ public class EditMainActivity extends AppCompatActivity {
     public void transportationBtnClicked(View v)
     {
         Intent intent = new Intent(context, AdminEditListActivity.class);
-        intent.putExtra(IMPACTERTYPE, ImpactType.TRANSPORTATIOIN.name());
+        intent.putExtra(IMPACTERTYPE, ImpactType.TRANSPORTATION.name());
         startActivity(intent);
 
     }

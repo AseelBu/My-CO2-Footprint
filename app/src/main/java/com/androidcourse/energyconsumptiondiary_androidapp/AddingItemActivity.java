@@ -88,7 +88,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
             title.setText("Add " + impacterType.name().toLowerCase());
             createImpacter();
             //remove fuel type field if not transportation
-            if(!impacterType.equals(ImpactType.TRANSPORTATIOIN)){
+            if(!impacterType.equals(ImpactType.TRANSPORTATION)){
 
                 fuelType.setVisibility(View.GONE);
                 textFuel.setVisibility(View.GONE);
@@ -147,7 +147,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     //builder for the impacter by type
     private void createImpacter() {
         switch (impacterType) {
-            case TRANSPORTATIOIN:
+            case TRANSPORTATION:
                 impacter = new Transportation();
                 break;
             case FOOD:
@@ -164,7 +164,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
     //add item to the data holder
     public void addBtnClicked() {
-        if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
+        if (impacterType.equals(ImpactType.TRANSPORTATION)) {
 
 
             //if text field is empty
@@ -231,7 +231,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     int id = db.createCO2Impacter(impacter);
                     switch (impacterType)
                     {
-                        case TRANSPORTATIOIN:
+                        case TRANSPORTATION:
                             db.createTransportation(id, (Transportation) impacter);
                             break;
                         case SERVICES:
