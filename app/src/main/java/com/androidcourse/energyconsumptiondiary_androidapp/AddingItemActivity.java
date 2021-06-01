@@ -186,7 +186,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-                    //save impacter to DB
                     int id = db.createCO2Impacter(impacter);
                     db.createTransportation(id, (Transportation) impacter);
                     Intent intent = new Intent(this, AdminEditListActivity.class);
