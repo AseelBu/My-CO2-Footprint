@@ -100,7 +100,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
                             Co2Impacter item = db.getSelectedCO2Impacter(impacterType);
                             if (item != null) {
 
-                                db.removeImpacter(impacterType, item.getImpacterID());
+                                db.removeImpacter(impacterType, data.get(position).getImpacterID());
                             }
                             updateImpactersData();
                             notifyDataSetChanged();
