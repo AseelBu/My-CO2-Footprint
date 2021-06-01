@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION =12;
-    private static final String DATABASE_NAME="MyCo2FootprintDB";
+    private static final int DATABASE_VERSION =1;
+    private static final String DATABASE_NAME="MyCo2FootprintDB3";
 
 
     //CO2 impacter table

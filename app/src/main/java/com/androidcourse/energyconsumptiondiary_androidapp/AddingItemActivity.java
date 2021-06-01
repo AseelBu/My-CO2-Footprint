@@ -183,11 +183,9 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     //setting data in impacter
                     impacter.setName(name.getText().toString());
                     impacter.setQuestion(question.getText().toString());
-//                    impacter.setImg(bitmap);
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-                    //save impacter to DB
                     int id = db.createCO2Impacter(impacter);
                     db.createTransportation(id, (Transportation) impacter);
                     Intent intent = new Intent();
