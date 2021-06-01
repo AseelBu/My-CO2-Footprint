@@ -188,8 +188,10 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
                     int id = db.createCO2Impacter(impacter);
                     db.createTransportation(id, (Transportation) impacter);
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
+                    Intent intent = new Intent(this, AdminEditListActivity.class);
+                    intent.putExtra(IMPACTERTYPE, impacterType.name());
+//                                    setResult(RESULT_OK, intent);
+                    startActivity(intent);
                     String toSpeak = "add successfully";
                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
 //                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
@@ -243,8 +245,10 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                             break;
                     }
 
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
+                    Intent intent = new Intent(this, AdminEditListActivity.class);
+                    intent.putExtra(IMPACTERTYPE, impacterType.name());
+//                                    setResult(RESULT_OK, intent);
+                    startActivity(intent);
                     String toSpeak = "added successfully";
                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
 //                            t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
@@ -262,7 +266,10 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+                Intent intent = new Intent(this, AdminEditListActivity.class);
+                intent.putExtra(IMPACTERTYPE, impacterType.name());
+                startActivity(intent);
+                finish();
                 return true;
         }
         return false;

@@ -52,7 +52,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
 
     @Override
     public void onBindViewHolder(@NonNull AdminEditRecyclerViewAdapter.ViewHolder holder, int position) {
-        impacter = this.data.get(holder.getAdapterPosition());
+        impacter = this.data.get(position);
         holder.setData(impacter);
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +135,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            setIsRecyclable(false);
             deleteBtn = (ImageButton) itemView.findViewById(R.id.deleteAdminRow);
 
             impacterImage = (ImageView) itemView.findViewById(R.id.imImageAdminList);
