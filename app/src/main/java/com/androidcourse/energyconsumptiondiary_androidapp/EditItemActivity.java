@@ -57,6 +57,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
     private int id;
     private ImpactType impacterType;
     private Co2Impacter impacter;
+    private TextView textFuel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,8 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
             }
         });
         Intent intent = getIntent();
+
+        textFuel=(TextView)findViewById(R.id.textFuelEdit);
         if (intent != null) {
             id = intent.getIntExtra("id", -1);
             impacterType = ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
@@ -217,6 +220,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
             fuelType.setText(((Transportation) impacter).getFuelType());
         } else {
             fuelType.setVisibility(View.GONE);
+            textFuel.setVisibility(View.GONE);
         }
     }
 

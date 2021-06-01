@@ -46,6 +46,8 @@ public class EntryActivity extends AppCompatActivity  {
     private  EntryDataFragment electricFragment = EntryDataFragment.newInstance(ImpactType.ELECTRICAL);
     private  EntryDataFragment serviceFragment = EntryDataFragment.newInstance(ImpactType.SERVICES);
     private EntryDateFragment dateFragment=EntryDateFragment.newInstance();
+
+    private boolean isResultsEnabled=false;
     private Context context;
 
     @Override
@@ -144,11 +146,10 @@ public class EntryActivity extends AppCompatActivity  {
                         .commit();
                 break;
             case SERVICE:
-                nextBtn.setText(getResources().getString(R.string.showMyResults));
-                if(entryData.getEntries().size()==0){
-                    nextBtn.setEnabled(false);
-                    nextBtn.setBackground(getDrawable(R.drawable.round_btn_dark_gray));
-                    nextBtn.setText(getResources().getString(R.string.entryForResults));
+                if(isResultsEnabled) {
+                    enableResults();
+                }else {
+                    disableResults();
                 }
                 fm.beginTransaction()
                         .replace(R.id.root_layout, serviceFragment)
@@ -201,15 +202,17 @@ public class EntryActivity extends AppCompatActivity  {
                         .commit();
                 break;
             case ELECTRIC:
-                nextBtn.setText(getResources().getString(R.string.next));
-                nextBtn.setEnabled(true);
-                nextBtn.setBackground(getDrawable(R.drawable.round_btn_dark_green));
+                setNextBtn();
                 fm.beginTransaction()
                         .replace(R.id.root_layout, electricFragment)
                         .commit();
                 break;
             case SERVICE:
-                nextBtn.setText(getResources().getString(R.string.showMyResults));
+                if(isResultsEnabled) {
+                    enableResults();
+                }else {
+                    disableResults();
+                }
                 fm.beginTransaction()
                         .replace(R.id.root_layout, serviceFragment)
                         .commit();
@@ -283,5 +286,37 @@ public class EntryActivity extends AppCompatActivity  {
 
     public Entry getEntryData() {
         return entryData;
+    }
+
+    public void enableResults(){
+        nextBtn.setEnabled(true);
+        nextBtn.setText(getResources().getString(R.string.showMyResults));
+        nextBtn.setBackground(getDrawable(R.drawable.round_btn_dark_green));
+    }
+
+    public void disableResults(){
+        nextBtn.setEnabled(false);
+        nextBtn.setBackground(getDrawable(R.drawable.round_btn_dark_gray));
+        nextBtn.setText(getResources().getString(R.string.entryForResults));
+
+    }
+
+    public void setNextBtn(){
+        nextBtn.setText(getResources().getString(R.string.next));
+        nextBtn.setEnabled(true);
+        nextBtn.setBackground(getDrawable(R.drawable.round_btn_dark_green));
+
+    }
+
+
+
+    public void setResultsEnabled(boolean resultsEnabled) {
+        isResultsEnabled = resultsEnabled;
+    }
+
+    public void removeEntryFromEntryData(TypeEntry cardData){
+        ArrayList<TypeEntry> tempEntries=entryData.getEntries();
+        tempEntries.remove(cardData);
+        entryData.setEntries(tempEntries);
     }
 }

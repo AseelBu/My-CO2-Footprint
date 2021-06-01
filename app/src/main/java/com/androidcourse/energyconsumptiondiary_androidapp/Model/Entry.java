@@ -34,6 +34,10 @@ public class Entry {
         return entries;
     }
 
+    public void setEntries(ArrayList<TypeEntry> entries) {
+        this.entries = entries;
+    }
+
     public Date getDate() {
         return date;
     }

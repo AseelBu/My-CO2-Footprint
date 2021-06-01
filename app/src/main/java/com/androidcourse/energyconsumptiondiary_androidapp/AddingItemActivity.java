@@ -55,6 +55,9 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     private Button addBtn;
     private ImageButton uploadImgBtn;
     TextToSpeech t1;
+
+    private TextView textFuel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -64,6 +67,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         img=(ImageButton)findViewById(R.id.upload);
         name=(EditText)findViewById(R.id.type);
         fuelType = (EditText) findViewById(R.id.fuel3);
+
         co2Amount=(EditText)findViewById(R.id.amountt);
         question =(EditText)findViewById(R.id.Question);
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -78,13 +82,16 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
         Intent intent = getIntent();
+        textFuel=(TextView)findViewById(R.id.textFuelAdding);
         if (intent != null) {
             impacterType = ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
             title.setText("Add " + impacterType.name().toLowerCase());
             createImpacter();
             //remove fuel type field if not transportation
             if(!impacterType.equals(ImpactType.TRANSPORTATIOIN)){
+
                 fuelType.setVisibility(View.GONE);
+                textFuel.setVisibility(View.GONE);
             }
 
         }else{

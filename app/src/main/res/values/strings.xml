@@ -126,11 +126,12 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="Question">Question</string>
-    <string name="unit">Choose Unit:</string>
+    <string name="unit">Choose Unit</string>
     <string name="entryForResults">"Your Entry is Still Empty "</string>
     <string name="gCo2">gCo2</string>
    <string name="noResults">No Results to Show</string>
     <string name="isEntryNotificationSet">isEntryNotificationSet</string>
     <string name="entryNotificationTime">entryNotificationTime</string>
+    <string name="co2EmissionsAmount">Co2 emissions amount</string>
 
 </resources>
