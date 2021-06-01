@@ -270,7 +270,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                 Intent intent = new Intent(this, AdminEditListActivity.class);
                 intent.putExtra(IMPACTERTYPE, impacterType.name());
                 startActivity(intent);
-               finish();
+                finish();
                 return true;
         }
         return false;

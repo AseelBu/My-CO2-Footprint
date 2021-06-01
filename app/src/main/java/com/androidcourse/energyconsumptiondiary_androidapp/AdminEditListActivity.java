@@ -86,7 +86,7 @@ public class AdminEditListActivity extends AppCompatActivity {
         intent.putExtra(IMPACTERTYPE, type.name());
         startActivity(intent);
         finish();
-        startActivityForResult(intent,ADDING_REQ_CODE);
+//        startActivityForResult(intent,ADDING_REQ_CODE);
     }
     @Override
     protected void onResume() {
