@@ -138,7 +138,6 @@ public class EntryActivity extends AppCompatActivity  {
                         .commit();
                 break;
             case ELECTRIC:
-
                 fm.beginTransaction()
                         .replace(R.id.root_layout, electricFragment)
 
@@ -280,5 +279,9 @@ public class EntryActivity extends AppCompatActivity  {
     protected void onPause() {
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
+    }
+
+    public Entry getEntryData() {
+        return entryData;
     }
 }
