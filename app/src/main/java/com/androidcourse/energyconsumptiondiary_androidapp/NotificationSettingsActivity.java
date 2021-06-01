@@ -1,4 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +21,8 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
     private ImageButton returnbtn;
     private Button save;
     private TextView time;
-
+    final static int req1=1;
+    public String a = "0"; // initialize this globally at the top of your class.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("Notification", getClass().getSimpleName() + ":entered onCreate()");
@@ -55,7 +58,13 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         startActivity(intent);
     }
     public void save(View v) {
+//        Intent intent = new Intent(context, SettingsActivity.class);
+//        startActivity(intent);
         Intent intent = new Intent(context, SettingsActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getBaseContext(), req1, intent, 0);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, time.getDrawingTime(), pendingIntent);
+        a ="1";
         startActivity(intent);
     }
     @Override
