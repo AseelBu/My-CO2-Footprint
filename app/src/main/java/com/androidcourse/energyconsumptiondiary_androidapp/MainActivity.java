@@ -2,18 +2,13 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
@@ -57,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 //    builder for the impacter by type
     private void createImpacter(ImpactType t) {
         switch (t){
-            case TRANSPORTATIOIN:
+            case TRANSPORTATION:
                 impacter= new Transportation();
                 break;
             case FOOD:
@@ -89,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
         //create Co2 impacters
     private void createTransportation(int size){
             int id;
-        impacterType=ImpactType.TRANSPORTATIOIN;
-        createImpacter(ImpactType.TRANSPORTATIOIN);
+        impacterType=ImpactType.TRANSPORTATION;
+        createImpacter(ImpactType.TRANSPORTATION);
         impacter=new Transportation("Plane","How many hours did you fly today?",Units.HOUR,700, BitmapFactory.decodeResource(context.getResources(),R.drawable.travelling),"Diesel");
         if(!mg.findIfImpacterIsExists(impacter,impacterType)) {
              id = mg.createCO2Impacter(impacter);

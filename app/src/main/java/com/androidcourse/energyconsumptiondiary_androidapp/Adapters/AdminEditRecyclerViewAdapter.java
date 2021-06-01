@@ -31,6 +31,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
     private Context context;
     private ImpactType impacterType;
     private ArrayList<? extends Co2Impacter> data = new ArrayList<>();
+    private Co2Impacter impacter=null;
 
     public AdminEditRecyclerViewAdapter(Context context, ImpactType impacterType) {
         this.context = context;
@@ -51,7 +52,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
 
     @Override
     public void onBindViewHolder(@NonNull AdminEditRecyclerViewAdapter.ViewHolder holder, int position) {
-        Co2Impacter impacter = data.get(holder.getAdapterPosition());
+        impacter = this.data.get(holder.getAdapterPosition());
         holder.setData(impacter);
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +66,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
         holder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                impacter = data.get(holder.getAdapterPosition());
                 db.openDataBase(context);
                 db.setSelectedCO2Impacter(impacter);
                 edit(holder.getAdapterPosition());
@@ -119,6 +121,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
         intent.putExtra("id", data.get(position).getImpacterID());
         intent.putExtra(IMPACTERTYPE, impacterType.name());
         ((AdminEditListActivity) context).startActivityForResult(intent, EDIT_REQ_CODE);
+        ((AdminEditListActivity)context).finish();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -148,7 +151,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
             if(impacter.getImg()!=null) {
             impacterImage.setImageDrawable(new BitmapDrawable(context.getResources(), impacter.getImg()));
             }
-            if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
+            if (impacterType.equals(ImpactType.TRANSPORTATION)) {
 
                 fuelType.setText(((Transportation) impacter).getFuelType());
             } else {

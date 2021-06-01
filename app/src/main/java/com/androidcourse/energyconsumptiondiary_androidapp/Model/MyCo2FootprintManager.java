@@ -1,13 +1,11 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class MyCo2FootprintManager {
@@ -60,7 +58,7 @@ public class MyCo2FootprintManager {
                 return selectedService;
             case FOOD:
                 return selectedFood;
-            case TRANSPORTATIOIN:
+            case TRANSPORTATION:
                 return selectedTransportation;
         }
         return null;
@@ -81,6 +79,12 @@ public class MyCo2FootprintManager {
         if(c instanceof Service)
         {
             selectedService=(Service) c;
+        }
+        if(c == null){
+            selectedTransportation=null;
+            selectedFood=null;
+            selectedElectricalHouseSupplies=null;
+            selectedService=null;
         }
     }
 public void removeImpacter(ImpactType impacterType,int id)

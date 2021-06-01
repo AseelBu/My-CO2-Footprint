@@ -85,6 +85,7 @@ public  class  Co2Impacter implements Comparable<Co2Impacter>{
     }
 
     public void setImg(Bitmap img) {
+
         this.img = img;
     }
 

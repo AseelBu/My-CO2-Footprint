@@ -205,7 +205,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
                 cursor.moveToFirst();
                 switch (type){
-                    case TRANSPORTATIOIN:
+                    case TRANSPORTATION:
                         co2Impacter = new Transportation();
                         break;
                     case FOOD:
@@ -226,7 +226,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 co2Impacter.setUnit(Units.valueOf(cursor.getString(3)));
                 co2Impacter.setCo2Amount(cursor.getInt(4));
 
-                if(type.equals(ImpactType.TRANSPORTATIOIN)){
+                if(type.equals(ImpactType.TRANSPORTATION)){
                     ((Transportation)co2Impacter).setFuelType(getTransportationFuel(co2Impacter.getImpacterID()));
                 }
 
@@ -257,7 +257,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         ImpactType impacterType=null;
         Cursor cursor = null;
         try {
-            impacterType= ImpactType.TRANSPORTATIOIN;
+            impacterType= ImpactType.TRANSPORTATION;
 
         //check in transportation table
         cursor = db
@@ -403,7 +403,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     {
         ArrayList<Co2Impacter> list=new ArrayList<>();
         switch(impacterType) {
-        case TRANSPORTATIOIN:
+        case TRANSPORTATION:
             list=getAllTransportations();
             break;
         case ELECTRICAL:
@@ -550,7 +550,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
        try {
            switch (impacterType)
            {
-               case TRANSPORTATIOIN:
+               case TRANSPORTATION:
                    deleteTransportation(id);
                    break;
                case FOOD:

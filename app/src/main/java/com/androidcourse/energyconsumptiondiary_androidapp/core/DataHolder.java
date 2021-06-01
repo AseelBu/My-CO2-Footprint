@@ -214,7 +214,7 @@ public class DataHolder {
     public ArrayList<? extends Co2Impacter> getImpactersByType(ImpactType type){
         ArrayList<? extends Co2Impacter> data=new ArrayList<>();
     switch (type){
-        case TRANSPORTATIOIN:
+        case TRANSPORTATION:
             data=getTransportation();
             break;
         case FOOD:
@@ -233,7 +233,7 @@ public class DataHolder {
 
     public void addImpacter(ImpactType type, Co2Impacter impacter){
         switch (type){
-            case TRANSPORTATIOIN:
+            case TRANSPORTATION:
                 transList.add((Transportation) impacter);
                 break;
             case FOOD:
@@ -250,7 +250,7 @@ public class DataHolder {
 
     public void removeImpacter(ImpactType type, Co2Impacter impacter){
         switch (type){
-            case TRANSPORTATIOIN:
+            case TRANSPORTATION:
                 transList.remove(impacter);
                 break;
             case FOOD:
@@ -268,7 +268,7 @@ public class DataHolder {
     public Co2Impacter getImpacterByid(ImpactType type, int id) {
         ArrayList<Co2Impacter> impacterList=new ArrayList<>();
         switch (type){
-            case TRANSPORTATIOIN:
+            case TRANSPORTATION:
                 impacterList=new ArrayList<>(getTransportation());
                 break;
             case FOOD:

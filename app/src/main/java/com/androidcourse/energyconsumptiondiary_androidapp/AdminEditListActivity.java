@@ -2,7 +2,6 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -13,15 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.AdminEditRecyclerViewAdapter;
-import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.TipAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
-import com.androidcourse.energyconsumptiondiary_androidapp.R;
-import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.time.Instant;
 
 public class AdminEditListActivity extends AppCompatActivity {
 
@@ -32,7 +25,7 @@ public class AdminEditListActivity extends AppCompatActivity {
     private static final String IMPACTERTYPE = "ImpacterType";
     private AdminEditRecyclerViewAdapter adapter;
     private FloatingActionButton addFab = null;
-    private ImpactType type=ImpactType.TRANSPORTATIOIN;
+    private ImpactType type=ImpactType.TRANSPORTATION;
     private TextView txtFuel;
 
     @Override
@@ -47,7 +40,7 @@ public class AdminEditListActivity extends AppCompatActivity {
         Intent intent=this.getIntent();
         if(intent!=null) {
             type = ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
-            if(!type.equals(ImpactType.TRANSPORTATIOIN)){
+            if(!type.equals(ImpactType.TRANSPORTATION)){
                 txtFuel.setVisibility(View.GONE);
             }
 
@@ -81,7 +74,7 @@ public class AdminEditListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+                finish();
                 return true;
         }
         return false;

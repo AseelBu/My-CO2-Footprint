@@ -39,7 +39,6 @@ import java.util.Locale;
 public class EditItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "EditItemActivity";
     public static final int REQUEST_IMAGE_GET = 3;
-    protected static final int NEW_ITEM_TAG = -111;
     private static final String IMPACTERTYPE = "ImpacterType";
     public final DataHolder dh = DataHolder.getInstance();
     private final MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
@@ -133,7 +132,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (impacterType.equals(ImpactType.TRANSPORTATIOIN)) {
+                        if (impacterType.equals(ImpactType.TRANSPORTATION)) {
                             if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
                                     (TextUtils.isEmpty(co2Amount.getText().toString())) || (TextUtils.isEmpty(fuelType.getText().toString()))) {
                                 String toSpeak = "save failed..There are empty input!";
@@ -151,8 +150,14 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
                                     int id = db.updateCo2Impacter((Transportation) impacter);
                                     db.updateTransportation(id, (Transportation) impacter);
-                                    Intent intent = new Intent();
-                                    setResult(RESULT_OK, intent);
+
+                                    Intent intent = new Intent(context, AdminEditListActivity.class);
+                                    intent.putExtra(IMPACTERTYPE, impacterType.name());
+//                                    setResult(RESULT_OK, intent);
+                                    startActivity(intent);
+
+//                                    ((AdminEditListActivity) context).startActivityForResult(intent, EDIT_REQ_CODE);
+
                                     String toSpeak = "save successfully";
                                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
                                     t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
@@ -178,8 +183,12 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
                                     db.updateCo2Impacter(impacter);
-                                    Intent intent = new Intent();
-                                    setResult(RESULT_OK, intent);
+
+                                    Intent intent = new Intent(context, AdminEditListActivity.class);
+                                    intent.putExtra(IMPACTERTYPE, impacterType.name());
+//                                    setResult(RESULT_OK, intent);
+                                    startActivity(intent);
+
                                     String toSpeak = "save successfully";
                                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
                                     t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
@@ -257,7 +266,12 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+                impacter=null;
+                db.setSelectedCO2Impacter(null);
+                Intent intent = new Intent(this, AdminEditListActivity.class);
+                intent.putExtra(IMPACTERTYPE, impacterType.name());
+                startActivity(intent);
+                finish();
                 return true;
         }
         return false;

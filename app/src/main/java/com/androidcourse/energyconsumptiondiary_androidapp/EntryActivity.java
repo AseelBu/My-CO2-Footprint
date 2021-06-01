@@ -41,7 +41,7 @@ public class EntryActivity extends AppCompatActivity  {
     private Entry entryData= new Entry();
     private int currentIndex=DATE; //current fragment page number
 
-    private  EntryDataFragment transportFragment = EntryDataFragment.newInstance(ImpactType.TRANSPORTATIOIN);
+    private  EntryDataFragment transportFragment = EntryDataFragment.newInstance(ImpactType.TRANSPORTATION);
     private  EntryDataFragment foodFragment = EntryDataFragment.newInstance(ImpactType.FOOD);
     private  EntryDataFragment electricFragment = EntryDataFragment.newInstance(ImpactType.ELECTRICAL);
     private  EntryDataFragment serviceFragment = EntryDataFragment.newInstance(ImpactType.SERVICES);
