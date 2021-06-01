@@ -195,7 +195,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     String toSpeak = "add successfully";
                     Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
 //                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-//                    finish();
+                    finish();
 
                 } catch (Throwable ew) {
                     ew.printStackTrace();

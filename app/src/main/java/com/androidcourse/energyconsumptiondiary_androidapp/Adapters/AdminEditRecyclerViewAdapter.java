@@ -51,7 +51,7 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
 
     @Override
     public void onBindViewHolder(@NonNull AdminEditRecyclerViewAdapter.ViewHolder holder, int position) {
-        Co2Impacter impacter = data.get(position);
+        Co2Impacter impacter = data.get(holder.getAdapterPosition());
         holder.setData(impacter);
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override

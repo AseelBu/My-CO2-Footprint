@@ -192,6 +192,14 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                     }
                 })
                 .setNegativeButton("No", null)
+//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        impacter.setImg(null);
+//                    }
+//                })
+
                 .show();
     }
     // Function to find the index of an element
@@ -215,7 +223,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         Log.d("get(0)", enumValues.get(0).toString());
         Log.d("find method", String.valueOf(findIndex(enumValues, impacter.getUnit())));
         spinner.setSelection(findIndex(enumValues, impacter.getUnit()));
-        imageUpload.setImageDrawable(new BitmapDrawable(context.getResources(), impacter.getImg()));
+        imageUpload.setImageDrawable(new BitmapDrawable(getResources(),this.impacter.getImg()));
         if (impacter instanceof Transportation) {
             fuelType.setText(((Transportation) impacter).getFuelType());
         } else {
