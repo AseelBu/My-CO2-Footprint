@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,7 +71,7 @@ public class SignUpActivity extends AppCompatActivity{
 //        }
 //        if (flag == true) {
 //            //if the txtEmail not exists and txtEmail is valid,two txtPassword equals as add new user and show a toast
-//            if (checkIfEmailExist() == false && checkIfEmailisValid() == true && checkIfTwoPasswordIsEquals() == true) {
+//            if (checkIfEmailExist() == false && checkIfEmailIsValid() == true && checkIfTwoPasswordIsEquals() == true) {
 //                dh.addUser(dh.getUsers().size()+1,firstName.getText().toString(), lastName.getText().toString(),txtEmail.getText().toString(), txtPassword.getText().toString());
 //                Toast.makeText(SignUpActivity.this,
 //                        "congratulations,You now a new member (: ",
@@ -79,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity{
 //                startActivity(intent);
 //            } else {
 //                //if txtEmail not valid
-//                if (checkIfEmailisValid() == false) {
+//                if (checkIfEmailIsValid() == false) {
 //                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
 //
 //                    dlgAlert.setMessage("Email must be like Email@txtEmail.com");
@@ -119,6 +120,7 @@ public class SignUpActivity extends AppCompatActivity{
         public void onClick(View v) {
             String email = txtEmail.getText().toString();
             String password = txtPassword.getText().toString();
+            String fullName= firstName.getText().toString()+" "+lastName.getText().toString();
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -128,7 +130,27 @@ public class SignUpActivity extends AppCompatActivity{
                                 Toast.makeText(SignUpActivity.this, "save successfully!",
                                         Toast.LENGTH_SHORT).show();
                                 FirebaseUser user = mAuth.getCurrentUser();
+                                UserProfileChangeRequest profileUpdates=new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(fullName).build();
+                                user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
 
+                                            //TODO remove
+                                            Toast.makeText(SignUpActivity.this, "saved user name",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            //TODO add snackbar
+                                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(),
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                                user = mAuth.getCurrentUser();
+                                //TODO remove
+                                Toast.makeText(SignUpActivity.this, user.getDisplayName(),
+                                        Toast.LENGTH_LONG).show();
                                 updateUI(user);
                             } else {
 
@@ -148,7 +170,6 @@ public class SignUpActivity extends AppCompatActivity{
         if(user!=null){
             MyCo2FootprintManager.getInstance().openDataBase(this);
             Intent intent = new Intent(this, LogInActivity.class);
-            FirebaseAuth.getInstance().signOut();
             startActivity(intent);
             finish();
         }
@@ -170,7 +191,7 @@ public class SignUpActivity extends AppCompatActivity{
 
     }
      //check If Email is Valid method
-    public boolean checkIfEmailisValid()
+    public boolean checkIfEmailIsValid()
     {
         String emailString;
         emailString= txtEmail.getText().toString();

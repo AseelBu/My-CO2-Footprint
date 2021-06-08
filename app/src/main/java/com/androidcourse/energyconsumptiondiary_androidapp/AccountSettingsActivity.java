@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.CustomListAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AccountSettingsActivity extends AppCompatActivity {
     private Context context;
@@ -39,10 +41,11 @@ public class AccountSettingsActivity extends AppCompatActivity {
         nextToUpdatePassword = (Button) findViewById(R.id.arrowbtn3);
         userImg=(ImageView) findViewById(R.id.userImgSettings);
         context = this;
-        User user = dh.getUserById(prefs.getInt(getResources().getString(R.string.prefLoggedUser),-1));
-        name.setText(user.getName());
+//        User user = dh.getUserById(prefs.getInt(getResources().getString(R.string.prefLoggedUser),-1));
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        name.setText(user.getDisplayName());
         email.setText(user.getEmail());
-        userImg.setImageDrawable(user.getImage());
+//        userImg.setImageDrawable(user.getImage());
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
