@@ -148,6 +148,7 @@ public class SignUpActivity extends AppCompatActivity{
         if(user!=null){
             MyCo2FootprintManager.getInstance().openDataBase(this);
             Intent intent = new Intent(this, LogInActivity.class);
+            FirebaseAuth.getInstance().signOut();
             startActivity(intent);
             finish();
         }
