@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class HomePageActivity extends AppCompatActivity {
     private static final String TAG = "HomePageActivity";
     public static final int PERMISSIONS_REQUEST = 1;
@@ -26,7 +28,7 @@ public class HomePageActivity extends AppCompatActivity {
     private Button editDataBtn = null;
     private Context context;
     private Activity activity;
-
+    public  boolean isAdmin;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +37,12 @@ public class HomePageActivity extends AppCompatActivity {
         editDataBtn=(Button)findViewById(R.id.homeEditDataBtn);
         Intent intent = getIntent();
         if(intent!=null) {
-           boolean isAdmin= intent.getBooleanExtra("Admin",false);
+
+            isAdmin= intent.getBooleanExtra("Admin",false);
+//           if(isAdmin==false)
+//            Log.d("lll","llll");
             if(!isAdmin){
+
                 editDataBtn.setVisibility(View.GONE);
             }
         }
@@ -101,9 +107,16 @@ public class HomePageActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                FirebaseAuth.getInstance().signOut();
                                 Intent intent = new Intent(HomePageActivity.this, LogInActivity.class);
-                                startActivity(intent);
+
+                                HomePageActivity.this.startActivity(intent);
+
+
                                 finish();
+//                                Intent intent = new Intent(HomePageActivity.this, UserActivity.class);
+//                                startActivity(intent);
+
                             }
                         }).setNegativeButton("No", null)
                         .show();

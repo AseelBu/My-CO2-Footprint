@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
     //add users method
         private void addUsers() {
-            dh.addAdmin(1,"Admin@gmail.com", "Admin","Admin","Admin",getResources().getDrawable(R.drawable.ic_baseline_person_24));
-            dh.addAdmin(2,"User@gmail.com", "User","User","regular",getResources().getDrawable(R.drawable.ic_baseline_person_24));
+            dh.addAdmin(1,"Admin@gmail.com", "Admin12","Admin","Admin",getResources().getDrawable(R.drawable.ic_baseline_person_24));
+//            dh.addAdmin(2,"User@gmail.com", "User","User","regular",getResources().getDrawable(R.drawable.ic_baseline_person_24));
             createUsers(9);
         }
     //create users method
