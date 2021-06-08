@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "81480179456",
+    "project_id": "my-co2-footprint",
+    "storage_bucket": "my-co2-footprint.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81480179456:android:9853aab647b83897bbdde5",
+        "android_client_info": {
+          "package_name": "com.androidcourse.energyconsumptiondiary_androidapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81480179456-iodesshn7h2eg5vkfmk9ep93h0dknlmc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.androidcourse.energyconsumptiondiary_androidapp",
+            "certificate_hash": "512b2145d5bc3a320ae761df941180922428eb9a"
+          }
+        },
+        {
+          "client_id": "81480179456-8ffi9mqluobk34ribsi2g9pcp8m8aenp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9QP8z83CFSC2rxXBsJl09uEIafnuZ09E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81480179456-8ffi9mqluobk34ribsi2g9pcp8m8aenp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

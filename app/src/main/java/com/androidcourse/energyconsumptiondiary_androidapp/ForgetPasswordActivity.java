@@ -18,7 +18,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgetpassword);
-        phone=(EditText) findViewById(R.id.co2Amount);
+        phone=(EditText) findViewById(R.id.email222);
         context=this;
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);

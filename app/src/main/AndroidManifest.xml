@@ -35,7 +35,6 @@
         <activity android:name=".ForgetPasswordActivity" />
         <activity android:name=".EditMainActivity" />
         <activity android:name=".UpdatePasswordActivity" />
-
         <activity android:name=".AddingItemActivity" />
         <activity android:name=".EditItemActivity" />
         <activity android:name=".ResultsActivity" /> <!--  -->

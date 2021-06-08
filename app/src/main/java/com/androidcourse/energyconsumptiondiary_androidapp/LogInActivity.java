@@ -5,26 +5,33 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
-import androidx.appcompat.app.AlertDialog;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 
 public class LogInActivity extends AppCompatActivity {
     public static final String TAG = "LogInActivity";
     private DataHolder dh = DataHolder.getInstance();
-    public EditText email = null;
-    public EditText password = null;
+    private FirebaseAuth mAuth;
+    public EditText email ;
+    public EditText password ;
     private Context context;
-    private SharedPreferences prefs = null;
+    private SharedPreferences prefs ;
     TextToSpeech t1;
 
     @Override
@@ -32,11 +39,12 @@ public class LogInActivity extends AppCompatActivity {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        mAuth = FirebaseAuth.getInstance();
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        email=(EditText)findViewById(R.id.co2Amount);
+        email=(EditText)findViewById(R.id.email222);
         email.setText("Admin@gmail.com");
         password=(EditText)findViewById(R.id.oldpassword);
-        password.setText("Admin");
+        password.setText("Admin12");
         TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
         Button login = (Button) findViewById(R.id.edititem2);
         TextView signUp = (TextView) findViewById(R.id.loginLink);
@@ -50,70 +58,125 @@ public class LogInActivity extends AppCompatActivity {
         });
         context=this;
         getSupportActionBar().hide();
+        login.setOnClickListener(singInUserListener);
+    }
+
+    private View.OnClickListener singInUserListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String email2 = email.getText().toString();
+            String password2 = password.getText().toString();
+            mAuth.signInWithEmailAndPassword(email2, password2)
+                    .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI(user);
+                            } else {
+                                Toast.makeText(LogInActivity.this, "Something is wrong!",
+                                        Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(LogInActivity.this, task.getException().toString(),
+//                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+    };
+
+
+
+
+
+    private void updateUI(FirebaseUser user) {
+        if(user!=null){
+            MyCo2FootprintManager.getInstance().openDataBase(this);
+            Intent intent = new Intent(this, HomePageActivity.class);
+            if(email.getText().toString().equals("Admin@gmail.com")) {
+                intent.putExtra("Admin", true);
+            }
+            else
+            {
+                intent.putExtra("Admin",false);
+            }
+            startActivity(intent);
+            finish();
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        updateUI(currentUser);
     }
     //log in to the home page with check if email and password is correct,valid,and exists
-    public void loginClicked(View v) {
-        boolean flag = true;
-        try {
-            //if the user dosn't enter all the details
-            if (TextUtils.isEmpty(email.getText().toString()) ||
-                    TextUtils.isEmpty(password.getText().toString()))
-             {
-                flag = false;
-                Toast.makeText(LogInActivity.this,
-                        "Please enter all details",
-                        Toast.LENGTH_SHORT).show();
-            }
-        } catch (NumberFormatException exception) {
-        }
-        if(flag==true){
-            User user=checkIfEmailExist();
-            //if the email not found
-            if (user == null) {
-                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-                dlgAlert.setMessage("Unfortunately Email Not Found ):");
-                dlgAlert.setTitle("Message...");
-                dlgAlert.setPositiveButton("OK", null);
-                dlgAlert.setCancelable(true);
-                dlgAlert.create().show();
-            } else {
-               //if the password is not correct
-                if (checkIfPasswordIsCorrect() == false) {
-                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-                    dlgAlert.setMessage("Wrong Password,try again :)");
-                    dlgAlert.setTitle("Message...");
-                    dlgAlert.setPositiveButton("OK", null);
-                    dlgAlert.setCancelable(true);
-                    dlgAlert.create().show();
-                }  else {
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt(getResources().getString(R.string.prefLoggedUser), user.getUserId());
-                    if(editor.commit()){
-                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
-                    }
-                    if(email.getText().toString().equals("Admin@gmail.com")) {
-                        Intent intent = new Intent(context, HomePageActivity.class);
-                        intent.putExtra("Admin",true);
-                        String toSpeak = "Welcome Admin";
-                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                        startActivity(intent);
-                        finish();
-                    }
-                    else
-                    {
-                        Intent intent = new Intent(context, HomePageActivity.class);
-                        intent.putExtra("Admin",false);
-                        String toSpeak = "Welcome";
-                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            }
-        }
-    }
+//    public void loginClicked(View v) {
+//        boolean flag = true;
+//        try {
+//            //if the user dosn't enter all the details
+//            if (TextUtils.isEmpty(email.getText().toString()) ||
+//                    TextUtils.isEmpty(password.getText().toString()))
+//             {
+//                flag = false;
+//                Toast.makeText(LogInActivity.this,
+//                        "Please enter all details",
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//        } catch (NumberFormatException exception) {
+//        }
+//        if(flag==true){
+//            User user=checkIfEmailExist();
+//            //if the email not found
+//            if (user == null) {
+//                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+//                dlgAlert.setMessage("Unfortunately Email Not Found ):");
+//                dlgAlert.setTitle("Message...");
+//                dlgAlert.setPositiveButton("OK", null);
+//                dlgAlert.setCancelable(true);
+//                dlgAlert.create().show();
+//            } else {
+//               //if the password is not correct
+//                if (checkIfPasswordIsCorrect() == false) {
+//                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+//                    dlgAlert.setMessage("Wrong Password,try again :)");
+//                    dlgAlert.setTitle("Message...");
+//                    dlgAlert.setPositiveButton("OK", null);
+//                    dlgAlert.setCancelable(true);
+//                    dlgAlert.create().show();
+//                }  else {
+//                    SharedPreferences.Editor editor = prefs.edit();
+//                    editor.putInt(getResources().getString(R.string.prefLoggedUser), user.getUserId());
+//                    if(editor.commit()){
+//                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
+//                    }
+//                    if(email.getText().toString().equals("Admin@gmail.com")) {
+//                        Intent intent = new Intent(context, HomePageActivity.class);
+//                        intent.putExtra("Admin",true);
+//                        String toSpeak = "Welcome Admin";
+//                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+//                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                    else
+//                    {
+//                        Intent intent = new Intent(context, HomePageActivity.class);
+//                        intent.putExtra("Admin",false);
+//                        String toSpeak = "Welcome";
+//                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+//                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                }
+//            }
+//        }
+//    }
   //eneter to Forget Password activity
     public void ForgetPasswordClicked(View v){
         Intent intent = new Intent(context, ForgetPasswordActivity.class);

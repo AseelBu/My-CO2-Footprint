@@ -88,7 +88,7 @@
                 android:singleLine="true" />
 
             <EditText
-                android:id="@+id/co2Amount"
+                android:id="@+id/email222"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
