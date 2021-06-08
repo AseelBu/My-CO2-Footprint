@@ -27,12 +27,12 @@ public class SignUpActivity extends AppCompatActivity{
     public static final String TAG = "SignUpActivity";
     public EditText firstName= null;
     public EditText lastName= null;
-    public EditText email=null;
-    public EditText password;
+    public EditText txtEmail =null;
+    public EditText txtPassword;
     public EditText confirmPassword;
     private Context context;
     private FirebaseAuth mAuth;
-    public Button signup;
+    public Button signupBtn;
     private DataHolder dh = DataHolder.getInstance();
     ArrayList<User> users=dh.getUsers();
     @Override
@@ -43,13 +43,13 @@ public class SignUpActivity extends AppCompatActivity{
         setContentView(R.layout.signup);
         firstName=(EditText)findViewById(R.id.type);
         lastName=(EditText)findViewById(R.id.fuel3);
-        signup=(Button) findViewById(R.id.edititem2);
-        email=(EditText)findViewById(R.id.email222);
-        password=(EditText)findViewById(R.id.oldpassword);
+        signupBtn =(Button) findViewById(R.id.edititem2);
+        txtEmail =(EditText)findViewById(R.id.email222);
+        txtPassword =(EditText)findViewById(R.id.oldpassword);
         confirmPassword=(EditText)findViewById(R.id.confirmPassword);
         context=this;
         getSupportActionBar().hide();
-        signup.setOnClickListener(createNewAccountListner);
+        signupBtn.setOnClickListener(createNewAccountListner);
 
     }
 
@@ -156,6 +156,27 @@ public class SignUpActivity extends AppCompatActivity{
                                             Toast.LENGTH_SHORT).show();
                                     //updateUI(null);
                                 }
+            String email = txtEmail.getText().toString();
+            String password = txtPassword.getText().toString();
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                //TODO add snackbar
+                                Toast.makeText(SignUpActivity.this, "save successfully!",
+                                        Toast.LENGTH_SHORT).show();
+                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                updateUI(user);
+                            } else {
+
+                                // If sign in fails, display a message to the user.
+                                //TODO add snackbar
+                                Toast.makeText(SignUpActivity.this, task.getException().getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                                //updateUI(null);
+                            }
 
                             }
                         });
@@ -199,7 +220,7 @@ public class SignUpActivity extends AppCompatActivity{
     public boolean checkIfEmailisValid()
     {
         String emailString;
-        emailString=email.getText().toString();
+        emailString= txtEmail.getText().toString();
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
         Pattern pat = Pattern.compile(emailRegex);
         if ( emailString == null)
@@ -210,7 +231,7 @@ public class SignUpActivity extends AppCompatActivity{
     public boolean checkIfEmailExist()
     {
         for (User u: users) {
-            if(email.getText().toString().equals(u.getEmail().toString()))
+            if(txtEmail.getText().toString().equals(u.getEmail().toString()))
                 return true;
         }
         return false;
@@ -218,6 +239,6 @@ public class SignUpActivity extends AppCompatActivity{
      //check If Two Password Is Equals
     public boolean checkIfTwoPasswordIsEquals()
     {
-           return password.getText().toString().equals(confirmPassword.getText().toString());
+           return txtPassword.getText().toString().equals(confirmPassword.getText().toString());
     }
 }

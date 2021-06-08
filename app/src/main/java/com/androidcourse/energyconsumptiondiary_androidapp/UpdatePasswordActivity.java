@@ -76,7 +76,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
     {
         return newPassword.getText().toString().equals(oldPassword.getText().toString());
     }
-    //save the new password
+    //save the new txtPassword
     public void saveClicked(View v){
         boolean flag = true;
         try {
@@ -113,14 +113,14 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                     {
                     if (checkIfnewPasswordEqualToOldPassword() == true) {
                         Toast.makeText(UpdatePasswordActivity.this,
-                                "New password you enter like the old password.Please enter a different password ",
+                                "New txtPassword you enter like the old txtPassword.Please enter a different txtPassword ",
                                 Toast.LENGTH_SHORT).show();
                     }
                     else
                         {
                         if (checkIfPasswordIsCorrect() == false) {
                             Toast.makeText(UpdatePasswordActivity.this,
-                                    "your currently password not correct",
+                                    "your currently txtPassword not correct",
                                     Toast.LENGTH_SHORT).show();
                         } else{
                             for (User u : dh.getUsers()) {
