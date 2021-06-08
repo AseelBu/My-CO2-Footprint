@@ -56,10 +56,12 @@ public class SettingsActivity extends AppCompatActivity {
                     case ACCOUNT_SETTINGS:
                         intent = new Intent(context, AccountSettingsActivity.class);
                         startActivity(intent);
+
                         break;
                     case NOTIFICATION_SETTINGS:
                         intent = new Intent(context, NotificationSettingsActivity.class);
                         startActivity(intent);
+
                         break;
                     case SHARE:
                         share(view);
@@ -114,7 +116,7 @@ public class SettingsActivity extends AppCompatActivity {
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My CO2 Footprint");
             String shareMessage= "\nLet me recommend you this application\n\n";
-            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" +"com.androidcourse.energyconsumptiondiary_androidapp"+"\n\n";
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
             startActivity(Intent.createChooser(shareIntent, "choose one"));
         } catch(Exception e) {
