@@ -79,7 +79,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+                finish();
                 return true;
         }
         return false;
