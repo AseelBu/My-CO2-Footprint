@@ -52,93 +52,114 @@ public class SignUpActivity extends AppCompatActivity{
         signup.setOnClickListener(createNewAccountListner);
 
     }
-    //sign up to the app
-//    public void signupClicked(View v) {
-//        boolean flag = true;
-//        try {
-//            //if some if four inputs in empty
-//            if (TextUtils.isEmpty(firstName.getText().toString()) ||
-//                    TextUtils.isEmpty(lastName.getText().toString()) ||
-//                    TextUtils.isEmpty(email.getText().toString()) ||
-//                    TextUtils.isEmpty(password.getText().toString()) ||
-//                    TextUtils.isEmpty(confirmPassword.getText().toString())
-//            ) {
-//                flag = false;
-//                Toast.makeText(SignUpActivity.this,
-//                        "Please enter all details",
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        } catch (NumberFormatException exception) {
-//        }
-//        if (flag == true) {
-//            //if the email not exists and email is valid,two password equals as add new user and show a toast
-//            if (checkIfEmailExist() == false && checkIfEmailisValid() == true && checkIfTwoPasswordIsEquals() == true) {
-//                dh.addUser(dh.getUsers().size()+1,firstName.getText().toString(), lastName.getText().toString(),email.getText().toString(), password.getText().toString());
-//                Toast.makeText(SignUpActivity.this,
-//                        "congratulations,You now a new member (: ",
-//                        Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(context, LogInActivity.class);
-//                startActivity(intent);
-//            } else {
-//                //if email not valid
-//                if (checkIfEmailisValid() == false) {
-//                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-//
-//                    dlgAlert.setMessage("Email must be like Email@email.com");
-//                    dlgAlert.setTitle("Message...");
-//                    dlgAlert.setPositiveButton("OK", null);
-//                    dlgAlert.setCancelable(true);
-//                    dlgAlert.create().show();
-//                } else {
-//                    //if email is already exist
-//                    if (checkIfEmailExist() == true) {
-//                        AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-//
-//                        dlgAlert.setMessage("Email Alraedy Exists");
-//                        dlgAlert.setTitle("Message...");
-//                        dlgAlert.setPositiveButton("OK", null);
-//                        dlgAlert.setCancelable(true);
-//                        dlgAlert.create().show();
-//                    } else {
-//                        //if the two passwords are not the same
-//                        if (checkIfTwoPasswordIsEquals() == false) {
-//                            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-//
-//                            dlgAlert.setMessage("The two passwords are not the same!");
-//                            dlgAlert.setTitle("Message...");
-//                            dlgAlert.setPositiveButton("OK", null);
-//                            dlgAlert.setCancelable(true);
-//                            dlgAlert.create().show();
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+
+    public boolean check() {
+        boolean flag = true;
+        try {
+            //if some if four inputs in empty
+            if (TextUtils.isEmpty(firstName.getText().toString()) ||
+                    TextUtils.isEmpty(lastName.getText().toString()) ||
+                    TextUtils.isEmpty(email.getText().toString()) ||
+                    TextUtils.isEmpty(password.getText().toString()) ||
+                    TextUtils.isEmpty(confirmPassword.getText().toString())
+            ) {
+                flag = false;
+                Toast.makeText(SignUpActivity.this,
+                        "Please enter all details",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } catch (NumberFormatException exception) {
+        }
+        if (flag == true) {
+            //if the email not exists and email is valid,two password equals as add new user and show a toast
+            if (checkIfEmailExist() == false && checkIfEmailisValid() == true && checkIfTwoPasswordIsEquals() == true&& lenOfPassword()==true) {
+                dh.addUser(dh.getUsers().size()+1,firstName.getText().toString(), lastName.getText().toString(),email.getText().toString(), password.getText().toString());
+                Toast.makeText(SignUpActivity.this,
+                        "congratulations,You now a new member (: ",
+                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, LogInActivity.class);
+                startActivity(intent);
+            } else {
+                //if email not valid
+                if (checkIfEmailisValid() == false) {
+                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+
+                    dlgAlert.setMessage("Email must be like Email@email.com");
+                    dlgAlert.setTitle("Message...");
+                    dlgAlert.setPositiveButton("OK", null);
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
+                } else {
+                    //if email is already exist
+                    if (checkIfEmailExist() == true) {
+                        AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+
+                        dlgAlert.setMessage("Email Alraedy Exists");
+                        dlgAlert.setTitle("Message...");
+                        dlgAlert.setPositiveButton("OK", null);
+                        dlgAlert.setCancelable(true);
+                        dlgAlert.create().show();
+                    } else {
+                        //if the two passwords are not the same
+                        if (checkIfTwoPasswordIsEquals() == false) {
+                            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+
+                            dlgAlert.setMessage("The two passwords are not the same!");
+                            dlgAlert.setTitle("Message...");
+                            dlgAlert.setPositiveButton("OK", null);
+                            dlgAlert.setCancelable(true);
+                            dlgAlert.create().show();
+                        }
+                    }
+                }
+            }
+        }
+
+        return flag;
+    }
+    public boolean lenOfPassword()
+    {
+
+      if( password.getText().toString().length()<6||confirmPassword.getText().toString().length() <6)
+      {
+          AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+
+          dlgAlert.setMessage("password should be 6 characters/numbers at least(:");
+          dlgAlert.setTitle("Message...");
+          dlgAlert.setPositiveButton("OK", null);
+          dlgAlert.setCancelable(true);
+          dlgAlert.create().show();
+          return false;
+      }
+      return  true;
+    }
 
     private View.OnClickListener createNewAccountListner = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             String email2 = email.getText().toString();
             String password2 = password.getText().toString();
-            mAuth.createUserWithEmailAndPassword(email2, password2)
-                    .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(SignUpActivity.this, "save successfully!",
-                                        Toast.LENGTH_SHORT).show();
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                updateUI(user);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(SignUpActivity.this, "something wrong!",
-                                        Toast.LENGTH_SHORT).show();
-                                //updateUI(null);
-                            }
+            if (check() == true) {
+                mAuth.createUserWithEmailAndPassword(email2, password2)
+                        .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(SignUpActivity.this, "save successfully!",
+                                            Toast.LENGTH_SHORT).show();
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    FirebaseAuth.getInstance().signOut();
+                                    //updateUI(user);
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Toast.makeText(SignUpActivity.this, "something wrong!",
+                                            Toast.LENGTH_SHORT).show();
+                                    //updateUI(null);
+                                }
 
-                        }
-                    });
+                            }
+                        });
+            }
         }
     };
 
@@ -146,6 +167,13 @@ public class SignUpActivity extends AppCompatActivity{
         if(user!=null){
             MyCo2FootprintManager.getInstance().openDataBase(this);
             Intent intent = new Intent(this, LogInActivity.class);
+            if(email.getText().toString().equals("Admin@gmail.com")) {
+                intent.putExtra("Admin", true);
+            }
+            else
+            {
+                intent.putExtra("Admin",false);
+            }
             FirebaseAuth.getInstance().signOut();
             startActivity(intent);
             finish();

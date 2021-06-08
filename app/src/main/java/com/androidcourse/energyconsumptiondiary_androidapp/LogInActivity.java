@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 
@@ -39,6 +41,7 @@ public class LogInActivity extends AppCompatActivity {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
         mAuth = FirebaseAuth.getInstance();
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         email=(EditText)findViewById(R.id.email222);
@@ -66,22 +69,25 @@ public class LogInActivity extends AppCompatActivity {
         public void onClick(View v) {
             String email2 = email.getText().toString();
             String password2 = password.getText().toString();
-            mAuth.signInWithEmailAndPassword(email2, password2)
-                    .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+            if (check() == true) {
+                mAuth.signInWithEmailAndPassword(email2, password2)
+                        .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                updateUI(user);
-                            } else {
-                                Toast.makeText(LogInActivity.this, "Something is wrong!",
-                                        Toast.LENGTH_SHORT).show();
+                                if (task.isSuccessful()) {
+
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    updateUI(user);
+                                } else {
+                                    Toast.makeText(LogInActivity.this, "Something is wrong!",
+                                            Toast.LENGTH_SHORT).show();
 //                                Toast.makeText(LogInActivity.this, task.getException().toString(),
 //                                        Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
+                        });
+            }
         }
     };
 
@@ -111,13 +117,12 @@ public class LogInActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
         updateUI(currentUser);
     }
-    //log in to the home page with check if email and password is correct,valid,and exists
-//    public void loginClicked(View v) {
-//        boolean flag = true;
-//        try {
+//    public boolean someInputIsEmpty()
+//    {
+//        boolean flag=true;
+//                try {
 //            //if the user dosn't enter all the details
 //            if (TextUtils.isEmpty(email.getText().toString()) ||
 //                    TextUtils.isEmpty(password.getText().toString()))
@@ -129,31 +134,47 @@ public class LogInActivity extends AppCompatActivity {
 //            }
 //        } catch (NumberFormatException exception) {
 //        }
-//        if(flag==true){
-//            User user=checkIfEmailExist();
-//            //if the email not found
-//            if (user == null) {
-//                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-//                dlgAlert.setMessage("Unfortunately Email Not Found ):");
-//                dlgAlert.setTitle("Message...");
-//                dlgAlert.setPositiveButton("OK", null);
-//                dlgAlert.setCancelable(true);
-//                dlgAlert.create().show();
-//            } else {
-//               //if the password is not correct
-//                if (checkIfPasswordIsCorrect() == false) {
-//                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-//                    dlgAlert.setMessage("Wrong Password,try again :)");
-//                    dlgAlert.setTitle("Message...");
-//                    dlgAlert.setPositiveButton("OK", null);
-//                    dlgAlert.setCancelable(true);
-//                    dlgAlert.create().show();
-//                }  else {
-//                    SharedPreferences.Editor editor = prefs.edit();
-//                    editor.putInt(getResources().getString(R.string.prefLoggedUser), user.getUserId());
-//                    if(editor.commit()){
-//                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
-//                    }
+//                return flag;
+   // }
+    public boolean check() {
+        boolean flag = true;
+        try {
+            //if the user dosn't enter all the details
+            if (TextUtils.isEmpty(email.getText().toString()) ||
+                    TextUtils.isEmpty(password.getText().toString()))
+             {
+                flag = false;
+                Toast.makeText(LogInActivity.this,
+                        "Please enter all details",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } catch (NumberFormatException exception) {
+        }
+        if(flag==true){
+            User user=checkIfEmailExist();
+            //if the email not found
+            if (user == null) {
+                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                dlgAlert.setMessage("Unfortunately Email Not Found ):");
+                dlgAlert.setTitle("Message...");
+                dlgAlert.setPositiveButton("OK", null);
+                dlgAlert.setCancelable(true);
+                dlgAlert.create().show();
+            } else {
+               //if the password is not correct
+                if (checkIfPasswordIsCorrect() == false) {
+                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                    dlgAlert.setMessage("Wrong Password,try again :)");
+                    dlgAlert.setTitle("Message...");
+                    dlgAlert.setPositiveButton("OK", null);
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
+                }  else {
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt(getResources().getString(R.string.prefLoggedUser), user.getUserId());
+                    if(editor.commit()){
+                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
+                    }
 //                    if(email.getText().toString().equals("Admin@gmail.com")) {
 //                        Intent intent = new Intent(context, HomePageActivity.class);
 //                        intent.putExtra("Admin",true);
@@ -173,10 +194,11 @@ public class LogInActivity extends AppCompatActivity {
 //                        startActivity(intent);
 //                        finish();
 //                    }
-//                }
-//            }
-//        }
-//    }
+                }
+            }
+        }
+        return flag;
+    }
   //eneter to Forget Password activity
     public void ForgetPasswordClicked(View v){
         Intent intent = new Intent(context, ForgetPasswordActivity.class);
