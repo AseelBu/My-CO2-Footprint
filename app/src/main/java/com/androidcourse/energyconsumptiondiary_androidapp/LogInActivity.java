@@ -27,7 +27,6 @@ import com.google.firebase.auth.FirebaseUser;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import java.util.Locale;
 
@@ -46,6 +45,7 @@ public class LogInActivity extends AppCompatActivity {
 //            hideKeyboard();
             String email2 = email.getText().toString();
             String password2 = password.getText().toString();
+            //TODO no need for check
             if (check() == true) {
                 mAuth.signInWithEmailAndPassword(email2, password2)
                         .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
@@ -79,7 +79,7 @@ public class LogInActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         email = (EditText) findViewById(R.id.email222);
-        email.setText("Admin@gmail.com");
+        email.setText("admin@gmail.com");
         password = (EditText) findViewById(R.id.oldpassword);
         password.setText("Admin12");
         TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
@@ -100,7 +100,6 @@ public class LogInActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            user.getEmail();
             MyCo2FootprintManager.getInstance().openDataBase(this);
             Intent intent = new Intent(this, HomePageActivity.class);
             if (user.getEmail().toLowerCase().equals("admin@gmail.com")) {
@@ -121,6 +120,7 @@ public class LogInActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         updateUI(currentUser);
     }
+
 //    public boolean someInputIsEmpty()
 //    {
 //        boolean flag=true;
@@ -219,6 +219,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     //check If Email is Exist
+    //TODO no need
     public User checkIfEmailExist() {
         for (User u : dh.getUsers()) {
             if (email.getText().toString().equals(u.getEmail().toString()))
@@ -227,6 +228,7 @@ public class LogInActivity extends AppCompatActivity {
         return null;
     }
 
+    //TODO no need
     //check If Password Is Correct
     public boolean checkIfPasswordIsCorrect() {
         for (User u : dh.getUsers()) {

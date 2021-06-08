@@ -183,13 +183,7 @@ public class SignUpActivity extends AppCompatActivity{
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        updateUI(currentUser);
-    }
+
 
 //    //return to the login activity if the user already member
 //    public void AlreadyAMemberClicked(View v){
@@ -210,6 +204,8 @@ public class SignUpActivity extends AppCompatActivity{
             return false;
         return pat.matcher( emailString).matches();
     }
+
+    //TODO no need output Firebase massage to snack bar
       //Check If Email Exist method
     public boolean checkIfEmailExist()
     {
@@ -219,11 +215,14 @@ public class SignUpActivity extends AppCompatActivity{
         }
         return false;
     }
+
+
      //check If Two Password Is Equals
     public boolean checkIfTwoPasswordIsEquals()
     {
            return txtPassword.getText().toString().equals(confirmPassword.getText().toString());
     }
+
         public boolean check() {
             boolean flag = true;
             try {
