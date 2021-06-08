@@ -151,9 +151,9 @@ public class SignUpActivity extends AppCompatActivity{
                                         }
                                     });
                                     user = mAuth.getCurrentUser();
-                                    //TODO remove
-                                    Toast.makeText(SignUpActivity.this, user.getDisplayName(),
-                                            Toast.LENGTH_LONG).show();
+//                                    //TODO remove
+//                                    Toast.makeText(SignUpActivity.this, user.getDisplayName(),
+//                                            Toast.LENGTH_LONG).show();
                                     updateUI(user);
                                 } else {
 
