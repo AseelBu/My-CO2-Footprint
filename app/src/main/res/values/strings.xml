@@ -21,7 +21,7 @@
 
     <!--    Titels-->
 
-    <!-- new password-->
+    <!-- new txtPassword-->
     <string name="oldpassword">Old Password</string>
     <string name="newpassword">New Password</string>
     <string name="confirmnewpassword">Confirm New Password</string>

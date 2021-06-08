@@ -55,7 +55,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
         }
         return false;
     }
-    //update user password on click
+    //update user txtPassword on click
     public void UpdatePasswordClicked(View v){
         Intent intent = new Intent(context, UpdatePasswordActivity.class);
         startActivity(intent);

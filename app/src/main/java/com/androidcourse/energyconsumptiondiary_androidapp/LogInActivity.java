@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import java.util.Locale;
 
 public class LogInActivity extends AppCompatActivity {
@@ -39,6 +42,7 @@ public class LogInActivity extends AppCompatActivity {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
         mAuth = FirebaseAuth.getInstance();
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         email=(EditText)findViewById(R.id.email222);
@@ -64,6 +68,7 @@ public class LogInActivity extends AppCompatActivity {
     private View.OnClickListener singInUserListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+//            hideKeyboard();
             String email2 = email.getText().toString();
             String password2 = password.getText().toString();
             mAuth.signInWithEmailAndPassword(email2, password2)
@@ -75,8 +80,9 @@ public class LogInActivity extends AppCompatActivity {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
                             } else {
-                                Toast.makeText(LogInActivity.this, "Something is wrong!",
-                                        Toast.LENGTH_SHORT).show();
+                                //TODO add snackbar
+                                Toast.makeText(LogInActivity.this, task.getException().getMessage(),
+                                        Toast.LENGTH_LONG).show();
 //                                Toast.makeText(LogInActivity.this, task.getException().toString(),
 //                                        Toast.LENGTH_SHORT).show();
                             }
@@ -91,9 +97,10 @@ public class LogInActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if(user!=null){
+            user.getEmail();
             MyCo2FootprintManager.getInstance().openDataBase(this);
             Intent intent = new Intent(this, HomePageActivity.class);
-            if(email.getText().toString().equals("Admin@gmail.com")) {
+            if(user.getEmail().toLowerCase().equals("admin@gmail.com")) {
                 intent.putExtra("Admin", true);
             }
             else
@@ -106,21 +113,14 @@ public class LogInActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        updateUI(currentUser);
-    }
-    //log in to the home page with check if email and password is correct,valid,and exists
+    //log in to the home page with check if txtEmail and txtPassword is correct,valid,and exists
 //    public void loginClicked(View v) {
 //        boolean flag = true;
 //        try {
 //            //if the user dosn't enter all the details
-//            if (TextUtils.isEmpty(email.getText().toString()) ||
-//                    TextUtils.isEmpty(password.getText().toString()))
+//            if (TextUtils.isEmpty(txtEmail.getText().toString()) ||
+//                    TextUtils.isEmpty(txtPassword.getText().toString()))
 //             {
 //                flag = false;
 //                Toast.makeText(LogInActivity.this,
@@ -131,7 +131,7 @@ public class LogInActivity extends AppCompatActivity {
 //        }
 //        if(flag==true){
 //            User user=checkIfEmailExist();
-//            //if the email not found
+//            //if the txtEmail not found
 //            if (user == null) {
 //                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
 //                dlgAlert.setMessage("Unfortunately Email Not Found ):");
@@ -140,7 +140,7 @@ public class LogInActivity extends AppCompatActivity {
 //                dlgAlert.setCancelable(true);
 //                dlgAlert.create().show();
 //            } else {
-//               //if the password is not correct
+//               //if the txtPassword is not correct
 //                if (checkIfPasswordIsCorrect() == false) {
 //                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
 //                    dlgAlert.setMessage("Wrong Password,try again :)");
@@ -154,7 +154,7 @@ public class LogInActivity extends AppCompatActivity {
 //                    if(editor.commit()){
 //                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
 //                    }
-//                    if(email.getText().toString().equals("Admin@gmail.com")) {
+//                    if(txtEmail.getText().toString().equals("Admin@gmail.com")) {
 //                        Intent intent = new Intent(context, HomePageActivity.class);
 //                        intent.putExtra("Admin",true);
 //                        String toSpeak = "Welcome Admin";
@@ -205,5 +205,12 @@ public class LogInActivity extends AppCompatActivity {
               return false;
         }
          return true;
+    }
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

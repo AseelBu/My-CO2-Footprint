@@ -112,7 +112,6 @@ public class HomePageActivity extends AppCompatActivity {
 
                                 HomePageActivity.this.startActivity(intent);
 
-
                                 finish();
 //                                Intent intent = new Intent(HomePageActivity.this, UserActivity.class);
 //                                startActivity(intent);
