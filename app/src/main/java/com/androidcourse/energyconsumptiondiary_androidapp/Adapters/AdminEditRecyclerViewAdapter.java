@@ -120,7 +120,8 @@ public class AdminEditRecyclerViewAdapter extends RecyclerView.Adapter<AdminEdit
         Intent intent = new Intent(context, EditItemActivity.class);
         intent.putExtra("id", data.get(position).getImpacterID());
         intent.putExtra(IMPACTERTYPE, impacterType.name());
-        ((AdminEditListActivity) context).startActivityForResult(intent, EDIT_REQ_CODE);
+//        ((AdminEditListActivity) context).startActivityForResult(intent, EDIT_REQ_CODE);
+        ((AdminEditListActivity)context).startActivity(intent);
         ((AdminEditListActivity)context).finish();
     }
 
