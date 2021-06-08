@@ -27,12 +27,12 @@ public class SignUpActivity extends AppCompatActivity{
     public static final String TAG = "SignUpActivity";
     public EditText firstName= null;
     public EditText lastName= null;
-    public EditText txtEmail =null;
-    public EditText txtPassword;
+    public EditText email=null;
+    public EditText password;
     public EditText confirmPassword;
     private Context context;
     private FirebaseAuth mAuth;
-    public Button signupBtn;
+    public Button signup;
     private DataHolder dh = DataHolder.getInstance();
     ArrayList<User> users=dh.getUsers();
     @Override
@@ -43,13 +43,13 @@ public class SignUpActivity extends AppCompatActivity{
         setContentView(R.layout.signup);
         firstName=(EditText)findViewById(R.id.type);
         lastName=(EditText)findViewById(R.id.fuel3);
-        signupBtn =(Button) findViewById(R.id.edititem2);
-        txtEmail =(EditText)findViewById(R.id.email222);
-        txtPassword =(EditText)findViewById(R.id.oldpassword);
+        signup=(Button) findViewById(R.id.edititem2);
+        email=(EditText)findViewById(R.id.email222);
+        password=(EditText)findViewById(R.id.oldpassword);
         confirmPassword=(EditText)findViewById(R.id.confirmPassword);
         context=this;
         getSupportActionBar().hide();
-        signupBtn.setOnClickListener(createNewAccountListner);
+        signup.setOnClickListener(createNewAccountListner);
 
     }
 
@@ -120,18 +120,18 @@ public class SignUpActivity extends AppCompatActivity{
     public boolean lenOfPassword()
     {
 
-      if( password.getText().toString().length()<6||confirmPassword.getText().toString().length() <6)
-      {
-          AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+        if( password.getText().toString().length()<6||confirmPassword.getText().toString().length() <6)
+        {
+            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
 
-          dlgAlert.setMessage("password should be 6 characters/numbers at least(:");
-          dlgAlert.setTitle("Message...");
-          dlgAlert.setPositiveButton("OK", null);
-          dlgAlert.setCancelable(true);
-          dlgAlert.create().show();
-          return false;
-      }
-      return  true;
+            dlgAlert.setMessage("password should be 6 characters/numbers at least(:");
+            dlgAlert.setTitle("Message...");
+            dlgAlert.setPositiveButton("OK", null);
+            dlgAlert.setCancelable(true);
+            dlgAlert.create().show();
+            return false;
+        }
+        return  true;
     }
 
     private View.OnClickListener createNewAccountListner = new View.OnClickListener() {
@@ -156,27 +156,6 @@ public class SignUpActivity extends AppCompatActivity{
                                             Toast.LENGTH_SHORT).show();
                                     //updateUI(null);
                                 }
-            String email = txtEmail.getText().toString();
-            String password = txtPassword.getText().toString();
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                //TODO add snackbar
-                                Toast.makeText(SignUpActivity.this, "save successfully!",
-                                        Toast.LENGTH_SHORT).show();
-                                FirebaseUser user = mAuth.getCurrentUser();
-
-                                updateUI(user);
-                            } else {
-
-                                // If sign in fails, display a message to the user.
-                                //TODO add snackbar
-                                Toast.makeText(SignUpActivity.this, task.getException().getMessage(),
-                                        Toast.LENGTH_LONG).show();
-                                //updateUI(null);
-                            }
 
                             }
                         });
@@ -216,29 +195,29 @@ public class SignUpActivity extends AppCompatActivity{
         startActivity(intent);
 
     }
-     //check If Email is Valid method
+    //check If Email is Valid method
     public boolean checkIfEmailisValid()
     {
         String emailString;
-        emailString= txtEmail.getText().toString();
+        emailString=email.getText().toString();
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
         Pattern pat = Pattern.compile(emailRegex);
         if ( emailString == null)
             return false;
         return pat.matcher( emailString).matches();
     }
-      //Check If Email Exist method
+    //Check If Email Exist method
     public boolean checkIfEmailExist()
     {
         for (User u: users) {
-            if(txtEmail.getText().toString().equals(u.getEmail().toString()))
+            if(email.getText().toString().equals(u.getEmail().toString()))
                 return true;
         }
         return false;
     }
-     //check If Two Password Is Equals
+    //check If Two Password Is Equals
     public boolean checkIfTwoPasswordIsEquals()
     {
-           return txtPassword.getText().toString().equals(confirmPassword.getText().toString());
+        return password.getText().toString().equals(confirmPassword.getText().toString());
     }
 }
