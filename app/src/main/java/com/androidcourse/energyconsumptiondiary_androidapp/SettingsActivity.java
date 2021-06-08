@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Switch;
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.CustomListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
@@ -96,8 +97,8 @@ public class SettingsActivity extends AppCompatActivity {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                FirebaseAuth.getInstance().signOut();
                                 Intent intent = new Intent(SettingsActivity.this, LogInActivity.class);
-
                                 startActivity(intent);
                                 finish();
                             }

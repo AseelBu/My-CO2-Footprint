@@ -133,8 +133,10 @@ public class SignUpActivity extends AppCompatActivity{
                                     Toast.makeText(SignUpActivity.this, "save successfully!",
                                             Toast.LENGTH_SHORT).show();
                                     FirebaseUser user = mAuth.getCurrentUser();
+                                    //add user name to fireAuth
                                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                             .setDisplayName(fullName).build();
+
                                     user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
@@ -150,6 +152,8 @@ public class SignUpActivity extends AppCompatActivity{
                                             }
                                         }
                                     });
+
+                                    //update user
                                     user = mAuth.getCurrentUser();
 //                                    //TODO remove
 //                                    Toast.makeText(SignUpActivity.this, user.getDisplayName(),
