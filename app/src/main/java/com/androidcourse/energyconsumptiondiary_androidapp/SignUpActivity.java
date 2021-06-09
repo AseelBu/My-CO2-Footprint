@@ -62,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
 //                                    Toast.makeText(SignUpActivity.this, "save successfully!",
 //                                            Toast.LENGTH_SHORT).show();
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    saveUserDisplayName(fullName);
+                                    saveUserDisplayName(v,fullName);
 
                                 } else {
 
@@ -111,7 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private void saveUserDisplayName(String fullName) {
+    private void saveUserDisplayName(View v,String fullName) {
         FirebaseUser user = mAuth.getCurrentUser();
         //add user name to fireAuth
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -127,7 +127,7 @@ public class SignUpActivity extends AppCompatActivity {
                     //TODO remove
                     Toast.makeText(SignUpActivity.this, "saved user name",
                             Toast.LENGTH_SHORT).show();
-                    saveUserToFireStore(fullName);
+                    saveUserToFireStore(v,fullName);
 
                 } else {
                     //TODO add snackbar
@@ -139,7 +139,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    private void saveUserToFireStore(String fullName) {
+    private void saveUserToFireStore(View v,String fullName) {
         FirebaseUser fUser = mAuth.getCurrentUser();
         Map<String, Object> user = new HashMap<>();
 
@@ -155,7 +155,7 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         //TODO snackbar
-                        final Snackbar bar = Snackbar.make(findViewById(R.id.signupLayout), "congratulations,You are now a new member!", Snackbar.LENGTH_LONG);
+                        final Snackbar bar = Snackbar.make(v, "congratulations,You are now a new member!", Snackbar.LENGTH_LONG);
                         bar.setAction("OK", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
