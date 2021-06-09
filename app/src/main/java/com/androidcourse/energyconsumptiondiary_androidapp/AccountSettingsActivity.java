@@ -28,14 +28,14 @@ public class AccountSettingsActivity extends AppCompatActivity {
     public ImageButton returnBtn = null;
     public ImageView userImg =null;
     RelativeLayout relativeLayout;
-    SharedPreferences prefs =null;
+//    SharedPreferences prefs =null;
 
     private DataHolder dh = DataHolder.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accountsettings);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         name = (TextView) findViewById(R.id.nameset);
         email = (TextView) findViewById(R.id.emailaccount);
         nextToUpdatePassword = (Button) findViewById(R.id.arrowbtn3);

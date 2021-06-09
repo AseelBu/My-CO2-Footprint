@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ConstraintLayout"
+    android:id="@+id/signupLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
@@ -141,7 +141,6 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/button_round_shape"
                 android:gravity="center"
-                android:onClick="signupClicked"
                 android:text="@string/signupBtn"
                 android:textColor="@android:color/white" />
 

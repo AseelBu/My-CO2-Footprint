@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            user.getEmail();
+
             mg.openDataBase(this);
             Intent intent = new Intent(this, HomePageActivity.class);
             if (user.getEmail().toLowerCase().equals("admin@gmail.com")) {

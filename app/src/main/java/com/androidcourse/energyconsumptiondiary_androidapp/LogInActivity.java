@@ -20,6 +20,7 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,7 +39,7 @@ public class LogInActivity extends AppCompatActivity {
     private DataHolder dh = DataHolder.getInstance();
     private FirebaseAuth mAuth;
     private Context context;
-    private SharedPreferences prefs;
+//    private SharedPreferences prefs;
     private View.OnClickListener singInUserListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -57,11 +58,20 @@ public class LogInActivity extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     updateUI(user);
                                 } else {
-                                    //TODO add snackbar
-                                    Toast.makeText(LogInActivity.this, task.getException().getMessage(),
-                                            Toast.LENGTH_LONG).show();
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    updateUI(user);
+
+                                    final Snackbar bar = Snackbar.make(v, task.getException().getMessage(), Snackbar.LENGTH_INDEFINITE);
+                                    bar.setAction("Dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            bar.dismiss();
+                                        }
+                                    });
+                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                    bar.show();
+//                                    Toast.makeText(LogInActivity.this, task.getException().getMessage(),
+//                                            Toast.LENGTH_LONG).show();
+//                                    FirebaseUser user = mAuth.getCurrentUser();
+//                                    updateUI(user);
                                 }
 
                             }
@@ -76,8 +86,8 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        mAuth = FirebaseAuth.getInstance();
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+//        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         email = (EditText) findViewById(R.id.email222);
         email.setText("admin@gmail.com");
         password = (EditText) findViewById(R.id.oldpassword);
@@ -95,6 +105,7 @@ public class LogInActivity extends AppCompatActivity {
         });
         context = this;
         getSupportActionBar().hide();
+        mAuth = FirebaseAuth.getInstance();
         login.setOnClickListener(singInUserListener);
     }
 
@@ -111,7 +122,6 @@ public class LogInActivity extends AppCompatActivity {
             finish();
         }
     }
-
 
 
 //    public boolean someInputIsEmpty()
@@ -168,12 +178,13 @@ public class LogInActivity extends AppCompatActivity {
                     dlgAlert.setPositiveButton("OK", null);
                     dlgAlert.setCancelable(true);
                     dlgAlert.create().show();
-                } else {
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt(getResources().getString(R.string.prefLoggedUser), user.getUserId());
-                    if (editor.commit()) {
-                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
-                    }
+                }
+//                else {
+//                    SharedPreferences.Editor editor = prefs.edit();
+//                    editor.putInt(getResources().getString(R.string.prefLoggedUser), user.getUserId());
+//                    if (editor.commit()) {
+//                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
+//                    }
 //                    if(email.getText().toString().equals("Admin@gmail.com")) {
 //                        Intent intent = new Intent(context, HomePageActivity.class);
 //                        intent.putExtra("Admin",true);
@@ -195,7 +206,7 @@ public class LogInActivity extends AppCompatActivity {
 //                    }
                 }
             }
-        }
+//        }
         return flag;
     }
 
