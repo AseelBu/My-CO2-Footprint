@@ -121,6 +121,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
+
                 if (task.isSuccessful()) {
 
 
@@ -217,7 +218,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     public boolean check() {
         boolean flag = true;
-        try {
+
             //if some if four inputs in empty
             if (TextUtils.isEmpty(firstName.getText().toString()) ||
                     TextUtils.isEmpty(lastName.getText().toString()) ||
@@ -230,11 +231,10 @@ public class SignUpActivity extends AppCompatActivity {
                         "Please enter all details",
                         Toast.LENGTH_SHORT).show();
             }
-        } catch (NumberFormatException exception) {
-        }
         if (flag == true) {
+            //flag=lenOfPassword();
             //if the email not exists and email is valid,two password equals as add new user and show a toast
-            if (checkIfEmailExist() == false && checkIfEmailIsValid() == true && checkIfTwoPasswordIsEquals() == true && lenOfPassword() == true) {
+            if (checkIfEmailIsValid() == true && checkIfTwoPasswordIsEquals() == true ) {
                 dh.addUser(dh.getUsers().size() + 1, firstName.getText().toString(), lastName.getText().toString(), txtEmail.getText().toString(), txtPassword.getText().toString());
 
                 return true;
@@ -248,17 +248,9 @@ public class SignUpActivity extends AppCompatActivity {
                     dlgAlert.setPositiveButton("OK", null);
                     dlgAlert.setCancelable(true);
                     dlgAlert.create().show();
+                    flag=false;
                 } else {
                     //if email is already exist
-                    if (checkIfEmailExist() == true) {
-                        AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-
-                        dlgAlert.setMessage("Email Alraedy Exists");
-                        dlgAlert.setTitle("Message...");
-                        dlgAlert.setPositiveButton("OK", null);
-                        dlgAlert.setCancelable(true);
-                        dlgAlert.create().show();
-                    } else {
                         //if the two passwords are not the same
                         if (checkIfTwoPasswordIsEquals() == false) {
                             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
@@ -268,11 +260,12 @@ public class SignUpActivity extends AppCompatActivity {
                             dlgAlert.setPositiveButton("OK", null);
                             dlgAlert.setCancelable(true);
                             dlgAlert.create().show();
+                            flag=false;
                         }
                     }
                 }
             }
-        }
+
 
         return flag;
     }
