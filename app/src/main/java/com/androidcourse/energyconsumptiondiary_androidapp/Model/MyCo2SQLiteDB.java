@@ -330,7 +330,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
             // if results !=null, parse the first one
             if(cursor!=null && cursor.getCount()>0){
-                fuelType=cursor.getString(cursor.getColumnIndex(TRANSPORTATION_COLUMN_FUEL));
+                fuelType=cursor.getString(1);
             }} catch (Throwable t) {
             t.printStackTrace();
         }
