@@ -159,53 +159,53 @@ public class LogInActivity extends AppCompatActivity {
             }
         } catch (NumberFormatException exception) {
         }
-        if (flag == true) {
-            User user = checkIfEmailExist();
-            //if the email not found
-            if (user == null) {
-                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-                dlgAlert.setMessage("Unfortunately Email Not Found ):");
-                dlgAlert.setTitle("Message...");
-                dlgAlert.setPositiveButton("OK", null);
-                dlgAlert.setCancelable(true);
-                dlgAlert.create().show();
-            } else {
-                //if the password is not correct
-                if (checkIfPasswordIsCorrect() == false) {
-                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-                    dlgAlert.setMessage("Wrong Password,try again :)");
-                    dlgAlert.setTitle("Message...");
-                    dlgAlert.setPositiveButton("OK", null);
-                    dlgAlert.setCancelable(true);
-                    dlgAlert.create().show();
-                }
-//                else {
-//                    SharedPreferences.Editor editor = prefs.edit();
-//                    editor.putInt(getResources().getString(R.string.prefLoggedUser), user.getUserId());
-//                    if (editor.commit()) {
-//                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
-//                    }
-//                    if(email.getText().toString().equals("Admin@gmail.com")) {
-//                        Intent intent = new Intent(context, HomePageActivity.class);
-//                        intent.putExtra("Admin",true);
-//                        String toSpeak = "Welcome Admin";
-//                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-//                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                    else
-//                    {
-//                        Intent intent = new Intent(context, HomePageActivity.class);
-//                        intent.putExtra("Admin",false);
-//                        String toSpeak = "Welcome";
-//                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-//                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-                }
-            }
+//        if (flag == true) {
+//            User user = checkIfEmailExist();
+//            //if the email not found
+//            if (user == null) {
+//                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+//                dlgAlert.setMessage("Unfortunately Email Not Found ):");
+//                dlgAlert.setTitle("Message...");
+//                dlgAlert.setPositiveButton("OK", null);
+//                dlgAlert.setCancelable(true);
+//                dlgAlert.create().show();
+//            } else {
+//                //if the password is not correct
+//                if (checkIfPasswordIsCorrect() == false) {
+//                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+//                    dlgAlert.setMessage("Wrong Password,try again :)");
+//                    dlgAlert.setTitle("Message...");
+//                    dlgAlert.setPositiveButton("OK", null);
+//                    dlgAlert.setCancelable(true);
+//                    dlgAlert.create().show();
+//                }
+////                else {
+////                    SharedPreferences.Editor editor = prefs.edit();
+////                    editor.putInt(getResources().getString(R.string.prefLoggedUser), user.getUserId());
+////                    if (editor.commit()) {
+////                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
+////                    }
+////                    if(email.getText().toString().equals("Admin@gmail.com")) {
+////                        Intent intent = new Intent(context, HomePageActivity.class);
+////                        intent.putExtra("Admin",true);
+////                        String toSpeak = "Welcome Admin";
+////                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+////                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+////                        startActivity(intent);
+////                        finish();
+////                    }
+////                    else
+////                    {
+////                        Intent intent = new Intent(context, HomePageActivity.class);
+////                        intent.putExtra("Admin",false);
+////                        String toSpeak = "Welcome";
+////                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+////                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+////                        startActivity(intent);
+////                        finish();
+////                    }
+//                }
+//            }
 //        }
         return flag;
     }
