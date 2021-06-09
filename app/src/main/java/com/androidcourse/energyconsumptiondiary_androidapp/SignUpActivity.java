@@ -227,6 +227,7 @@ public class SignUpActivity extends AppCompatActivity {
                     TextUtils.isEmpty(confirmPassword.getText().toString())
             ) {
                 flag = false;
+                ///TODO snackbar
                 Toast.makeText(SignUpActivity.this,
                         "Please enter all details",
                         Toast.LENGTH_SHORT).show();
