@@ -38,6 +38,7 @@ public class AdminEditListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_edit_list);
         db.openDataBase(this);
+
         txtFuel=(TextView)findViewById(R.id.txtFuelTypeAdminHeader);
 
         RecyclerView recList = (RecyclerView) findViewById(R.id.dataListAdminRec);
@@ -83,6 +84,7 @@ public class AdminEditListActivity extends AppCompatActivity {
         if ((requestCode == ADDING_REQ_CODE ||requestCode==EDIT_REQ_CODE) && resultCode == RESULT_OK) {
             adapter.updateImpactersData();
             adapter.notifyDataSetChanged();
+
         }
         }
 

@@ -13,8 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
@@ -68,10 +66,7 @@ public class LogInActivity extends AppCompatActivity {
                                     });
                                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                                     bar.show();
-//                                    Toast.makeText(LogInActivity.this, task.getException().getMessage(),
-//                                            Toast.LENGTH_LONG).show();
-//                                    FirebaseUser user = mAuth.getCurrentUser();
-//                                    updateUI(user);
+
                                 }
 
                             }
@@ -124,28 +119,6 @@ public class LogInActivity extends AppCompatActivity {
     }
 
 
-//    public boolean someInputIsEmpty()
-//    {
-//        boolean flag=true;
-//                try {
-
-    //log in to the home page with check if txtEmail and txtPassword is correct,valid,and exists
-//    public void loginClicked(View v) {
-//        boolean flag = true;
-//        try {
-//            //if the user dosn't enter all the details
-//            if (TextUtils.isEmpty(txtEmail.getText().toString()) ||
-//                    TextUtils.isEmpty(txtPassword.getText().toString()))
-//             {
-//                flag = false;
-//                Toast.makeText(LogInActivity.this,
-//                        "Please enter all details",
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        } catch (NumberFormatException exception) {
-//        }
-//                return flag;
-    // }
     public boolean check() {
         boolean flag = true;
         try {
@@ -153,9 +126,17 @@ public class LogInActivity extends AppCompatActivity {
             if (TextUtils.isEmpty(email.getText().toString()) ||
                     TextUtils.isEmpty(password.getText().toString())) {
                 flag = false;
-                Toast.makeText(LogInActivity.this,
-                        "Please enter all details",
-                        Toast.LENGTH_SHORT).show();
+                String toSpeak = "Please enter all details";
+                View parentLayout = findViewById(android.R.id.content);
+                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                bar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bar.dismiss();
+                    }
+                });
+                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                bar.show();
             }
         } catch (NumberFormatException exception) {
         }
@@ -189,8 +170,7 @@ public class LogInActivity extends AppCompatActivity {
 ////                        Intent intent = new Intent(context, HomePageActivity.class);
 ////                        intent.putExtra("Admin",true);
 ////                        String toSpeak = "Welcome Admin";
-////                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-////                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+
 ////                        startActivity(intent);
 ////                        finish();
 ////                    }
@@ -199,8 +179,6 @@ public class LogInActivity extends AppCompatActivity {
 ////                        Intent intent = new Intent(context, HomePageActivity.class);
 ////                        intent.putExtra("Admin",false);
 ////                        String toSpeak = "Welcome";
-////                        Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-////                        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 ////                        startActivity(intent);
 ////                        finish();
 ////                    }

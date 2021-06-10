@@ -9,12 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.CustomListAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
+import com.google.android.material.snackbar.Snackbar;
 
 public class UpdatePasswordActivity extends AppCompatActivity {
     private Context context;
@@ -86,9 +86,19 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                     TextUtils.isEmpty(confirmpassword.getText().toString())
             ) {
                 flag = false;
-                Toast.makeText(UpdatePasswordActivity.this,
-                        "Please enter all details",
-                        Toast.LENGTH_SHORT).show();
+                String toSpeak = "Please enter all details";
+                View parentLayout = findViewById(android.R.id.content);
+                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                bar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bar.dismiss();
+                    }
+                });
+                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                bar.show();
+
+
             }
         } catch (NumberFormatException exception) {
         }
@@ -98,39 +108,81 @@ public class UpdatePasswordActivity extends AppCompatActivity {
             oldpass = oldPassword.getText().toString();
             newpass = newPassword.getText().toString();
             if (checkIfEmailExist() == false) {
-                Toast.makeText(UpdatePasswordActivity.this,
-                        "Email Not Found ",
-                        Toast.LENGTH_SHORT).show();
+                String toSpeak = "Email Not Found";
+                View parentLayout = findViewById(android.R.id.content);
+                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                bar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bar.dismiss();
+                    }
+                });
+                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                bar.show();
+
             } else
                 {
                 if (checkIfTwoPasswordIsEquals() == false)
                 {
-                    Toast.makeText(UpdatePasswordActivity.this,
-                            "Two Passwords you enter not equals,try again. ",
-                            Toast.LENGTH_SHORT).show();
+                    String toSpeak = "Two Passwords you enter not equals,try again.";
+                    View parentLayout = findViewById(android.R.id.content);
+                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+
                 }
                 else
                     {
                     if (checkIfnewPasswordEqualToOldPassword() == true) {
-                        Toast.makeText(UpdatePasswordActivity.this,
-                                "New txtPassword you enter like the old txtPassword.Please enter a different txtPassword ",
-                                Toast.LENGTH_SHORT).show();
+                        String toSpeak = "New txtPassword you enter like the old txtPassword.Please enter a different txtPassword";
+                        View parentLayout = findViewById(android.R.id.content);
+                        final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                        bar.setAction("Dismiss", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                bar.dismiss();
+                            }
+                        });
+                        bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                        bar.show();
                     }
                     else
                         {
                         if (checkIfPasswordIsCorrect() == false) {
-                            Toast.makeText(UpdatePasswordActivity.this,
-                                    "your currently txtPassword not correct",
-                                    Toast.LENGTH_SHORT).show();
+                            String toSpeak = "your currently txtPassword not correct";
+                            View parentLayout = findViewById(android.R.id.content);
+                            final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                            bar.setAction("Dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    bar.dismiss();
+                                }
+                            });
+                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                            bar.show();
                         } else{
                             for (User u : dh.getUsers()) {
                                 if (emailTheAccount.equals(u.getEmail())) {
                                     u.setPassword(newpass);
                                 }
                             }
-                        Toast.makeText(UpdatePasswordActivity.this,
-                                "Password changed successfully ",
-                                Toast.LENGTH_SHORT).show();
+                            String toSpeak = "Password changed successfully";
+                            View parentLayout = findViewById(android.R.id.content);
+                            final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                            bar.setAction("Dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    bar.dismiss();
+                                }
+                            });
+                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                            bar.show();
                         Intent intent = new Intent(context, SettingsActivity.class);
                         startActivity(intent);
                         this.finish();

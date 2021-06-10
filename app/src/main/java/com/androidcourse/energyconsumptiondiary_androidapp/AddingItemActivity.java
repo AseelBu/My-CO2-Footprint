@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
@@ -30,8 +29,11 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class AddingItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "AddingItemActivity";
@@ -112,9 +114,21 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                 Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(Intent.createChooser(intent,"Choose Picture"), REQUEST_IMAGE_GET);
+                    startActivityForResult(Intent.createChooser(intent,"No permission for files"), REQUEST_IMAGE_GET);
                 }else{
-                    Toast.makeText(getApplicationContext(), "No permission for files", Toast.LENGTH_SHORT).show();
+                    String toSpeak = "No permission for files!";
+                    View parentLayout = findViewById(android.R.id.content);
+                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+
+
                 }
             }
         });
@@ -173,8 +187,16 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     || (TextUtils.isEmpty(co2Amount.getText().toString()))
                     || (TextUtils.isEmpty(fuelType.getText().toString()))) {
                 String toSpeak = "add failed..There are empty input!";
-                Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-//                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                View parentLayout = findViewById(android.R.id.content);
+                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                bar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bar.dismiss();
+                    }
+                });
+                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                bar.show();
             }
             //if the input is not empty
             else {
@@ -188,14 +210,21 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
                     int id = db.createCO2Impacter(impacter);
                     db.createTransportation(id, (Transportation) impacter);
-                    Intent intent = new Intent(this, AdminEditListActivity.class);
-                    intent.putExtra(IMPACTERTYPE, impacterType.name());
-//                                    setResult(RESULT_OK, intent);
-                    startActivity(intent);
+
                     String toSpeak = "add successfully";
-                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-//                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                    finish();
+                    View parentLayout = findViewById(android.R.id.content);
+                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                            newActivity();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+                    //TimeUnit.SECONDS.sleep(5);
+
 
                 } catch (Throwable ew) {
                     ew.printStackTrace();
@@ -208,12 +237,17 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
             if ((TextUtils.isEmpty(name.getText().toString()))
                     || (TextUtils.isEmpty(question.getText().toString()))
                     || (TextUtils.isEmpty(co2Amount.getText().toString()))) {
-                Toast.makeText(context,
-                        "add failed..There are empty input!",
-                        Toast.LENGTH_SHORT).show();
                 String toSpeak = "add failed..There are empty input!";
-                Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-//                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                View parentLayout = findViewById(android.R.id.content);
+                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                bar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bar.dismiss();
+                    }
+                });
+                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                bar.show();
             }
 
 
@@ -245,14 +279,26 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                             break;
                     }
 
-                    Intent intent = new Intent(this, AdminEditListActivity.class);
-                    intent.putExtra(IMPACTERTYPE, impacterType.name());
-//                                    setResult(RESULT_OK, intent);
-                    startActivity(intent);
+
                     String toSpeak = "added successfully";
-                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-//                            t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                    finish();
+                    View parentLayout = findViewById(android.R.id.content);
+                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                            newActivity();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+                   // TimeUnit.SECONDS.sleep(5);
+
+
+
+
+
+
                 } catch (Throwable ew) {
                     ew.printStackTrace();
                 }
@@ -261,7 +307,13 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
         }
     }
-
+public void newActivity()
+{
+    Intent intent = new Intent(this, AdminEditListActivity.class);
+    intent.putExtra(IMPACTERTYPE, impacterType.name());
+    startActivity(intent);
+    finish();
+}
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

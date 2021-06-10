@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
