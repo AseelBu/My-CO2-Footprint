@@ -214,19 +214,17 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     String toSpeak = "add successfully";
                     View parentLayout = findViewById(android.R.id.content);
                     final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                    bar.setAction("Dismiss", new View.OnClickListener() {
+                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             bar.dismiss();
+                            newActivity();
                         }
                     });
                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                     bar.show();
                     //TimeUnit.SECONDS.sleep(5);
-                    Intent intent = new Intent(this, AdminEditListActivity.class);
-                    intent.putExtra(IMPACTERTYPE, impacterType.name());
-                    startActivity(intent);
-                    finish();
+
 
                 } catch (Throwable ew) {
                     ew.printStackTrace();
@@ -285,19 +283,22 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     String toSpeak = "added successfully";
                     View parentLayout = findViewById(android.R.id.content);
                     final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                    bar.setAction("Dismiss", new View.OnClickListener() {
+                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             bar.dismiss();
+                            newActivity();
                         }
                     });
                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                     bar.show();
                    // TimeUnit.SECONDS.sleep(5);
-                    Intent intent = new Intent(this, AdminEditListActivity.class);
-                    intent.putExtra(IMPACTERTYPE, impacterType.name());
-                    startActivity(intent);
-                    finish();
+
+
+
+
+
+
                 } catch (Throwable ew) {
                     ew.printStackTrace();
                 }
@@ -306,7 +307,13 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
 
         }
     }
-
+public void newActivity()
+{
+    Intent intent = new Intent(this, AdminEditListActivity.class);
+    intent.putExtra(IMPACTERTYPE, impacterType.name());
+    startActivity(intent);
+    finish();
+}
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

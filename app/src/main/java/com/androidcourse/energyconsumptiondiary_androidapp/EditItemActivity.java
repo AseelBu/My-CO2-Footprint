@@ -179,21 +179,16 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     String toSpeak = "save successfully";
                                     View parentLayout = findViewById(android.R.id.content);
                                     final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                                    bar.setAction("Dismiss", new View.OnClickListener() {
+                                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             bar.dismiss();
+                                            newActivity();
                                         }
                                     });
                                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                                     bar.show();
 
-                                    Intent intent = new Intent(context, AdminEditListActivity.class);
-                                    intent.putExtra(IMPACTERTYPE, impacterType.name());
-//                                    setResult(RESULT_OK, intent);
-                                    startActivity(intent);
-
-                                    finish();
                                 } catch (Throwable ew) {
                                     ew.printStackTrace();
                                 }
@@ -210,6 +205,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                     @Override
                     public void onClick(View v) {
                         bar.dismiss();
+
                     }
                 });
                 bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
@@ -230,19 +226,20 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     String toSpeak = "save successfully";
                                     View parentLayout = findViewById(android.R.id.content);
                                     final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                                    bar.setAction("Dismiss", new View.OnClickListener() {
+                                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             bar.dismiss();
+                                            newActivity();
                                         }
                                     });
                                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                                     bar.show();
 
-                                    Intent intent = new Intent(context, AdminEditListActivity.class);
-                                    intent.putExtra(IMPACTERTYPE, impacterType.name());
-                                    startActivity(intent);
-                                    finish();
+//                                    Intent intent = new Intent(context, AdminEditListActivity.class);
+//                                    intent.putExtra(IMPACTERTYPE, impacterType.name());
+//                                    startActivity(intent);
+//                                    finish();
                                 } catch (Throwable ew) {
                                     ew.printStackTrace();
                                 }
@@ -290,7 +287,13 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
             textFuel.setVisibility(View.GONE);
         }
     }
-
+public void newActivity()
+{
+    Intent intent = new Intent(context, AdminEditListActivity.class);
+    intent.putExtra(IMPACTERTYPE, impacterType.name());
+    startActivity(intent);
+    finish();
+}
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
