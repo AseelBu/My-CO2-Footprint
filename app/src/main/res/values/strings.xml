@@ -133,5 +133,6 @@
     <string name="isEntryNotificationSet">isEntryNotificationSet</string>
     <string name="entryNotificationTime">entryNotificationTime</string>
     <string name="co2EmissionsAmount">Co2 emissions amount</string>
+    <string name="homePage">Home</string>
 
 </resources>

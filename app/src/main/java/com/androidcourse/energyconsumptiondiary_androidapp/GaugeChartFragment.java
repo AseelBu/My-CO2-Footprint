@@ -15,7 +15,7 @@ public class GaugeChartFragment extends Fragment {
     MyCo2FootprintManager dbManager= MyCo2FootprintManager.getInstance();
     private static final String TAG = "GaugeFragment";
     private HalfGauge resultGauge=null;
-    private int resultId=-1;
+    private String resultId=null;
     private Result result=null;
     public GaugeChartFragment() {
         // Required empty public constructor
@@ -37,7 +37,7 @@ public class GaugeChartFragment extends Fragment {
         resultGauge=(HalfGauge) rootView.findViewById(R.id.halfGauge);
         Bundle args = getArguments();
         if(args!=null){
-            resultId=args.getInt("resultId");
+            resultId=args.getString("resultId");
             result=dbManager.getResultById(resultId);
         }
         //set colors
@@ -59,11 +59,11 @@ public class GaugeChartFragment extends Fragment {
         Range range3 = new Range();
         range3.setColor(getResources().getColor(R.color.warningOrange));
         range3.setFrom(500.0);
-        range3.setTo(750.0);
+        range3.setTo(1000.0);
         Range range4 = new Range();
         range4.setColor(getResources().getColor(R.color.dangerRed));
-        range4.setFrom(750.0);
-        range4.setTo(1200.0);
+        range4.setFrom(1000.0);
+        range4.setTo(3000.0);
         //add color ranges to gauge
         resultGauge.addRange(range);
         resultGauge.addRange(range2);
@@ -71,7 +71,7 @@ public class GaugeChartFragment extends Fragment {
         resultGauge.addRange(range4);
         //set min max and current value
         resultGauge.setMinValue(0.0);
-        resultGauge.setMaxValue(1200.0);
+        resultGauge.setMaxValue(3000.0);
 
     }
 

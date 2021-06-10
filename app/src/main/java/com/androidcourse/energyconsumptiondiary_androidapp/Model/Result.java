@@ -10,8 +10,8 @@ import java.util.Objects;
 
 public class Result {
 
-    private int id;
-    private int userId;
+    private String id;
+    private String userId;
     private Date date;
     private double transportationResult=0;
     private double foodResult=0;
@@ -23,16 +23,21 @@ public class Result {
     public Result() {
     }
 
-    public Result(int userId,Date date) {
-        this.userId=userId;
-        this.date = date;
+//    public Result(String userId,Date date) {
+//        this.userId=userId;
+//        this.date = date;
+//    }
+
+    public Result(String id, String userId) {
+        this.id = id;
+        this.userId = userId;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -44,11 +49,11 @@ public class Result {
         this.date = date;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -99,6 +104,10 @@ public class Result {
     }
 
     public void calculateAndSetResult(ArrayList<TypeEntry> data){
+        transportationResult=0;
+        foodResult=0;
+        electricsResult=0;
+        servicesResult=0;
         for(TypeEntry entry:data){
            int entryValue=entry.getValue();
            int impacterId = entry.getId();
@@ -128,5 +137,10 @@ public class Result {
         return transportationResult+foodResult+electricsResult+servicesResult;
     }
 
+    public int calculateResultPoints(){
+        int maxCo2=3000;
+        double resultTotal= getTotal();
+        return (int)(maxCo2-resultTotal);
+    }
 
 }

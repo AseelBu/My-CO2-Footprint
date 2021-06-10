@@ -3,6 +3,8 @@ package com.androidcourse.energyconsumptiondiary_androidapp.Model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION =2;
+    private static final int DATABASE_VERSION =6;
     private static final String DATABASE_NAME="MyCo2FootprintDB";
 
 
@@ -139,25 +141,26 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
         //create Entry Type Table
         String CREATE_ENTRY_TYPE_TABLE="create table if not exists "+TABLE_TYPE_ENTRY_NAME+"("
-                + TYPE_ENTRY_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TYPE_ENTRY_COLUMN_ID +" INTEGER , "
                 + TYPE_ENTRY_COLUMN_VALUE +" INTEGER,"
                 + TYPE_ENTRY_COLUMN_IMPACTER_TYPE +" TEXT,"
-                + TYPE_ENTRY_COLUMN_ENTRYID +" INTEGER"
+                + TYPE_ENTRY_COLUMN_ENTRYID +" TEXT,"
+                + "PRIMARY KEY ("+TYPE_ENTRY_COLUMN_ID+","+TYPE_ENTRY_COLUMN_ENTRYID+")"
                 +")";
         db.execSQL(CREATE_ENTRY_TYPE_TABLE);
 
         //create Entries Table
         String CREATE_ENTRY_TABLE="create table if not exists "+TABLE_ENTRY_NAME+"("
-                +ENTRY_COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +ENTRY_COLUMN_USERID+" INTEGER,"
+                +ENTRY_COLUMN_ID+" TEXT PRIMARY KEY, "
+                +ENTRY_COLUMN_USERID+" TEXT,"
                 +ENTRY_COLUMN_DATE+" TEXT"
                 +")";
         db.execSQL(CREATE_ENTRY_TABLE);
 
         //create result table
         String CREATE_RESULT_TABLE="create table if not exists "+ TABLE_RESULT_NAME +"("
-                + RESULT_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +RESULT_COLUMN_USERID+" INTEGER,"
+                + RESULT_COLUMN_ID +" TEXT PRIMARY KEY , "
+                +RESULT_COLUMN_USERID+" TEXT,"
                 +RESULT_COLUMN_DATE+" TEXT,"
                 +RESULT_COLUMN_TRANSPORTATION+" INTEGER,"
                 +RESULT_COLUMN_FOOD+" INTEGER,"
@@ -358,11 +361,11 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-    public void createFood(int entryId,Food t) {
+    public void createFood(int id, Food t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
-            values.put(FOOD_COLUMN_IMPACTERID, entryId);
+            values.put(FOOD_COLUMN_IMPACTERID, id);
 
             // insert item
             db.insert(TABLE_FOOD_NAME, null, values);
@@ -371,11 +374,11 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-    public void createElectric(int entryId,ElectricalHouseSupplies t) {
+    public void createElectric(int id,ElectricalHouseSupplies t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
-            values.put(ELECTRICS_COLUMN_IMPACTERID, entryId);
+            values.put(ELECTRICS_COLUMN_IMPACTERID, id);
             // insert item
             db.insert(TABLE_ELECTRICS_NAME, null, values);
 
@@ -383,11 +386,11 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-    public void createService(int entryId,Service t) {
+    public void createService(int id,Service t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
-            values.put(SERVICE_COLUMN_IMPACTERID, entryId);
+            values.put(SERVICE_COLUMN_IMPACTERID, id);
             // insert item
             db.insert(TABLE_SERVICE_NAME, null, values);
 
@@ -834,43 +837,97 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     }
 
     //--------------------------------------------------Entry type queries
-    public void createTypeEntry(int entryId,TypeEntry typeEntry){
+    public void createTypeEntry(String entryId,TypeEntry typeEntry){
 
         try {
             ContentValues values = new ContentValues();
+            values.put(TYPE_ENTRY_COLUMN_ID,typeEntry.getId());
             values.put(TYPE_ENTRY_COLUMN_VALUE,typeEntry.getValue());
             values.put(TYPE_ENTRY_COLUMN_IMPACTER_TYPE,typeEntry.getType().name());
             values.put(TYPE_ENTRY_COLUMN_ENTRYID,entryId);
 
             // insert item
-            db.insert(TABLE_TYPE_ENTRY_NAME, null, values);
+            db.replace(TABLE_TYPE_ENTRY_NAME, null, values);
 
-        }catch (Throwable t) {
+
+        }
+//        catch (SQLiteConstraintException e){
+//            updateTypeEntry(entryId,typeEntry);
+//        }
+        catch (Throwable t) {
             t.printStackTrace();
         }
     }
 
+    public void updateTypeEntry(String entryId,TypeEntry typeEntry) {
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(TYPE_ENTRY_COLUMN_VALUE,typeEntry.getValue());
+            values.put(TYPE_ENTRY_COLUMN_IMPACTER_TYPE,typeEntry.getType().name());
+
+            // update
+            db.update(TABLE_TYPE_ENTRY_NAME, values, TYPE_ENTRY_COLUMN_ID + " = ? AND "
+                            +TYPE_ENTRY_COLUMN_ENTRYID+ " = ?",
+                    new String[] { String.valueOf(typeEntry.getId()), String.valueOf(entryId)});
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    public void deleteAllTypeEntryByEntryID(String entryId) {
+        try {
+            db.delete(TABLE_TYPE_ENTRY_NAME, TYPE_ENTRY_COLUMN_ENTRYID + " = ?",
+                    new String[]{String.valueOf(entryId)});
+        }catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
     //---Entry queries
-    public int createEntry(Entry entry){
-        long entryId=-1;
+    public void createEntry(Entry entry){
+
         try {
             ContentValues values = new ContentValues();
+            values.put(ENTRY_COLUMN_ID,entry.getId());
             values.put(ENTRY_COLUMN_USERID,entry.getUserId());
             values.put(ENTRY_COLUMN_DATE,entry.getDate().toString());
             // insert item
-            entryId=db.insert(TABLE_ENTRY_NAME, null, values);
+            db.replace(TABLE_ENTRY_NAME, null, values);
 
-        }catch (Throwable t) {
+        }
+//        catch (SQLiteConstraintException e){
+//            updateEntry(entry);
+//        }
+        catch (Throwable t) {
             t.printStackTrace();
         }
-        return Long.valueOf(entryId).intValue();
+//        return Long.valueOf(entryId).intValue();
+    }
+
+    public void updateEntry(Entry entry) {
+
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(ENTRY_COLUMN_USERID, entry.getUserId());
+            values.put(ENTRY_COLUMN_DATE, entry.getDate().toString());
+
+
+            // update
+            db.update(TABLE_ENTRY_NAME, values, ENTRY_COLUMN_ID + " = ?",
+                    new String[] { String.valueOf(entry.getId()) });
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+
     }
 
     //------Result Queries
-    public int createResult(Result result) {
-        int id=-1;
+    public void createResult(Result result) {
+//        int id=-1;
         try {
             ContentValues values = new ContentValues();
+            values.put(RESULT_COLUMN_ID,result.getId());
             values.put(RESULT_COLUMN_USERID,result.getUserId());
             values.put(RESULT_COLUMN_DATE,result.getDate().toString());
             values.put(RESULT_COLUMN_TRANSPORTATION,result.getTransportationResult());
@@ -879,15 +936,40 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             values.put(RESULT_COLUMN_SERVICE,result.getServicesResult());
 
             // insert result
-            id=Long.valueOf(db.insert(TABLE_RESULT_NAME, null, values)).intValue();
-            return id;
-        }catch (Throwable t) {
+            db.replace(TABLE_RESULT_NAME, null, values);
+//            id=Long.valueOf(db.insert(TABLE_RESULT_NAME, null, values)).intValue();
+
+        }
+//        catch (SQLiteConstraintException e){
+//            updateResult(result);
+//        }
+        catch (Throwable t) {
             t.printStackTrace();
         }
-        return id;
+
     }
 
-    public Result getResultById(int resultId){
+    public void updateResult(Result result) {
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(RESULT_COLUMN_USERID,result.getUserId());
+            values.put(RESULT_COLUMN_DATE,result.getDate().toString());
+            values.put(RESULT_COLUMN_TRANSPORTATION,result.getTransportationResult());
+            values.put(RESULT_COLUMN_FOOD,result.getFoodResult());
+            values.put(RESULT_COLUMN_ELECTRICS,result.getElectricsResult());
+            values.put(RESULT_COLUMN_SERVICE,result.getServicesResult());
+
+
+            // update
+            db.update(TABLE_RESULT_NAME, values, RESULT_COLUMN_ID + " = ?",
+                    new String[] { String.valueOf(result.getId()) });
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    public Result getResultById(String resultId){
         Result result = null;
         Cursor cursor = null;
         try{
@@ -952,7 +1034,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
      * @param userId
      * @return List<Result>
      */
-    public List<Result> getAllResults(int userId ){
+    public List<Result> getAllResults(String userId ){
         List<Result> results = new ArrayList<Result>();
         Cursor cursor = null;
         try {
@@ -982,9 +1064,9 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private Result cursorToResult(Cursor cursor) {
         Result result = new Result();
         try {
-            result.setId(cursor.getInt(0));
+            result.setId(cursor.getString(0));
             //item.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ITEM_COLUMN_ID))));
-            result.setUserId(cursor.getInt(1));
+            result.setUserId(cursor.getString(1));
             result.setDate(new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH).parse(cursor.getString(2)));
             result.setTransportationResult(Integer.valueOf(cursor.getInt(3)).doubleValue());
             result.setFoodResult(Integer.valueOf(cursor.getInt(4)).doubleValue());
@@ -1019,5 +1101,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
         return outputStream.toByteArray();
     }
+
 
 }

@@ -11,9 +11,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.AdminEditRecyclerViewAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.AdminImpacterListAdapter;
-import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.CustomListAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;

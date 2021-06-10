@@ -1,4 +1,4 @@
-package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
+package com.androidcourse.energyconsumptiondiary_androidapp.dummy;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
