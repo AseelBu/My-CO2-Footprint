@@ -1,5 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
@@ -58,9 +55,6 @@ public class SignUpActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-//
-//                                    Toast.makeText(SignUpActivity.this, "save successfully!",
-//                                            Toast.LENGTH_SHORT).show();
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     saveUserDisplayName(v,fullName);
 
@@ -68,8 +62,17 @@ public class SignUpActivity extends AppCompatActivity {
 
                                     // If sign in fails, display a message to the user.
                                     //TODO add snackbar
-                                    Toast.makeText(SignUpActivity.this, task.getException().getMessage(),
-                                            Toast.LENGTH_LONG).show();
+                                    View parentLayout = findViewById(android.R.id.content);
+                                    final Snackbar bar = Snackbar.make(parentLayout ,  task.getException().getMessage(), Snackbar.LENGTH_INDEFINITE);
+                                    bar.setAction("Dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            bar.dismiss();
+                                        }
+                                    });
+                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                    bar.show();
+
                                     //updateUI(null);
                                 }
 
@@ -124,16 +127,33 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
 
+                    String toSpeak = "saved user name";
+                    View parentLayout = findViewById(android.R.id.content);
+                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
 
-                    //TODO remove
-                    Toast.makeText(SignUpActivity.this, "saved user name",
-                            Toast.LENGTH_SHORT).show();
+
                     saveUserToFireStore(v,fullName);
 
                 } else {
-                    //TODO add snackbar
-                    Toast.makeText(SignUpActivity.this, task.getException().getMessage(),
-                            Toast.LENGTH_LONG).show();
+                    View parentLayout = findViewById(android.R.id.content);
+                    final Snackbar bar = Snackbar.make(parentLayout, task.getException().getMessage(), Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+
                 }
             }
         });
@@ -165,18 +185,25 @@ public class SignUpActivity extends AppCompatActivity {
                         });
                         bar.setActionTextColor(getResources().getColor(R.color.bestGreen));
                         bar.show();
-//                        Toast.makeText(SignUpActivity.this,
-//                                "congratulations,You are now a new member!",
-//                                Toast.LENGTH_LONG).show();
                         updateUI(fUser);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        //TODO snackbar
-                        Toast.makeText(context, "Error writing document " + e.getMessage(),
-                                Toast.LENGTH_LONG).show();
+                        String toSpeak = "Error writing document"+ e.getMessage();
+                        View parentLayout = findViewById(android.R.id.content);
+                        final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                        bar.setAction("Dismiss", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                bar.dismiss();
+                            }
+                        });
+                        bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                        bar.show();
+
+
                     }
                 });
 
@@ -227,14 +254,21 @@ public class SignUpActivity extends AppCompatActivity {
                     TextUtils.isEmpty(confirmPassword.getText().toString())
             ) {
                 flag = false;
-                ///TODO snackbar
-                Toast.makeText(SignUpActivity.this,
-                        "Please enter all details",
-                        Toast.LENGTH_SHORT).show();
+                String toSpeak = "Please enter all details";
+                View parentLayout = findViewById(android.R.id.content);
+                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                bar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bar.dismiss();
+                    }
+                });
+                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                bar.show();
+
             }
         if (flag == true) {
             //flag=lenOfPassword();
-            //if the email not exists and email is valid,two password equals as add new user and show a toast
             if (checkIfEmailIsValid() == true && checkIfTwoPasswordIsEquals() == true ) {
                 dh.addUser(dh.getUsers().size() + 1, firstName.getText().toString(), lastName.getText().toString(), txtEmail.getText().toString(), txtPassword.getText().toString());
 
@@ -299,19 +333,14 @@ public class SignUpActivity extends AppCompatActivity {
 //                    TextUtils.isEmpty(confirmPassword.getText().toString())
 //            ) {
 //                flag = false;
-//                Toast.makeText(SignUpActivity.this,
-//                        "Please enter all details",
-//                        Toast.LENGTH_SHORT).show();
+
 //            }
 //        } catch (NumberFormatException exception) {
 //        }
 //        if (flag == true) {
-//            //if the txtEmail not exists and txtEmail is valid,two txtPassword equals as add new user and show a toast
 //            if (checkIfEmailExist() == false && checkIfEmailisValid() == true && checkIfTwoPasswordIsEquals() == true) {
 //                dh.addUser(dh.getUsers().size()+1,firstName.getText().toString(), lastName.getText().toString(),txtEmail.getText().toString(), txtPassword.getText().toString());
-//                Toast.makeText(SignUpActivity.this,
-//                        "congratulations,You now a new member (: ",
-//                        Toast.LENGTH_SHORT).show();
+
 //                Intent intent = new Intent(context, LogInActivity.class);
 //                startActivity(intent);
 //            } else {

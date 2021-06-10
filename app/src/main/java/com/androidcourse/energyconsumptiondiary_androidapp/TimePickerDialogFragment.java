@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TimePicker;
-import android.widget.Toast;
+import com.google.android.material.snackbar.Snackbar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -67,8 +67,16 @@ private final static String TITLE="Title";
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(activity, "Time set to " + chosenTime,Toast.LENGTH_SHORT).show();
+                String toSpeak = "Time set to " + chosenTime;
+                final Snackbar bar = Snackbar.make(view, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                bar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bar.dismiss();
+                    }
+                });
+                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                bar.show();
                 mListener.onDialogPositiveClick(TimePickerDialogFragment.this);
                 dismiss();
             }

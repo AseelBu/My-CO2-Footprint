@@ -17,8 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomePageActivity extends AppCompatActivity {
@@ -131,7 +131,20 @@ public class HomePageActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void requestPermission(){
         if(shouldShowRequestPermissionRationale(PERMISSION_READ_STORAGE)){
-            Toast.makeText(HomePageActivity.this,"Read storage permission is required",Toast.LENGTH_LONG).show();
+
+            String toSpeak = "Read storage permission is required";
+            View parentLayout = findViewById(android.R.id.content);
+            final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+            bar.setAction("Dismiss", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bar.dismiss();
+                }
+            });
+            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+            bar.show();
+
+
         }
         requestPermissions(new String[]{PERMISSION_READ_STORAGE},PERMISSIONS_REQUEST);
     }

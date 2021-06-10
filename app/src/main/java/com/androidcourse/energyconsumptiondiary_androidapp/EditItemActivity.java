@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +30,8 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
@@ -97,7 +98,18 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(Intent.createChooser(intent,"Choose Picture"), REQUEST_IMAGE_GET);
                 }else{
-                    Toast.makeText(getApplicationContext(), "No permission for files", Toast.LENGTH_SHORT).show();
+
+                    String toSpeak = "No permission for files";
+                    View parentLayout = findViewById(android.R.id.content);
+                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
                 }
             }
         });
@@ -135,9 +147,18 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                         if (impacterType.equals(ImpactType.TRANSPORTATION)) {
                             if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
                                     (TextUtils.isEmpty(co2Amount.getText().toString())) || (TextUtils.isEmpty(fuelType.getText().toString()))) {
+
                                 String toSpeak = "save failed..There are empty input!";
-                                Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                                View parentLayout = findViewById(android.R.id.content);
+                                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                                bar.setAction("Dismiss", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        bar.dismiss();
+                                    }
+                                });
+                                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                bar.show();
                             }
                             //if the input is empty
                             else {
@@ -151,16 +172,27 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     int id = db.updateCo2Impacter((Transportation) impacter);
                                     db.updateTransportation(id, (Transportation) impacter);
 
+
+
+//                                    ((AdminEditListActivity) context).startActivityForResult(intent, EDIT_REQ_CODE);
+
+                                    String toSpeak = "save successfully";
+                                    View parentLayout = findViewById(android.R.id.content);
+                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                                    bar.setAction("Dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            bar.dismiss();
+                                        }
+                                    });
+                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                    bar.show();
+
                                     Intent intent = new Intent(context, AdminEditListActivity.class);
                                     intent.putExtra(IMPACTERTYPE, impacterType.name());
 //                                    setResult(RESULT_OK, intent);
                                     startActivity(intent);
 
-//                                    ((AdminEditListActivity) context).startActivityForResult(intent, EDIT_REQ_CODE);
-
-                                    String toSpeak = "save successfully";
-                                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                                     finish();
                                 } catch (Throwable ew) {
                                     ew.printStackTrace();
@@ -170,9 +202,19 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         else{
             if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
                     (TextUtils.isEmpty(co2Amount.getText().toString()))) {
-                                String toSpeak = "save failed..There are empty input!";
-                                Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+
+                String toSpeak = "save failed..There are empty input!";
+                View parentLayout = findViewById(android.R.id.content);
+                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                bar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bar.dismiss();
+                    }
+                });
+                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                bar.show();
+
                             }
                             //if the input is empty
                             else {
@@ -184,14 +226,22 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
                                     db.updateCo2Impacter(impacter);
 
-                                    Intent intent = new Intent(context, AdminEditListActivity.class);
-                                    intent.putExtra(IMPACTERTYPE, impacterType.name());
-//                                    setResult(RESULT_OK, intent);
-                                    startActivity(intent);
 
                                     String toSpeak = "save successfully";
-                                    Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-                                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                                    View parentLayout = findViewById(android.R.id.content);
+                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                                    bar.setAction("Dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            bar.dismiss();
+                                        }
+                                    });
+                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                    bar.show();
+
+                                    Intent intent = new Intent(context, AdminEditListActivity.class);
+                                    intent.putExtra(IMPACTERTYPE, impacterType.name());
+                                    startActivity(intent);
                                     finish();
                                 } catch (Throwable ew) {
                                     ew.printStackTrace();
@@ -287,9 +337,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-//        Units item = (Units) parent.getItemAtPosition(0);
-//        impacter.setUnit(item);
-//        Toast.makeText(parent.getContext(), "Please select units " , Toast.LENGTH_LONG).show();
     }
 
     @Override
