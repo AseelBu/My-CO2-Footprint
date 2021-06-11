@@ -102,7 +102,7 @@ public class EntryDataFragment extends Fragment {
                         String urlImage = (String) impacter.get("urlImage");
                         String impacterType = (String) impacter.get("impacterType");
                         String fuelType = null;
-                        if (impacterType.equals(ImpactType.TRANSPORTATION)) {
+                        if (impacterType.equals(ImpactType.TRANSPORTATION.toString())) {
                             fuelType = (String) impacter.get("fuelType");
                         }
                         Co2Impacter cloudImpacter = null;
@@ -121,13 +121,14 @@ public class EntryDataFragment extends Fragment {
                                 cloudImpacter = new Service();
                                 break;
                         }
+                        cloudImpacter.setImpacterID(id);
                         cloudImpacter.setName(name);
                         cloudImpacter.setQuestion(question);
                         cloudImpacter.setUnit(Units.valueOf(unit));
                         cloudImpacter.setUrlImage(urlImage);
                         cloudImpacter.setCo2Amount(co2Amount.intValue());
-                        db.createImpacterByType(cloudImpacter, ImpactType.valueOf(impacterType));
 
+                        db.createImpacterByType(cloudImpacter, ImpactType.valueOf(impacterType));
                     }
                     eAdapter = new EntryRecyclerAdapter(getContext(), db.getImpactersByType(type), type);
                     recList.setAdapter(eAdapter);
