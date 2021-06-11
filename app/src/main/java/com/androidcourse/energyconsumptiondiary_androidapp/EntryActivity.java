@@ -18,12 +18,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Entry;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,11 +31,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -397,7 +397,8 @@ public class EntryActivity extends AppCompatActivity {
 
 
     private void updateUserPointsinCloud(View v, int resultPoints,Result result) {
-        String currUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
+        String currUserId=currUser.getUid();
         //get users's current value of points
         dbCloud.collection("users")
                 .document(currUserId)
@@ -432,6 +433,9 @@ public class EntryActivity extends AppCompatActivity {
                                                         });
                                                         bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                                                         bar.show();
+
+                                                        User user=new User(currUserId,currUser.getDisplayName(),prevPoints + resultPoints);
+                                                        dbManager.replaceUserPoints(user);
                                                         //save result in cloud
                                                         saveResultToCloud(v,result);
                                                     }
@@ -452,7 +456,7 @@ public class EntryActivity extends AppCompatActivity {
                                                 });
                                     } else {
 
-                                        final Snackbar bar = Snackbar.make(v, "No such document with uid "+currUserId, Snackbar.LENGTH_LONG);
+                                        final Snackbar bar = Snackbar.make(v, "No such document with uid "+ currUser, Snackbar.LENGTH_LONG);
                                         bar.setAction("Dismiss", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {

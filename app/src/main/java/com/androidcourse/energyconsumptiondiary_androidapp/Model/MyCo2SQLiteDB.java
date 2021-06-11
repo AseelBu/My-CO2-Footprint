@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION =6;
+    private static final int DATABASE_VERSION =8;
     private static final String DATABASE_NAME="MyCo2FootprintDB";
 
 
@@ -90,6 +90,16 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private static final String RESULT_COLUMN_ELECTRICS ="electrics_result";
     private static final String RESULT_COLUMN_SERVICE ="service_result";
     private static final String[] TABLE_RESULT_COLUMNS ={RESULT_COLUMN_ID,RESULT_COLUMN_USERID,RESULT_COLUMN_DATE,RESULT_COLUMN_TRANSPORTATION,RESULT_COLUMN_FOOD,RESULT_COLUMN_ELECTRICS,RESULT_COLUMN_SERVICE};
+
+
+    //Points Table
+    private static final String TABLE_POINTS_NAME = "user_points";
+    private static final String POINTS_COLUMN_USERID ="userId";
+    private static final String POINTS_COLUMN_NAME ="user_name";
+    private static final String POINTS_COLUMN_POINTS_AMOUNT ="points_amount";
+
+    private static final String[] TABLE_POINTS_COLUMNS ={POINTS_COLUMN_USERID,POINTS_COLUMN_NAME,POINTS_COLUMN_POINTS_AMOUNT};
+
 
     private SQLiteDatabase db = null;
 
@@ -169,6 +179,14 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 +")";
         db.execSQL(CREATE_RESULT_TABLE);
 
+        //create points table
+        String CREATE_POINTS_TABLE="create table if not exists "+TABLE_POINTS_NAME+"("
+                + POINTS_COLUMN_USERID +" TEXT PRIMARY KEY , "
+                + POINTS_COLUMN_NAME+" TEXT,"
+                + POINTS_COLUMN_POINTS_AMOUNT+" INTEGER"
+                +")";
+
+        db.execSQL(CREATE_POINTS_TABLE);
 
         }catch (Throwable t){
             t.printStackTrace();
@@ -1077,6 +1095,134 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         }
 
         return result;
+    }
+
+    public void replaceUserPoints(User user) {
+//        int id=-1;
+        try {
+            ContentValues values = new ContentValues();
+            values.put(POINTS_COLUMN_USERID,user.getUserId());
+            values.put(POINTS_COLUMN_NAME,user.getName());
+            values.put(POINTS_COLUMN_POINTS_AMOUNT,user.getPoints());
+
+            // insert result
+            db.replace(TABLE_POINTS_NAME, null, values);
+
+        }
+        catch (Throwable t) {
+            t.printStackTrace();
+        }
+
+    }
+
+    public User getUserInfoPoints(String userId){
+        Cursor cursor = null;
+        User user=null;
+        try {
+            /// get reference of the itemDB database
+            cursor = db
+                    .query(TABLE_POINTS_NAME,
+                            TABLE_POINTS_COLUMNS, POINTS_COLUMN_USERID + " = ?",
+                            new String[] { String.valueOf(userId) }, null, null,
+                            null, null);
+
+            // if results !=null, parse the first one
+            if(cursor!=null && cursor.getCount()>0){
+                cursor.moveToFirst();
+
+                user=cursorToUser(cursor);
+
+            }} catch (Throwable t) {
+            t.printStackTrace();
+        }
+        finally {
+            if(cursor!=null){
+                cursor.close();
+            }
+        }
+        return user;
+    }
+
+    private User cursorToUser(Cursor cursor) {
+        User user = new User();
+        try {
+            user.setUserId(cursor.getString(0));
+            user.setName(cursor.getString(1));
+            user.setPoints(cursor.getInt(2));
+
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+
+        return user;
+    }
+
+    public List<User> getAllUsers(){
+        List<User>users=new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            /// get reference of the itemDB database
+            cursor = db
+                    .query(TABLE_POINTS_NAME,
+                            TABLE_POINTS_COLUMNS, null,
+                            null, null, null,
+                            POINTS_COLUMN_POINTS_AMOUNT+" DESC ");
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                User user = cursorToUser(cursor);
+                users.add(user);
+                cursor.moveToNext();
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        finally {
+            if(cursor!=null){
+                cursor.close();
+            }
+        }
+        return users;
+
+    }
+
+    public List<User> getTopkUsers(int k){
+        List<User>users =new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            /// get reference of the itemDB database
+            cursor = db
+                    .query(TABLE_POINTS_NAME,
+                            TABLE_POINTS_COLUMNS, null,
+                            null, null, null,
+                            POINTS_COLUMN_POINTS_AMOUNT+" DESC ", String.valueOf(k));
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                User user = cursorToUser(cursor);
+                users.add(user);
+                cursor.moveToNext();
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        finally {
+            if(cursor!=null){
+                cursor.close();
+            }
+        }
+        return users;
+    }
+
+    public void removeAllUsers(){
+        try {
+            // delete all
+            db.delete(TABLE_POINTS_NAME, null, null);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
     //----------------------END OF-Methods queries and actions----------------------------
 

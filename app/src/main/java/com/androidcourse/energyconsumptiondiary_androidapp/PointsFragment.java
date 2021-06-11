@@ -1,36 +1,43 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class PointsFragment extends Fragment {
 
-    private DataHolder dh = DataHolder.getInstance();
+    private static final String SPF_NAME = "AppData"; //shared preference file name
+    //    private DataHolder dh = DataHolder.getInstance();
+    private MyCo2FootprintManager dbMngr = MyCo2FootprintManager.getInstance();
+    private User user = null;
 
-    private static final String SPF_NAME="AppData"; //shared preference file name
-    private User  user = null;
-
-    private TextView pointsTxt ;
+    private TextView pointsTxt;
     private TextView rankTxt;
-    private SharedPreferences prefs = null;
+    //    private SharedPreferences prefs = null;
     private Context context = null;
+    private FirebaseUser fUser;
 
     public PointsFragment() {
         // Required empty public constructor
     }
 
-    public static PointsFragment newInstance(String param1, String param2) {
+    public static PointsFragment newInstance() {
         PointsFragment fragment = new PointsFragment();
 
-        Bundle args = new Bundle();
 
         return fragment;
     }
@@ -40,37 +47,59 @@ public class PointsFragment extends Fragment {
         super.onAttach(context);
         this.context = context;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+//        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        user = dbMngr.getUserInfoPoints(fUser.getUid());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_points, container, false);
+        View view = inflater.inflate(R.layout.fragment_points, container, false);
         pointsTxt = (TextView) view.findViewById(R.id.pointsValue);
         rankTxt = (TextView) view.findViewById(R.id.rankValue);
         setData();
         return view;
     }
 
-    public void setData(){
-        int userId=prefs.getInt(getResources().getString(R.string.prefLoggedUser), -1);;
+    public void setData() {
+//        int userId=prefs.getInt(getResources().getString(R.string.prefLoggedUser), -1);;
         // get logged user
-        this.user=dh.getUserById(userId);
-        if (user != null){
+        if (user != null) {
             //get logged user points and rank
             int points = user.getPoints();
-            String rank = dh.getUserRank(userId);
+
+            String rank = user.getUserRank();
             // update view
             pointsTxt.setText(String.valueOf(points));
             rankTxt.setText(rank);
 
-        }else{
+        } else {
             // TODO error messsage
         }
+    }
+
+    public void updatePointsAndRank() {
+        user = dbMngr.getUserInfoPoints(fUser.getUid());
+        if (user != null) {
+            int points = user.getPoints();
+            String rank = user.getUserRank();
+            // update view
+            pointsTxt.setText(String.valueOf(points));
+            rankTxt.setText(rank);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updatePointsAndRank();
     }
 }

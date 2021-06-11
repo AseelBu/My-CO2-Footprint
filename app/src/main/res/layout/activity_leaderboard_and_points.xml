@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/points"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
@@ -20,14 +21,14 @@
         android:textColor="@color/darkGreen"
         android:textSize="@dimen/headSize" />
 
-    <fragment
-        android:id="@+id/fragment2"
-        android:name="com.androidcourse.energyconsumptiondiary_androidapp.PointsFragment"
-        class="com.androidcourse.energyconsumptiondiary_androidapp.PointsFragment"
+    <FrameLayout
+        android:id="@+id/pointsFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+        android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+    </FrameLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -54,12 +55,13 @@
                 android:textSize="@dimen/headSize"
                 android:textStyle="bold" />
 
-            <fragment
-                android:id="@+id/fragment"
-                android:name="com.androidcourse.energyconsumptiondiary_androidapp.LeaderboardFragment"
-                class="com.androidcourse.energyconsumptiondiary_androidapp.LeaderboardFragment"
+            <FrameLayout
+                android:id="@+id/leaderboardFrame"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
+
+            </FrameLayout>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

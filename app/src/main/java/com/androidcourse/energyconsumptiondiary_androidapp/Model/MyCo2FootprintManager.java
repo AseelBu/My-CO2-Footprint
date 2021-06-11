@@ -274,6 +274,45 @@ public void removeImpacter(ImpactType impacterType,int id)
         return kResults;
     }
 
+    //---------user points
+    public void replaceUserPoints(User user) {
+        if (db != null) {
+            db.replaceUserPoints(user);
+        }
+
+    }
+
+    public User getUserInfoPoints(String userId) {
+        User user=null;
+        if (db != null) {
+            user=db.getUserInfoPoints(userId);
+        }
+        return user;
+    }
+
+
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<User>();
+        if (db != null) {
+            users = db.getAllUsers();
+        }
+        return users;
+    }
+
+    public List<User> getTopkUsers(int k) {
+        List<User> users = new ArrayList<User>();
+        if (db != null) {
+            users = db.getTopkUsers(k);
+        }
+        return users;
+    }
+
+    public void removeAllUsers() {
+        if(db!=null){
+            db.removeAllUsers();
+        }
+    }
+
 
     /**********************END-QUERIES***************************/
 

@@ -2,133 +2,42 @@ package com.androidcourse.energyconsumptiondiary_androidapp.Model;
 
 
 import android.graphics.drawable.Drawable;
+
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
 
+import java.util.List;
 import java.util.Objects;
 
-public class User implements Comparable{
-    private int userId;
-    private String email;
-    private String password;
-    private String firstName="";
-    private String lastName="";
-    private int points=0;
-    private Drawable image=null;
-    private boolean isAdmin=false;
+public class User implements Comparable {
+    private String userId;
+    private String name = "";
+    private int points = 0;
+    private boolean isAdmin = false;
 
-
-    public User(int userId, String email, String password, String firstName, String lastName, int points) {
-        this.userId = userId;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.points = points;
-    }
-    public User(int userId, String email, String password, String firstName, String lastName) {
-        this.userId = userId;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-
+    public User() {
     }
 
-    public User(int userId, String email, String password, String firstName, String lastName, int points,Drawable image) {
+    public User(String userId, String name, int points) {
         this.userId = userId;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.points = points;
-        this.image = image;
-    }
-
-    public User(int userId, String email, String password, String firstName, String lastName,Drawable image) {
-        this.userId = userId;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.image = image;
-    }
-
-
-
-    public User(String email, String password, String firstName, String lastName,int points) {
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.points = points;
     }
 
-
-    public User(String email, String password, String firstName, String lastName,int points,Drawable image) {
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.points = points;
-        this.image = image;
-    }
-
-
-
-    public User( String firstName, String lastName,String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
-
-
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getEmail() {
-        return email;
-    }
-
-    public void setUserId(int userID) {
-        this.userId = userID;
-
-    }
-
-    public int getUserId() {
+    public String getUserId() {
         return userId;
-
     }
 
-
-    public String getPassword() {
-        return password;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getName() {
+        return name;
     }
 
-
-    public String getFirstName() {
-        return firstName;
+    public void setName(String name) {
+        this.name = name;
     }
-
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
 
     public int getPoints() {
         return points;
@@ -136,18 +45,6 @@ public class User implements Comparable{
 
     public void setPoints(int points) {
         this.points = points;
-    }
-
-    public Drawable getImage() {
-        return image;
-    }
-
-    public void setImage(Drawable image) {
-        this.image = image;
-    }
-
-    public String getName(){
-        return this.firstName+" "+this.lastName;
     }
 
     public boolean isAdmin() {
@@ -172,20 +69,20 @@ public class User implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o){
-            return ((User) o).getPoints() - this.getPoints();
-        }
-    //adding points to user
-    public void addpoints(int points)
-    {
-
+    public int compareTo(Object o) {
+        return ((User) o).getPoints() - this.getPoints();
     }
 
-    //remove points to user
-    public void removepoints(int points)
-    {
+    public String getUserRank() {
+        List<User> allUsers = MyCo2FootprintManager.getInstance().getAllUsers();
+        int index = -1;
+        for (User user : allUsers) {
+            if (user.getUserId().equals(userId)) {
+                index = (allUsers.indexOf(user) + 1);
+            }
+        }
 
-
+        return index + "/" + allUsers.size();
     }
 
 

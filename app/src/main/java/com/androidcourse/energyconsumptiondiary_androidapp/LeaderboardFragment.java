@@ -13,24 +13,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.MyLeaderboardRecyclerViewAdapter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 
-/**
- * A fragment representing a list of Items.
- */
+
 public class LeaderboardFragment extends Fragment {
 
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final DataHolder dh =DataHolder.getInstance();
+    private MyCo2FootprintManager dbMngr=MyCo2FootprintManager.getInstance();
 
     private int mColumnCount = 1;
+    private Context context;
+    private MyLeaderboardRecyclerViewAdapter adapter;
+
+    private RecyclerView recyclerView;
 
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+
     public LeaderboardFragment() {
     }
 
@@ -55,18 +56,21 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
+        context = view.getContext();
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+
+            recyclerView = (RecyclerView) view.findViewById(R.id.leaderboardRec);
             recyclerView.setHasFixedSize(true);
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyLeaderboardRecyclerViewAdapter(this.getContext(),dh.getLeaderboardUsers(10)));
-        }
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            adapter=new MyLeaderboardRecyclerViewAdapter(this.getContext(),dbMngr.getTopkUsers(10));
+            recyclerView.setAdapter(adapter);
+
         return view;
+    }
+
+
+    public void updateLeaderBoard(){
+        adapter=new MyLeaderboardRecyclerViewAdapter(this.getContext(),dbMngr.getTopkUsers(10));
+        recyclerView.setAdapter(adapter);
     }
 }

@@ -132,7 +132,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         );
         barChart.setFitBars(false);
         barChart.getDescription().setEnabled(false);
-        barChart.animateY(1600);
+        barChart.animateY(2600);
         barChart.setDrawValueAboveBar(true);
         barChart.getLegend().setEnabled(false);
     }

@@ -71,43 +71,43 @@ public class DataHolder {
     }
     // ---------------Users---------
     //with points + image
-    public void addUser(int userId,String firstName,String lastName,String email, String password,int points, Drawable img){
-        this.usersList.add(new User(userId,email,password,firstName,lastName,points,img));
-    }
-    //with points+no image
-    public void addUser(int userId,String firstName,String lastName,String email, String password,int points){
-        this.usersList.add(new User(userId,email,password,firstName,lastName,points));
-    }
+//    public void addUser(int userId,String firstName,String lastName,String email, String password,int points, Drawable img){
+//        this.usersList.add(new User(userId,email,password,firstName,lastName,points,img));
+//    }
+//    //with points+no image
+//    public void addUser(int userId,String firstName,String lastName,String email, String password,int points){
+//        this.usersList.add(new User(userId,email,password,firstName,lastName,points));
+//    }
+//
+//    //without points+image
+//    public void addUser(int userId,String firstName,String lastName,String email, String password, Drawable img){
+//        this.usersList.add(new User(userId,email,password,firstName,lastName,img));
+//    }
+//    //without points+ no image
+//    public void addUser(int userId,String firstName,String lastName,String email, String password){
+//        this.usersList.add(new User(userId,email,password,firstName,lastName));
+//    }
 
-    //without points+image
-    public void addUser(int userId,String firstName,String lastName,String email, String password, Drawable img){
-        this.usersList.add(new User(userId,email,password,firstName,lastName,img));
-    }
-    //without points+ no image
-    public void addUser(int userId,String firstName,String lastName,String email, String password){
-        this.usersList.add(new User(userId,email,password,firstName,lastName));
-    }
-
-    public void addAdmin(int id, String email, String password, String firstName, String lastName, Drawable img){
-        User user= (new User(id,email,password,firstName,lastName,100,img));
-        user.setAdmin(true);
-        this.usersList.add(user);
-
-    }
+//    public void addAdmin(int id, String email, String password, String firstName, String lastName, Drawable img){
+//        User user= (new User(id,email,password,firstName,lastName,100,img));
+//        user.setAdmin(true);
+//        this.usersList.add(user);
+//
+//    }
 
     /**
      * returns user by id
      * @param id of the wanted user
      * @return User if found,else returns null
      */
-    public User getUserById(int id){
-        for(User user:usersList){
-            if(user.getUserId()==id){
-                return user;
-            }
-        }
-        return null;
-    }
+//    public User getUserById(int id){
+//        for(User user:usersList){
+//            if(user.getUserId()==id){
+//                return user;
+//            }
+//        }
+//        return null;
+//    }
 
     /**
      * get registered admins
@@ -156,16 +156,16 @@ public class DataHolder {
         return leadUsers;
     }
 
-    public String getUserRank(int id){
-        List<User> users= getAllLeaderboardUsers();
-        int position=0;
-        for(User u:users){
-            if(u.getUserId()==id){
-               position=users.indexOf(u);
-            }
-        }
-        return String.valueOf(position+1)+"/"+String.valueOf(users.size());
-    }
+//    public String getUserRank(int id){
+//        List<User> users= getAllLeaderboardUsers();
+//        int position=0;
+//        for(User u:users){
+//            if(u.getUserId()==id){
+//               position=users.indexOf(u);
+//            }
+//        }
+//        return String.valueOf(position+1)+"/"+String.valueOf(users.size());
+//    }
 
     public void addTransportation(Transportation transportation) {
         transList.add(transportation);

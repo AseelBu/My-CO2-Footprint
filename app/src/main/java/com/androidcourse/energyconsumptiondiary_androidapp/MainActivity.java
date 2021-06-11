@@ -1,5 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,14 +21,19 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
 
     public Co2Impacter impacter;
     public ImpactType impacterType;
     private DataHolder dh = DataHolder.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private MyCo2FootprintManager mg = MyCo2FootprintManager.getInstance();
     private Context context;
     private FirebaseAuth mAuth;
@@ -42,10 +48,25 @@ public class MainActivity extends AppCompatActivity {
         MyCo2FootprintManager.getInstance().openDataBase(this);
         addDataToDataHolder();
 
+//        db.collection("users")
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//
+//                    }
+//                });
+
     }
 
     private void addDataToDataHolder() {
-        addUsers();
+//        addUsers();
         createTransportation(2);
         createFood(4);
         createElectricals(5);
@@ -72,19 +93,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //add users method
-    private void addUsers() {
-        dh.addAdmin(1, "Admin@gmail.com", "Admin12", "Admin", "Admin", getResources().getDrawable(R.drawable.ic_baseline_person_24));
-//            dh.addAdmin(2,"User@gmail.com", "User","User","regular",getResources().getDrawable(R.drawable.ic_baseline_person_24));
-        createUsers(9);
-    }
+//    private void addUsers() {
+//        dh.addAdmin(1, "Admin@gmail.com", "Admin12", "Admin", "Admin", getResources().getDrawable(R.drawable.ic_baseline_person_24));
+////            dh.addAdmin(2,"User@gmail.com", "User","User","regular",getResources().getDrawable(R.drawable.ic_baseline_person_24));
+//        createUsers(9);
+//    }
 
     //create users method
-    private void createUsers(int size) {
-        Drawable img = getDrawable(R.drawable.ic_baseline_person_24);
-        for (int i = 0; i <= size; i++) {
-            dh.addUser((i + 1) * 100, "go " + i, "go " + i, "go" + i + "@g.com", "go", i * 10, img);
-        }
-    }
+//    private void createUsers(int size) {
+//        Drawable img = getDrawable(R.drawable.ic_baseline_person_24);
+//        for (int i = 0; i <= size; i++) {
+//            dh.addUser((i + 1) * 100, "go " + i, "go " + i, "go" + i + "@g.com", "go", i * 10, img);
+//        }
+//    }
 
     //create Co2 impacters
     private void createTransportation(int size) {
