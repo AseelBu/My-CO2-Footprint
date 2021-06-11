@@ -11,7 +11,7 @@ public class Transportation extends Co2Impacter {
     super();
     }
 
-    public Transportation(int impacterID, String name, String question, Units unit, int co2Amount, Bitmap img, String fuelType) {
+    public Transportation(String impacterID, String name, String question, Units unit, int co2Amount, Bitmap img, String fuelType) {
         super(impacterID, name, question,unit, co2Amount, img);
         this.fuelType = fuelType;
     }

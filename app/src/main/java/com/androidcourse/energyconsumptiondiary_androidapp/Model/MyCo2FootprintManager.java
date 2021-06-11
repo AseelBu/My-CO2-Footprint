@@ -87,7 +87,7 @@ public class MyCo2FootprintManager {
             selectedService=null;
         }
     }
-public void removeImpacter(ImpactType impacterType,int id)
+public void removeImpacter(ImpactType impacterType,String id)
     {
        if(db!=null){
            db.removeImpacter(impacterType,id);
@@ -95,21 +95,18 @@ public void removeImpacter(ImpactType impacterType,int id)
 
     }
     //---co2 impacter
-    public Co2Impacter getImpacterById(int impacterId) {
+    public Co2Impacter getImpacterById(String impacterId) {
         if (db != null) {
             return db.getImpacterById(impacterId);
         }
         return null;
     }
 
-    public int createCO2Impacter(Co2Impacter item) {
-        int i=-1;
+    public void createCO2Impacter(Co2Impacter item) {
         if (db != null) {
-            i=db.createCO2Impacter(item);
+           db.createCO2Impacter(item);
         }
-        return i;
     }
-
     public void createImpacterByType(Co2Impacter item, ImpactType type) {
 
         if (db != null) {
@@ -132,10 +129,10 @@ public void removeImpacter(ImpactType impacterType,int id)
 
     }
 
-    public Co2Impacter readCO2Impacter(int id) {
+    public Co2Impacter readCO2Impacter(String id) {
         Co2Impacter result = null;
         if (db != null) {
-            result = db.readCO2Impacter(id);
+         db.readCO2Impacter(id);
         }
         return result;
     }
@@ -147,6 +144,12 @@ public void removeImpacter(ImpactType impacterType,int id)
         }
         return result;
     }
+    public void removeAllCo2Impacter() {
+        if(db!=null){
+            db.deleteAllCo2Impacter();
+        }
+    }
+
     public int updateCo2Impacter(Co2Impacter item) {
         int i=-1;
         if (db != null && item != null) {
@@ -154,7 +157,7 @@ public void removeImpacter(ImpactType impacterType,int id)
         }
         return i;
     }
-    public int deleteCo2Impacter(int item) {
+    public int deleteCo2Impacter(String item) {
         int i=-1;
         if (db != null) {
             i=db.deleteCO2Impacter(item);
@@ -173,32 +176,32 @@ public void removeImpacter(ImpactType impacterType,int id)
         }
         return new ArrayList<>();
     }
-    public int createTransportation(int id,Transportation item) {
+    public int createTransportation(String id,Transportation item) {
         if (db != null) {
             db.createTransportation(id,item);
         }
         return  -1;
     }
-    public int createFood(int id,Food item) {
+    public int createFood(String id,Food item) {
         if (db != null) {
             db.createFood(id,item);
         }
         return  -1;
     }
-    public int createElectric(int id,ElectricalHouseSupplies item) {
+    public int createElectric(String id,ElectricalHouseSupplies item) {
         if (db != null) {
             db.createElectric(id,item);
         }
         return  -1;
     }
-    public int createService(int id,Service item) {
+    public int createService(String id,Service item) {
         if (db != null) {
             db.createService(id,item);
         }
         return  -1;
     }
 
-    public Transportation readTransporation(int id) {
+    public Transportation readTransporation(String id) {
         Transportation result = null;
         if (db != null) {
             result = db.readTransportation(id);
@@ -218,22 +221,22 @@ public void removeImpacter(ImpactType impacterType,int id)
             db.updateTransportation(item);
         }
     }
-    public void deleteTransportation(int item) {
+    public void deleteTransportation(String item) {
         if (db != null) {
             db.deleteTransportation(item);
         }
     }
-    public void deleteElectric(int item) {
+    public void deleteElectric(String item) {
         if (db != null) {
             db.deleteElectric(item);
         }
     }
-    public void deleteService(int item) {
+    public void deleteService(String item) {
         if (db != null) {
             db.deleteService(item);
         }
     }
-    public void deleteFood(int item) {
+    public void deleteFood(String item) {
         if (db != null) {
             db.deleteFood(item);
         }

@@ -55,6 +55,7 @@ public class AdminEditListActivity extends AppCompatActivity {
                 txtFuel.setVisibility(View.GONE);
             }
 
+
         }
 //        //recycler
 //        adapterRec= new AdminEditRecyclerViewAdapter(this,type);

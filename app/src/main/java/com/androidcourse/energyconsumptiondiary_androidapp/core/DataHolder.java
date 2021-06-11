@@ -170,7 +170,7 @@ public class DataHolder {
     public void addTransportation(Transportation transportation) {
         transList.add(transportation);
     }
-    public void addTransportation(int id, String name, String question, Units unit, int co2Amount, Bitmap img, String fuelType) {
+    public void addTransportation(String id, String name, String question, Units unit, int co2Amount, Bitmap img, String fuelType) {
         transList.add(new Transportation(id,name,question,unit,co2Amount ,img,fuelType));
     }
     public void addTransportation( String name, String question,Units unit, int co2Amount, Bitmap img, String fuelType) {
@@ -180,7 +180,7 @@ public class DataHolder {
     public void addFood(Food food) {
         foodList.add(food);
     }
-    public void addFood(int id,String name, String question,Units unit,  int co2Amount,Bitmap img) {
+    public void addFood(String id,String name, String question,Units unit,  int co2Amount,Bitmap img) {
         foodList.add(new Food(id,name,question, unit,co2Amount,img));
     }
 
@@ -192,7 +192,7 @@ public class DataHolder {
     public void addElectrics(ElectricalHouseSupplies electric) {
         electricsList.add(electric);
     }
-    public void addElectrics(int id,String name, String question,Units unit, int co2Amount,Bitmap img) {
+    public void addElectrics(String id,String name, String question,Units unit, int co2Amount,Bitmap img) {
         electricsList.add(new ElectricalHouseSupplies(id,name,question, unit,co2Amount,img));
     }
 
@@ -203,7 +203,7 @@ public class DataHolder {
     public void addService(Service service) {
         serviceList.add(service);
     }
-    public void addService(int id,String name, String question,Units unit, int co2Amount,Bitmap img) {
+    public void addService(String id,String name, String question,Units unit, int co2Amount,Bitmap img) {
         serviceList.add(new Service(id,name,question,unit,co2Amount,img));
     }
 
@@ -282,7 +282,7 @@ public class DataHolder {
                 break;
         }
         for(Co2Impacter im: impacterList){
-            if(im.getImpacterID()==id){
+            if(im.getImpacterID().equals(id)){
                 return im;
             }
         }

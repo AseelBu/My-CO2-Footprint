@@ -110,7 +110,7 @@ public class Result {
         servicesResult=0;
         for(TypeEntry entry:data){
            int entryValue=entry.getValue();
-           int impacterId = entry.getId();
+            String impacterId = entry.getId();
            Co2Impacter impacter=dbManager.getImpacterById(impacterId);
            int impacterCo2=impacter.getCo2Amount();
 

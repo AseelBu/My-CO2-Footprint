@@ -1,5 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,18 +32,30 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class AddingItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "AddingItemActivity";
-    public static final int REQUEST_IMAGE_GET = 3;
-    protected static final int NEW_ITEM_TAG = -111;
     private static final String IMPACTERTYPE = "ImpacterType";
-    private final MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
+    public static final int REQUEST_IMAGE_GET = 3;
+    private ImpactType impacterType;
+    private Co2Impacter impacter=null;
+    protected static final int NEW_ITEM_TAG = -111;
+    private TextView title;
     public EditText name = null;
     public EditText fuelType = null;
     public EditText co2Amount = null;
@@ -52,14 +64,13 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     public ImageButton img;
     Bitmap bitmap = null;
     Units unit;
-    TextToSpeech t1;
-    private ImpactType impacterType;
-    private Co2Impacter impacter = null;
-    private TextView title;
     private Context context;
+    private final MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
     private SharedPreferences prefs = null;
     private Button addBtn;
     private ImageButton uploadImgBtn;
+    TextToSpeech t1;
+
     private TextView textFuel;
 
     @Override
@@ -105,10 +116,12 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         addBtn = (Button) findViewById(R.id.edititem2);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                addBtnClicked();
+            public void onClick(View v)
+            {
+           addBtnClicked();
             }
         });
+
         uploadImgBtn = (ImageButton) findViewById(R.id.upload);
         uploadImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,28 +218,68 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
             else {
 
                 try {
+
                     //setting data in impacter
                     impacter.setName(name.getText().toString());
                     impacter.setQuestion(question.getText().toString());
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-                    int id = db.createCO2Impacter(impacter);
-                    db.createTransportation(id, (Transportation) impacter);
+                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+                    impacter.setImpacterID(UUID.randomUUID().toString());
+                    if(impacter.getImg()!=null)
+                    {
+                        impacter.setUrlImage(impacter.getImpacterID() + ".png");
+                    }
+                    Map<String,Object> map= new HashMap<>();
+                    map.put("name",impacter.getName());
+                    map.put("unit",impacter.getUnit().toString());
+                    map.put("question",impacter.getQuestion());
+                    map.put("fuelType",((Transportation) impacter).getFuelType());
+                    map.put("co2Amount",impacter.getCo2Amount());
+                    map.put("impacterType",impacterType);
+                    map.put("urlImage",impacter.getUrlImage());
 
-                    String toSpeak = "add successfully";
-                    View parentLayout = findViewById(android.R.id.content);
-                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
+
+                    db2.collection("co2 impacter")
+                            .document(String.valueOf(impacter.getImpacterID()))
+                            .set(map)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    db.createCO2Impacter(impacter);
+                                    db.createTransportation(impacter.getImpacterID(), (Transportation) impacter);
+                                    String toSpeak = "add successfully";
+                                    View parentLayout = findViewById(android.R.id.content);
+                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                                    bar.setAction("dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            bar.dismiss();
+
+
+                                        }
+                                    });
+                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                    bar.show();
+                                    uploadImage(impacter);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onClick(View v) {
-                            bar.dismiss();
-                            newActivity();
+                        public void onFailure(@NonNull Exception e) {
+                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                            bar.setAction("dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    bar.dismiss();
+
+                                }
+                            });
+                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                            bar.show();
                         }
                     });
-                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                    bar.show();
-                    //TimeUnit.SECONDS.sleep(5);
 
 
                 } catch (Throwable ew) {
@@ -263,39 +316,72 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
-//                    dh.addImpacter(impacterType, impacter);
-
-                    int id = db.createCO2Impacter(impacter);
-                    switch (impacterType) {
-                        case TRANSPORTATION:
-                            db.createTransportation(id, (Transportation) impacter);
-                            break;
-                        case SERVICES:
-                            db.createService(id, (Service) impacter);
-                            break;
-                        case FOOD:
-                            db.createFood(id, (Food) impacter);
-                            break;
-                        case ELECTRICAL:
-                            db.createElectric(id, (ElectricalHouseSupplies) impacter);
-                            break;
+                    if(impacter.getImg()!=null)
+                    {
+                        impacter.setUrlImage(impacter.getImpacterID() + ".png");
                     }
+                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+                    impacter.setImpacterID(UUID.randomUUID().toString());
+                    Map<String,Object> map= new HashMap<>();
+                    map.put("name",impacter.getName());
+                    map.put("unit",impacter.getUnit().toString());
+                    map.put("question",impacter.getQuestion());
+                    map.put("co2Amount",impacter.getCo2Amount());
+                    map.put("impacterType",impacterType);
+                    map.put("urlImage",impacter.getUrlImage());
+                    db2.collection("co2 impacter")
+                            .document(String.valueOf(impacter.getImpacterID()))
+                            .set(map)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
 
+                                    db.createCO2Impacter(impacter);
+                                    switch (impacterType)
+                                    {
+                                        case TRANSPORTATION:
+                                            db.createTransportation(impacter.getImpacterID(), (Transportation) impacter);
+                                            break;
+                                        case SERVICES:
+                                            db.createService(impacter.getImpacterID(), (Service) impacter);
+                                            break;
+                                        case FOOD:
+                                            db.createFood(impacter.getImpacterID(), (Food) impacter);
+                                            break;
+                                        case ELECTRICAL:
+                                            db.createElectric(impacter.getImpacterID(), (ElectricalHouseSupplies)impacter);
+                                            break;
+                                    }
+                                    String toSpeak = "add successfully";
+                                    View parentLayout = findViewById(android.R.id.content);
+                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                                    bar.setAction("dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            bar.dismiss();
 
-                    String toSpeak = "added successfully";
-                    View parentLayout = findViewById(android.R.id.content);
-                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
+                                        }
+                                    });
+                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                    bar.show();
+                                    uploadImage(impacter);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onClick(View v) {
-                            bar.dismiss();
-                            newActivity();
+                        public void onFailure(@NonNull Exception e) {
+                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                            bar.setAction("dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    bar.dismiss();
+
+                                }
+                            });
+                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                            bar.show();
                         }
                     });
-                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                    bar.show();
-                    // TimeUnit.SECONDS.sleep(5);
-
 
                 } catch (Throwable ew) {
                     ew.printStackTrace();
@@ -350,5 +436,49 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     protected void onPause() {
         db.closeDataBase();
         super.onPause();
+    }
+
+    private void uploadImage(Co2Impacter imp) {
+        try {
+            Bitmap bitmap =imp.getImg();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            // Create a storage reference from our app
+            StorageReference storageRef = storage.getReference();
+            final String imageName = imp.getImpacterID() + ".png";
+            StorageReference imageRef = storageRef.child(imageName);
+
+            UploadTask uploadTask = imageRef.putBytes(data);
+
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+
+                    final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), exception.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imp.setUrlImage(impacter.getUrlImage());
+                    MyCo2FootprintManager.getInstance().updateCo2Impacter(imp);
+                    newActivity();
+                }
+            });
+        }catch (Throwable t){
+            t.printStackTrace();
+        }
     }
 }

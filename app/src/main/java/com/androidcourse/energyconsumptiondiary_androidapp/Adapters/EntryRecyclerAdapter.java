@@ -69,9 +69,9 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
         return entries;
     }
 
-    private boolean checkIfValueSet(int id) {
+    private boolean checkIfValueSet(String id) {
         for (TypeEntry te : prevEntries) {
-            if (te.getId() == id) {
+            if (te.getId().equals(id)) {
                 return true;
             }
         }
