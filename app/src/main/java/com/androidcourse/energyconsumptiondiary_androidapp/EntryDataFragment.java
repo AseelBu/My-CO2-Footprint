@@ -96,7 +96,7 @@ public class EntryDataFragment extends Fragment {
 
     public void nextClicked(){
        ArrayList <TypeEntry> data=new ArrayList<>(eAdapter.getEntries());
-       data.add(new TypeEntry(1,1,type));
+       data.add(new TypeEntry("1",1,type));
 
         mListener.onFragmentNextClick(EntryDataFragment.this,data);
     }

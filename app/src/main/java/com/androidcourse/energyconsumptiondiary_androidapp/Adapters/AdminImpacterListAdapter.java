@@ -264,45 +264,45 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
         });
     }
 
-    public void uploadImage() {
-        try {
-            imp=MyCo2FootprintManager.getInstance().getSelectedCO2Impacter(impacterType);
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
-                    android.R.drawable.ic_menu_call);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] data = baos.toByteArray();
-
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            // Create a storage reference from our app
-            StorageReference storageRef = storage.getReference();
-            final String imageName = imp.getImpacterID() + ".PNG";
-            StorageReference imageRef = storageRef.child(imageName);
-
-            UploadTask uploadTask = imageRef.putBytes(data);
-
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                    System.out.println(exception);
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String base64String = imageName;
-                    String base64Image = base64String.split(",")[1];
-
-                    byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-                    imp.setImg(decodedByte);
-                    MyCo2FootprintManager.getInstance().updateCo2Impacter(imp);
-                }
-            });
-        }catch (Throwable t){
-            t.printStackTrace();
-        }
-    }
+//    public void uploadImage() {
+//        try {
+//            imp=MyCo2FootprintManager.getInstance().getSelectedCO2Impacter(impacterType);
+//            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
+//                    android.R.drawable.ic_menu_call);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//            byte[] data = baos.toByteArray();
+//
+//            FirebaseStorage storage = FirebaseStorage.getInstance();
+//            // Create a storage reference from our app
+//            StorageReference storageRef = storage.getReference();
+//            final String imageName = imp.getImpacterID() + ".PNG";
+//            StorageReference imageRef = storageRef.child(imageName);
+//
+//            UploadTask uploadTask = imageRef.putBytes(data);
+//
+//
+//            uploadTask.addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception exception) {
+//                    // Handle unsuccessful uploads
+//                    System.out.println(exception);
+//                }
+//            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    String base64String = imageName;
+//                    String base64Image = base64String.split(",")[1];
+//
+//                    byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+//                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+//
+//                    imp.setImg(decodedByte);
+//                    MyCo2FootprintManager.getInstance().updateCo2Impacter(imp);
+//                }
+//            });
+//        }catch (Throwable t){
+//            t.printStackTrace();
+//        }
+//    }
 }

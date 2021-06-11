@@ -95,7 +95,7 @@ public void removeImpacter(ImpactType impacterType,String id)
 
     }
     //---co2 impacter
-    public Co2Impacter getImpacterById(int impacterId) {
+    public Co2Impacter getImpacterById(String impacterId) {
         if (db != null) {
             return db.getImpacterById(impacterId);
         }

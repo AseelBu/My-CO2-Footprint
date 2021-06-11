@@ -44,6 +44,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -223,43 +225,64 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-
-                    addBtnClicked();
                     FirebaseFirestore db2 = FirebaseFirestore.getInstance();
                     impacter.setImpacterID(UUID.randomUUID().toString());
+                    if(impacter.getImg()!=null)
+                    {
+                        impacter.setUrlImage(impacter.getImpacterID() + ".png");
+                    }
+                    Map<String,Object> map= new HashMap<>();
+                    map.put("name",impacter.getName());
+                    map.put("unit",impacter.getUnit().toString());
+                    map.put("question",impacter.getQuestion());
+                    map.put("fuelType",((Transportation) impacter).getFuelType());
+                    map.put("co2Amount",impacter.getCo2Amount());
+                    map.put("impacterType",impacterType);
+                    map.put("urlImage",impacter.getUrlImage());
+
+
                     db2.collection("co2 impacter")
                             .document(String.valueOf(impacter.getImpacterID()))
-                            .set(imp)
+                            .set(map)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    uploadImage();
-                                    int id = db.createCO2Impacter(impacter);
-                                    db.createTransportation(id, (Transportation) impacter);
+                                    db.createCO2Impacter(impacter);
+                                    db.createTransportation(impacter.getImpacterID(), (Transportation) impacter);
+                                    String toSpeak = "add successfully";
+                                    View parentLayout = findViewById(android.R.id.content);
+                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                                    bar.setAction("dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            bar.dismiss();
 
+
+                                        }
+                                    });
+                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                    bar.show();
+                                    uploadImage(impacter);
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            System.out.println(e);
+                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                            bar.setAction("dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    bar.dismiss();
+
+                                }
+                            });
+                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                            bar.show();
                         }
                     });
 
 
-                    String toSpeak = "add successfully";
-                    View parentLayout = findViewById(android.R.id.content);
-                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            bar.dismiss();
-                            newActivity();
-                        }
-                    });
-                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                    bar.show();
-                    //TimeUnit.SECONDS.sleep(5);
+
 
 
                 } catch (Throwable ew) {
@@ -295,46 +318,72 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     impacter.setQuestion(question.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-
-//                    dh.addImpacter(impacterType, impacter);
-
-                    int id = db.createCO2Impacter(impacter);
-                    switch (impacterType)
+                    if(impacter.getImg()!=null)
                     {
-                        case TRANSPORTATION:
-                            db.createTransportation(id, (Transportation) impacter);
-                            break;
-                        case SERVICES:
-                            db.createService(id, (Service) impacter);
-                            break;
-                        case FOOD:
-                            db.createFood(id, (Food) impacter);
-                            break;
-                        case ELECTRICAL:
-                            db.createElectric(id, (ElectricalHouseSupplies)impacter);
-                            break;
+                        impacter.setUrlImage(impacter.getImpacterID() + ".png");
                     }
+ FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+                    impacter.setImpacterID(UUID.randomUUID().toString());
+                    Map<String,Object> map= new HashMap<>();
+                    map.put("name",impacter.getName());
+                    map.put("unit",impacter.getUnit().toString());
+                    map.put("question",impacter.getQuestion());
+                    map.put("co2Amount",impacter.getCo2Amount());
+                    map.put("impacterType",impacterType);
+                    map.put("urlImage",impacter.getUrlImage());
+                    db2.collection("co2 impacter")
+                            .document(String.valueOf(impacter.getImpacterID()))
+                            .set(map)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
 
+                                    db.createCO2Impacter(impacter);
+                                    switch (impacterType)
+                                    {
+                                        case TRANSPORTATION:
+                                            db.createTransportation(impacter.getImpacterID(), (Transportation) impacter);
+                                            break;
+                                        case SERVICES:
+                                            db.createService(impacter.getImpacterID(), (Service) impacter);
+                                            break;
+                                        case FOOD:
+                                            db.createFood(impacter.getImpacterID(), (Food) impacter);
+                                            break;
+                                        case ELECTRICAL:
+                                            db.createElectric(impacter.getImpacterID(), (ElectricalHouseSupplies)impacter);
+                                            break;
+                                    }
+                                    String toSpeak = "add successfully";
+                                    View parentLayout = findViewById(android.R.id.content);
+                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                                    bar.setAction("dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            bar.dismiss();
 
-                    String toSpeak = "added successfully";
-                    View parentLayout = findViewById(android.R.id.content);
-                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
+                                        }
+                                    });
+                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                    bar.show();
+                                    uploadImage(impacter);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onClick(View v) {
-                            bar.dismiss();
-                            newActivity();
+                        public void onFailure(@NonNull Exception e) {
+                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                            bar.setAction("dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    bar.dismiss();
+
+                                }
+                            });
+                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                            bar.show();
                         }
                     });
-                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                    bar.show();
-                   // TimeUnit.SECONDS.sleep(5);
-
-
-
-
-
-
                 } catch (Throwable ew) {
                     ew.printStackTrace();
                 }
@@ -389,11 +438,9 @@ public void newActivity()
         super.onPause();
     }
 
-    private void uploadImage() {
+    private void uploadImage(Co2Impacter imp) {
         try {
-            imp=MyCo2FootprintManager.getInstance().getSelectedCO2Impacter(impacterType);
-            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
-                    android.R.drawable.ic_menu_call);
+            Bitmap bitmap =imp.getImg();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] data = baos.toByteArray();
@@ -401,7 +448,7 @@ public void newActivity()
             FirebaseStorage storage = FirebaseStorage.getInstance();
             // Create a storage reference from our app
             StorageReference storageRef = storage.getReference();
-            final String imageName = imp.getImpacterID() + ".PNG";
+            final String imageName = imp.getImpacterID() + ".png";
             StorageReference imageRef = storageRef.child(imageName);
 
             UploadTask uploadTask = imageRef.putBytes(data);
@@ -410,20 +457,24 @@ public void newActivity()
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                    System.out.println(exception);
+
+                    final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), exception.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String base64String = imageName;
-                    String base64Image = base64String.split(",")[1];
-
-                    byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-                    imp.setImg(decodedByte);
+                    imp.setUrlImage(impacter.getUrlImage());
                     MyCo2FootprintManager.getInstance().updateCo2Impacter(imp);
+                    newActivity();
                 }
             });
         }catch (Throwable t){

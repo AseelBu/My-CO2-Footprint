@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.MainActivity;
+import com.androidcourse.energyconsumptiondiary_androidapp.R;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -20,7 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION =9;
+    private static final int DATABASE_VERSION =10;
     private static final String DATABASE_NAME="MyCo2FootprintDB";
 
 
@@ -30,10 +32,11 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private static final String CO2IMPACTER_COLUMN_NAME= "name";
     private static final String CO2IMPACTER_COLUMN_QUESTION= "question";
     private static final String CO2IMPACTER_COLUMN_UNIT= "unit";
+    private static final String CO2IMPACTER_COLUMN_URLIMAGE= "urlimage";
     private static final String CO2IMPACTER_COLUMN_CO2AMOUNT= "co2Amount";
     private static final String CO2IMPACTER_COLUMN_IMG= "img";
     private static final String[] TABLE_CO2IMPACTER_COLUMNS ={CO2IMPACTER_COLUMN_ID,CO2IMPACTER_COLUMN_NAME,
-            CO2IMPACTER_COLUMN_QUESTION,CO2IMPACTER_COLUMN_UNIT,CO2IMPACTER_COLUMN_CO2AMOUNT,CO2IMPACTER_COLUMN_IMG};
+            CO2IMPACTER_COLUMN_QUESTION,CO2IMPACTER_COLUMN_UNIT,CO2IMPACTER_COLUMN_CO2AMOUNT,CO2IMPACTER_COLUMN_IMG,CO2IMPACTER_COLUMN_URLIMAGE};
     //Transportation table
     private static final String TABLE_TRANSPORTATION_NAME = "transportation";
     private static final String TRANSPORTATION_COLUMN_IMPACTERID="co2ImpacterId";//foreign key
@@ -117,7 +120,8 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 +CO2IMPACTER_COLUMN_QUESTION+" TEXT,"
                 +CO2IMPACTER_COLUMN_UNIT+" TEXT,"
                 +CO2IMPACTER_COLUMN_CO2AMOUNT+" INTEGER,"
-                +CO2IMPACTER_COLUMN_IMG+" BLOB"
+                +CO2IMPACTER_COLUMN_IMG+" BLOB,"
+                +CO2IMPACTER_COLUMN_URLIMAGE+" TEXT"
                 +")";
         db.execSQL(CREATE_CO2IMPACTER_TABLE);
         //create Transportation table
@@ -128,7 +132,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(CREATE_TRANSPORTATION_TABLE);
         //create Food table
         String CREATE_FOOD_TABLE="create table if not exists "+TABLE_FOOD_NAME+"("
-                +FOOD_COLUMN_IMPACTERID+"TEXT"
+                +FOOD_COLUMN_IMPACTERID+" TEXT"
                 +")";
         db.execSQL(CREATE_FOOD_TABLE);
         //create Service table
@@ -212,7 +216,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     }
 
 
-    public Co2Impacter getImpacterById(int impacterId) {
+    public Co2Impacter getImpacterById(String impacterId) {
         Co2Impacter co2Impacter = null;
         Cursor cursor = null;
         ImpactType type =getImpacterTypeById(impacterId);
@@ -276,7 +280,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return co2Impacter;
     }
 
-    public ImpactType getImpacterTypeById(int impacterId) {
+    public ImpactType getImpacterTypeById(String impacterId) {
         // get  query
         ImpactType impacterType=null;
         Cursor cursor = null;
@@ -286,7 +290,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         //check in transportation table
         cursor = db
                 .query(TABLE_TRANSPORTATION_NAME,
-                        TABLE_TRANSPORTATION_COLUMNS, TRANSPORTATION_COLUMN_IMPACTERID + " = ?",
+                        TABLE_TRANSPORTATION_COLUMNS, TRANSPORTATION_COLUMN_IMPACTERID + " = ? ",
                         new String[] { String.valueOf(impacterId) }, null, null,
                         null, null);
         //check in food table
@@ -295,7 +299,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
             cursor = db
                     .query(TABLE_FOOD_NAME,
-                            TABLE_FOOD_COLUMNS, FOOD_COLUMN_IMPACTERID + " = ?",
+                            TABLE_FOOD_COLUMNS, FOOD_COLUMN_IMPACTERID + " = ? ",
                             new String[] { String.valueOf(impacterId) }, null, null,
                             null, null);
             //check in electrics table
@@ -303,7 +307,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 impacterType = ImpactType.ELECTRICAL;
                 cursor = db
                         .query(TABLE_ELECTRICS_NAME,
-                                TABLE_ELECTRICS_COLUMNS, ELECTRICS_COLUMN_IMPACTERID + " = ?",
+                                TABLE_ELECTRICS_COLUMNS, ELECTRICS_COLUMN_IMPACTERID + " = ? ",
                                 new String[] { String.valueOf(impacterId) }, null, null,
                                 null, null);
                 //check in service table
@@ -311,7 +315,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                     impacterType = ImpactType.SERVICES;
                     cursor = db
                             .query(TABLE_SERVICE_NAME,
-                                    TABLE_SERVICE_COLUMNS, SERVICE_COLUMN_IMPACTERID + " = ?",
+                                    TABLE_SERVICE_COLUMNS, SERVICE_COLUMN_IMPACTERID + " = ? ",
                                     new String[] { String.valueOf(impacterId) }, null, null,
                                     null, null);
                     if(cursor!=null && cursor.getCount()>0){
@@ -407,7 +411,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-    public void createService(String entryId,Service t) {
+    public void createService(String id,Service t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
@@ -477,7 +481,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                     null, null, null);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                int id=cursor.getInt(0);
+                String id=cursor.getString(0);
                 Co2Impacter item=(Transportation)getImpacterById(id);
                 ((Transportation)item).setFuelType(cursor.getString(1));
                 result.add(item);
@@ -503,7 +507,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                int id=cursor.getInt(0);
+                String id=cursor.getString(0);
                 result.add(getImpacterById(id));
                 cursor.moveToNext();
             }
@@ -528,7 +532,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                int id=cursor.getInt(0);
+                String id=cursor.getString(0);
                 result.add(getImpacterById(id));
                 cursor.moveToNext();
             }
@@ -553,7 +557,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                int id=cursor.getInt(0);
+                String id=cursor.getString(0);
                 result.add(getImpacterById(id));
                 cursor.moveToNext();
             }
@@ -702,16 +706,19 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
+            values.put(CO2IMPACTER_COLUMN_ID, t.getImpacterID());
             values.put(CO2IMPACTER_COLUMN_NAME, t.getName());
+            values.put(CO2IMPACTER_COLUMN_URLIMAGE, t.getUrlImage());
             values.put(CO2IMPACTER_COLUMN_CO2AMOUNT, t.getCo2Amount());
             values.put(CO2IMPACTER_COLUMN_QUESTION, t.getQuestion());
             values.put(CO2IMPACTER_COLUMN_UNIT, t.getUnit().toString());
+//            values.put(CO2IMPACTER_COLUMN_IMG,t.getImpacterID()+".png");
             //images
             Bitmap image = t.getImg();
             if (image != null) {
                 byte[] data = getBitmapAsByteArray(image);
                 if (data != null && data.length > 0) {
-                    values.put(CO2IMPACTER_COLUMN_IMG, data);
+                    values.put(CO2IMPACTER_COLUMN_URLIMAGE, data);
                 }
             }
             // insert item
@@ -745,10 +752,11 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 item.setCo2Amount(cursor.getInt(2));
                 item.setQuestion(cursor.getString(3));
                 item.setUnit(Units.valueOf(cursor.getString(4)));
+                item.setUrlImage(cursor.getString(6));
 
 
                 //images
-                byte[] img1Byte = cursor.getBlob(6);
+                byte[] img1Byte = cursor.getBlob(5);
                 if (img1Byte != null && img1Byte.length > 0) {
                     Bitmap image1 = BitmapFactory.decodeByteArray(img1Byte, 0, img1Byte.length);
                     if (image1 != null) {
@@ -794,11 +802,13 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         try {
             result .setImpacterID(cursor.getString(0));
             result .setName(cursor.getString(1));
-            result .setCo2Amount(cursor.getInt(2));
-            result .setQuestion(cursor.getString(4));
-            result .setUnit(Units.valueOf(cursor.getString(5)));
+            result .setCo2Amount(cursor.getInt(4));
+            result .setQuestion(cursor.getString(2));
+            result .setUnit(Units.valueOf(cursor.getString(3)));
+            result .setUrlImage(cursor.getString(6));
+            result.setImg( BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.logo));
             //images
-            byte[] img1Byte = cursor.getBlob(3);
+            byte[] img1Byte = cursor.getBlob(5);
             if (img1Byte != null && img1Byte.length > 0) {
                 Bitmap image1 = BitmapFactory.decodeByteArray(img1Byte, 0, img1Byte.length);
                 if (image1 != null) {
@@ -808,7 +818,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         } catch (Throwable t) {
             t.printStackTrace();
         }
-
         return result;
     }
 
@@ -821,7 +830,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             values.put(CO2IMPACTER_COLUMN_CO2AMOUNT, item.getCo2Amount());
             values.put(CO2IMPACTER_COLUMN_QUESTION, item.getQuestion());
             values.put(CO2IMPACTER_COLUMN_UNIT, item.getUnit().toString());
-
             //images
             Bitmap image1 = item.getImg();
             if (image1 != null) {
