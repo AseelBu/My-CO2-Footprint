@@ -110,6 +110,28 @@ public void removeImpacter(ImpactType impacterType,int id)
         return i;
     }
 
+    public void createImpacterByType(Co2Impacter item, ImpactType type) {
+
+        if (db != null) {
+            switch (type){
+                case TRANSPORTATION:
+                    createTransportation(item.getImpacterID(),(Transportation)item);
+                    break;
+                case FOOD:
+                    createFood(item.getImpacterID(),(Food) item);
+                    break;
+                case ELECTRICAL:
+                    createElectric(item.getImpacterID(),(ElectricalHouseSupplies) item);
+                    break;
+                case SERVICES:
+                    createService(item.getImpacterID(),(Service) item);
+                    break;
+            }
+
+        }
+
+    }
+
     public Co2Impacter readCO2Impacter(int id) {
         Co2Impacter result = null;
         if (db != null) {
@@ -214,6 +236,13 @@ public void removeImpacter(ImpactType impacterType,int id)
     public void deleteFood(int item) {
         if (db != null) {
             db.deleteFood(item);
+        }
+    }
+
+
+    public void removeAllImpacters() {
+        if(db!=null){
+            db.removeAllImpacters();
         }
     }
     //------ type Entry

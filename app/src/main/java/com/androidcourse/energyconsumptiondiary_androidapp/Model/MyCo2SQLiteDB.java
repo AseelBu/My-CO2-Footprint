@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -694,6 +693,15 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return false;
     }
 
+    public void removeAllImpacters(){
+        try {
+            db.delete(TABLE_CO2IMPACTER_NAME, null,
+                    null);
+        }catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
     //-----------------------------------CO2Impacter queries
     public int createCO2Impacter(Co2Impacter t) {
         long entryId=-1;
@@ -788,26 +796,26 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return result;
     }
     private Co2Impacter  cursorToCO2Impacter(Cursor cursor) {
-        Co2Impacter result = new Co2Impacter ();
+        Co2Impacter impacter = new Co2Impacter ();
         try {
-            result .setImpacterID(cursor.getInt(0));
-            result .setName(cursor.getString(1));
-            result .setCo2Amount(cursor.getInt(2));
-            result .setQuestion(cursor.getString(4));
-            result .setUnit(Units.valueOf(cursor.getString(5)));
+            impacter.setImpacterID(cursor.getInt(0));
+            impacter.setName(cursor.getString(1));
+            impacter.setCo2Amount(cursor.getInt(2));
+            impacter.setQuestion(cursor.getString(4));
+            impacter.setUnit(Units.valueOf(cursor.getString(5)));
             //images
             byte[] img1Byte = cursor.getBlob(3);
             if (img1Byte != null && img1Byte.length > 0) {
                 Bitmap image1 = BitmapFactory.decodeByteArray(img1Byte, 0, img1Byte.length);
                 if (image1 != null) {
-                    result.setImg(image1);
+                    impacter.setImg(image1);
                 }
             }
         } catch (Throwable t) {
             t.printStackTrace();
         }
 
-        return result;
+        return impacter;
     }
 
     public int updateCO2Impacter(Co2Impacter  item) {

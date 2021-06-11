@@ -12,6 +12,7 @@ public  class  Co2Impacter implements Comparable<Co2Impacter>{
     private String question;
     private Units unit=Units.UNIT;// type of unit that matches the question
     private int co2Amount=0;
+    private String urlImage;
 
     private Bitmap img=null;
 
@@ -87,6 +88,14 @@ public  class  Co2Impacter implements Comparable<Co2Impacter>{
     public void setImg(Bitmap img) {
 
         this.img = img;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
     @Override
