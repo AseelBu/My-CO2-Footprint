@@ -24,7 +24,7 @@ import com.androidcourse.energyconsumptiondiary_androidapp.R;
 
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION =10;
+    private static final int DATABASE_VERSION =15;
     private static final String DATABASE_NAME="MyCo2FootprintDB";
 
 
