@@ -69,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void addDataToDataHolder() {
 //        addUsers();
-    //    createTransportation(2);
-      //  createFood(4);
-      //  createElectricals(5);
-       // createService(2);
-       // createTips(4);
+//        createTransportation(2);
+//        createFood(4);
+//        createElectricals(5);
+//        createService(2);
+//        createTips(4);
     }
 
     //    builder for the impacter by type
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
 
     //create Co2 impacters
     private void createTransportation(int size) {

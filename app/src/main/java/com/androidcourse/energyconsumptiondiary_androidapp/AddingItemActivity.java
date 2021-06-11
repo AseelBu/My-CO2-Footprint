@@ -240,7 +240,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     map.put("impacterType",impacterType);
                     map.put("urlImage",impacter.getUrlImage());
 
-                     // wait(3);
+
                     db2.collection("co2 impacter")
                             .document(String.valueOf(impacter.getImpacterID()))
                             .set(map)
@@ -316,7 +316,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
             else {
                 try {
                     //                setting data in impacter
-
                     impacter.setName(name.getText().toString());
                     impacter.setQuestion(question.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
@@ -405,7 +404,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     }
 
     public void newActivity() {
-       // TimeUnit.SECONDS.sleep(5);
         Intent intent = new Intent(this, AdminEditListActivity.class);
         intent.putExtra(IMPACTERTYPE, impacterType.name());
         startActivity(intent);
@@ -487,9 +485,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     imp.setUrlImage(impacter.getUrlImage());
                     MyCo2FootprintManager.getInstance().updateCo2Impacter(imp);
-
-                        newActivity();
-
+                    newActivity();
                 }
             });
         }catch (Throwable t){

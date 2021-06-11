@@ -127,9 +127,10 @@ public class EntryDataFragment extends Fragment {
                         cloudImpacter.setUrlImage(urlImage);
                         cloudImpacter.setCo2Amount(co2Amount.intValue());
                         db.createImpacterByType(cloudImpacter, ImpactType.valueOf(impacterType));
-                        eAdapter = new EntryRecyclerAdapter(getContext(), db.getImpactersByType(type), type);
-                        recList.setAdapter(eAdapter);
+
                     }
+                    eAdapter = new EntryRecyclerAdapter(getContext(), db.getImpactersByType(type), type);
+                    recList.setAdapter(eAdapter);
 
                 } else {
                     Toast.makeText(activity, "Current data: null",
@@ -160,7 +161,6 @@ public class EntryDataFragment extends Fragment {
         }
         return v;
     }
-
 
     public void nextClicked() {
         ArrayList<TypeEntry> data = new ArrayList<>(eAdapter.getEntries());

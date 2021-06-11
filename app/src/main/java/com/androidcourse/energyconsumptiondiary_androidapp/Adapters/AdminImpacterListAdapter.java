@@ -63,12 +63,6 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
         this.dataList = dataList;
     }
 
-    public AdminImpacterListAdapter(@NonNull Context context, ImpactType impacterType,  @NonNull List<Co2Impacter> dataList) {
-        super(context, R.layout.admin_view_list_element,dataList);
-        this.context = context;
-        this.impacterType = impacterType;
-        this.dataList = dataList;
-    }
 
     //get number of dataList size
     @Override
@@ -170,7 +164,7 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
 
         });
         final ImageView imageView = rowView.findViewById(R.id.imImageAdminList);
-        Bitmap imageUrl = imp.getImg();
+        String imageUrl = imp.getUrlImage();
 
         if(imageUrl!=null){
 //            ByteArrayOutputStream boas=new ByteArrayOutputStream();
@@ -178,7 +172,7 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
 //            byte[] data=boas.toByteArray();
             FirebaseStorage  storage= FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
-            StorageReference storageReference = storageRef.child(String.valueOf(imageUrl));
+            StorageReference storageReference = storageRef.child(imageUrl);
             storageReference.getDownloadUrl().addOnCompleteListener(
                     new OnCompleteListener<Uri>() {
                         @Override
