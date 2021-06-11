@@ -161,6 +161,7 @@ public class AdminEditListActivity extends AppCompatActivity {
                     vList.setAdapter(adapter);
 
                 } else {
+                    db.removeAllImpacters();
                     Toast.makeText(AdminEditListActivity.this, "Current data: null",
                             Toast.LENGTH_LONG).show();
                 }
