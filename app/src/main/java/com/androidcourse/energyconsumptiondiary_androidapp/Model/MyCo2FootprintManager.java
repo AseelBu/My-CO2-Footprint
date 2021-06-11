@@ -217,7 +217,7 @@ public void removeImpacter(ImpactType impacterType,String id)
         }
         return result;
     }
-    public void updateTransportation(int id,Transportation item) {
+    public void updateTransportation(String id,Transportation item) {
         if (db != null && item != null) {
             db.updateTransportation(item);
         }
