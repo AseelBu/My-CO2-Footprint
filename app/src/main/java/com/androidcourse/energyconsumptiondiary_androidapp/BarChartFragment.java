@@ -32,6 +32,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,7 +69,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         View rootView= inflater.inflate(R.layout.fragment_bar_chart, container, false);
         barChart=(BarChart) rootView.findViewById(R.id.barChart);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
-        int userId=sharedPref.getInt(getResources().getString(R.string.prefLoggedUser),-1);
+        String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
         allResults=dbManager.getAllResults(userId,7);
         //set colors
         setupBarChart();
@@ -131,7 +132,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         );
         barChart.setFitBars(false);
         barChart.getDescription().setEnabled(false);
-        barChart.animateY(1600);
+        barChart.animateY(2600);
         barChart.setDrawValueAboveBar(true);
         barChart.getLegend().setEnabled(false);
     }
@@ -143,7 +144,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         RectF bounds = onValueSelectedRectF;
         barChart.getBarBounds((BarEntry) e, bounds);
         MPPointF position = barChart.getPosition(e, YAxis.AxisDependency.LEFT);
-        int resultId=((Result)e.getData()).getId();
+        String resultId=((Result)e.getData()).getId();
         mListener.onResultSelected(BarChartFragment.this,resultId);
         MPPointF.recycleInstance(position);
     }

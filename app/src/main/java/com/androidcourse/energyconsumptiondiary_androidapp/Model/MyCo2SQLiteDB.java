@@ -3,6 +3,8 @@ package com.androidcourse.energyconsumptiondiary_androidapp.Model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -89,6 +91,16 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private static final String RESULT_COLUMN_SERVICE ="service_result";
     private static final String[] TABLE_RESULT_COLUMNS ={RESULT_COLUMN_ID,RESULT_COLUMN_USERID,RESULT_COLUMN_DATE,RESULT_COLUMN_TRANSPORTATION,RESULT_COLUMN_FOOD,RESULT_COLUMN_ELECTRICS,RESULT_COLUMN_SERVICE};
 
+
+    //Points Table
+    private static final String TABLE_POINTS_NAME = "user_points";
+    private static final String POINTS_COLUMN_USERID ="userId";
+    private static final String POINTS_COLUMN_NAME ="user_name";
+    private static final String POINTS_COLUMN_POINTS_AMOUNT ="points_amount";
+
+    private static final String[] TABLE_POINTS_COLUMNS ={POINTS_COLUMN_USERID,POINTS_COLUMN_NAME,POINTS_COLUMN_POINTS_AMOUNT};
+
+
     private SQLiteDatabase db = null;
 
     public MyCo2SQLiteDB(Context context){
@@ -133,25 +145,26 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
         //create Entry Type Table
         String CREATE_ENTRY_TYPE_TABLE="create table if not exists "+TABLE_TYPE_ENTRY_NAME+"("
-                + TYPE_ENTRY_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TYPE_ENTRY_COLUMN_ID +" TEXT , "
                 + TYPE_ENTRY_COLUMN_VALUE +" INTEGER,"
                 + TYPE_ENTRY_COLUMN_IMPACTER_TYPE +" TEXT,"
-                + TYPE_ENTRY_COLUMN_ENTRYID +" INTEGER"
+                + TYPE_ENTRY_COLUMN_ENTRYID +" TEXT,"
+                + "PRIMARY KEY ("+TYPE_ENTRY_COLUMN_ID+","+TYPE_ENTRY_COLUMN_ENTRYID+")"
                 +")";
         db.execSQL(CREATE_ENTRY_TYPE_TABLE);
 
         //create Entries Table
         String CREATE_ENTRY_TABLE="create table if not exists "+TABLE_ENTRY_NAME+"("
-                +ENTRY_COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +ENTRY_COLUMN_USERID+" INTEGER,"
+                +ENTRY_COLUMN_ID+" TEXT PRIMARY KEY, "
+                +ENTRY_COLUMN_USERID+" TEXT,"
                 +ENTRY_COLUMN_DATE+" TEXT"
                 +")";
         db.execSQL(CREATE_ENTRY_TABLE);
 
         //create result table
         String CREATE_RESULT_TABLE="create table if not exists "+ TABLE_RESULT_NAME +"("
-                + RESULT_COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +RESULT_COLUMN_USERID+" INTEGER,"
+                + RESULT_COLUMN_ID +" TEXT PRIMARY KEY , "
+                +RESULT_COLUMN_USERID+" TEXT,"
                 +RESULT_COLUMN_DATE+" TEXT,"
                 +RESULT_COLUMN_TRANSPORTATION+" INTEGER,"
                 +RESULT_COLUMN_FOOD+" INTEGER,"
@@ -160,6 +173,14 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 +")";
         db.execSQL(CREATE_RESULT_TABLE);
 
+        //create points table
+        String CREATE_POINTS_TABLE="create table if not exists "+TABLE_POINTS_NAME+"("
+                + POINTS_COLUMN_USERID +" TEXT PRIMARY KEY , "
+                + POINTS_COLUMN_NAME+" TEXT,"
+                + POINTS_COLUMN_POINTS_AMOUNT+" INTEGER"
+                +")";
+
+        db.execSQL(CREATE_POINTS_TABLE);
 
         }catch (Throwable t){
             t.printStackTrace();
@@ -390,7 +411,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
-            values.put(SERVICE_COLUMN_IMPACTERID, entryId);
+            values.put(SERVICE_COLUMN_IMPACTERID, id);
             // insert item
             db.insert(TABLE_SERVICE_NAME, null, values);
 
@@ -836,43 +857,95 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     }
 
     //--------------------------------------------------Entry type queries
-    public void createTypeEntry(int entryId,TypeEntry typeEntry){
+    public void createTypeEntry(String entryId,TypeEntry typeEntry){
 
         try {
             ContentValues values = new ContentValues();
+            values.put(TYPE_ENTRY_COLUMN_ID,typeEntry.getId());
             values.put(TYPE_ENTRY_COLUMN_VALUE,typeEntry.getValue());
             values.put(TYPE_ENTRY_COLUMN_IMPACTER_TYPE,typeEntry.getType().name());
             values.put(TYPE_ENTRY_COLUMN_ENTRYID,entryId);
 
             // insert item
-            db.insert(TABLE_TYPE_ENTRY_NAME, null, values);
+            db.replace(TABLE_TYPE_ENTRY_NAME, null, values);
 
-        }catch (Throwable t) {
+
+        }
+//        catch (SQLiteConstraintException e){
+//            updateTypeEntry(entryId,typeEntry);
+//        }
+        catch (Throwable t) {
             t.printStackTrace();
         }
     }
 
-    //---Entry queries
-    public int createEntry(Entry entry){
-        long entryId=-1;
+    public void updateTypeEntry(String entryId,TypeEntry typeEntry) {
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(TYPE_ENTRY_COLUMN_VALUE,typeEntry.getValue());
+            values.put(TYPE_ENTRY_COLUMN_IMPACTER_TYPE,typeEntry.getType().name());
+
+            // update
+            db.update(TABLE_TYPE_ENTRY_NAME, values, TYPE_ENTRY_COLUMN_ID + " = ? AND "
+                            +TYPE_ENTRY_COLUMN_ENTRYID+ " = ?",
+                    new String[] { String.valueOf(typeEntry.getId()), String.valueOf(entryId)});
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    public void deleteAllTypeEntryByEntryID(String entryId) {
+        try {
+            db.delete(TABLE_TYPE_ENTRY_NAME, TYPE_ENTRY_COLUMN_ENTRYID + " = ?",
+                    new String[]{String.valueOf(entryId)});
+        }catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+    public void createEntry(Entry entry){
+
         try {
             ContentValues values = new ContentValues();
+            values.put(ENTRY_COLUMN_ID,entry.getId());
             values.put(ENTRY_COLUMN_USERID,entry.getUserId());
             values.put(ENTRY_COLUMN_DATE,entry.getDate().toString());
             // insert item
-            entryId=db.insert(TABLE_ENTRY_NAME, null, values);
+            db.replace(TABLE_ENTRY_NAME, null, values);
 
-        }catch (Throwable t) {
+        }
+//        catch (SQLiteConstraintException e){
+//            updateEntry(entry);
+//        }
+        catch (Throwable t) {
             t.printStackTrace();
         }
-        return Long.valueOf(entryId).intValue();
+//        return Long.valueOf(entryId).intValue();
     }
 
+    public void updateEntry(Entry entry) {
+
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(ENTRY_COLUMN_USERID, entry.getUserId());
+            values.put(ENTRY_COLUMN_DATE, entry.getDate().toString());
+
+
+            // update
+            db.update(TABLE_ENTRY_NAME, values, ENTRY_COLUMN_ID + " = ?",
+                    new String[] { String.valueOf(entry.getId()) });
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+
+    }
     //------Result Queries
-    public int createResult(Result result) {
-        int id=-1;
+    public void createResult(Result result) {
+//        int id=-1;
         try {
             ContentValues values = new ContentValues();
+            values.put(RESULT_COLUMN_ID,result.getId());
             values.put(RESULT_COLUMN_USERID,result.getUserId());
             values.put(RESULT_COLUMN_DATE,result.getDate().toString());
             values.put(RESULT_COLUMN_TRANSPORTATION,result.getTransportationResult());
@@ -881,15 +954,40 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             values.put(RESULT_COLUMN_SERVICE,result.getServicesResult());
 
             // insert result
-            id=Long.valueOf(db.insert(TABLE_RESULT_NAME, null, values)).intValue();
-            return id;
-        }catch (Throwable t) {
+            db.replace(TABLE_RESULT_NAME, null, values);
+//            id=Long.valueOf(db.insert(TABLE_RESULT_NAME, null, values)).intValue();
+
+        }
+//        catch (SQLiteConstraintException e){
+//            updateResult(result);
+//        }
+        catch (Throwable t) {
             t.printStackTrace();
         }
-        return id;
+
     }
 
-    public Result getResultById(int resultId){
+    public void updateResult(Result result) {
+        try {
+            // make values to be inserted
+            ContentValues values = new ContentValues();
+            values.put(RESULT_COLUMN_USERID,result.getUserId());
+            values.put(RESULT_COLUMN_DATE,result.getDate().toString());
+            values.put(RESULT_COLUMN_TRANSPORTATION,result.getTransportationResult());
+            values.put(RESULT_COLUMN_FOOD,result.getFoodResult());
+            values.put(RESULT_COLUMN_ELECTRICS,result.getElectricsResult());
+            values.put(RESULT_COLUMN_SERVICE,result.getServicesResult());
+
+
+            // update
+            db.update(TABLE_RESULT_NAME, values, RESULT_COLUMN_ID + " = ?",
+                    new String[] { String.valueOf(result.getId()) });
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    public Result getResultById(String resultId){
         Result result = null;
         Cursor cursor = null;
         try{
@@ -954,7 +1052,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
      * @param userId
      * @return List<Result>
      */
-    public List<Result> getAllResults(int userId ){
+    public List<Result> getAllResults(String userId ){
         List<Result> results = new ArrayList<Result>();
         Cursor cursor = null;
         try {
@@ -984,9 +1082,9 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private Result cursorToResult(Cursor cursor) {
         Result result = new Result();
         try {
-            result.setId(cursor.getInt(0));
+            result.setId(cursor.getString(0));
             //item.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ITEM_COLUMN_ID))));
-            result.setUserId(cursor.getInt(1));
+            result.setUserId(cursor.getString(1));
             result.setDate(new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH).parse(cursor.getString(2)));
             result.setTransportationResult(Integer.valueOf(cursor.getInt(3)).doubleValue());
             result.setFoodResult(Integer.valueOf(cursor.getInt(4)).doubleValue());
@@ -997,6 +1095,134 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         }
 
         return result;
+    }
+
+    public void replaceUserPoints(User user) {
+//        int id=-1;
+        try {
+            ContentValues values = new ContentValues();
+            values.put(POINTS_COLUMN_USERID,user.getUserId());
+            values.put(POINTS_COLUMN_NAME,user.getName());
+            values.put(POINTS_COLUMN_POINTS_AMOUNT,user.getPoints());
+
+            // insert result
+            db.replace(TABLE_POINTS_NAME, null, values);
+
+        }
+        catch (Throwable t) {
+            t.printStackTrace();
+        }
+
+    }
+
+    public User getUserInfoPoints(String userId){
+        Cursor cursor = null;
+        User user=null;
+        try {
+            /// get reference of the itemDB database
+            cursor = db
+                    .query(TABLE_POINTS_NAME,
+                            TABLE_POINTS_COLUMNS, POINTS_COLUMN_USERID + " = ?",
+                            new String[] { String.valueOf(userId) }, null, null,
+                            null, null);
+
+            // if results !=null, parse the first one
+            if(cursor!=null && cursor.getCount()>0){
+                cursor.moveToFirst();
+
+                user=cursorToUser(cursor);
+
+            }} catch (Throwable t) {
+            t.printStackTrace();
+        }
+        finally {
+            if(cursor!=null){
+                cursor.close();
+            }
+        }
+        return user;
+    }
+
+    private User cursorToUser(Cursor cursor) {
+        User user = new User();
+        try {
+            user.setUserId(cursor.getString(0));
+            user.setName(cursor.getString(1));
+            user.setPoints(cursor.getInt(2));
+
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+
+        return user;
+    }
+
+    public List<User> getAllUsers(){
+        List<User>users=new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            /// get reference of the itemDB database
+            cursor = db
+                    .query(TABLE_POINTS_NAME,
+                            TABLE_POINTS_COLUMNS, null,
+                            null, null, null,
+                            POINTS_COLUMN_POINTS_AMOUNT+" DESC ");
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                User user = cursorToUser(cursor);
+                users.add(user);
+                cursor.moveToNext();
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        finally {
+            if(cursor!=null){
+                cursor.close();
+            }
+        }
+        return users;
+
+    }
+
+    public List<User> getTopkUsers(int k){
+        List<User>users =new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            /// get reference of the itemDB database
+            cursor = db
+                    .query(TABLE_POINTS_NAME,
+                            TABLE_POINTS_COLUMNS, null,
+                            null, null, null,
+                            POINTS_COLUMN_POINTS_AMOUNT+" DESC ", String.valueOf(k));
+
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                User user = cursorToUser(cursor);
+                users.add(user);
+                cursor.moveToNext();
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        finally {
+            if(cursor!=null){
+                cursor.close();
+            }
+        }
+        return users;
+    }
+
+    public void removeAllUsers(){
+        try {
+            // delete all
+            db.delete(TABLE_POINTS_NAME, null, null);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
     //----------------------END OF-Methods queries and actions----------------------------
 
@@ -1021,5 +1247,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
         return outputStream.toByteArray();
     }
+
 
 }

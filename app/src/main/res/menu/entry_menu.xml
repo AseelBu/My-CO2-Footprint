@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/menuEntryHome"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/homePage"
+        android:visible="false"
+        app:showAsAction="always"
+        tools:visibility="gone" />
     <item
         android:id="@+id/menuEntryPrevResults"
         android:icon="@drawable/ic_baseline_insert_chart_24"

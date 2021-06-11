@@ -24,7 +24,7 @@ public class PieChartFragment extends Fragment {
     MyCo2FootprintManager dbManager= MyCo2FootprintManager.getInstance();
     private PieChart resultsPie =null;
     private static final String TAG = "PieChartFragment";
-    private int resultId=-1;
+    private String resultId=null;
     private Result result=null;
     public PieChartFragment() {
         // Required empty public constructor
@@ -47,7 +47,7 @@ public class PieChartFragment extends Fragment {
 
         Bundle args = getArguments();
         if(args!=null){
-            resultId=args.getInt("resultId");
+            resultId=args.getString("resultId");
             result=dbManager.getResultById(resultId);
         }
         // pie data

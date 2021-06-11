@@ -5,12 +5,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class Entry {
-    private int id;
-    private int userId= -1;
+    private String id;
+    private String userId= "xx";
     private ArrayList<TypeEntry> entries= new ArrayList<TypeEntry>();
     private Date date = Calendar.getInstance().getTime();
 
@@ -19,15 +23,25 @@ public class Entry {
     }
 
 
-    public Entry(int userId) {
+    public Entry(String userId) {
         this.userId = userId;
     }
 
    public void addEntry(TypeEntry data){
         this.entries.add(data);
    }
+
    public void addEntryList(List<TypeEntry> data){
-        this.entries.addAll(data);
+       Set<TypeEntry> entriesSet =new HashSet<>(entries);
+
+           for(TypeEntry dataTe : data) {
+               if (!entriesSet.add(dataTe)) {
+                   entriesSet.remove(dataTe);
+                   entriesSet.add(dataTe);
+               }
+           }
+
+       entries=new ArrayList<>(entriesSet);
    }
 
     public ArrayList<TypeEntry> getEntries() {
@@ -46,15 +60,19 @@ public class Entry {
         this.date = date;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public int getUserId() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -69,5 +87,19 @@ public class Entry {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    //converts entries list to map for firestore
+    public List<Map<String,Object>> entriesToMap(){
+        List<Map<String,Object>> entriesList = new ArrayList<>();
+        for(TypeEntry te:entries){
+            Map<String,Object> etm= new HashMap<>();
+            etm.put("id",te.getId());
+            etm.put("value",te.getId());
+            etm.put("impacter type",te.getType());
+            entriesList.add(etm);
+        }
+
+        return entriesList;
     }
 }

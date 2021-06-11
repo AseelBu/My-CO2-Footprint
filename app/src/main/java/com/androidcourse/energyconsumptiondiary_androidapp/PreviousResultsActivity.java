@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class PreviousResultsActivity extends AppCompatActivity implements PrevResultsFragmentListener {
     private MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
@@ -26,7 +27,7 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
         cv.setVisibility(View.GONE);
         FragmentManager fm =getSupportFragmentManager();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        int userId=sharedPref.getInt(getResources().getString(R.string.prefLoggedUser),-1);
+        String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
         db.openDataBase(this);
         if(db.getAllResults(userId,7).isEmpty()){
             NoResultsFragment noResults = new NoResultsFragment();
@@ -64,10 +65,10 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
     }
 
     @Override
-    public void onResultSelected(BarChartFragment prevFragment,int resultId) {
+    public void onResultSelected(BarChartFragment prevFragment, String resultId) {
         cv.setVisibility(View.GONE);
         Bundle argsPie =new Bundle();
-        argsPie.putInt("resultId",resultId);
+        argsPie.putString("resultId",resultId);
         PieChartFragment pieFragment=new PieChartFragment();
         pieFragment.setArguments(argsPie);
         FragmentManager fm = getSupportFragmentManager();

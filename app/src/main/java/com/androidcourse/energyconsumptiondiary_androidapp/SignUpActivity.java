@@ -229,13 +229,13 @@ public class SignUpActivity extends AppCompatActivity {
 
     //TODO no need output Firebase massage to snack bar
     //Check If Email Exist method
-    public boolean checkIfEmailExist() {
-        for (User u : users) {
-            if (txtEmail.getText().toString().equals(u.getEmail().toString()))
-                return true;
-        }
-        return false;
-    }
+//    public boolean checkIfEmailExist() {
+//        for (User u : users) {
+//            if (txtEmail.getText().toString().equals(u.getEmail().toString()))
+//                return true;
+//        }
+//        return false;
+//    }
 
 
     //check If Two Password Is Equals
@@ -270,7 +270,7 @@ public class SignUpActivity extends AppCompatActivity {
         if (flag == true) {
             //flag=lenOfPassword();
             if (checkIfEmailIsValid() == true && checkIfTwoPasswordIsEquals() == true ) {
-                dh.addUser(dh.getUsers().size() + 1, firstName.getText().toString(), lastName.getText().toString(), txtEmail.getText().toString(), txtPassword.getText().toString());
+//                dh.addUser(dh.getUsers().size() + 1, firstName.getText().toString(), lastName.getText().toString(), txtEmail.getText().toString(), txtPassword.getText().toString());
 
                 return true;
             } else {

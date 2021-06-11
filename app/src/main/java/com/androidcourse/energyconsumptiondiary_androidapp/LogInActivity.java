@@ -202,24 +202,24 @@ public class LogInActivity extends AppCompatActivity {
 
     //check If Email is Exist
     //TODO no need
-    public User checkIfEmailExist() {
-        for (User u : dh.getUsers()) {
-            if (email.getText().toString().equals(u.getEmail().toString()))
-                return u;
-        }
-        return null;
-    }
+//    public User checkIfEmailExist() {
+//        for (User u : dh.getUsers()) {
+//            if (email.getText().toString().equals(u.getEmail().toString()))
+//                return u;
+//        }
+//        return null;
+//    }
 
-    //TODO no need
-    //check If Password Is Correct
-    public boolean checkIfPasswordIsCorrect() {
-        for (User u : dh.getUsers()) {
-            if ((email.getText().toString().equals(u.getEmail())) &&
-                    (!password.getText().toString().equals(u.getPassword())))
-                return false;
-        }
-        return true;
-    }
+//    //TODO no need
+//    //check If Password Is Correct
+//    public boolean checkIfPasswordIsCorrect() {
+//        for (User u : dh.getUsers()) {
+//            if ((email.getText().toString().equals(u.getEmail())) &&
+//                    (!password.getText().toString().equals(u.getPassword())))
+//                return false;
+//        }
+//        return true;
+//    }
 
     public void hideKeyboard() {
         View view = this.getCurrentFocus();

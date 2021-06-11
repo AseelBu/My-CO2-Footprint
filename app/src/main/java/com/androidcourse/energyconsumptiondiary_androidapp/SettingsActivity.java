@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.Switch;
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.CustomListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
         itemInfos.add(new ItemInfo("Account Settings",R.drawable.user__1_));
         itemInfos.add(new ItemInfo("Notification Settings",R.drawable.bell));
         itemInfos.add(new ItemInfo("share with Friend",R.drawable.share));
-        list = (ListView) findViewById(R.id.list);
+        list = (ListView) findViewById(R.id.leaderboardRec);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         adapter = new CustomListAdapter(this, itemInfos);

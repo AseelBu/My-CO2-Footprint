@@ -19,7 +19,7 @@ import com.github.mikephil.charting.charts.PieChart;
 
 public class ResultsActivity extends AppCompatActivity {
     private static final String TAG = "ResultsActivity";
-    private int resultId=-1;
+    private String resultId=null;
     private PieChart resultPie = null;
     private HalfGauge resultGauge = null;
     private Button tipsBtn = null;
@@ -34,9 +34,9 @@ public class ResultsActivity extends AppCompatActivity {
         tipsBtn=(Button)findViewById(R.id.tipsBtn);
         Intent intent = getIntent();
         if(intent!=null){
-            resultId =intent.getIntExtra("resultId",-1);
-
+            resultId =intent.getStringExtra("resultId");
         }
+
         ActionBar ab = getSupportActionBar();
         ab.setTitle(R.string.yourResults);
         ab.setDisplayHomeAsUpEnabled(true);
@@ -44,7 +44,7 @@ public class ResultsActivity extends AppCompatActivity {
         FragmentManager fm= getSupportFragmentManager();
         //gauge fragment
         Bundle argsGauge =new Bundle();
-        argsGauge.putInt("resultId",resultId);
+        argsGauge.putString("resultId",resultId);
         GaugeChartFragment gaugeFragment=new GaugeChartFragment();
         gaugeFragment.setArguments(argsGauge);
         FragmentTransaction t1 = fm.beginTransaction();
@@ -52,7 +52,7 @@ public class ResultsActivity extends AppCompatActivity {
         t1.commit();
         //pie fragment
         Bundle argsPie =new Bundle();
-        argsPie.putInt("resultId",resultId);
+        argsPie.putString("resultId",resultId);
         PieChartFragment pieFragment=new PieChartFragment();
         pieFragment.setArguments(argsPie);
         FragmentTransaction t2 = fm.beginTransaction();

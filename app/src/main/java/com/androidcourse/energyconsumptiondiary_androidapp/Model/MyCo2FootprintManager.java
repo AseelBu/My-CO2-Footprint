@@ -222,28 +222,34 @@ public void removeImpacter(ImpactType impacterType,String id)
     }
     //------ type Entry
 
-    public void createTypeEntry(int entryId,TypeEntry typeEntry) {
+    public void createTypeEntry(String entryId,TypeEntry typeEntry) {
         if (db != null) {
             db.createTypeEntry(entryId,typeEntry);
         }
     }
-    //------- Entry
-    public int createEntry(Entry entry) {
+
+    public void deleteAllTypeEntryByEntryID(String entryId) {
         if (db != null) {
-            return db.createEntry(entry);
+            db.deleteAllTypeEntryByEntryID(entryId);
         }
-        return -1;
+    }
+    //------- Entry
+    public void createEntry(Entry entry) {
+        if (db != null) {
+            db.createEntry(entry);
+        }
+
     }
 
     //-------Result
-    public int createResult(Result result) {
+    public void createResult(Result result) {
         if (db != null) {
-            return db.createResult(result);
+            db.createResult(result);
         }
-        return -1;
+
     }
 
-    public Result getResultById(int resultId) {
+    public Result getResultById(String resultId) {
         Result result = null;
         if (db != null) {
             result = db.getResultById(resultId);
@@ -258,7 +264,7 @@ public void removeImpacter(ImpactType impacterType,String id)
         return result;
     }
 
-    public List<Result> getAllResults(int userId,int limit) {
+    public List<Result> getAllResults(String userId,int limit) {
         List<Result> results = new ArrayList<Result>();
         List<Result> kResults = new ArrayList<Result>();
         if (db != null) {
@@ -270,6 +276,45 @@ public void removeImpacter(ImpactType impacterType,String id)
             }
         }
         return kResults;
+    }
+
+    //---------user points
+    public void replaceUserPoints(User user) {
+        if (db != null) {
+            db.replaceUserPoints(user);
+        }
+
+    }
+
+    public User getUserInfoPoints(String userId) {
+        User user=null;
+        if (db != null) {
+            user=db.getUserInfoPoints(userId);
+        }
+        return user;
+    }
+
+
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<User>();
+        if (db != null) {
+            users = db.getAllUsers();
+        }
+        return users;
+    }
+
+    public List<User> getTopkUsers(int k) {
+        List<User> users = new ArrayList<User>();
+        if (db != null) {
+            users = db.getTopkUsers(k);
+        }
+        return users;
+    }
+
+    public void removeAllUsers() {
+        if(db!=null){
+            db.removeAllUsers();
+        }
     }
 
 
@@ -287,5 +332,6 @@ public void removeImpacter(ImpactType impacterType,String id)
             db.close();
         }
     }
+
 
 }
