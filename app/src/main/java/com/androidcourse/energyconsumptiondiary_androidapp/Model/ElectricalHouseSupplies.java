@@ -9,7 +9,7 @@ public class ElectricalHouseSupplies extends Co2Impacter{
     public ElectricalHouseSupplies() {
     }
 
-    public ElectricalHouseSupplies(int impacterID, String name, String question, Units unit, int co2Amount, Bitmap img) {
+    public ElectricalHouseSupplies(String impacterID, String name, String question, Units unit, int co2Amount, Bitmap img) {
         super(impacterID, name, question, unit, co2Amount, img);
     }
 

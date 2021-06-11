@@ -5,14 +5,14 @@ import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import java.util.Objects;
 
 public class TypeEntry {
-    private int id;
+    private String id;
     private int value;
     private ImpactType type;
 
     public TypeEntry() {
     }
 
-    public TypeEntry(int id, int value, ImpactType type) {
+    public TypeEntry(String id, int value, ImpactType type) {
         this.id = id;
         this.value = value;
         this.type = type;
@@ -20,11 +20,11 @@ public class TypeEntry {
 
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

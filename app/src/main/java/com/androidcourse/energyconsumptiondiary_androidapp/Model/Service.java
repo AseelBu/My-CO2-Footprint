@@ -8,7 +8,7 @@ public class Service extends Co2Impacter {
     public Service() {
     }
 
-    public Service(int impacterID, String name, String question, Units unit, int co2Amount, Bitmap img) {
+    public Service(String impacterID, String name, String question, Units unit, int co2Amount, Bitmap img) {
         super(impacterID, name, question, unit, co2Amount, img);
     }
 

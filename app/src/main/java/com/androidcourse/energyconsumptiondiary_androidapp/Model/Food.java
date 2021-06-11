@@ -10,7 +10,7 @@ public class Food extends Co2Impacter{
         super();
     }
 
-    public Food(int impacterID, String name, String question, Units unit, int co2Amount, Bitmap img) {
+    public Food(String impacterID, String name, String question, Units unit, int co2Amount, Bitmap img) {
         super(impacterID, name, question,unit, co2Amount, img);
     }
 

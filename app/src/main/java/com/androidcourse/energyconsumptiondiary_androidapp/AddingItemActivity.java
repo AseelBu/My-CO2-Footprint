@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
@@ -29,10 +33,18 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class AddingItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -57,7 +69,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     private Button addBtn;
     private ImageButton uploadImgBtn;
     TextToSpeech t1;
-
+    public Co2Impacter imp;
     private TextView textFuel;
 
     @Override
@@ -103,10 +115,12 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
         addBtn=(Button)findViewById(R.id.edititem2);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                addBtnClicked();
+            public void onClick(View v)
+            {
+           addBtnClicked();
             }
         });
+
         uploadImgBtn =(ImageButton) findViewById(R.id.upload);
         uploadImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,14 +216,36 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
             else {
 
                 try {
+
                     //setting data in impacter
                     impacter.setName(name.getText().toString());
                     impacter.setQuestion(question.getText().toString());
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-                    int id = db.createCO2Impacter(impacter);
-                    db.createTransportation(id, (Transportation) impacter);
+
+                    addBtnClicked();
+                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+                    impacter.setImpacterID(UUID.randomUUID().toString());
+                    db2.collection("co2 impacter")
+                            .document(String.valueOf(impacter.getImpacterID()))
+                            .set(imp)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    uploadImage();
+                                    int id = db.createCO2Impacter(impacter);
+                                    db.createTransportation(id, (Transportation) impacter);
+
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            System.out.println(e);
+                        }
+                    });
+
 
                     String toSpeak = "add successfully";
                     View parentLayout = findViewById(android.R.id.content);
@@ -351,5 +387,47 @@ public void newActivity()
     protected void onPause() {
         db.closeDataBase();
         super.onPause();
+    }
+
+    private void uploadImage() {
+        try {
+            imp=MyCo2FootprintManager.getInstance().getSelectedCO2Impacter(impacterType);
+            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
+                    android.R.drawable.ic_menu_call);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            // Create a storage reference from our app
+            StorageReference storageRef = storage.getReference();
+            final String imageName = imp.getImpacterID() + ".PNG";
+            StorageReference imageRef = storageRef.child(imageName);
+
+            UploadTask uploadTask = imageRef.putBytes(data);
+
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                    System.out.println(exception);
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    String base64String = imageName;
+                    String base64Image = base64String.split(",")[1];
+
+                    byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                    imp.setImg(decodedByte);
+                    MyCo2FootprintManager.getInstance().updateCo2Impacter(imp);
+                }
+            });
+        }catch (Throwable t){
+            t.printStackTrace();
+        }
     }
 }

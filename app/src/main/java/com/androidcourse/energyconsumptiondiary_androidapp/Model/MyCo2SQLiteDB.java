@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION =2;
+    private static final int DATABASE_VERSION =9;
     private static final String DATABASE_NAME="MyCo2FootprintDB";
 
 
@@ -100,7 +100,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     try{
         //create CO2 impacter table
         String CREATE_CO2IMPACTER_TABLE="create table if not exists "+TABLE_CO2IMPACTER_NAME+"("
-                +CO2IMPACTER_COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                +CO2IMPACTER_COLUMN_ID+" TEXT PRIMARY KEY, "
                 +CO2IMPACTER_COLUMN_NAME+" TEXT,"
                 +CO2IMPACTER_COLUMN_QUESTION+" TEXT,"
                 +CO2IMPACTER_COLUMN_UNIT+" TEXT,"
@@ -110,31 +110,25 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(CREATE_CO2IMPACTER_TABLE);
         //create Transportation table
         String CREATE_TRANSPORTATION_TABLE = "create table if not exists " + TABLE_TRANSPORTATION_NAME + "("
-                + TRANSPORTATION_COLUMN_IMPACTERID + " INTEGER,"
+                + TRANSPORTATION_COLUMN_IMPACTERID + " TEXT,"
                 + TRANSPORTATION_COLUMN_FUEL + " TEXT"
                 + ")";
         db.execSQL(CREATE_TRANSPORTATION_TABLE);
         //create Food table
         String CREATE_FOOD_TABLE="create table if not exists "+TABLE_FOOD_NAME+"("
-                +FOOD_COLUMN_IMPACTERID+" INTEGER"
+                +FOOD_COLUMN_IMPACTERID+"TEXT"
                 +")";
         db.execSQL(CREATE_FOOD_TABLE);
-        //TODO
-
         //create Service table
-        //TODO
         String CREATE_SERVICE_TABLE="create table if not exists "+TABLE_SERVICE_NAME+"("
-                +SERVICE_COLUMN_IMPACTERID+" INTEGER"
+                +SERVICE_COLUMN_IMPACTERID+" TEXT"
                 +")";
         db.execSQL(CREATE_SERVICE_TABLE);
         //create ElectricalHouseSupplies table
-        //TODO
         String CREATE_Electric_TABLE="create table if not exists "+TABLE_ELECTRICS_NAME+"("
-                +ELECTRICS_COLUMN_IMPACTERID+" INTEGER"
+                +ELECTRICS_COLUMN_IMPACTERID+" TEXT"
                 +")";
         db.execSQL(CREATE_Electric_TABLE);
-        //create Tips table
-        //TODO
 
 
         //create Entry Type Table
@@ -186,6 +180,15 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     //----------------------START OF-Methods queries and actions----------------------------
     /*********methods go in here***********/
     //---Co2impacter-----------
+    public void deleteAllCo2Impacter() {
+        try {
+
+            // delete all
+            db.delete(TABLE_CO2IMPACTER_NAME, null, null);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
 
 
     public Co2Impacter getImpacterById(int impacterId) {
@@ -219,7 +222,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                         break;
                 }
 
-                co2Impacter.setImpacterID(cursor.getInt(0));
+                co2Impacter.setImpacterID(cursor.getString(0));
                 //item.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ITEM_COLUMN_ID))));
                 co2Impacter.setName(cursor.getString(1));
                 co2Impacter.setQuestion(cursor.getString(2));
@@ -316,7 +319,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     }
 
     //--trans
-    public String getTransportationFuel(int id) {
+    public String getTransportationFuel(String id) {
         String fuelType =" ";
         Cursor cursor = null;
 
@@ -344,7 +347,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
 
     //-----------------------------------transportation queries
-    public void createTransportation(int id,Transportation t) {
+    public void createTransportation(String  id,Transportation t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
@@ -358,7 +361,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-    public void createFood(int entryId,Food t) {
+    public void createFood(String entryId,Food t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
@@ -371,7 +374,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-    public void createElectric(int entryId,ElectricalHouseSupplies t) {
+    public void createElectric(String entryId,ElectricalHouseSupplies t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
@@ -383,7 +386,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-    public void createService(int entryId,Service t) {
+    public void createService(String entryId,Service t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
@@ -419,7 +422,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     return list;
     }
 
-    public Transportation readTransportation(int id) {
+    public Transportation readTransportation(String id) {
         Transportation item = null;
         Cursor cursor = null;
         try {
@@ -545,7 +548,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return result;
     }
 
-   public void removeImpacter(ImpactType impacterType, int id)
+   public void removeImpacter(ImpactType impacterType, String id)
    {
        try {
            switch (impacterType)
@@ -623,7 +626,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         }
         return cnt;
     }
-    public void deleteTransportation(int id) {
+    public void deleteTransportation(String id) {
         try {
             // delete item
             db.delete(TABLE_TRANSPORTATION_NAME, TRANSPORTATION_COLUMN_IMPACTERID+ " = ?",
@@ -633,7 +636,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         }
     }
 
-    public void deleteService(int id) {
+    public void deleteService(String id) {
         try {
             // delete item
             db.delete(TABLE_SERVICE_NAME, SERVICE_COLUMN_IMPACTERID+ " = ?",
@@ -642,7 +645,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             t.printStackTrace();
         }
     }
-    public void deleteFood(int id) {
+    public void deleteFood(String id) {
         try {
             // delete item
             db.delete(TABLE_FOOD_NAME, FOOD_COLUMN_IMPACTERID+ " = ?",
@@ -651,7 +654,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             t.printStackTrace();
         }
     }
-    public void deleteElectric(int id) {
+    public void deleteElectric(String id) {
         try {
             // delete item
             db.delete(TABLE_ELECTRICS_NAME, ELECTRICS_COLUMN_IMPACTERID+ " = ?",
@@ -674,8 +677,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     }
 
     //-----------------------------------CO2Impacter queries
-    public int createCO2Impacter(Co2Impacter t) {
-        long entryId=-1;
+    public void createCO2Impacter(Co2Impacter t) {
         try {
             // make values to be inserted
             ContentValues values = new ContentValues();
@@ -692,14 +694,14 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 }
             }
             // insert item
-            entryId=db.insert(TABLE_CO2IMPACTER_NAME, null, values);
+            db.insert(TABLE_CO2IMPACTER_NAME, null, values);
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        return Long.valueOf(entryId).intValue();
+
     }
 
-    public Co2Impacter  readCO2Impacter(int id) {
+    public Co2Impacter  readCO2Impacter(String id) {
         Co2Impacter  item = null;
         Cursor cursor = null;
         try {
@@ -717,7 +719,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 cursor.moveToFirst();
 
                 item = new Co2Impacter ();
-                item.setImpacterID(cursor.getInt(0));
+                item.setImpacterID(cursor.getString(0));
                 item.setName(cursor.getString(1));
                 item.setCo2Amount(cursor.getInt(2));
                 item.setQuestion(cursor.getString(3));
@@ -769,7 +771,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private Co2Impacter  cursorToCO2Impacter(Cursor cursor) {
         Co2Impacter result = new Co2Impacter ();
         try {
-            result .setImpacterID(cursor.getInt(0));
+            result .setImpacterID(cursor.getString(0));
             result .setName(cursor.getString(1));
             result .setCo2Amount(cursor.getInt(2));
             result .setQuestion(cursor.getString(4));
@@ -820,7 +822,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
         return cnt;
     }
-    public int deleteCO2Impacter(int id) {
+    public int deleteCO2Impacter(String id) {
         int cnt = 0;
         try {
 

@@ -7,7 +7,7 @@ import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 import java.util.Objects;
 
 public  class  Co2Impacter implements Comparable<Co2Impacter>{
-    private int impacterID=-1;
+    private String impacterID=null;
     private   String name;
     private String question;
     private Units unit=Units.UNIT;// type of unit that matches the question
@@ -15,14 +15,14 @@ public  class  Co2Impacter implements Comparable<Co2Impacter>{
 
     private Bitmap img=null;
 
-    public void setImpacterID(int impacterID) {
+    public void setImpacterID(String impacterID) {
         this.impacterID = impacterID;
     }
 
     public Co2Impacter() {
     }
 
-    public Co2Impacter(int impacterID, String name, String question,Units unit, int co2Amount, Bitmap img) {
+    public Co2Impacter(String  impacterID, String name, String question,Units unit, int co2Amount, Bitmap img) {
         this.impacterID = impacterID;
         this.name = name;
         this.question = question;
@@ -41,7 +41,7 @@ public  class  Co2Impacter implements Comparable<Co2Impacter>{
         this.img = img;
     }
 
-    public int getImpacterID() {
+    public String getImpacterID() {
         return impacterID;
     }
 
