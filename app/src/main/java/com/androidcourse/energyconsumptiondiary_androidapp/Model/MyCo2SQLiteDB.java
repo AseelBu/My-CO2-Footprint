@@ -128,23 +128,23 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(CREATE_CO2IMPACTER_TABLE);
         //create Transportation table
         String CREATE_TRANSPORTATION_TABLE = "create table if not exists " + TABLE_TRANSPORTATION_NAME + "("
-                + TRANSPORTATION_COLUMN_IMPACTERID + " TEXT,"
+                + TRANSPORTATION_COLUMN_IMPACTERID + " TEXT  PRIMARY KEY,"
                 + TRANSPORTATION_COLUMN_FUEL + " TEXT"
                 + ")";
         db.execSQL(CREATE_TRANSPORTATION_TABLE);
         //create Food table
         String CREATE_FOOD_TABLE="create table if not exists "+TABLE_FOOD_NAME+"("
-                +FOOD_COLUMN_IMPACTERID+" TEXT"
+                +FOOD_COLUMN_IMPACTERID+" TEXT  PRIMARY KEY"
                 +")";
         db.execSQL(CREATE_FOOD_TABLE);
         //create Service table
         String CREATE_SERVICE_TABLE="create table if not exists "+TABLE_SERVICE_NAME+"("
-                +SERVICE_COLUMN_IMPACTERID+" TEXT"
+                +SERVICE_COLUMN_IMPACTERID+" TEXT  PRIMARY KEY"
                 +")";
         db.execSQL(CREATE_SERVICE_TABLE);
         //create ElectricalHouseSupplies table
         String CREATE_Electric_TABLE="create table if not exists "+TABLE_ELECTRICS_NAME+"("
-                +ELECTRICS_COLUMN_IMPACTERID+" TEXT"
+                +ELECTRICS_COLUMN_IMPACTERID+" TEXT  PRIMARY KEY"
                 +")";
         db.execSQL(CREATE_Electric_TABLE);
         //create Tips table
@@ -153,7 +153,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
         //create Entry Type Table
         String CREATE_ENTRY_TYPE_TABLE="create table if not exists "+TABLE_TYPE_ENTRY_NAME+"("
-                + TYPE_ENTRY_COLUMN_ID +" TEXT , "
+                + TYPE_ENTRY_COLUMN_ID +" TEXT  , "
                 + TYPE_ENTRY_COLUMN_VALUE +" INTEGER,"
                 + TYPE_ENTRY_COLUMN_IMPACTER_TYPE +" TEXT,"
                 + TYPE_ENTRY_COLUMN_ENTRYID +" TEXT,"
@@ -213,7 +213,12 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         try {
 
             // delete all
+            db.delete(TABLE_TRANSPORTATION_NAME, null, null);
+            db.delete(TABLE_FOOD_NAME, null, null);
+            db.delete(TABLE_SERVICE_NAME, null, null);
+            db.delete(TABLE_ELECTRICS_NAME, null, null);
             db.delete(TABLE_CO2IMPACTER_NAME, null, null);
+
         } catch (Throwable t) {
             t.printStackTrace();
         }
@@ -257,6 +262,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 co2Impacter.setQuestion(cursor.getString(2));
                 co2Impacter.setUnit(Units.valueOf(cursor.getString(3)));
                 co2Impacter.setCo2Amount(cursor.getInt(4));
+                co2Impacter.setUrlImage(cursor.getString(6));
 
                 if(type.equals(ImpactType.TRANSPORTATION)){
                     ((Transportation)co2Impacter).setFuelType(getTransportationFuel(co2Impacter.getImpacterID()));

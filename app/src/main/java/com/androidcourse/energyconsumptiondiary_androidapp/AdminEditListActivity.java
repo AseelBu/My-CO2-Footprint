@@ -6,18 +6,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.AdminImpacterListAdapter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.EntryRecyclerAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
+import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
+import java.util.Map;
 
 public class AdminEditListActivity extends AppCompatActivity {
 
@@ -32,6 +47,7 @@ public class AdminEditListActivity extends AppCompatActivity {
     private FloatingActionButton addFab = null;
     private ImpactType type=ImpactType.TRANSPORTATION;
     private TextView txtFuel;
+    private ListView vList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +58,7 @@ public class AdminEditListActivity extends AppCompatActivity {
         txtFuel=(TextView)findViewById(R.id.txtFuelTypeAdminHeader);
 
         RecyclerView recList = (RecyclerView) findViewById(R.id.dataListAdminRec);
-        ListView vList=(ListView)findViewById(R.id.dataListAdmin);
+         vList=(ListView)findViewById(R.id.dataListAdmin);
 
         recList.setVisibility(View.GONE);
 //        LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -75,6 +91,79 @@ public class AdminEditListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addBtnClicked();
+            }
+        });
+
+        FirebaseFirestore dbCloud = FirebaseFirestore.getInstance();
+        CollectionReference collRef = dbCloud.collection("co2 impacter");
+
+        collRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+
+                if (e != null) {
+                    //TODO snackbar
+                    Toast.makeText(AdminEditListActivity.this, "Listen failed." + e,
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (snapshot != null && !snapshot.isEmpty()) {
+//                    Toast.makeText(context, "Current data: " + snapshot.getDocuments(),
+//                            Toast.LENGTH_LONG).show();
+                    db.removeAllImpacters();
+                    for (DocumentSnapshot document : snapshot.getDocuments()) {
+                        Map<String, Object> impacter = document.getData();
+                        String id = document.getId();
+                        String name = (String) impacter.get("name");
+                        String question = (String) impacter.get("question");
+                        Number co2Amount = (Number) impacter.get("co2Amount");
+                        String unit = (String) impacter.get("unit");
+                        String urlImage = (String) impacter.get("urlImage");
+                        String impacterType = (String) impacter.get("impacterType");
+                        String fuelType = null;
+                        if (impacterType.equals(ImpactType.TRANSPORTATION.toString())) {
+                            fuelType = (String) impacter.get("fuelType");
+                        }
+                        Co2Impacter cloudImpacter = null;
+                        switch (ImpactType.valueOf(impacterType)) {
+                            case TRANSPORTATION:
+                                cloudImpacter = new Transportation();
+                                ((Transportation) cloudImpacter).setFuelType(fuelType);
+                                break;
+                            case FOOD:
+                                cloudImpacter = new Food();
+                                break;
+                            case ELECTRICAL:
+                                cloudImpacter = new ElectricalHouseSupplies();
+                                break;
+                            case SERVICES:
+                                cloudImpacter = new Service();
+                                break;
+                        }
+                        cloudImpacter.setImpacterID(id);
+                        cloudImpacter.setName(name);
+                        cloudImpacter.setQuestion(question);
+                        cloudImpacter.setUnit(Units.valueOf(unit));
+                        cloudImpacter.setUrlImage(urlImage);
+                        cloudImpacter.setCo2Amount(co2Amount.intValue());
+
+                        db.createImpacterByType(cloudImpacter, ImpactType.valueOf(impacterType));
+
+//                        Toast.makeText(AdminEditListActivity.this, document.getData().toString(),
+//                                Toast.LENGTH_LONG).show();
+                    }
+
+                    Toast.makeText(AdminEditListActivity.this, "impacters updated",
+                            Toast.LENGTH_LONG).show();
+                    List<Co2Impacter> impacters2=db.getImpactersByType(type);
+                    adapter = new AdminImpacterListAdapter(AdminEditListActivity.this, impacters2,type);
+                    vList.setAdapter(adapter);
+
+                } else {
+                    Toast.makeText(AdminEditListActivity.this, "Current data: null",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -110,6 +199,9 @@ public class AdminEditListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         MyCo2FootprintManager.getInstance().openDataBase(this);
+        List<Co2Impacter> impacters=db.getImpactersByType(type);
+        adapter = new AdminImpacterListAdapter(this, impacters,type);
+        vList.setAdapter(adapter);
         super.onResume();
 
     }

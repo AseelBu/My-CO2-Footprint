@@ -110,6 +110,7 @@ public void removeImpacter(ImpactType impacterType,String id)
     public void createImpacterByType(Co2Impacter item, ImpactType type) {
 
         if (db != null) {
+            createCO2Impacter(item);
             switch (type){
                 case TRANSPORTATION:
                     createTransportation(item.getImpacterID(),(Transportation)item);

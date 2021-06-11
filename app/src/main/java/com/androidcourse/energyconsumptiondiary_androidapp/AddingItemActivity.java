@@ -364,7 +364,9 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                                     });
                                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                                     bar.show();
-                                    uploadImage(impacter);
+                                    if(impacter.getImg()!=null) {
+                                        uploadImage(impacter);
+                                    }
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {

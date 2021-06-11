@@ -56,7 +56,7 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
     @Override
     public void onBindViewHolder(EntryCardViewHolder holder, int position) {
         Log.i("EntryAdapter", "entering onBindView");
-        Co2Impacter impacterItem = impacters.get(holder.getAdapterPosition());
+        Co2Impacter impacterItem = impacters.get(position);
         holder.setData(impacterItem);
     }
 
