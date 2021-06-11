@@ -69,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void addDataToDataHolder() {
 //        addUsers();
-        createTransportation(2);
-        createFood(4);
-        createElectricals(5);
-        createService(2);
-        createTips(4);
+    //    createTransportation(2);
+      //  createFood(4);
+      //  createElectricals(5);
+       // createService(2);
+       // createTips(4);
     }
 
     //    builder for the impacter by type
@@ -93,21 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
-    //add users method
-//    private void addUsers() {
-//        dh.addAdmin(1, "Admin@gmail.com", "Admin12", "Admin", "Admin", getResources().getDrawable(R.drawable.ic_baseline_person_24));
-////            dh.addAdmin(2,"User@gmail.com", "User","User","regular",getResources().getDrawable(R.drawable.ic_baseline_person_24));
-//        createUsers(9);
-//    }
-
-    //create users method
-//    private void createUsers(int size) {
-//        Drawable img = getDrawable(R.drawable.ic_baseline_person_24);
-//        for (int i = 0; i <= size; i++) {
-//            dh.addUser((i + 1) * 100, "go " + i, "go " + i, "go" + i + "@g.com", "go", i * 10, img);
-//        }
-//    }
 
     //create Co2 impacters
     private void createTransportation(int size) {

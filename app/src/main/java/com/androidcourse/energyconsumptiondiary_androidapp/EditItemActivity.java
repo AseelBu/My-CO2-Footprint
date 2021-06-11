@@ -21,22 +21,41 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
+
 public class EditItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "EditItemActivity";
     public static final int REQUEST_IMAGE_GET = 3;
@@ -135,128 +154,205 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
-    //add new item instead of the old item in data list
+    //add item to the data holder
     public void editClicked() {
-        new AlertDialog.Builder(context)
-                .setIcon(R.drawable.ic_baseline_warning_24)
-                .setTitle("Are you sure you want to save changes?")
-                .setMessage("Do you want to edit")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (impacterType.equals(ImpactType.TRANSPORTATION)) {
-                            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
-                                    (TextUtils.isEmpty(co2Amount.getText().toString())) || (TextUtils.isEmpty(fuelType.getText().toString()))) {
-
-                                String toSpeak = "save failed..There are empty input!";
-                                View parentLayout = findViewById(android.R.id.content);
-                                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                                bar.setAction("Dismiss", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        bar.dismiss();
-                                    }
-                                });
-                                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                                bar.show();
-                            }
-                            //if the input is empty
-                            else {
-                                try {
-                                    //setting data in impacter
-                                    impacter.setName(name.getText().toString());
-                                    impacter.setQuestion(Question.getText().toString());
-                                    ((Transportation) impacter).setFuelType(fuelType.getText().toString());
-                                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
-                                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-                                    int id = db.updateCo2Impacter((Transportation) impacter);
-                                    db.updateTransportation(id, (Transportation) impacter);
+        if (impacterType.equals(ImpactType.TRANSPORTATION)) {
 
 
-
-//                                    ((AdminEditListActivity) context).startActivityForResult(intent, EDIT_REQ_CODE);
-
-                                    String toSpeak = "save successfully";
-                                    View parentLayout = findViewById(android.R.id.content);
-                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            bar.dismiss();
-                                            newActivity();
-                                        }
-                                    });
-                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                                    bar.show();
-
-                                } catch (Throwable ew) {
-                                    ew.printStackTrace();
-                                }
-                            }
-                        }
-        else{
-            if ((TextUtils.isEmpty(name.getText().toString())) || (TextUtils.isEmpty(Question.getText().toString())) ||
-                    (TextUtils.isEmpty(co2Amount.getText().toString()))) {
-
-                String toSpeak = "save failed..There are empty input!";
+            //if text field is empty
+            if ((TextUtils.isEmpty(name.getText().toString()))
+                    || (TextUtils.isEmpty(Question.getText().toString()))
+                    || (TextUtils.isEmpty(co2Amount.getText().toString()))
+                    || (TextUtils.isEmpty(fuelType.getText().toString()))) {
+                String toSpeak = "add failed..There are empty input!";
                 View parentLayout = findViewById(android.R.id.content);
                 final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
                 bar.setAction("Dismiss", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         bar.dismiss();
-
                     }
                 });
                 bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                 bar.show();
+            }
+            //if the input is not empty
+            else {
 
-                            }
-                            //if the input is empty
-                            else {
-                                try {
-                                    //setting data in impacter
-                                    impacter.setName(name.getText().toString());
-                                    impacter.setQuestion(Question.getText().toString());
-                                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
-                                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
+                try {
+
+                    //setting data in impacter
+                    impacter.setName(name.getText().toString());
+                    impacter.setQuestion(Question.getText().toString());
+                    ((Transportation) impacter).setFuelType(fuelType.getText().toString());
+                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
+                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
+                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+                    impacter.setImpacterID(UUID.randomUUID().toString());
+                    if(impacter.getImg()!=null)
+                    {
+                        impacter.setUrlImage(impacter.getImpacterID() + ".png");
+                    }
+                    Map<String,Object> map= new HashMap<>();
+                    map.put("name",impacter.getName());
+                    map.put("unit",impacter.getUnit().toString());
+                    map.put("question",impacter.getQuestion());
+                    map.put("fuelType",((Transportation) impacter).getFuelType());
+                    map.put("co2Amount",impacter.getCo2Amount());
+                    map.put("impacterType",impacterType);
+                    map.put("urlImage",impacter.getUrlImage());
+
+                    // wait(3);
+                    db2.collection("co2 impacter")
+                            .document(String.valueOf(impacter.getImpacterID()))
+                            .set(map)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
                                     db.updateCo2Impacter(impacter);
-
-
-                                    String toSpeak = "save successfully";
+                                    db.updateTransportation(impacter.getImpacterID(), (Transportation) impacter);
+                                    String toSpeak = "add successfully";
                                     View parentLayout = findViewById(android.R.id.content);
-                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
-                                    bar.setAction("Click here to move to the list", new View.OnClickListener() {
+                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_LONG);
+                                    bar.setAction("dismiss", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             bar.dismiss();
-                                            newActivity();
+
+
                                         }
                                     });
                                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                                     bar.show();
+                                    if(impacter.getImg()!=null) {
+                                        uploadImage(impacter);
+                                    }
+                                    else
+                                    {
 
-//                                    Intent intent = new Intent(context, AdminEditListActivity.class);
-//                                    intent.putExtra(IMPACTERTYPE, impacterType.name());
-//                                    startActivity(intent);
-//                                    finish();
-                                } catch (Throwable ew) {
-                                    ew.printStackTrace();
+                                        newActivity();
+
+                                    }
                                 }
-                            }
-                        }
-                    }
-                })
-                .setNegativeButton("No", null)
-//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        impacter.setImg(null);
-//                    }
-//                })
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                            bar.setAction("dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    bar.dismiss();
 
-                .show();
+                                }
+                            });
+                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                            bar.show();
+                        }
+                    });
+
+
+                } catch (Throwable ew) {
+                    ew.printStackTrace();
+                }
+            }
+        }
+        //if not transportation
+        else if ((impacterType.equals(ImpactType.ELECTRICAL)) || (impacterType.equals(ImpactType.SERVICES)) || (impacterType.equals(ImpactType.FOOD))) {
+            // if inputs are empty
+            if ((TextUtils.isEmpty(name.getText().toString()))
+                    || (TextUtils.isEmpty(Question.getText().toString()))
+                    || (TextUtils.isEmpty(co2Amount.getText().toString()))) {
+                String toSpeak = "add failed..There are empty input!";
+                View parentLayout = findViewById(android.R.id.content);
+                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                bar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bar.dismiss();
+                    }
+                });
+                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                bar.show();
+            }
+
+
+            //if the input is empty
+            else {
+                try {
+                    //                setting data in impacter
+
+                    impacter.setName(name.getText().toString());
+                    impacter.setQuestion(Question.getText().toString());
+                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
+                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
+                    impacter.setImpacterID(UUID.randomUUID().toString());
+                    if(impacter.getImg()!=null)
+                    {
+                        impacter.setUrlImage(impacter.getImpacterID() + ".png");
+                    }
+                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+
+                    Map<String,Object> map= new HashMap<>();
+                    map.put("name",impacter.getName());
+                    map.put("unit",impacter.getUnit().toString());
+                    map.put("question",impacter.getQuestion());
+                    map.put("co2Amount",impacter.getCo2Amount());
+                    map.put("impacterType",impacterType);
+                    map.put("urlImage",impacter.getUrlImage());
+                    db2.collection("co2 impacter")
+                            .document(String.valueOf(impacter.getImpacterID()))
+                            .set(map)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                    db.updateCo2Impacter(impacter);
+                           String toSpeak = "add successfully";
+                                    View parentLayout = findViewById(android.R.id.content);
+                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_LONG);
+                                    bar.setAction("dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            bar.dismiss();
+
+                                        }
+                                    });
+                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                    bar.show();
+                                    if(impacter.getImg()!=null) {
+                                        uploadImage(impacter);
+                                    }
+                                    else
+                                    {
+
+                                        newActivity();
+
+                                    }
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                            bar.setAction("dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    bar.dismiss();
+
+                                }
+                            });
+                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                            bar.show();
+                        }
+                    });
+
+                } catch (Throwable ew) {
+                    ew.printStackTrace();
+                }
+            }
+
+
+        }
     }
     // Function to find the index of an element
     public int findIndex(List<Units> arr, Units t) {
@@ -279,7 +375,27 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         Log.d("get(0)", enumValues.get(0).toString());
         Log.d("find method", String.valueOf(findIndex(enumValues, impacter.getUnit())));
         spinner.setSelection(findIndex(enumValues, impacter.getUnit()));
-        imageUpload.setImageDrawable(new BitmapDrawable(getResources(),this.impacter.getImg()));
+        String imageUrl = impacter.getUrlImage();
+        if(imageUrl!=null){
+            FirebaseStorage  storage= FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+            StorageReference storageReference = storageRef.child(imageUrl);
+            storageReference.getDownloadUrl().addOnCompleteListener(
+                    new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                String downloadUrl = task.getResult().toString();
+                                Glide.with(context)
+                                        .load(downloadUrl)
+                                        .into(imageUpload);
+                            } else {
+                                System.out.println("Getting download url was not successful." +
+                                        task.getException());
+                            }
+                        }
+                        });
+                    }
         if (impacter instanceof Transportation) {
             fuelType.setText(((Transportation) impacter).getFuelType());
         } else {
@@ -354,5 +470,50 @@ public void newActivity()
         Log.d("Edit",",aa");
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
+    }
+    private void uploadImage(Co2Impacter imp) {
+        try {
+            Bitmap bitmap =imp.getImg();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            // Create a storage reference from our app
+            StorageReference storageRef = storage.getReference();
+            final String imageName = imp.getImpacterID() + ".png";
+            StorageReference imageRef = storageRef.child(imageName);
+
+            UploadTask uploadTask = imageRef.putBytes(data);
+
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+
+                    final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), exception.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imp.setUrlImage(impacter.getUrlImage());
+                    MyCo2FootprintManager.getInstance().updateCo2Impacter(imp);
+
+                    newActivity();
+
+                }
+            });
+        }catch (Throwable t){
+            t.printStackTrace();
+        }
     }
 }
