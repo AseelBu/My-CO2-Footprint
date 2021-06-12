@@ -137,7 +137,7 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
         public void handleZeroValue() {
             entries.remove(cardData);
             ((EntryActivity) context).removeEntryFromEntryData(cardData);
-            if (entries.size() > 0) {
+            if (((EntryActivity) context).getEntryData().getEntries().size() > 0) {
                 ((EntryActivity) context).setResultsEnabled(true);
 
             } else {

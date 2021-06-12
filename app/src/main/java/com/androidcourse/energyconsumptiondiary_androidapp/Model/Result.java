@@ -95,7 +95,7 @@ public class Result {
         if (this == o) return true;
         if (!(o instanceof Result)) return false;
         Result result = (Result) o;
-        return getId() == result.getId();
+        return getId().equals(result.getId());
     }
 
     @Override
