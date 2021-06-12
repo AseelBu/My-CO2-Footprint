@@ -38,8 +38,8 @@ public class AccountSettingsActivity extends AppCompatActivity {
 //        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         name = (TextView) findViewById(R.id.nameset);
         email = (TextView) findViewById(R.id.emailaccount);
-        nextToUpdatePassword = (Button) findViewById(R.id.arrowbtn3);
-        userImg=(ImageView) findViewById(R.id.userImgSettings);
+//        nextToUpdatePassword = (Button) findViewById(R.id.arrowbtn3);
+//        userImg=(ImageView) findViewById(R.id.userImgSettings);
         context = this;
 //        User user = dh.getUserById(prefs.getInt(getResources().getString(R.string.prefLoggedUser),-1));
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

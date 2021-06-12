@@ -52,7 +52,7 @@ public class LeaderboardAndPointsActivity extends AppCompatActivity {
             public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
 
                 if (e != null) {
-                    //TODO snackbar
+
                     Toast.makeText(context, "Listen failed."+ e,
                             Toast.LENGTH_LONG).show();
                     return;

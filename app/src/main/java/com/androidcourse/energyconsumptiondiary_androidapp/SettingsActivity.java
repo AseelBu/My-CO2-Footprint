@@ -41,7 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
         context=this;
 
         List<ItemInfo> itemInfos = new ArrayList<ItemInfo>();
-        itemInfos.add(new ItemInfo("Account Settings",R.drawable.user__1_));
+        itemInfos.add(new ItemInfo(getString(R.string.accountInfo),R.drawable.user__1_));
         itemInfos.add(new ItemInfo("Notification Settings",R.drawable.bell));
         itemInfos.add(new ItemInfo("share with Friend",R.drawable.share));
         list = (ListView) findViewById(R.id.leaderboardRec);

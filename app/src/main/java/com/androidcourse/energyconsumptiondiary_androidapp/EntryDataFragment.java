@@ -25,6 +25,7 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -82,7 +83,7 @@ public class EntryDataFragment extends Fragment {
             public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
 
                 if (e != null) {
-                    //TODO snackbar
+
                     Toast.makeText(activity, "Listen failed." + e,
                             Toast.LENGTH_LONG).show();
                     return;
@@ -91,6 +92,7 @@ public class EntryDataFragment extends Fragment {
                 if (snapshot != null && !snapshot.isEmpty()) {
 //                    Toast.makeText(context, "Current data: " + snapshot.getDocuments(),
 //                            Toast.LENGTH_LONG).show();
+                    db.openDataBase(getContext());
                     db.removeAllImpacters();
                     for (DocumentSnapshot document : snapshot.getDocuments()) {
                         Map<String, Object> impacter = document.getData();
@@ -134,8 +136,16 @@ public class EntryDataFragment extends Fragment {
                     recList.setAdapter(eAdapter);
 
                 } else {
-                    Toast.makeText(activity, "Current data: null",
-                            Toast.LENGTH_LONG).show();
+                    final Snackbar bar = Snackbar.make(getView().findViewById(android.R.id.content), type.toString().toLowerCase()+" is empty", Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+
                     db.removeAllImpacters();
                     eAdapter = new EntryRecyclerAdapter(getActivity(), db.getImpactersByType(type), type);
                     recList.setAdapter(eAdapter);

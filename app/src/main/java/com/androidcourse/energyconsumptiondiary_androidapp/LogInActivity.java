@@ -44,7 +44,7 @@ public class LogInActivity extends AppCompatActivity {
 //            hideKeyboard();
             String email2 = email.getText().toString();
             String password2 = password.getText().toString();
-            //TODO no need for check
+
             if (check() == true) {
                 mAuth.signInWithEmailAndPassword(email2, password2)
                         .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {

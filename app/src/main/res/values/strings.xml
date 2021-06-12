@@ -134,5 +134,6 @@
     <string name="entryNotificationTime">entryNotificationTime</string>
     <string name="co2EmissionsAmount">Co2 emissions amount</string>
     <string name="homePage">Home</string>
+    <string name="accountInfo">Account Information</string>
 
 </resources>

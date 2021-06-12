@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 } else {
 
                                     // If sign in fails, display a message to the user.
-                                    //TODO add snackbar
+
                                     View parentLayout = findViewById(android.R.id.content);
                                     final Snackbar bar = Snackbar.make(parentLayout ,  task.getException().getMessage(), Snackbar.LENGTH_INDEFINITE);
                                     bar.setAction("Dismiss", new View.OnClickListener() {
@@ -78,8 +78,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                             }
                         });
-            } else {
-                //TODO what if not valid sign up
             }
         }
     };
@@ -127,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
 
-                    String toSpeak = "saved user name";
+                    String toSpeak = "saved user's name";
                     View parentLayout = findViewById(android.R.id.content);
                     final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
                     bar.setAction("Dismiss", new View.OnClickListener() {
@@ -254,9 +252,9 @@ public class SignUpActivity extends AppCompatActivity {
                     TextUtils.isEmpty(confirmPassword.getText().toString())
             ) {
                 flag = false;
-                String toSpeak = "Please enter all details";
+                String message = "Please enter all details";
                 View parentLayout = findViewById(android.R.id.content);
-                final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
+                final Snackbar bar = Snackbar.make(parentLayout, message, Snackbar.LENGTH_INDEFINITE);
                 bar.setAction("Dismiss", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -276,25 +274,45 @@ public class SignUpActivity extends AppCompatActivity {
             } else {
                 //if email not valid
                 if (checkIfEmailIsValid() == false) {
-                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-
-                    dlgAlert.setMessage("Email must be like Email@email.com");
-                    dlgAlert.setTitle("Message...");
-                    dlgAlert.setPositiveButton("OK", null);
-                    dlgAlert.setCancelable(true);
-                    dlgAlert.create().show();
+                    final Snackbar bar = Snackbar.make(findViewById(android.R.id.content),
+                            "Email must be like Email@email.com", Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+//                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+//
+//                    dlgAlert.setMessage("Email must be like Email@email.com");
+//                    dlgAlert.setTitle("Message...");
+//                    dlgAlert.setPositiveButton("OK", null);
+//                    dlgAlert.setCancelable(true);
+//                    dlgAlert.create().show();
                     flag=false;
                 } else {
                     //if email is already exist
                         //if the two passwords are not the same
                         if (checkIfTwoPasswordIsEquals() == false) {
-                            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-
-                            dlgAlert.setMessage("The two passwords are not the same!");
-                            dlgAlert.setTitle("Message...");
-                            dlgAlert.setPositiveButton("OK", null);
-                            dlgAlert.setCancelable(true);
-                            dlgAlert.create().show();
+                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content),
+                                    "The two passwords are not the same!", Snackbar.LENGTH_INDEFINITE);
+                            bar.setAction("Dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    bar.dismiss();
+                                }
+                            });
+                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                            bar.show();
+//                            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+//
+//                            dlgAlert.setMessage("The two passwords are not the same!");
+//                            dlgAlert.setTitle("Message...");
+//                            dlgAlert.setPositiveButton("OK", null);
+//                            dlgAlert.setCancelable(true);
+//                            dlgAlert.create().show();
                             flag=false;
                         }
                     }

@@ -147,8 +147,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 +ELECTRICS_COLUMN_IMPACTERID+" TEXT PRIMARY KEY"
                 +")";
         db.execSQL(CREATE_Electric_TABLE);
-        //create Tips table
-        //TODO
+
 
 
         //create Entry Type Table

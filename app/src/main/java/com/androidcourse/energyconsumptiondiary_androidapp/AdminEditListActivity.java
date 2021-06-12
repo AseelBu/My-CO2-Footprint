@@ -24,6 +24,7 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -102,7 +103,7 @@ public class AdminEditListActivity extends AppCompatActivity {
             public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
                 db.openDataBase(AdminEditListActivity.this);
                 if (e != null) {
-                    //TODO snackbar
+
                     Toast.makeText(AdminEditListActivity.this, "Listen failed." + e,
                             Toast.LENGTH_LONG).show();
                     return;
@@ -155,16 +156,24 @@ public class AdminEditListActivity extends AppCompatActivity {
 //                                Toast.LENGTH_LONG).show();
                     }
 
-                    Toast.makeText(AdminEditListActivity.this, "impacters updated",
-                            Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AdminEditListActivity.this, "impacters updated",
+//                            Toast.LENGTH_LONG).show();
                     List<Co2Impacter> impacters2=db.getImpactersByType(type);
                     adapter = new AdminImpacterListAdapter(AdminEditListActivity.this, impacters2,type);
                     vList.setAdapter(adapter);
 
                 } else {
                     db.removeAllImpacters();
-                    Toast.makeText(AdminEditListActivity.this, "Current data: null",
-                            Toast.LENGTH_LONG).show();
+                    final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), type.toString().toLowerCase()+" is empty", Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+
                     List<Co2Impacter> impacters2=db.getImpactersByType(type);
                     adapter = new AdminImpacterListAdapter(AdminEditListActivity.this, impacters2,type);
                     vList.setAdapter(adapter);
