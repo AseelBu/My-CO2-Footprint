@@ -1,10 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
-
-
-import android.graphics.drawable.Drawable;
-
-import com.androidcourse.energyconsumptiondiary_androidapp.R;
-
 import java.util.List;
 import java.util.Objects;
 

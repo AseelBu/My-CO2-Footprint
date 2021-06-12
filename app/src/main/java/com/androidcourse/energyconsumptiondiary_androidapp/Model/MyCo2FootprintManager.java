@@ -146,7 +146,6 @@ public void removeImpacter(ImpactType impacterType,String id)
         return result;
     }
 
-
     public int updateCo2Impacter(Co2Impacter item) {
         int i=-1;
         if (db != null && item != null) {

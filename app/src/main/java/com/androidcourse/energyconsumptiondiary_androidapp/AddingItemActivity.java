@@ -19,11 +19,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
@@ -39,14 +37,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class AddingItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "AddingItemActivity";
@@ -195,8 +191,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     //add item to the data holder
     public void addBtnClicked() {
         if (impacterType.equals(ImpactType.TRANSPORTATION)) {
-
-
             //if text field is empty
             if ((TextUtils.isEmpty(name.getText().toString()))
                     || (TextUtils.isEmpty(question.getText().toString()))
@@ -239,8 +233,6 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
                     map.put("co2Amount",impacter.getCo2Amount());
                     map.put("impacterType",impacterType);
                     map.put("urlImage",impacter.getUrlImage());
-
-
                     db2.collection("co2 impacter")
                             .document(String.valueOf(impacter.getImpacterID()))
                             .set(map)

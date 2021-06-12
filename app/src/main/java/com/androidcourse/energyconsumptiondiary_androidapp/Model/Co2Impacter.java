@@ -1,9 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
-
 import android.graphics.Bitmap;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
-
 import java.util.Objects;
 
 public  class  Co2Impacter implements Comparable<Co2Impacter>{
@@ -31,8 +28,6 @@ public  class  Co2Impacter implements Comparable<Co2Impacter>{
         this.co2Amount = co2Amount;
         this.img = img;
     }
-
-
 
     public Co2Impacter(String name, String question,Units unit, int co2Amount, Bitmap img) {
         this.name = name;
@@ -68,10 +63,6 @@ public  class  Co2Impacter implements Comparable<Co2Impacter>{
     public void setQuestion(String question) {
         this.question = question;
     }
-
-
-
-
 
     public int getCo2Amount() {
         return co2Amount;

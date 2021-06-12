@@ -27,7 +27,6 @@ public class PieChartFragment extends Fragment {
     private String resultId=null;
     private Result result=null;
     public PieChartFragment() {
-        // Required empty public constructor
     }
 
     @Override

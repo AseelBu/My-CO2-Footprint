@@ -1,11 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
-
-import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Objects;
 
 public class Result {
@@ -22,11 +17,6 @@ public class Result {
 
     public Result() {
     }
-
-//    public Result(String userId,Date date) {
-//        this.userId=userId;
-//        this.date = date;
-//    }
 
     public Result(String id, String userId) {
         this.id = id;

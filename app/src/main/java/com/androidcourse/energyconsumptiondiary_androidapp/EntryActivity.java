@@ -1,11 +1,9 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Entry;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
@@ -34,7 +31,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,10 +71,8 @@ public class EntryActivity extends AppCompatActivity {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreateView()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
-
         //get user Id
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        int userId = sharedPref.getInt(getResources().getString(R.string.prefLoggedUser), -1);
         String userId=FirebaseAuth.getInstance().getCurrentUser().getUid();
         entryData.setUserId(userId);
         entryData.setId("entry_"+UUID.randomUUID());

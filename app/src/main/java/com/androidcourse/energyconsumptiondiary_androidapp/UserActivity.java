@@ -1,7 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;

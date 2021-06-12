@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 public class NavigationBar extends Fragment {
 
     public NavigationBar() {
-        // Required empty public constructor
     }
 
     public static NavigationBar newInstance(String param1, String param2) {

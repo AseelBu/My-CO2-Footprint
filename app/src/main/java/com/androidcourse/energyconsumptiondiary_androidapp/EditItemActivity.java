@@ -27,14 +27,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
-import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 import com.bumptech.glide.Glide;
@@ -47,7 +42,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -62,7 +56,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
     public static final String TAG = "EditItemActivity";
     public static final int REQUEST_IMAGE_GET = 3;
     private static final String IMPACTERTYPE = "ImpacterType";
-    public final DataHolder dh = DataHolder.getInstance();
     private final MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
     public Spinner spinner;
     TextToSpeech t1;
@@ -161,8 +154,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
     //add item to the data holder
     public void editClicked() {
         if (impacterType.equals(ImpactType.TRANSPORTATION)) {
-
-
             //if text field is empty
             if ((TextUtils.isEmpty(name.getText().toString()))
                     || (TextUtils.isEmpty(Question.getText().toString()))
@@ -199,7 +190,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
                                     FirebaseFirestore db2 = FirebaseFirestore.getInstance();
-//                    impacter.setImpacterID(UUID.randomUUID().toString());
                                     if (impacter.getImg() != null) {
                                         impacter.setUrlImage(impacter.getImpacterID() + ".png");
                                     }
@@ -211,8 +201,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     map.put("co2Amount", impacter.getCo2Amount());
                                     map.put("impacterType", impacterType);
                                     map.put("urlImage", impacter.getUrlImage());
-
-                                    // wait(3);
                                     db2.collection("co2 impacter")
                                             .document(String.valueOf(impacter.getImpacterID()))
                                             .set(map)
@@ -228,8 +216,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                                         @Override
                                                         public void onClick(View v) {
                                                             bar.dismiss();
-
-
                                                         }
                                                     });
                                                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
@@ -254,7 +240,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                             bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                                             bar.show();
                                         }
-
                                     });
                                 } catch (Throwable e) {
                                     e.printStackTrace();
@@ -262,8 +247,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     db.closeDataBase();
                                 }
                             }
-
-
                         })
                         .setNegativeButton("No", null)
                         .show();
@@ -302,9 +285,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     impacter.setQuestion(Question.getText().toString());
                                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-
                                     FirebaseFirestore db2 = FirebaseFirestore.getInstance();
-//                    impacter.setImpacterID(UUID.randomUUID().toString());
                                     if (impacter.getImg() != null) {
                                         impacter.setUrlImage(impacter.getImpacterID() + ".png");
                                     }
@@ -315,8 +296,6 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     map.put("co2Amount", impacter.getCo2Amount());
                                     map.put("impacterType", impacterType);
                                     map.put("urlImage", impacter.getUrlImage());
-
-                                    // wait(3);
                                     db2.collection("co2 impacter")
                                             .document(String.valueOf(impacter.getImpacterID()))
                                             .set(map)

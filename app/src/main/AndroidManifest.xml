@@ -26,15 +26,12 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".PreviousResultsActivity" />
         <activity android:name=".LeaderboardAndPointsActivity" />
-        <activity android:name=".TipsActivity" />
         <activity android:name=".HomePageActivity" />
         <activity android:name=".EntryActivity" />
         <activity android:name=".NotificationSettingsActivity" />
         <activity android:name=".LogInActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".ForgetPasswordActivity" />
         <activity android:name=".EditMainActivity" />
-        <activity android:name=".UpdatePasswordActivity" />
         <activity android:name=".AddingItemActivity" />
         <activity android:name=".EditItemActivity" />
         <activity android:name=".ResultsActivity" /> <!--  -->

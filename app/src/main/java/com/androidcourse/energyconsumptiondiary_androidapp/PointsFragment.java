@@ -1,20 +1,13 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
-import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -51,7 +44,6 @@ public class PointsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         user = dbMngr.getUserInfoPoints(fUser.getUid());
     }
@@ -70,8 +62,6 @@ public class PointsFragment extends Fragment {
     }
 
     public void setData() {
-//        int userId=prefs.getInt(getResources().getString(R.string.prefLoggedUser), -1);;
-        // get logged user
         if (user != null) {
             //get logged user points and rank
             int points = user.getPoints();

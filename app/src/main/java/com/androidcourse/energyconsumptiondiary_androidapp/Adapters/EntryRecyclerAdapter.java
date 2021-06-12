@@ -1,7 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
-
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.EntryActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
@@ -28,7 +24,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.util.HashSet;
 import java.util.List;
 
@@ -130,8 +125,6 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
             question = (TextView) v.findViewById(R.id.questionTxt);
             txtUnit = (TextView) v.findViewById(R.id.txtUnit);
             cardImg = (ImageView) v.findViewById(R.id.entryImg);
-
-
         }
 
         public void handleZeroValue() {
@@ -159,7 +152,6 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
 
 
             String imageUrl = impacterItem.getUrlImage();
-
             //set picture
             if(imageUrl!=null) {
                 FirebaseStorage storage = FirebaseStorage.getInstance();

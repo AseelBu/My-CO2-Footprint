@@ -11,7 +11,6 @@ public class NoResultsFragment extends Fragment {
     private Button newEntryBtn;
 
     public NoResultsFragment() {
-        // Required empty public constructor
     }
 
     public static NoResultsFragment newInstance(String param1, String param2) {

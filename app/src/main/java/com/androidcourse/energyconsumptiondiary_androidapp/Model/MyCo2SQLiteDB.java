@@ -1,33 +1,21 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import com.androidcourse.energyconsumptiondiary_androidapp.MainActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import com.androidcourse.energyconsumptiondiary_androidapp.R;
-
-
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION =3;
     private static final String DATABASE_NAME="MyCo2FootprintDB";
-
-
     //CO2 impacter table
     private static final String TABLE_CO2IMPACTER_NAME = "co2_impacter";
     private static final String CO2IMPACTER_COLUMN_ID="impacterID";
@@ -44,31 +32,25 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private static final String TRANSPORTATION_COLUMN_IMPACTERID="co2ImpacterId";//foreign key
     private static final String TRANSPORTATION_COLUMN_FUEL = "fuel";
     private static final String[] TABLE_TRANSPORTATION_COLUMNS ={TRANSPORTATION_COLUMN_IMPACTERID, TRANSPORTATION_COLUMN_FUEL};
-
     //Food table
     private static final String TABLE_FOOD_NAME = "food";
     private static final String FOOD_COLUMN_IMPACTERID="co2ImpacterId";//foreign key
     //TODO rest of the fields
     private static final String[] TABLE_FOOD_COLUMNS ={FOOD_COLUMN_IMPACTERID};
-
     //Service table
     private static final String TABLE_SERVICE_NAME = "service";
     private static final String SERVICE_COLUMN_IMPACTERID="co2ImpacterId"; //foreign key
     //TODO rest of the fields
     private static final String[] TABLE_SERVICE_COLUMNS ={SERVICE_COLUMN_IMPACTERID};
-
     //ElectricalHouseSupplies table
     private static final String TABLE_ELECTRICS_NAME = "electrics";
     private static final String ELECTRICS_COLUMN_IMPACTERID="co2ImpacterId"; //foreign key
     //TODO rest of the fields
     private static final String[] TABLE_ELECTRICS_COLUMNS ={ELECTRICS_COLUMN_IMPACTERID};
-
     //Tips table
     private static final String TABLE_TIP_NAME = "tip";
     //TODO rest of the fields
     private static final String[] TABLE_TIP_COLUMNS ={};
-
-
     //Entry Type Table
     private static final String TABLE_TYPE_ENTRY_NAME = "entry_type";
     private static final String TYPE_ENTRY_COLUMN_ID ="id";
@@ -76,7 +58,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private static final String TYPE_ENTRY_COLUMN_IMPACTER_TYPE ="impacter_type";
     private static final String TYPE_ENTRY_COLUMN_ENTRYID ="entryId";
     private static final String[] TABLE_TYPE_ENTRY_COLUMNS ={TYPE_ENTRY_COLUMN_ID, TYPE_ENTRY_COLUMN_VALUE, TYPE_ENTRY_COLUMN_IMPACTER_TYPE, TYPE_ENTRY_COLUMN_ENTRYID};
-
     //Entry Table
     private static final String TABLE_ENTRY_NAME ="entry";
 
@@ -84,7 +65,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private static final String ENTRY_COLUMN_USERID ="userId";
     private static final String ENTRY_COLUMN_DATE ="entry_date";
     private static final String[] TABLE_ENTRY_COLUMNS ={ENTRY_COLUMN_ID,ENTRY_COLUMN_USERID,ENTRY_COLUMN_DATE};
-
     //Result Table
     private static final String TABLE_RESULT_NAME = "results";
     private static final String RESULT_COLUMN_ID ="id";
@@ -95,17 +75,12 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     private static final String RESULT_COLUMN_ELECTRICS ="electrics_result";
     private static final String RESULT_COLUMN_SERVICE ="service_result";
     private static final String[] TABLE_RESULT_COLUMNS ={RESULT_COLUMN_ID,RESULT_COLUMN_USERID,RESULT_COLUMN_DATE,RESULT_COLUMN_TRANSPORTATION,RESULT_COLUMN_FOOD,RESULT_COLUMN_ELECTRICS,RESULT_COLUMN_SERVICE};
-
-
     //Points Table
     private static final String TABLE_POINTS_NAME = "user_points";
     private static final String POINTS_COLUMN_USERID ="userId";
     private static final String POINTS_COLUMN_NAME ="user_name";
     private static final String POINTS_COLUMN_POINTS_AMOUNT ="points_amount";
-
     private static final String[] TABLE_POINTS_COLUMNS ={POINTS_COLUMN_USERID,POINTS_COLUMN_NAME,POINTS_COLUMN_POINTS_AMOUNT};
-
-
     private SQLiteDatabase db = null;
 
     public MyCo2SQLiteDB(Context context){
@@ -147,9 +122,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 +ELECTRICS_COLUMN_IMPACTERID+" TEXT PRIMARY KEY"
                 +")";
         db.execSQL(CREATE_Electric_TABLE);
-        //create Tips table
-        //TODO
-
 
         //create Entry Type Table
         String CREATE_ENTRY_TYPE_TABLE="create table if not exists "+TABLE_TYPE_ENTRY_NAME+"("
@@ -160,7 +132,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 + "PRIMARY KEY ("+TYPE_ENTRY_COLUMN_ID+","+TYPE_ENTRY_COLUMN_ENTRYID+")"
                 +")";
         db.execSQL(CREATE_ENTRY_TYPE_TABLE);
-
         //create Entries Table
         String CREATE_ENTRY_TABLE="create table if not exists "+TABLE_ENTRY_NAME+"("
                 +ENTRY_COLUMN_ID+" TEXT PRIMARY KEY, "
@@ -168,7 +139,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 +ENTRY_COLUMN_DATE+" TEXT"
                 +")";
         db.execSQL(CREATE_ENTRY_TABLE);
-
         //create result table
         String CREATE_RESULT_TABLE="create table if not exists "+ TABLE_RESULT_NAME +"("
                 + RESULT_COLUMN_ID +" TEXT PRIMARY KEY , "
@@ -180,7 +150,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 +RESULT_COLUMN_SERVICE+" INTEGER"
                 +")";
         db.execSQL(CREATE_RESULT_TABLE);
-
         //create points table
         String CREATE_POINTS_TABLE="create table if not exists "+TABLE_POINTS_NAME+"("
                 + POINTS_COLUMN_USERID +" TEXT PRIMARY KEY , "
@@ -205,13 +174,8 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
     }
 
-
     //----------------------START OF-Methods queries and actions----------------------------
-    /*********methods go in here***********/
     //---Co2impacter-----------
-
-
-
     public Co2Impacter getImpacterById(String impacterId) {
         Co2Impacter co2Impacter = null;
         Cursor cursor = null;
@@ -263,9 +227,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                         co2Impacter.setImg(image);
                     }
                 }
-
             }
-
         } catch (Throwable t) {
             t.printStackTrace();
         }
@@ -340,7 +302,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     return impacterType;
     }
 
-    //--trans
     public String getTransportationFuel(String id) {
         String fuelType =" ";
         Cursor cursor = null;
@@ -368,8 +329,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return fuelType;
     }
 
-
-    //-----------------------------------transportation queries
     public void createTransportation(String  id,Transportation t) {
         try {
             // make values to be inserted
@@ -421,9 +380,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-
-
-
 
     public ArrayList<Co2Impacter> getImpactersByType(ImpactType impacterType)
     {
@@ -876,7 +832,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return cnt;
     }
 
-    //--------------------------------------------------Entry type queries
+    //--------------------Entry type queries
     public void createTypeEntry(String entryId,TypeEntry typeEntry){
 
         try {
@@ -888,12 +844,8 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
             // insert item
             db.replace(TABLE_TYPE_ENTRY_NAME, null, values);
-
-
         }
-//        catch (SQLiteConstraintException e){
-//            updateTypeEntry(entryId,typeEntry);
-//        }
+
         catch (Throwable t) {
             t.printStackTrace();
         }
@@ -905,7 +857,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(TYPE_ENTRY_COLUMN_VALUE,typeEntry.getValue());
             values.put(TYPE_ENTRY_COLUMN_IMPACTER_TYPE,typeEntry.getType().name());
-
             // update
             db.update(TABLE_TYPE_ENTRY_NAME, values, TYPE_ENTRY_COLUMN_ID + " = ? AND "
                             +TYPE_ENTRY_COLUMN_ENTRYID+ " = ?",
@@ -935,13 +886,9 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             db.replace(TABLE_ENTRY_NAME, null, values);
 
         }
-//        catch (SQLiteConstraintException e){
-//            updateEntry(entry);
-//        }
         catch (Throwable t) {
             t.printStackTrace();
         }
-//        return Long.valueOf(entryId).intValue();
     }
 
     public void updateEntry(Entry entry) {
@@ -951,8 +898,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(ENTRY_COLUMN_USERID, entry.getUserId());
             values.put(ENTRY_COLUMN_DATE, entry.getDate().toString());
-
-
             // update
             db.update(TABLE_ENTRY_NAME, values, ENTRY_COLUMN_ID + " = ?",
                     new String[] { String.valueOf(entry.getId()) });
@@ -964,7 +909,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
     //------Result Queries
     public void createResult(Result result) {
-//        int id=-1;
         try {
             ContentValues values = new ContentValues();
             values.put(RESULT_COLUMN_ID,result.getId());
@@ -974,15 +918,10 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             values.put(RESULT_COLUMN_FOOD,result.getFoodResult());
             values.put(RESULT_COLUMN_ELECTRICS,result.getElectricsResult());
             values.put(RESULT_COLUMN_SERVICE,result.getServicesResult());
-
             // insert result
             db.replace(TABLE_RESULT_NAME, null, values);
-//            id=Long.valueOf(db.insert(TABLE_RESULT_NAME, null, values)).intValue();
 
         }
-//        catch (SQLiteConstraintException e){
-//            updateResult(result);
-//        }
         catch (Throwable t) {
             t.printStackTrace();
         }
@@ -1026,9 +965,6 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 cursor.moveToFirst();
 
                result=cursorToResult(cursor);
-
-
-
             }
 
         } catch (Throwable t) {
@@ -1120,21 +1056,17 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     }
 
     public void replaceUserPoints(User user) {
-//        int id=-1;
         try {
             ContentValues values = new ContentValues();
             values.put(POINTS_COLUMN_USERID,user.getUserId());
             values.put(POINTS_COLUMN_NAME,user.getName());
             values.put(POINTS_COLUMN_POINTS_AMOUNT,user.getPoints());
-
-            // insert result
             db.replace(TABLE_POINTS_NAME, null, values);
 
         }
         catch (Throwable t) {
             t.printStackTrace();
         }
-
     }
 
     public User getUserInfoPoints(String userId){
@@ -1269,6 +1201,4 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
         return outputStream.toByteArray();
     }
-
-
 }

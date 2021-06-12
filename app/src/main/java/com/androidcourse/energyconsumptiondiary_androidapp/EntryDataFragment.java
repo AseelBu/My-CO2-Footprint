@@ -1,19 +1,15 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import android.app.Activity;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.EntryRecyclerAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
@@ -22,7 +18,6 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintM
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 import com.google.firebase.firestore.CollectionReference;
@@ -31,7 +26,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -87,10 +81,8 @@ public class EntryDataFragment extends Fragment {
                             Toast.LENGTH_LONG).show();
                     return;
                 }
-
                 if (snapshot != null && !snapshot.isEmpty()) {
-//                    Toast.makeText(context, "Current data: " + snapshot.getDocuments(),
-//                            Toast.LENGTH_LONG).show();
+
                     db.removeAllImpacters();
                     for (DocumentSnapshot document : snapshot.getDocuments()) {
                         Map<String, Object> impacter = document.getData();

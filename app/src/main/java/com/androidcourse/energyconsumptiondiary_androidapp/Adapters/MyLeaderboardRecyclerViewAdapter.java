@@ -1,5 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.util.Log;
@@ -11,11 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
-import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
+
 import java.util.List;
 
 public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLeaderboardRecyclerViewAdapter.ViewHolder> {
-    private DataHolder dh = DataHolder.getInstance();
+
     private final List<User> mUsers;
     private Context context;
     private boolean isColored=false;// true if first 3 rows are colored
@@ -93,7 +92,6 @@ public class MyLeaderboardRecyclerViewAdapter extends RecyclerView.Adapter<MyLea
             mIndex.setText(String.valueOf(position));
             mName.setText(user.getName());
             mPoints.setText(String.valueOf(user.getPoints()));
-//            mImg.setImageDrawable(user.getImage());
         }
     }
 }
