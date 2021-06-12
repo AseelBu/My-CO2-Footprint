@@ -87,7 +87,6 @@ public class LogInActivity extends AppCompatActivity {
         email.setText("admin@gmail.com");
         password = (EditText) findViewById(R.id.oldpassword);
         password.setText("Admin12");
-        TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
         Button login = (Button) findViewById(R.id.edititem2);
         TextView signUp = (TextView) findViewById(R.id.loginLink);
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
