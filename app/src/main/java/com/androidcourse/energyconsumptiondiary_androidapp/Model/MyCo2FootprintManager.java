@@ -303,6 +303,11 @@ public void removeImpacter(ImpactType impacterType,String id)
         return kResults;
     }
 
+    public void removeAllResults(){
+        if (db != null) {
+            db.removeAllResults();
+        }
+    }
     //---------user points
     public void replaceUserPoints(User user) {
         if (db != null) {

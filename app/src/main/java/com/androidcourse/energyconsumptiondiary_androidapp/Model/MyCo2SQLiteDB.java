@@ -1118,6 +1118,15 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         return result;
     }
 
+    public void removeAllResults(){
+        try {
+            // delete all
+            db.delete(TABLE_RESULT_NAME, null, null);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+//-------user points
     public void replaceUserPoints(User user) {
 //        int id=-1;
         try {

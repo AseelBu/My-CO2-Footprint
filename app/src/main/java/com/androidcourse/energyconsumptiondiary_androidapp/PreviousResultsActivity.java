@@ -1,4 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -8,14 +9,24 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class PreviousResultsActivity extends AppCompatActivity implements PrevResultsFragmentListener {
     private MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
     private static final String TAG = "PreviousResultsActivity";
     private CardView cv;
     private PieChartFragment pf;
+    private BarChartFragment prevResultsBars;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +46,53 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
                     .replace(R.id.barChartFragment, noResults)
                     .commit();
         }else{
-            BarChartFragment prevResultsBars=new BarChartFragment();
+            prevResultsBars=new BarChartFragment();
             fm.beginTransaction()
                     .replace(R.id.barChartFragment, prevResultsBars)
                     .commit();
         }
+        FirebaseFirestore dbc = FirebaseFirestore.getInstance();
+        CollectionReference collRef = dbc.collection("results");
+
+        collRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+
+                if (e != null) {
+
+                    Toast.makeText(PreviousResultsActivity.this, "Listen failed."+ e,
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (snapshot != null && !snapshot.isEmpty()) {
+//                    Toast.makeText(context, "Current data: " + snapshot.getDocuments(),
+//                            Toast.LENGTH_LONG).show();
+                    db.removeAllResults();
+                    for (DocumentSnapshot document : snapshot.getDocuments() ){
+                        Result result = document.toObject(Result.class);
+                        result.setId(document.getId());
+                        db.createResult(result);
+                    }
+                    FragmentManager fm2 =getSupportFragmentManager();
+                    BarChartFragment newPrevResultsBars=new BarChartFragment();
+                    fm2.beginTransaction()
+                            .replace(R.id.barChartFragment, newPrevResultsBars)
+                            .commit();
+                    onNothingSelected(prevResultsBars);
+
+                } else {
+                    FragmentManager fm2 =getSupportFragmentManager();
+                    db.removeAllResults();
+                    onNothingSelected(prevResultsBars);
+                    NoResultsFragment noResults = new NoResultsFragment();
+                    fm2.beginTransaction()
+                            .replace(R.id.barChartFragment, noResults)
+                            .commit();
+                    onNothingSelected(prevResultsBars);
+                }
+            }
+        });
     }
 
     @Override

@@ -1,4 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,12 +14,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.ekn.gruzer.gaugelibrary.HalfGauge;
 import com.github.mikephil.charting.charts.PieChart;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ResultsActivity extends AppCompatActivity {
     private static final String TAG = "ResultsActivity";
+    private  MyCo2FootprintManager db=MyCo2FootprintManager.getInstance();
     private String resultId=null;
     private PieChart resultPie = null;
     private HalfGauge resultGauge = null;
@@ -60,6 +72,8 @@ public class ResultsActivity extends AppCompatActivity {
         t2.commit();
         tipsBtn.setVisibility(View.GONE);
         context=this;
+
+
     }
 
     public void tipsBtnClicked(View v){
