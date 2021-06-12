@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.androidcourse.energyconsumptiondiary_androidapp">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <queries>
         <intent>
@@ -42,6 +44,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+        <receiver android:name=".MyReceiver">
+            <intent-filter>
+                <action android:name="com.example.helloandroid.alarms" />
+            </intent-filter>
 
+        </receiver>
+
+<!--        <receiver-->
+<!--            android:name=".MyReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false" >-->
+<!--        </receiver>-->
+        <service
+            android:name=".MyNewIntentService"
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+        </service>
+    </application>
 </manifest>
