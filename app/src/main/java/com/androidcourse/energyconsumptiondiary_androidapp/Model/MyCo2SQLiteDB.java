@@ -24,7 +24,7 @@ import com.androidcourse.energyconsumptiondiary_androidapp.R;
 
 
 public class MyCo2SQLiteDB extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION =15;
+    private static final int DATABASE_VERSION =3;
     private static final String DATABASE_NAME="MyCo2FootprintDB";
 
 
@@ -128,23 +128,23 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(CREATE_CO2IMPACTER_TABLE);
         //create Transportation table
         String CREATE_TRANSPORTATION_TABLE = "create table if not exists " + TABLE_TRANSPORTATION_NAME + "("
-                + TRANSPORTATION_COLUMN_IMPACTERID + " TEXT,"
-                + TRANSPORTATION_COLUMN_FUEL + " TEXT"
+                + TRANSPORTATION_COLUMN_IMPACTERID + " TEXT PRIMARY KEY,"
+                + TRANSPORTATION_COLUMN_FUEL + " TEXT "
                 + ")";
         db.execSQL(CREATE_TRANSPORTATION_TABLE);
         //create Food table
         String CREATE_FOOD_TABLE="create table if not exists "+TABLE_FOOD_NAME+"("
-                +FOOD_COLUMN_IMPACTERID+" TEXT"
+                +FOOD_COLUMN_IMPACTERID+" TEXT PRIMARY KEY"
                 +")";
         db.execSQL(CREATE_FOOD_TABLE);
         //create Service table
         String CREATE_SERVICE_TABLE="create table if not exists "+TABLE_SERVICE_NAME+"("
-                +SERVICE_COLUMN_IMPACTERID+" TEXT"
+                +SERVICE_COLUMN_IMPACTERID+" TEXT PRIMARY KEY"
                 +")";
         db.execSQL(CREATE_SERVICE_TABLE);
         //create ElectricalHouseSupplies table
         String CREATE_Electric_TABLE="create table if not exists "+TABLE_ELECTRICS_NAME+"("
-                +ELECTRICS_COLUMN_IMPACTERID+" TEXT"
+                +ELECTRICS_COLUMN_IMPACTERID+" TEXT PRIMARY KEY"
                 +")";
         db.execSQL(CREATE_Electric_TABLE);
         //create Tips table
@@ -209,15 +209,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
     //----------------------START OF-Methods queries and actions----------------------------
     /*********methods go in here***********/
     //---Co2impacter-----------
-    public void deleteAllCo2Impacter() {
-        try {
 
-            // delete all
-            db.delete(TABLE_CO2IMPACTER_NAME, null, null);
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
 
 
     public Co2Impacter getImpacterById(String impacterId) {
@@ -257,6 +249,7 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
                 co2Impacter.setQuestion(cursor.getString(2));
                 co2Impacter.setUnit(Units.valueOf(cursor.getString(3)));
                 co2Impacter.setCo2Amount(cursor.getInt(4));
+                co2Impacter.setUrlImage(cursor.getString(6));
 
                 if(type.equals(ImpactType.TRANSPORTATION)){
                     ((Transportation)co2Impacter).setFuelType(getTransportationFuel(co2Impacter.getImpacterID()));
@@ -357,11 +350,12 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
             cursor = db
                     .query(TABLE_TRANSPORTATION_NAME,
                             TABLE_TRANSPORTATION_COLUMNS, TRANSPORTATION_COLUMN_IMPACTERID + " = ?",
-                            new String[] { String.valueOf(id) }, null, null,
+                            new String[] { id }, null, null,
                             null, null);
 
             // if results !=null, parse the first one
             if(cursor!=null && cursor.getCount()>0){
+                cursor.moveToFirst();
                 fuelType=cursor.getString(1);
             }} catch (Throwable t) {
             t.printStackTrace();
@@ -707,8 +701,12 @@ public class MyCo2SQLiteDB extends SQLiteOpenHelper {
 
     public void removeAllImpacters(){
         try {
-            db.delete(TABLE_CO2IMPACTER_NAME, null,
-                    null);
+
+            db.delete(TABLE_TRANSPORTATION_NAME, null, null);
+            db.delete(TABLE_FOOD_NAME, null, null);
+            db.delete(TABLE_SERVICE_NAME, null, null);
+            db.delete(TABLE_ELECTRICS_NAME, null, null);
+            db.delete(TABLE_CO2IMPACTER_NAME, null, null);
         }catch (Throwable t) {
             t.printStackTrace();
         }

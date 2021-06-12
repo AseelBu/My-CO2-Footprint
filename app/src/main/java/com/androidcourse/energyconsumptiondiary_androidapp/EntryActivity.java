@@ -210,9 +210,6 @@ public class EntryActivity extends AppCompatActivity {
                                     updateUserPointsinCloud(v, points,result);
 
 
-
-
-
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override

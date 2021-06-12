@@ -1,4 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
@@ -115,8 +117,8 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(Intent.createChooser(intent,"Choose Picture"), REQUEST_IMAGE_GET);
-                }else{
+                    startActivityForResult(Intent.createChooser(intent, "Choose Picture"), REQUEST_IMAGE_GET);
+                } else {
 
                     String toSpeak = "No permission for files";
                     View parentLayout = findViewById(android.R.id.content);
@@ -134,7 +136,8 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         });
         Intent intent = getIntent();
 
-        textFuel=(TextView)findViewById(R.id.textFuelEdit);
+        textFuel = (TextView) findViewById(R.id.textFuelEdit);
+
         if (intent != null) {
             id = intent.getIntExtra("id", -1);
             impacterType = ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
@@ -154,6 +157,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
+
     //add item to the data holder
     public void editClicked() {
         if (impacterType.equals(ImpactType.TRANSPORTATION)) {
@@ -187,20 +191,20 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                     ((Transportation) impacter).setFuelType(fuelType.getText().toString());
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
+
                     FirebaseFirestore db2 = FirebaseFirestore.getInstance();
                     impacter.setImpacterID(UUID.randomUUID().toString());
-                    if(impacter.getImg()!=null)
-                    {
+                    if (impacter.getImg() != null) {
                         impacter.setUrlImage(impacter.getImpacterID() + ".png");
                     }
-                    Map<String,Object> map= new HashMap<>();
-                    map.put("name",impacter.getName());
-                    map.put("unit",impacter.getUnit().toString());
-                    map.put("question",impacter.getQuestion());
-                    map.put("fuelType",((Transportation) impacter).getFuelType());
-                    map.put("co2Amount",impacter.getCo2Amount());
-                    map.put("impacterType",impacterType);
-                    map.put("urlImage",impacter.getUrlImage());
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("name", impacter.getName());
+                    map.put("unit", impacter.getUnit().toString());
+                    map.put("question", impacter.getQuestion());
+                    map.put("fuelType", ((Transportation) impacter).getFuelType());
+                    map.put("co2Amount", impacter.getCo2Amount());
+                    map.put("impacterType", impacterType);
+                    map.put("urlImage", impacter.getUrlImage());
 
                     // wait(3);
                     db2.collection("co2 impacter")
@@ -224,14 +228,10 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     });
                                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                                     bar.show();
-                                    if(impacter.getImg()!=null) {
+                                    if (impacter.getImg() != null) {
                                         uploadImage(impacter);
-                                    }
-                                    else
-                                    {
-
+                                    } else {
                                         newActivity();
-
                                     }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -286,19 +286,18 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                     impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
                     impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
                     impacter.setImpacterID(UUID.randomUUID().toString());
-                    if(impacter.getImg()!=null)
-                    {
+                    if (impacter.getImg() != null) {
                         impacter.setUrlImage(impacter.getImpacterID() + ".png");
                     }
                     FirebaseFirestore db2 = FirebaseFirestore.getInstance();
 
-                    Map<String,Object> map= new HashMap<>();
-                    map.put("name",impacter.getName());
-                    map.put("unit",impacter.getUnit().toString());
-                    map.put("question",impacter.getQuestion());
-                    map.put("co2Amount",impacter.getCo2Amount());
-                    map.put("impacterType",impacterType);
-                    map.put("urlImage",impacter.getUrlImage());
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("name", impacter.getName());
+                    map.put("unit", impacter.getUnit().toString());
+                    map.put("question", impacter.getQuestion());
+                    map.put("co2Amount", impacter.getCo2Amount());
+                    map.put("impacterType", impacterType);
+                    map.put("urlImage", impacter.getUrlImage());
                     db2.collection("co2 impacter")
                             .document(String.valueOf(impacter.getImpacterID()))
                             .set(map)
@@ -307,7 +306,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                 public void onSuccess(Void aVoid) {
 
                                     db.updateCo2Impacter(impacter);
-                           String toSpeak = "add successfully";
+                                    String toSpeak = "add successfully";
                                     View parentLayout = findViewById(android.R.id.content);
                                     final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_LONG);
                                     bar.setAction("dismiss", new View.OnClickListener() {
@@ -319,14 +318,10 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                     });
                                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                                     bar.show();
-                                    if(impacter.getImg()!=null) {
+                                    if (impacter.getImg() != null) {
                                         uploadImage(impacter);
-                                    }
-                                    else
-                                    {
-
+                                    } else {
                                         newActivity();
-
                                     }
 
                                 }
@@ -354,6 +349,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
 
         }
     }
+
     // Function to find the index of an element
     public int findIndex(List<Units> arr, Units t) {
         int i = 0;
@@ -376,8 +372,8 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
         Log.d("find method", String.valueOf(findIndex(enumValues, impacter.getUnit())));
         spinner.setSelection(findIndex(enumValues, impacter.getUnit()));
         String imageUrl = impacter.getUrlImage();
-        if(imageUrl!=null){
-            FirebaseStorage  storage= FirebaseStorage.getInstance();
+        if (imageUrl != null) {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
             StorageReference storageReference = storageRef.child(imageUrl);
             storageReference.getDownloadUrl().addOnCompleteListener(
@@ -394,8 +390,8 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                         task.getException());
                             }
                         }
-                        });
-                    }
+                    });
+        }
         if (impacter instanceof Transportation) {
             fuelType.setText(((Transportation) impacter).getFuelType());
         } else {
@@ -403,13 +399,14 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
             textFuel.setVisibility(View.GONE);
         }
     }
-public void newActivity()
-{
-    Intent intent = new Intent(context, AdminEditListActivity.class);
-    intent.putExtra(IMPACTERTYPE, impacterType.name());
-    startActivity(intent);
-    finish();
-}
+
+    public void newActivity() {
+        Intent intent = new Intent(context, AdminEditListActivity.class);
+        intent.putExtra(IMPACTERTYPE, impacterType.name());
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -435,7 +432,7 @@ public void newActivity()
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                impacter=null;
+                impacter = null;
                 db.setSelectedCO2Impacter(null);
                 Intent intent = new Intent(this, AdminEditListActivity.class);
                 intent.putExtra(IMPACTERTYPE, impacterType.name());
@@ -467,13 +464,14 @@ public void newActivity()
 
     @Override
     protected void onPause() {
-        Log.d("Edit",",aa");
+        Log.d("Edit", ",aa");
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
     }
+
     private void uploadImage(Co2Impacter imp) {
         try {
-            Bitmap bitmap =imp.getImg();
+            Bitmap bitmap = imp.getImg();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] data = baos.toByteArray();
@@ -512,7 +510,7 @@ public void newActivity()
 
                 }
             });
-        }catch (Throwable t){
+        } catch (Throwable t) {
             t.printStackTrace();
         }
     }

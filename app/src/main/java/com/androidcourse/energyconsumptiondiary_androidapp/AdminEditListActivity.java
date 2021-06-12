@@ -100,7 +100,7 @@ public class AdminEditListActivity extends AppCompatActivity {
         collRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-
+                db.openDataBase(AdminEditListActivity.this);
                 if (e != null) {
                     //TODO snackbar
                     Toast.makeText(AdminEditListActivity.this, "Listen failed." + e,
@@ -111,6 +111,7 @@ public class AdminEditListActivity extends AppCompatActivity {
                 if (snapshot != null && !snapshot.isEmpty()) {
 //                    Toast.makeText(context, "Current data: " + snapshot.getDocuments(),
 //                            Toast.LENGTH_LONG).show();
+                    db.openDataBase(AdminEditListActivity.this);
                     db.removeAllImpacters();
                     for (DocumentSnapshot document : snapshot.getDocuments()) {
                         Map<String, Object> impacter = document.getData();
@@ -161,9 +162,14 @@ public class AdminEditListActivity extends AppCompatActivity {
                     vList.setAdapter(adapter);
 
                 } else {
+                    db.removeAllImpacters();
                     Toast.makeText(AdminEditListActivity.this, "Current data: null",
                             Toast.LENGTH_LONG).show();
+                    List<Co2Impacter> impacters2=db.getImpactersByType(type);
+                    adapter = new AdminImpacterListAdapter(AdminEditListActivity.this, impacters2,type);
+                    vList.setAdapter(adapter);
                 }
+                db.closeDataBase();
             }
         });
     }

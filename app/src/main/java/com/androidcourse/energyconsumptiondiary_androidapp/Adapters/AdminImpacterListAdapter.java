@@ -46,18 +46,17 @@ import java.util.List;
 
 
 public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
+    private static final String IMPACTERTYPE = "ImpacterType";
+    public boolean flag = false;
+//    public Co2Impacter imp;
     private List<Co2Impacter> dataList = null;
     private Context context = null;
     private ImpactType impacterType;
-    public boolean flag=false;
-    public Co2Impacter imp;
-    private static final String IMPACTERTYPE = "ImpacterType";
-
     private MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
 
 
     public AdminImpacterListAdapter(@NonNull Context context, List<Co2Impacter> dataList, ImpactType impacterType) {
-        super(context, R.layout.admin_view_list_element,dataList);
+        super(context, R.layout.admin_view_list_element, dataList);
         this.context = context;
         this.impacterType = impacterType;
         this.dataList = dataList;
@@ -69,6 +68,7 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
     public int getCount() {
         return dataList.size();
     }
+
     //get item in list
     @Override
     public Co2Impacter getItem(int position) {
@@ -77,11 +77,10 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
 
     //get view in list
     @Override
-    public View getView(int position, @Nullable View view,@NonNull ViewGroup parent) {
-        LayoutInflater inflater= LayoutInflater.from(context);
-        View rowView =null;
-        rowView = inflater.inflate(R.layout.admin_view_list_element, null, false);
-        final Co2Impacter imp= dataList.get(position);
+    public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View rowView = inflater.inflate(R.layout.admin_view_list_element, null, false);
+
         ImageButton deleteBtn = (ImageButton) rowView.findViewById(R.id.deleteAdminRow);
         ImageView impacterImage = (ImageView) rowView.findViewById(R.id.imImageAdminList);
         TextView impacterName = (TextView) rowView.findViewById(R.id.imNameAdminList);
@@ -91,7 +90,7 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
         final Co2Impacter impacter = dataList.get(position);
         impacterName.setText(impacter.getName());
         impacterCo2.setText(String.valueOf(impacter.getCo2Amount()));
-        if(impacter.getImg()!=null) {
+        if (impacter.getImg() != null) {
             impacterImage.setImageDrawable(new BitmapDrawable(context.getResources(), impacter.getImg()));
         }
         if (impacterType.equals(ImpactType.TRANSPORTATION)) {
@@ -126,51 +125,24 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                db.openDataBase(context);
-//                db.setSelectedCO2Impacter(impacter);
-//                //delete(impacter);
-//                db.closeDataBase();
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db.collection("co2 impacter")
-                        .document(String.valueOf(imp.getImpacterID()))
-                        .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                MyCo2FootprintManager.getInstance().removeImpacter(impacterType,imp.getImpacterID());
-                                String imageUrl = String.valueOf(imp.getImg());
-                                Log.d("aaaaaaaaaaaa",imageUrl);
-                                if(imageUrl!=null) {
-                                    if(delete(impacter)==true)
-                                    deleteImageFromCloudStorage(imageUrl);
-                                }
-//                                if(dataList.size()>0) {
-//                                    dataList.remove(position);
-//                                    AdminImpacterListAdapter.this.notifyDataSetChanged();
-//                                }
-
-                            }
-                        })
-
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-                            }
-
-                        });
+                db.openDataBase(context);
+                db.setSelectedCO2Impacter(impacter);
+                delete(impacter);
+                db.closeDataBase();
 
             }
 
         });
-        final ImageView imageView = rowView.findViewById(R.id.imImageAdminList);
-        String imageUrl = imp.getUrlImage();
 
-        if(imageUrl!=null){
+        //set images
+        final ImageView imageView = rowView.findViewById(R.id.imImageAdminList);
+        String imageUrl = impacter.getUrlImage();
+
+        if (imageUrl != null) {
 //            ByteArrayOutputStream boas=new ByteArrayOutputStream();
 //            imageUrl.compress(Bitmap.CompressFormat.PNG,100,boas);
 //            byte[] data=boas.toByteArray();
-            FirebaseStorage  storage= FirebaseStorage.getInstance();
+            FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
             StorageReference storageReference = storageRef.child(imageUrl);
             storageReference.getDownloadUrl().addOnCompleteListener(
@@ -183,7 +155,7 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
                                         .load(downloadUrl)
                                         .into(imageView);
                             } else {
-                                System.out.println( "Getting download url was not successful."+
+                                System.out.println("Getting download url was not successful." +
                                         task.getException());
                             }
                         }
@@ -193,33 +165,60 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
     }
 
 
-
-
     //deletes impacter from data holder and from view
-    public boolean delete(Co2Impacter impacter) {
-
+    public boolean delete(Co2Impacter imp) {
 
         new AlertDialog.Builder(context)
                 .setIcon(android.R.drawable.ic_delete)
                 .setTitle("Are you sure ?")
-                .setMessage("Do you want to delete " + impacter.getName())
+                .setMessage("Do you want to delete " + imp.getName())
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         try {
-                            flag=true;
+                            flag = true;
                             db.openDataBase(context);
-                            List<? extends Co2Impacter> impacters = MyCo2FootprintManager.getInstance().getAllCo2Impacter();
-                            Co2Impacter item = db.getSelectedCO2Impacter(impacterType);
-                            if (item != null) {
+                            List<? extends Co2Impacter> impacters = db.getAllCo2Impacter();
+//                            Co2Impacter item = db.getSelectedCO2Impacter(impacterType);
+                            if (imp != null) {
+                                FirebaseFirestore dbc = FirebaseFirestore.getInstance();
+                                dbc.collection("co2 impacter")
+                                        .document(imp.getImpacterID())
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                MyCo2FootprintManager.getInstance().removeImpacter(impacterType, imp.getImpacterID());
+                                                String imageUrl = imp.getUrlImage();
 
-                                db.removeImpacter(impacterType, impacter.getImpacterID());
+                                                if (imageUrl != null) {
+                                                    deleteImageFromCloudStorage(imageUrl);
+                                                }
+                                                db.removeImpacter(impacterType, imp.getImpacterID());
+//                                                updateImpactersData();
+//                                                notifyDataSetChanged();
+                                                Toast.makeText(context, imp.getName()+" deleted", Toast.LENGTH_LONG).show();
+//                                if(dataList.size()>0) {
+//                                    dataList.remove(position);
+//                                    AdminImpacterListAdapter.this.notifyDataSetChanged();
+//                                }
+
+                                            }
+                                        })
+
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+
+                                        });
+
                             }
-                            updateImpactersData();
-                            notifyDataSetChanged();
+
                         } catch (Throwable e) {
                             e.printStackTrace();
-                        }finally {
+                        } finally {
                             db.closeDataBase();
                         }
 
@@ -235,8 +234,8 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
         Intent intent = new Intent(context, EditItemActivity.class);
         intent.putExtra("id", impacter.getImpacterID());
         intent.putExtra(IMPACTERTYPE, impacterType.name());
-        ((AdminEditListActivity)context).startActivity(intent);
-        ((AdminEditListActivity)context).finish();
+        ((AdminEditListActivity) context).startActivity(intent);
+        ((AdminEditListActivity) context).finish();
     }
 
 
@@ -247,13 +246,18 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
     }
 
     private void deleteImageFromCloudStorage(String imageUrl) {
-        FirebaseStorage storage= FirebaseStorage.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         StorageReference storageReference = storageRef.child(imageUrl);
         storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                System.out.println( "oK!");
+                System.out.println("impacter image deleted successfully!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println("impacter image deletion failed!");
             }
         });
     }

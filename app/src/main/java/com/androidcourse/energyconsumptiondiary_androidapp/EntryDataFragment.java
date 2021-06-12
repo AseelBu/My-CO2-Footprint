@@ -130,12 +130,15 @@ public class EntryDataFragment extends Fragment {
 
                         db.createImpacterByType(cloudImpacter, ImpactType.valueOf(impacterType));
                     }
-                    eAdapter = new EntryRecyclerAdapter(getContext(), db.getImpactersByType(type), type);
+                    eAdapter = new EntryRecyclerAdapter(getActivity(), db.getImpactersByType(type), type);
                     recList.setAdapter(eAdapter);
 
                 } else {
                     Toast.makeText(activity, "Current data: null",
                             Toast.LENGTH_LONG).show();
+                    db.removeAllImpacters();
+                    eAdapter = new EntryRecyclerAdapter(getActivity(), db.getImpactersByType(type), type);
+                    recList.setAdapter(eAdapter);
                 }
             }
         });
@@ -157,7 +160,7 @@ public class EntryDataFragment extends Fragment {
             type = ImpactType.valueOf(getArguments().getString(ENTRY_TYPE));
             setTitle();
             //add data to recycler depending on Entry Type
-            eAdapter = new EntryRecyclerAdapter(this.getContext(), db.getImpactersByType(type), type);
+            eAdapter = new EntryRecyclerAdapter(getActivity(), db.getImpactersByType(type), type);
             recList.setAdapter(eAdapter);
         }
         return v;
@@ -191,7 +194,7 @@ public class EntryDataFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        eAdapter = new EntryRecyclerAdapter(this.getContext(), db.getImpactersByType(type), type);
+        eAdapter = new EntryRecyclerAdapter(getActivity(), db.getImpactersByType(type), type);
         recList.setAdapter(eAdapter);
     }
 }

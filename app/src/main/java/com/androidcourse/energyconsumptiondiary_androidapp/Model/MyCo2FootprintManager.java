@@ -145,11 +145,7 @@ public void removeImpacter(ImpactType impacterType,String id)
         }
         return result;
     }
-    public void removeAllCo2Impacter() {
-        if(db!=null){
-            db.deleteAllCo2Impacter();
-        }
-    }
+
 
     public int updateCo2Impacter(Co2Impacter item) {
         int i=-1;
@@ -177,11 +173,11 @@ public void removeImpacter(ImpactType impacterType,String id)
         }
         return new ArrayList<>();
     }
-    public int createTransportation(String id,Transportation item) {
+    public void createTransportation(String id,Transportation item) {
         if (db != null) {
             db.createTransportation(id,item);
         }
-        return  -1;
+
     }
     public int createFood(String id,Food item) {
         if (db != null) {

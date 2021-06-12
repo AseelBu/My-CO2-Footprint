@@ -2,6 +2,7 @@ package com.androidcourse.energyconsumptiondiary_androidapp.Adapters;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.EntryActivity;
@@ -21,6 +23,11 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.R;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashSet;
 import java.util.List;
@@ -150,12 +157,36 @@ public class EntryRecyclerAdapter extends RecyclerView.Adapter<EntryRecyclerAdap
             txtUnit.setText(impacterItem.getUnit().name().toLowerCase());
             cardId.setText(String.valueOf(impacterItem.getImpacterID()));
 
-            cardImg.setImageDrawable(new BitmapDrawable(context.getResources(), impacterItem.getImg()));
+
+            String imageUrl = impacterItem.getUrlImage();
+
+            //set picture
+            if(imageUrl!=null) {
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
+                StorageReference storageReference = storageRef.child(imageUrl);
+                storageReference.getDownloadUrl().addOnCompleteListener(
+                        new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if (task.isSuccessful()) {
+                                    String downloadUrl = task.getResult().toString();
+                                    Glide.with(context)
+                                            .load(downloadUrl)
+                                            .into(cardImg);
+                                } else {
+                                    System.out.println("Getting download url was not successful." +
+                                            task.getException());
+                                }
+                            }
+                        });
+            }
+//            cardImg.setImageDrawable(new BitmapDrawable(context.getResources(), impacterItem.getImg()));
             prevEntries = new HashSet<>(((EntryActivity) context).getEntryData().getEntries());
             if (checkIfValueSet(impacterItem.getImpacterID())) {
 
                 for (TypeEntry te : prevEntries) {
-                    if (te.getId() == impacterItem.getImpacterID()) {
+                    if (te.getId().equals(impacterItem.getImpacterID())) {
                         numPicker.setValue(te.getValue());
                     }
                 }
