@@ -102,8 +102,8 @@ public  class  Co2Impacter implements Comparable<Co2Impacter>{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Co2Impacter)) return false;
-        Co2Impacter that = (Co2Impacter) o;
-        return getImpacterID() == that.getImpacterID();
+        Co2Impacter impacter = (Co2Impacter) o;
+        return getImpacterID().equals(impacter.getImpacterID());
     }
 
     @Override

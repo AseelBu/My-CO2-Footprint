@@ -49,7 +49,7 @@ public class TypeEntry {
         if (this == o) return true;
         if (!(o instanceof TypeEntry)) return false;
         TypeEntry typeEntry = (TypeEntry) o;
-        return getId() == typeEntry.getId();
+        return getId().equals(typeEntry.getId());
     }
 
     @Override

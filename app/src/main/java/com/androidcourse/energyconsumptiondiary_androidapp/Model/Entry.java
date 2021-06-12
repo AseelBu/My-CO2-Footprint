@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class Entry {
     private String id;
-    private String userId= "xx";
+    private String userId= null;
     private ArrayList<TypeEntry> entries= new ArrayList<TypeEntry>();
     private Date date = Calendar.getInstance().getTime();
 
@@ -81,7 +81,7 @@ public class Entry {
         if (this == o) return true;
         if (!(o instanceof Entry)) return false;
         Entry entry = (Entry) o;
-        return getId() == entry.getId();
+        return getId().equals(entry.getId());
     }
 
     @Override

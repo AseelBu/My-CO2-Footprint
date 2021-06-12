@@ -186,7 +186,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                 new AlertDialog.Builder(context)
                         .setIcon(R.drawable.ic_baseline_warning_24)
                         .setTitle("Are you sure ?")
-                        .setMessage("Do you want to save changes" + impacter.getName())
+                        .setMessage("Are you sure you want to save changes to" + impacter.getName())
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -221,9 +221,9 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                                                 public void onSuccess(Void aVoid) {
                                                     db.updateCo2Impacter(impacter);
                                                     db.updateTransportation(impacter.getImpacterID(), (Transportation) impacter);
-                                                    String toSpeak = "add successfully";
+
                                                     View parentLayout = findViewById(android.R.id.content);
-                                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_LONG);
+                                                    final Snackbar bar = Snackbar.make(parentLayout, impacter.getName()+" updated successfully", Snackbar.LENGTH_LONG);
                                                     bar.setAction("dismiss", new View.OnClickListener() {
                                                         @Override
                                                         public void onClick(View v) {
