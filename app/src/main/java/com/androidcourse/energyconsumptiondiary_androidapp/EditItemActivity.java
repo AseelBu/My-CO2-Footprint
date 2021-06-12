@@ -183,79 +183,93 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
             //if the input is not empty
             else {
 
-                try {
+                new AlertDialog.Builder(context)
+                        .setIcon(R.drawable.ic_baseline_warning_24)
+                        .setTitle("Are you sure ?")
+                        .setMessage("Do you want to save changes" + impacter.getName())
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    //setting data in impacter
+                                    impacter.setName(name.getText().toString());
+                                    impacter.setQuestion(Question.getText().toString());
+                                    ((Transportation) impacter).setFuelType(fuelType.getText().toString());
+                                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
+                                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
-                    //setting data in impacter
-                    impacter.setName(name.getText().toString());
-                    impacter.setQuestion(Question.getText().toString());
-                    ((Transportation) impacter).setFuelType(fuelType.getText().toString());
-                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
-                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-
-                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
-                    impacter.setImpacterID(UUID.randomUUID().toString());
-                    if (impacter.getImg() != null) {
-                        impacter.setUrlImage(impacter.getImpacterID() + ".png");
-                    }
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("name", impacter.getName());
-                    map.put("unit", impacter.getUnit().toString());
-                    map.put("question", impacter.getQuestion());
-                    map.put("fuelType", ((Transportation) impacter).getFuelType());
-                    map.put("co2Amount", impacter.getCo2Amount());
-                    map.put("impacterType", impacterType);
-                    map.put("urlImage", impacter.getUrlImage());
-
-                    // wait(3);
-                    db2.collection("co2 impacter")
-                            .document(String.valueOf(impacter.getImpacterID()))
-                            .set(map)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    db.updateCo2Impacter(impacter);
-                                    db.updateTransportation(impacter.getImpacterID(), (Transportation) impacter);
-                                    String toSpeak = "add successfully";
-                                    View parentLayout = findViewById(android.R.id.content);
-                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_LONG);
-                                    bar.setAction("dismiss", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            bar.dismiss();
-
-
-                                        }
-                                    });
-                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                                    bar.show();
+                                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+//                    impacter.setImpacterID(UUID.randomUUID().toString());
                                     if (impacter.getImg() != null) {
-                                        uploadImage(impacter);
-                                    } else {
-                                        newActivity();
+                                        impacter.setUrlImage(impacter.getImpacterID() + ".png");
                                     }
+                                    Map<String, Object> map = new HashMap<>();
+                                    map.put("name", impacter.getName());
+                                    map.put("unit", impacter.getUnit().toString());
+                                    map.put("question", impacter.getQuestion());
+                                    map.put("fuelType", ((Transportation) impacter).getFuelType());
+                                    map.put("co2Amount", impacter.getCo2Amount());
+                                    map.put("impacterType", impacterType);
+                                    map.put("urlImage", impacter.getUrlImage());
+
+                                    // wait(3);
+                                    db2.collection("co2 impacter")
+                                            .document(String.valueOf(impacter.getImpacterID()))
+                                            .set(map)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    db.updateCo2Impacter(impacter);
+                                                    db.updateTransportation(impacter.getImpacterID(), (Transportation) impacter);
+                                                    String toSpeak = "add successfully";
+                                                    View parentLayout = findViewById(android.R.id.content);
+                                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_LONG);
+                                                    bar.setAction("dismiss", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            bar.dismiss();
+
+
+                                                        }
+                                                    });
+                                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                                    bar.show();
+                                                    if (impacter.getImg() != null) {
+                                                        uploadImage(impacter);
+                                                    } else {
+                                                        newActivity();
+                                                    }
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                                            bar.setAction("dismiss", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    bar.dismiss();
+
+                                                }
+                                            });
+                                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                            bar.show();
+                                        }
+
+                                    });
+                                } catch (Throwable e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    db.closeDataBase();
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
-                            bar.setAction("dismiss", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    bar.dismiss();
-
-                                }
-                            });
-                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                            bar.show();
-                        }
-                    });
+                            }
 
 
-                } catch (Throwable ew) {
-                    ew.printStackTrace();
-                }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         }
+
         //if not transportation
         else if ((impacterType.equals(ImpactType.ELECTRICAL)) || (impacterType.equals(ImpactType.SERVICES)) || (impacterType.equals(ImpactType.FOOD))) {
             // if inputs are empty
@@ -273,80 +287,90 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                 });
                 bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                 bar.show();
-            }
+            } else {
 
+                new AlertDialog.Builder(context)
+                        .setIcon(R.drawable.ic_baseline_warning_24)
+                        .setTitle("Are you sure ?")
+                        .setMessage("Do you want to save changes" + impacter.getName())
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    //setting data in impacter
+                                    impacter.setName(name.getText().toString());
+                                    impacter.setQuestion(Question.getText().toString());
+                                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
+                                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
 
-            //if the input is empty
-            else {
-                try {
-                    //                setting data in impacter
-
-                    impacter.setName(name.getText().toString());
-                    impacter.setQuestion(Question.getText().toString());
-                    impacter.setCo2Amount(Integer.parseInt(co2Amount.getText().toString()));
-                    impacter.setUnit(Units.valueOf(String.valueOf(spinner.getSelectedItem())));
-                    impacter.setImpacterID(UUID.randomUUID().toString());
-                    if (impacter.getImg() != null) {
-                        impacter.setUrlImage(impacter.getImpacterID() + ".png");
-                    }
-                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
-
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("name", impacter.getName());
-                    map.put("unit", impacter.getUnit().toString());
-                    map.put("question", impacter.getQuestion());
-                    map.put("co2Amount", impacter.getCo2Amount());
-                    map.put("impacterType", impacterType);
-                    map.put("urlImage", impacter.getUrlImage());
-                    db2.collection("co2 impacter")
-                            .document(String.valueOf(impacter.getImpacterID()))
-                            .set(map)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-
-                                    db.updateCo2Impacter(impacter);
-                                    String toSpeak = "add successfully";
-                                    View parentLayout = findViewById(android.R.id.content);
-                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_LONG);
-                                    bar.setAction("dismiss", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            bar.dismiss();
-
-                                        }
-                                    });
-                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                                    bar.show();
+                                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+//                    impacter.setImpacterID(UUID.randomUUID().toString());
                                     if (impacter.getImg() != null) {
-                                        uploadImage(impacter);
-                                    } else {
-                                        newActivity();
+                                        impacter.setUrlImage(impacter.getImpacterID() + ".png");
                                     }
+                                    Map<String, Object> map = new HashMap<>();
+                                    map.put("name", impacter.getName());
+                                    map.put("unit", impacter.getUnit().toString());
+                                    map.put("question", impacter.getQuestion());
+                                    map.put("co2Amount", impacter.getCo2Amount());
+                                    map.put("impacterType", impacterType);
+                                    map.put("urlImage", impacter.getUrlImage());
 
+                                    // wait(3);
+                                    db2.collection("co2 impacter")
+                                            .document(String.valueOf(impacter.getImpacterID()))
+                                            .set(map)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    db.updateCo2Impacter(impacter);
+                                                    String toSpeak = "add successfully";
+                                                    View parentLayout = findViewById(android.R.id.content);
+                                                    final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_LONG);
+                                                    bar.setAction("dismiss", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            bar.dismiss();
+
+
+                                                        }
+                                                    });
+                                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                                    bar.show();
+                                                    if (impacter.getImg() != null) {
+                                                        uploadImage(impacter);
+                                                    } else {
+                                                        newActivity();
+                                                    }
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
+                                            bar.setAction("dismiss", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    bar.dismiss();
+
+                                                }
+                                            });
+                                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                            bar.show();
+                                        }
+
+                                    });
+                                } catch (Throwable e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    db.closeDataBase();
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
-                            bar.setAction("dismiss", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    bar.dismiss();
+                            }
 
-                                }
-                            });
-                            bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                            bar.show();
-                        }
-                    });
 
-                } catch (Throwable ew) {
-                    ew.printStackTrace();
-                }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
-
-
         }
     }
 

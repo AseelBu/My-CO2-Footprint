@@ -1,17 +1,10 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
@@ -21,13 +14,9 @@ import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -136,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
              mg.createCO2Impacter(impacter);
             mg.createFood(impacter.getImpacterID(), (Food) impacter);
         }
-        impacter = new Food("Chicken", "How many chicken pieces did you eat today?", Units.UNIT, 100, BitmapFactory.decodeResource(context.getResources(), R.drawable.chicken_leg));
+        impacter = new Food("Chicken", "How many chicken pieces did you eat today?", Units.UNIT, 400, BitmapFactory.decodeResource(context.getResources(), R.drawable.chicken_leg));
         impacter.setImpacterID(UUID.randomUUID().toString());
         if (!mg.findIfImpacterIsExists(impacter, impacterType)) {
              mg.createCO2Impacter(impacter);
@@ -201,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
             mg.createCO2Impacter(impacter);
             mg.createElectric(impacter.getImpacterID(), (ElectricalHouseSupplies) impacter);
         }
-        impacter = new ElectricalHouseSupplies("Lamps", "How many hours you turned on the lights today?", Units.HOUR, 200, BitmapFactory.decodeResource(context.getResources(), R.drawable.lamps));
+        impacter = new ElectricalHouseSupplies("Lamp", "How many hours you turned on the lights today?", Units.HOUR, 200, BitmapFactory.decodeResource(context.getResources(), R.drawable.lamps));
         impacter.setImpacterID(UUID.randomUUID().toString());
         if (!mg.findIfImpacterIsExists(impacter, impacterType)) {
              mg.createCO2Impacter(impacter);
