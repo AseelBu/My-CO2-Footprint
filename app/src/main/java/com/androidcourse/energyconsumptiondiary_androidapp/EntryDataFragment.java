@@ -39,7 +39,7 @@ import java.util.Map;
 public class EntryDataFragment extends Fragment {
     private static final String ENTRY_TYPE = "entryType";
     EntryRecyclerAdapter eAdapter = null;
-    EntryDataFragmentListener mListener;
+//    EntryDataFragmentListener mListener;
     private MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
     private Activity activity;
     private ImpactType type;
@@ -69,89 +69,6 @@ public class EntryDataFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.activity = getActivity();
-        try {
-            mListener = (EntryDataFragmentListener) activity;
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
-        FirebaseFirestore dbCloud = FirebaseFirestore.getInstance();
-        CollectionReference collRef = dbCloud.collection("co2 impacter");
-
-        collRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-
-                if (e != null) {
-
-                    Toast.makeText(activity, "Listen failed." + e,
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (snapshot != null && !snapshot.isEmpty()) {
-//                    Toast.makeText(context, "Current data: " + snapshot.getDocuments(),
-//                            Toast.LENGTH_LONG).show();
-                    db.openDataBase(getContext());
-                    db.removeAllImpacters();
-                    for (DocumentSnapshot document : snapshot.getDocuments()) {
-                        Map<String, Object> impacter = document.getData();
-                        String id = document.getId();
-                        String name = (String) impacter.get("name");
-                        String question = (String) impacter.get("question");
-                        Number co2Amount = (Number) impacter.get("co2Amount");
-                        String unit = (String) impacter.get("unit");
-                        String urlImage = (String) impacter.get("urlImage");
-                        String impacterType = (String) impacter.get("impacterType");
-                        String fuelType = null;
-                        if (impacterType.equals(ImpactType.TRANSPORTATION.toString())) {
-                            fuelType = (String) impacter.get("fuelType");
-                        }
-                        Co2Impacter cloudImpacter = null;
-                        switch (ImpactType.valueOf(impacterType)) {
-                            case TRANSPORTATION:
-                                cloudImpacter = new Transportation();
-                                ((Transportation) cloudImpacter).setFuelType(fuelType);
-                                break;
-                            case FOOD:
-                                cloudImpacter = new Food();
-                                break;
-                            case ELECTRICAL:
-                                cloudImpacter = new ElectricalHouseSupplies();
-                                break;
-                            case SERVICES:
-                                cloudImpacter = new Service();
-                                break;
-                        }
-                        cloudImpacter.setImpacterID(id);
-                        cloudImpacter.setName(name);
-                        cloudImpacter.setQuestion(question);
-                        cloudImpacter.setUnit(Units.valueOf(unit));
-                        cloudImpacter.setUrlImage(urlImage);
-                        cloudImpacter.setCo2Amount(co2Amount.intValue());
-
-                        db.createImpacterByType(cloudImpacter, ImpactType.valueOf(impacterType));
-                    }
-                    eAdapter = new EntryRecyclerAdapter(getActivity(), db.getImpactersByType(type), type);
-                    recList.setAdapter(eAdapter);
-
-                } else {
-                    final Snackbar bar = Snackbar.make(getView().findViewById(android.R.id.content), type.toString().toLowerCase()+" is empty", Snackbar.LENGTH_INDEFINITE);
-                    bar.setAction("Dismiss", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            bar.dismiss();
-                        }
-                    });
-                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
-                    bar.show();
-
-                    db.removeAllImpacters();
-                    eAdapter = new EntryRecyclerAdapter(getActivity(), db.getImpactersByType(type), type);
-                    recList.setAdapter(eAdapter);
-                }
-            }
-        });
     }
 
     @Override
@@ -176,12 +93,12 @@ public class EntryDataFragment extends Fragment {
         return v;
     }
 
-    public void nextClicked() {
-        ArrayList<TypeEntry> data = new ArrayList<>(eAdapter.getEntries());
-        data.add(new TypeEntry("1", 1, type));
-
-        mListener.onFragmentNextClick(EntryDataFragment.this, data);
-    }
+//    public void nextClicked() {
+//        ArrayList<TypeEntry> data = new ArrayList<>(eAdapter.getEntries());
+//        data.add(new TypeEntry("1", 1, type));
+//
+//        mListener.onFragmentNextClick(EntryDataFragment.this, data);
+//    }
 
     public void setTitle() {
         switch (type) {
@@ -201,10 +118,14 @@ public class EntryDataFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public void updateUdapter(){
         eAdapter = new EntryRecyclerAdapter(getActivity(), db.getImpactersByType(type), type);
         recList.setAdapter(eAdapter);
+    }
+    @Override
+    public void onResume() {
+        updateUdapter();
+        super.onResume();
+
     }
 }

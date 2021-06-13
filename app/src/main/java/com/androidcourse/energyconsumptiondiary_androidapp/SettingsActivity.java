@@ -2,6 +2,8 @@ package com.androidcourse.energyconsumptiondiary_androidapp;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -57,8 +59,9 @@ public class SettingsActivity extends AppCompatActivity {
                 Intent intent=null;
                 switch (position){
                     case ACCOUNT_SETTINGS:
-                        intent = new Intent(context, AccountSettingsActivity.class);
-                        startActivity(intent);
+                        FragmentManager fm = getSupportFragmentManager();
+                        AccountSettingsFragmentDialog accountSettingsFragmentDialog = AccountSettingsFragmentDialog.newInstance();
+                        accountSettingsFragmentDialog.show(fm, "accountSettingsFragmentDialog");
 
                         break;
                     case NOTIFICATION_SETTINGS:

@@ -1,6 +1,7 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,13 +19,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.EntryRecyclerAdapter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Entry;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Food;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Result;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Service;
+import com.androidcourse.energyconsumptiondiary_androidapp.Model.Transportation;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.TypeEntry;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
+import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,8 +41,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +54,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class EntryActivity extends AppCompatActivity {
+public class EntryActivity extends AppCompatActivity  {
 
     private static final String TAG = "EntryActivity";
     private static final int RESULT_REQ_CODE = 111;
@@ -110,6 +123,81 @@ public class EntryActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         context = this;
+        FirebaseFirestore dbCloud = FirebaseFirestore.getInstance();
+        CollectionReference collRef = dbCloud.collection("co2 impacter");
+
+        collRef.addSnapshotListener(EntryActivity.this,new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+
+                if (e != null) {
+
+                    Toast.makeText(EntryActivity.this, "Listen failed." + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (snapshot != null && !snapshot.isEmpty()) {
+//                    Toast.makeText(context, "Current data: " + snapshot.getDocuments(),
+//                            Toast.LENGTH_LONG).show();
+                    dbManager.openDataBase(EntryActivity.this);
+                    dbManager.removeAllImpacters();
+                    for (DocumentSnapshot document : snapshot.getDocuments()) {
+                        Map<String, Object> impacter = document.getData();
+                        String id = document.getId();
+                        String name = (String) impacter.get("name");
+                        String question = (String) impacter.get("question");
+                        Number co2Amount = (Number) impacter.get("co2Amount");
+                        String unit = (String) impacter.get("unit");
+                        String urlImage = (String) impacter.get("urlImage");
+                        String impacterType = (String) impacter.get("impacterType");
+                        String fuelType = null;
+                        if (impacterType.equals(ImpactType.TRANSPORTATION.toString())) {
+                            fuelType = (String) impacter.get("fuelType");
+                        }
+                        Co2Impacter cloudImpacter = null;
+                        switch (ImpactType.valueOf(impacterType)) {
+                            case TRANSPORTATION:
+                                cloudImpacter = new Transportation();
+                                ((Transportation) cloudImpacter).setFuelType(fuelType);
+                                break;
+                            case FOOD:
+                                cloudImpacter = new Food();
+                                break;
+                            case ELECTRICAL:
+                                cloudImpacter = new ElectricalHouseSupplies();
+                                break;
+                            case SERVICES:
+                                cloudImpacter = new Service();
+                                break;
+                        }
+                        cloudImpacter.setImpacterID(id);
+                        cloudImpacter.setName(name);
+                        cloudImpacter.setQuestion(question);
+                        cloudImpacter.setUnit(Units.valueOf(unit));
+                        cloudImpacter.setUrlImage(urlImage);
+                        cloudImpacter.setCo2Amount(co2Amount.intValue());
+
+                        dbManager.createImpacterByType(cloudImpacter, ImpactType.valueOf(impacterType));
+                    }
+                    updateCurrFragmentAdapter();
+
+                } else {
+                    final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), getCurrentFragmentType().toString().toLowerCase()+" is empty", Snackbar.LENGTH_INDEFINITE);
+                    bar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bar.dismiss();
+                        }
+                    });
+                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                    bar.show();
+
+                    dbManager.removeAllImpacters();
+                    updateCurrFragmentAdapter();
+                }
+            }
+        });
     }
 
     private ArrayList<TypeEntry> getCurrentFragmentEntries() {
@@ -524,5 +612,39 @@ public class EntryActivity extends AppCompatActivity {
                     }
                 });
 
+
+    }
+
+    private  void updateCurrFragmentAdapter(){
+        switch (currentIndex) {
+            case TRANS:
+                transportFragment.updateUdapter();
+                break;
+            case FOOD:
+                foodFragment.updateUdapter();
+                break;
+            case ELECTRIC:
+                electricFragment.updateUdapter();
+                break;
+            case SERVICE:
+                serviceFragment.updateUdapter();
+                break;
+
+        }
+    }
+
+    private  ImpactType getCurrentFragmentType(){
+        switch (currentIndex) {
+            case TRANS:
+                return ImpactType.TRANSPORTATION;
+            case FOOD:
+                return ImpactType.FOOD;
+            case ELECTRIC:
+                return ImpactType.ELECTRICAL;
+            case SERVICE:
+                return ImpactType.SERVICES;
+
+        }
+        return ImpactType.TRANSPORTATION;
     }
 }

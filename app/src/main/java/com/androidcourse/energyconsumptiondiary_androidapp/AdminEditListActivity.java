@@ -98,7 +98,7 @@ public class AdminEditListActivity extends AppCompatActivity {
         FirebaseFirestore dbCloud = FirebaseFirestore.getInstance();
         CollectionReference collRef = dbCloud.collection("co2 impacter");
 
-        collRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collRef.addSnapshotListener(AdminEditListActivity.this,new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
                 db.openDataBase(AdminEditListActivity.this);

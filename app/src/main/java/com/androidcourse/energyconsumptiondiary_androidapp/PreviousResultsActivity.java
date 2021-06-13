@@ -27,6 +27,9 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
     private CardView cv;
     private PieChartFragment pf;
     private BarChartFragment prevResultsBars;
+    private String userId;
+    private FirebaseFirestore dbc;
+    private CollectionReference collRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +41,70 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
         cv.setVisibility(View.GONE);
         FragmentManager fm =getSupportFragmentManager();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
+         userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+         dbc = FirebaseFirestore.getInstance();
+         collRef = dbc.collection("results");
+
+        collRef.addSnapshotListener(PreviousResultsActivity.this,new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                db.openDataBase(PreviousResultsActivity.this);
+                if (e != null) {
+
+                    Toast.makeText(PreviousResultsActivity.this, "Listen failed."+ e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (snapshot != null && !snapshot.isEmpty()) {
+//                    Toast.makeText(context, "Current data: " + snapshot.getDocuments(),
+//                            Toast.LENGTH_LONG).show();
+
+                    db.removeAllResults();
+                    for (DocumentSnapshot document : snapshot.getDocuments() ){
+                        Result result = document.toObject(Result.class);
+                        result.setId(document.getId());
+                        db.createResult(result);
+                    }
+
+
+                    if(db.getAllResults(userId,7).isEmpty()){
+                        FragmentManager fm2 =getSupportFragmentManager();
+                        NoResultsFragment noResults = new NoResultsFragment();
+                        fm2.beginTransaction()
+                                .replace(R.id.barChartFragment, noResults)
+                                .commit();
+                    }else{
+                        FragmentManager fm3 =getSupportFragmentManager();
+                        BarChartFragment newPrevResultsBars=new BarChartFragment();
+                        fm3.beginTransaction()
+                                .replace(R.id.barChartFragment, newPrevResultsBars)
+                                .commit();
+                    }
+                    onNothingSelected(prevResultsBars);
+
+                } else {
+
+                    db.removeAllResults();
+                    if(db.getAllResults(userId,7).isEmpty()){
+                        FragmentManager fm4 =getSupportFragmentManager();
+                        NoResultsFragment noResults = new NoResultsFragment();
+                        fm4.beginTransaction()
+                                .replace(R.id.barChartFragment, noResults)
+                                .commit();
+                    }else{
+                        FragmentManager fm5 =getSupportFragmentManager();
+                        BarChartFragment newPrevResultsBars=new BarChartFragment();
+                        fm5.beginTransaction()
+                                .replace(R.id.barChartFragment, newPrevResultsBars)
+                                .commit();
+                    }
+                    onNothingSelected(prevResultsBars);
+                }
+            }
+        });
+
         db.openDataBase(this);
         if(db.getAllResults(userId,7).isEmpty()){
             NoResultsFragment noResults = new NoResultsFragment();
@@ -51,55 +117,14 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
                     .replace(R.id.barChartFragment, prevResultsBars)
                     .commit();
         }
-        FirebaseFirestore dbc = FirebaseFirestore.getInstance();
-        CollectionReference collRef = dbc.collection("results");
-
-        collRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-
-                if (e != null) {
-
-                    Toast.makeText(PreviousResultsActivity.this, "Listen failed."+ e,
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (snapshot != null && !snapshot.isEmpty()) {
-//                    Toast.makeText(context, "Current data: " + snapshot.getDocuments(),
-//                            Toast.LENGTH_LONG).show();
-                    db.removeAllResults();
-                    for (DocumentSnapshot document : snapshot.getDocuments() ){
-                        Result result = document.toObject(Result.class);
-                        result.setId(document.getId());
-                        db.createResult(result);
-                    }
-                    FragmentManager fm2 =getSupportFragmentManager();
-                    BarChartFragment newPrevResultsBars=new BarChartFragment();
-                    fm2.beginTransaction()
-                            .replace(R.id.barChartFragment, newPrevResultsBars)
-                            .commit();
-                    onNothingSelected(prevResultsBars);
-
-                } else {
-                    FragmentManager fm2 =getSupportFragmentManager();
-                    db.removeAllResults();
-                    onNothingSelected(prevResultsBars);
-                    NoResultsFragment noResults = new NoResultsFragment();
-                    fm2.beginTransaction()
-                            .replace(R.id.barChartFragment, noResults)
-                            .commit();
-                    onNothingSelected(prevResultsBars);
-                }
-            }
-        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+
+                finish();
                 return true;
         }
         return false;
@@ -108,6 +133,20 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
     @Override
     protected void onResume() {
         MyCo2FootprintManager.getInstance().openDataBase(this);
+//        if(db.getAllResults(userId,7).isEmpty()){
+//            FragmentManager fm4 =getSupportFragmentManager();
+//            NoResultsFragment noResults = new NoResultsFragment();
+//            fm4.beginTransaction()
+//                    .replace(R.id.barChartFragment, noResults)
+//                    .commit();
+//        }else{
+//            FragmentManager fm5 =getSupportFragmentManager();
+//            BarChartFragment newPrevResultsBars=new BarChartFragment();
+//            fm5.beginTransaction()
+//                    .replace(R.id.barChartFragment, newPrevResultsBars)
+//                    .commit();
+//        }
+//        onNothingSelected(prevResultsBars);
         super.onResume();
     }
 

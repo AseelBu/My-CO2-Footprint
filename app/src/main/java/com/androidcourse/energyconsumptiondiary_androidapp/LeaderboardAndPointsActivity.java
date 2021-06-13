@@ -47,13 +47,13 @@ public class LeaderboardAndPointsActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collRef = db.collection("users");
 
-        collRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collRef.addSnapshotListener(LeaderboardAndPointsActivity.this,new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
 
                 if (e != null) {
 
-                    Toast.makeText(context, "Listen failed."+ e,
+                    Toast.makeText(context, "Listen failed."+ e.getMessage(),
                             Toast.LENGTH_LONG).show();
                     return;
                 }

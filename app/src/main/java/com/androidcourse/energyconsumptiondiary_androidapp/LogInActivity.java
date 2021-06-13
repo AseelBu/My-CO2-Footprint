@@ -13,6 +13,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
 import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
@@ -22,12 +24,17 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
+import java.util.Map;
 
 public class LogInActivity extends AppCompatActivity {
     public static final String TAG = "LogInActivity";
@@ -37,7 +44,7 @@ public class LogInActivity extends AppCompatActivity {
     private DataHolder dh = DataHolder.getInstance();
     private FirebaseAuth mAuth;
     private Context context;
-//    private SharedPreferences prefs;
+    //    private SharedPreferences prefs;
     private View.OnClickListener singInUserListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -108,13 +115,47 @@ public class LogInActivity extends AppCompatActivity {
         if (user != null) {
             MyCo2FootprintManager.getInstance().openDataBase(this);
             Intent intent = new Intent(this, HomePageActivity.class);
-            if (user.getEmail().toLowerCase().equals("admin@gmail.com")) {
-                intent.putExtra("Admin", true);
-            } else {
-                intent.putExtra("Admin", false);
-            }
-            startActivity(intent);
-            finish();
+            FirebaseFirestore dbc = FirebaseFirestore.getInstance();
+            dbc.collection("users")
+                    .document(user.getUid().toString())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    Map<String, Object> user = document.getData();
+                                    Boolean isAdmin = (Boolean) user.get("is admin");
+                                    intent.putExtra("Admin", isAdmin);
+                                    startActivity(intent);
+                                    finish();
+
+                                } else {
+                                    final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), "No such user", Snackbar.LENGTH_INDEFINITE);
+                                    bar.setAction("Dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            bar.dismiss();
+                                        }
+                                    });
+                                    bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                    bar.show();
+                                }
+                            } else {
+                                final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), task.getException().getMessage(), Snackbar.LENGTH_INDEFINITE);
+                                bar.setAction("Dismiss", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        bar.dismiss();
+                                    }
+                                });
+                                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                                bar.show();
+                            }
+                        }
+                    });
+
         }
     }
 
@@ -228,6 +269,7 @@ public class LogInActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();

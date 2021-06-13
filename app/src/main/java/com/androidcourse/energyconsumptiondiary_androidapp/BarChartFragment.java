@@ -68,7 +68,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreateView()");
         View rootView= inflater.inflate(R.layout.fragment_bar_chart, container, false);
         barChart=(BarChart) rootView.findViewById(R.id.barChart);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
+//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
         String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
         allResults=dbManager.getAllResults(userId,7);
         //set colors
