@@ -34,7 +34,6 @@ public class ResultsActivity extends AppCompatActivity {
     private String resultId=null;
     private PieChart resultPie = null;
     private HalfGauge resultGauge = null;
-    private Button tipsBtn = null;
     private Context context = null;
 
     @Override
@@ -43,7 +42,6 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.results_activity);
         resultPie=(PieChart) findViewById(R.id.resultsPie);
         resultGauge=(HalfGauge) findViewById(R.id.halfGauge);
-        tipsBtn=(Button)findViewById(R.id.tipsBtn);
         Intent intent = getIntent();
         if(intent!=null){
             resultId =intent.getStringExtra("resultId");
@@ -70,15 +68,7 @@ public class ResultsActivity extends AppCompatActivity {
         FragmentTransaction t2 = fm.beginTransaction();
         t2.replace(R.id.fragmentPieResults,pieFragment);
         t2.commit();
-        tipsBtn.setVisibility(View.GONE);
         context=this;
-
-
-    }
-
-    public void tipsBtnClicked(View v){
-        Intent intent = new Intent(context, TipsActivity.class);
-        startActivity(intent);
     }
 
     //menu creation

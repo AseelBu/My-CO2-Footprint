@@ -1,4 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,9 +23,10 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
     private ImageButton returnbtn;
     private Button save;
     private TextView time;
-
+    private final static int NOTIFICATION_REMINDER_NIGHT=1111;
     private SharedPreferences prefs = null;
     private boolean checkStatus;
+    private static final String CHANNEL_ID = "CHANNEL_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,15 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         startActivity(intent);
     }
     public void save(View v) {
-        Intent intent = new Intent(context, SettingsActivity.class);
+
+
+        Intent notifyIntent = new Intent(this,MyReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (context,NOTIFICATION_REMINDER_NIGHT, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
+                1000 * 60 * 60 * 24, pendingIntent);
+                Intent intent = new Intent(context, SettingsActivity.class);
         startActivity(intent);
     }
     @Override

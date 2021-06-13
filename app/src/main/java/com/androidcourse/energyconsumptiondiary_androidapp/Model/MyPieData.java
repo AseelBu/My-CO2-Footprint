@@ -1,5 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
-
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 

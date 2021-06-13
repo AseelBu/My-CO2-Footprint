@@ -1,7 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.core.ImpactType;
-
 import java.util.Objects;
 
 public class TypeEntry {

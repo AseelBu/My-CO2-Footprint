@@ -1,10 +1,7 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
-
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
-import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,9 +25,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Locale;
 import java.util.Map;
 
@@ -41,14 +34,12 @@ public class LogInActivity extends AppCompatActivity {
     public EditText email;
     public EditText password;
     TextToSpeech t1;
-    private DataHolder dh = DataHolder.getInstance();
     private FirebaseAuth mAuth;
     private Context context;
-    //    private SharedPreferences prefs;
+
     private View.OnClickListener singInUserListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            hideKeyboard();
             String email2 = email.getText().toString();
             String password2 = password.getText().toString();
 
@@ -87,14 +78,10 @@ public class LogInActivity extends AppCompatActivity {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
-
-//        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         email = (EditText) findViewById(R.id.email222);
         email.setText("admin@gmail.com");
         password = (EditText) findViewById(R.id.oldpassword);
         password.setText("Admin12");
-        TextView forgetPassword = (TextView) findViewById(R.id.forgotPass);
         Button login = (Button) findViewById(R.id.edititem2);
         TextView signUp = (TextView) findViewById(R.id.loginLink);
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -159,7 +146,6 @@ public class LogInActivity extends AppCompatActivity {
         }
     }
 
-
     public boolean check() {
         boolean flag = true;
         try {
@@ -181,58 +167,8 @@ public class LogInActivity extends AppCompatActivity {
             }
         } catch (NumberFormatException exception) {
         }
-//        if (flag == true) {
-//            User user = checkIfEmailExist();
-//            //if the email not found
-//            if (user == null) {
-//                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-//                dlgAlert.setMessage("Unfortunately Email Not Found ):");
-//                dlgAlert.setTitle("Message...");
-//                dlgAlert.setPositiveButton("OK", null);
-//                dlgAlert.setCancelable(true);
-//                dlgAlert.create().show();
-//            } else {
-//                //if the password is not correct
-//                if (checkIfPasswordIsCorrect() == false) {
-//                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-//                    dlgAlert.setMessage("Wrong Password,try again :)");
-//                    dlgAlert.setTitle("Message...");
-//                    dlgAlert.setPositiveButton("OK", null);
-//                    dlgAlert.setCancelable(true);
-//                    dlgAlert.create().show();
-//                }
-////                else {
-////                    SharedPreferences.Editor editor = prefs.edit();
-////                    editor.putInt(getResources().getString(R.string.prefLoggedUser), user.getUserId());
-////                    if (editor.commit()) {
-////                        Log.i(TAG, getClass().getSimpleName() + "logged user was save to memory");
-////                    }
-////                    if(email.getText().toString().equals("Admin@gmail.com")) {
-////                        Intent intent = new Intent(context, HomePageActivity.class);
-////                        intent.putExtra("Admin",true);
-////                        String toSpeak = "Welcome Admin";
 
-////                        startActivity(intent);
-////                        finish();
-////                    }
-////                    else
-////                    {
-////                        Intent intent = new Intent(context, HomePageActivity.class);
-////                        intent.putExtra("Admin",false);
-////                        String toSpeak = "Welcome";
-////                        startActivity(intent);
-////                        finish();
-////                    }
-//                }
-//            }
-//        }
         return flag;
-    }
-
-    //eneter to Forget Password activity
-    public void ForgetPasswordClicked(View v) {
-        Intent intent = new Intent(context, ForgetPasswordActivity.class);
-        startActivity(intent);
     }
 
     //enter to sign up activity
@@ -240,27 +176,6 @@ public class LogInActivity extends AppCompatActivity {
         Intent intent = new Intent(context, SignUpActivity.class);
         startActivity(intent);
     }
-
-    //check If Email is Exist
-    //TODO no need
-//    public User checkIfEmailExist() {
-//        for (User u : dh.getUsers()) {
-//            if (email.getText().toString().equals(u.getEmail().toString()))
-//                return u;
-//        }
-//        return null;
-//    }
-
-//    //TODO no need
-//    //check If Password Is Correct
-//    public boolean checkIfPasswordIsCorrect() {
-//        for (User u : dh.getUsers()) {
-//            if ((email.getText().toString().equals(u.getEmail())) &&
-//                    (!password.getText().toString().equals(u.getPassword())))
-//                return false;
-//        }
-//        return true;
-//    }
 
     public void hideKeyboard() {
         View view = this.getCurrentFocus();

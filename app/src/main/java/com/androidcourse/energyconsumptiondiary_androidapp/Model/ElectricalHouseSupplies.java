@@ -1,7 +1,5 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
-
 import android.graphics.Bitmap;
-
 import com.androidcourse.energyconsumptiondiary_androidapp.core.Units;
 
 public class ElectricalHouseSupplies extends Co2Impacter{

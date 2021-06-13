@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
-import com.androidcourse.energyconsumptiondiary_androidapp.Model.User;
-import com.androidcourse.energyconsumptiondiary_androidapp.core.DataHolder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,12 +18,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -40,8 +35,6 @@ public class SignUpActivity extends AppCompatActivity {
     public Button signupBtn;
     private Context context;
     private FirebaseAuth mAuth;
-    private DataHolder dh = DataHolder.getInstance();
-    ArrayList<User> users = dh.getUsers();
     private FirebaseFirestore db;
     private View.OnClickListener createNewAccountListner = new View.OnClickListener() {
         @Override
@@ -108,7 +101,6 @@ public class SignUpActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LogInActivity.class);
             startActivity(intent);
             finish();
-
         }
     }
 
@@ -121,11 +113,9 @@ public class SignUpActivity extends AppCompatActivity {
         user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-
-
                 if (task.isSuccessful()) {
 
-                    String toSpeak = "saved user's name";
+                    String toSpeak = "congratulations,You are now a new member!";
                     View parentLayout = findViewById(android.R.id.content);
                     final Snackbar bar = Snackbar.make(parentLayout, toSpeak, Snackbar.LENGTH_INDEFINITE);
                     bar.setAction("Dismiss", new View.OnClickListener() {
@@ -136,7 +126,6 @@ public class SignUpActivity extends AppCompatActivity {
                     });
                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                     bar.show();
-
 
                     saveUserToFireStore(v,fullName);
 
@@ -166,7 +155,6 @@ public class SignUpActivity extends AppCompatActivity {
         user.put("email", fUser.getEmail());
         user.put("is admin", false);
         user.put("points", 0);
-
 
         db.collection("users").document(fUser.getUid())
                 .set(user)
@@ -200,19 +188,10 @@ public class SignUpActivity extends AppCompatActivity {
                         });
                         bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                         bar.show();
-
-
                     }
                 });
 
     }
-//    //return to the login activity if the user already member
-//    public void AlreadyAMemberClicked(View v){
-//
-//        Intent intent = new Intent(context, LogInActivity.class);
-//        startActivity(intent);
-//
-//    }
 
     //check If Email is Valid method
     public boolean checkIfEmailIsValid() {
@@ -224,17 +203,6 @@ public class SignUpActivity extends AppCompatActivity {
             return false;
         return pat.matcher(emailString).matches();
     }
-
-    //TODO no need output Firebase massage to snack bar
-    //Check If Email Exist method
-//    public boolean checkIfEmailExist() {
-//        for (User u : users) {
-//            if (txtEmail.getText().toString().equals(u.getEmail().toString()))
-//                return true;
-//        }
-//        return false;
-//    }
-
 
     //check If Two Password Is Equals
     public boolean checkIfTwoPasswordIsEquals() {
@@ -268,7 +236,6 @@ public class SignUpActivity extends AppCompatActivity {
         if (flag == true) {
             //flag=lenOfPassword();
             if (checkIfEmailIsValid() == true && checkIfTwoPasswordIsEquals() == true ) {
-//                dh.addUser(dh.getUsers().size() + 1, firstName.getText().toString(), lastName.getText().toString(), txtEmail.getText().toString(), txtPassword.getText().toString());
 
                 return true;
             } else {
@@ -318,82 +285,6 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 }
             }
-
-
         return flag;
     }
-
-
-    public boolean lenOfPassword() {
-
-        if (txtPassword.getText().toString().length() < 6 || confirmPassword.getText().toString().length() < 6) {
-            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-
-            dlgAlert.setMessage("password should be 6 characters/numbers at least(:");
-            dlgAlert.setTitle("Message...");
-            dlgAlert.setPositiveButton("OK", null);
-            dlgAlert.setCancelable(true);
-            dlgAlert.create().show();
-            return false;
-        }
-        return true;
-    }
 }
-//sign up to the app
-//    public void signupClicked(View v) {
-//        boolean flag = true;
-//        try {
-//            //if some if four inputs in empty
-//            if (TextUtils.isEmpty(firstName.getText().toString()) ||
-//                    TextUtils.isEmpty(lastName.getText().toString()) ||
-//                    TextUtils.isEmpty(txtEmail.getText().toString()) ||
-//                    TextUtils.isEmpty(txtPassword.getText().toString()) ||
-//                    TextUtils.isEmpty(confirmPassword.getText().toString())
-//            ) {
-//                flag = false;
-
-//            }
-//        } catch (NumberFormatException exception) {
-//        }
-//        if (flag == true) {
-//            if (checkIfEmailExist() == false && checkIfEmailisValid() == true && checkIfTwoPasswordIsEquals() == true) {
-//                dh.addUser(dh.getUsers().size()+1,firstName.getText().toString(), lastName.getText().toString(),txtEmail.getText().toString(), txtPassword.getText().toString());
-
-//                Intent intent = new Intent(context, LogInActivity.class);
-//                startActivity(intent);
-//            } else {
-//                //if txtEmail not valid
-//                if (checkIfEmailisValid() == false) {
-//                    AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-//
-//                    dlgAlert.setMessage("Email must be like Email@txtEmail.com");
-//                    dlgAlert.setTitle("Message...");
-//                    dlgAlert.setPositiveButton("OK", null);
-//                    dlgAlert.setCancelable(true);
-//                    dlgAlert.create().show();
-//                } else {
-//                    //if txtEmail is already exist
-//                    if (checkIfEmailExist() == true) {
-//                        AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-//
-//                        dlgAlert.setMessage("Email Alraedy Exists");
-//                        dlgAlert.setTitle("Message...");
-//                        dlgAlert.setPositiveButton("OK", null);
-//                        dlgAlert.setCancelable(true);
-//                        dlgAlert.create().show();
-//                    } else {
-//                        //if the two passwords are not the same
-//                        if (checkIfTwoPasswordIsEquals() == false) {
-//                            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-//
-//                            dlgAlert.setMessage("The two passwords are not the same!");
-//                            dlgAlert.setTitle("Message...");
-//                            dlgAlert.setPositiveButton("OK", null);
-//                            dlgAlert.setCancelable(true);
-//                            dlgAlert.create().show();
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }

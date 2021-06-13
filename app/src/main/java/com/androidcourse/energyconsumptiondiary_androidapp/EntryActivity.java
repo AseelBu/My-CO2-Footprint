@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.EntryRecyclerAdapter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Co2Impacter;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.ElectricalHouseSupplies;
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.Entry;
@@ -90,8 +89,6 @@ public class EntryActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_entry);
 
         //get user Id
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        int userId = sharedPref.getInt(getResources().getString(R.string.prefLoggedUser), -1);
         String userId=FirebaseAuth.getInstance().getCurrentUser().getUid();
         entryData.setUserId(userId);
         entryData.setId("entry_"+UUID.randomUUID());

@@ -22,14 +22,12 @@ private final static String TITLE="Title";
     TimePickerListener mListener;
     private Activity activity;
     public TimePickerDialogFragment() {
-        // Required empty public constructor
     }
 
     public static TimePickerDialogFragment newInstance(String title) {
         TimePickerDialogFragment fragment = new TimePickerDialogFragment();
         Bundle args = new Bundle();
         args.putString(TITLE, title);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -91,7 +89,6 @@ private final static String TITLE="Title";
         });
         return view;
     }
-
     public String getChosenTime()
     {
         return this.chosenTime;

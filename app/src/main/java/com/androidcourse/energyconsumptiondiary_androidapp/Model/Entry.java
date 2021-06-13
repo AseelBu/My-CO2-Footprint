@@ -1,7 +1,4 @@
 package com.androidcourse.energyconsumptiondiary_androidapp.Model;
-
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,16 +19,18 @@ public class Entry {
 
     }
 
-
-    public Entry(String userId) {
+    public Entry(String userId)
+    {
         this.userId = userId;
     }
 
-   public void addEntry(TypeEntry data){
+   public void addEntry(TypeEntry data)
+   {
         this.entries.add(data);
    }
 
-   public void addEntryList(List<TypeEntry> data){
+   public void addEntryList(List<TypeEntry> data)
+   {
        Set<TypeEntry> entriesSet =new HashSet<>(entries);
 
            for(TypeEntry dataTe : data) {
@@ -99,7 +98,6 @@ public class Entry {
             etm.put("impacter type",te.getType());
             entriesList.add(etm);
         }
-
         return entriesList;
     }
 }

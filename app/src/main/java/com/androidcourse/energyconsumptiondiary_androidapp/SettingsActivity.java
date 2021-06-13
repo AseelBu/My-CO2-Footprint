@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.Switch;
 import com.androidcourse.energyconsumptiondiary_androidapp.Adapters.CustomListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +40,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         context=this;
-
         List<ItemInfo> itemInfos = new ArrayList<ItemInfo>();
         itemInfos.add(new ItemInfo(getString(R.string.accountInfo),R.drawable.user__1_));
         itemInfos.add(new ItemInfo("Notification Settings",R.drawable.bell));

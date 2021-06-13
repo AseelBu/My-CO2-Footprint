@@ -11,12 +11,11 @@
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
-
             <category android:name="android.intent.category.BROWSABLE" />
-
             <data android:scheme="https" />
         </intent>
     </queries>
+
 
     <application
         android:allowBackup="true"
@@ -27,30 +26,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EnergyConsumptionDiary">
 
-        <service
-            android:name=".core.NotificationService"
-            android:enabled="true"
-            android:exported="false"></service>
+<!--        <service-->
+<!--            android:name=".core.NotificationService"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false"></service>-->
 
-        <receiver android:name=".core.TimeReceiver" android:enabled="true"
-            android:exported="false" >
+<!--        <receiver android:name=".core.TimeReceiver" android:enabled="true"-->
+<!--            android:exported="false" >-->
 
-        </receiver>
+<!--        </receiver>-->
 
         <activity android:name=".AdminEditListActivity" />
         <activity android:name=".AccountSettingsActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".PreviousResultsActivity" />
         <activity android:name=".LeaderboardAndPointsActivity" />
-        <activity android:name=".TipsActivity" />
         <activity android:name=".HomePageActivity" />
         <activity android:name=".EntryActivity" />
         <activity android:name=".NotificationSettingsActivity" />
         <activity android:name=".LogInActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".ForgetPasswordActivity" />
         <activity android:name=".EditMainActivity" />
-
         <activity android:name=".AddingItemActivity" />
         <activity android:name=".EditItemActivity" />
         <activity android:name=".ResultsActivity" /> <!--  -->
@@ -61,6 +57,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".MyReceiver">
+            <intent-filter>
+                <action android:name="com.example.helloandroid.alarms" />
+            </intent-filter>
+
+        </receiver>
+
+<!--        <receiver-->
+<!--            android:name=".MyReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false" >-->
+<!--        </receiver>-->
+        <service
+            android:name=".MyNewIntentService"
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
