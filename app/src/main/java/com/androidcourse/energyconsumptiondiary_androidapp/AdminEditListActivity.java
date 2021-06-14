@@ -55,8 +55,23 @@ public class AdminEditListActivity extends AppCompatActivity {
         Intent intent=this.getIntent();
         if(intent!=null) {
             type = ImpactType.valueOf(intent.getStringExtra(IMPACTERTYPE));
+
             if(!type.equals(ImpactType.TRANSPORTATION)){
                 txtFuel.setVisibility(View.GONE);
+            }
+
+            String comebackName=intent.getStringExtra("comebackName");
+            if(comebackName!=null){
+                String action=intent.getStringExtra("action");
+                final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), comebackName+" was "+action+" successfully", Snackbar.LENGTH_LONG);
+                bar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bar.dismiss();
+                    }
+                });
+                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+                bar.show();
             }
         }
         //list
@@ -164,6 +179,30 @@ public class AdminEditListActivity extends AppCompatActivity {
         if ((requestCode == ADDING_REQ_CODE ||requestCode==EDIT_REQ_CODE) && resultCode == RESULT_OK) {
             adapter.updateImpactersData();
             adapter.notifyDataSetChanged();
+            String impacterName= data.getStringExtra("impacterName");
+//            if(requestCode == ADDING_REQ_CODE&& resultCode == RESULT_OK){ final Snackbar bar = Snackbar.make(,impacterName+" was added successfully", Snackbar.LENGTH_INDEFINITE);
+//                bar.setAction("Dismiss", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        bar.dismiss();
+//                    }
+//                });
+//                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+//                bar.show();
+//
+//
+//            }else if(requestCode == EDIT_REQ_CODE&& resultCode == RESULT_OK){
+//                final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), impacterName+" was edited successfully", Snackbar.LENGTH_INDEFINITE);
+//                bar.setAction("Dismiss", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        bar.dismiss();
+//                    }
+//                });
+//                bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+//                bar.show();
+//
+//            }
         }
         }
 
@@ -180,7 +219,7 @@ public class AdminEditListActivity extends AppCompatActivity {
     public void addBtnClicked(){
         Intent intent = new Intent(this,AddingItemActivity.class);
         intent.putExtra(IMPACTERTYPE, type.name());
-        startActivity(intent);
+        startActivityForResult(intent,ADDING_REQ_CODE);
         finish();
     }
     @Override
@@ -198,5 +237,17 @@ public class AdminEditListActivity extends AppCompatActivity {
         MyCo2FootprintManager.getInstance().closeDataBase();
         super.onPause();
 
+    }
+
+    public void showDeleteSnackBar(String impacterName){
+        final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), impacterName+" was deleted successfully", Snackbar.LENGTH_LONG);
+        bar.setAction("Dismiss", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bar.dismiss();
+            }
+        });
+        bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
+        bar.show();
     }
 }
