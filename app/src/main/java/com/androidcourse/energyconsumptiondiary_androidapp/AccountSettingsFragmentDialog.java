@@ -47,7 +47,7 @@ public class AccountSettingsFragmentDialog extends DialogFragment {
         View view= inflater.inflate(R.layout.fragment_account_settings, container, false);
         name = (TextView) view.findViewById(R.id.nameset);
         email = (TextView) view.findViewById(R.id.emailaccount);
-        okBtn = (Button) view.findViewById(R.id.okAccountBtn);
+        okBtn = (Button) view.findViewById(R.id.saveBtn);
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
