@@ -82,10 +82,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         startActivity(intent);
     }
     public void save(View v) {
-        String notiTime=null;
-        if(prefs.getBoolean(getString(R.string.isEntryNotificationSet),false)) {
 
-            notiTime = prefs.getString(getString(R.string.entryNotificationTime), getString(R.string.emptyDash));
 
             Intent notifyIntent = new Intent(this, TimeReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, NOTIFICATION_REMINDER, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
