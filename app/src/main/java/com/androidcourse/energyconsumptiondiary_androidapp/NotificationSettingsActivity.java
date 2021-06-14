@@ -17,16 +17,23 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.core.TimeReceiver;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class NotificationSettingsActivity extends AppCompatActivity implements TimePickerListener {
+    private final static int NOTIFICATION_REMINDER=11;
     private Context context;
     private CheckBox entryReminder;
     private ImageButton returnbtn;
     private Button save;
     private TextView time;
-    private final static int NOTIFICATION_REMINDER_NIGHT=1111;
+
     private SharedPreferences prefs = null;
     private boolean checkStatus;
-    private static final String CHANNEL_ID = "CHANNEL_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +82,10 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         startActivity(intent);
     }
     public void save(View v) {
+        String notiTime=null;
+        if(prefs.getBoolean(getString(R.string.isEntryNotificationSet),false)) {
 
+            notiTime = prefs.getString(getString(R.string.entryNotificationTime), getString(R.string.emptyDash));
 
             Intent notifyIntent = new Intent(this, TimeReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, NOTIFICATION_REMINDER, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -128,5 +138,30 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
             editor.commit();
         time.setText(getString(R.string.emptyDash));
         }
+    }
+
+    public long milliseconds(String time)
+    {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+
+        try
+        {
+            Date mDate = sdf.parse(time);
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.HOUR_OF_DAY, mDate.getHours());
+            c.set(Calendar.MINUTE,mDate.getMinutes());
+            c.set(Calendar.SECOND,0);
+
+            long timeInMilliseconds = c.getTimeInMillis();
+            return timeInMilliseconds;
+        }
+        catch (ParseException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 }
