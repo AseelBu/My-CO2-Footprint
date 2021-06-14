@@ -26,8 +26,8 @@ public class TimeReceiver extends BroadcastReceiver {
 //                Toast.LENGTH_SHORT);
 //
 //        toast.show();
-//        Intent intent1 = new Intent(context, NotificationService.class);
-//        context.startService(intent1);
+        Intent intent1 = new Intent(context, NotificationService.class);
+        context.startService(intent1);
 
 //        Notification.Builder builder = new Notification.Builder(context);
 //        builder.setContentTitle("Entry Reminder");
@@ -50,7 +50,7 @@ public class TimeReceiver extends BroadcastReceiver {
         // Notification Text Elements
         String contentTitle = "Entry Reminder";
         int unicode=0x1F4C5;//calender emoji
-        String contentText = "Time to add new entry! "+ new String(Character.toChars(unicode));
+        String contentText = "Time to add new entry "+ new String(Character.toChars(unicode));
 
 
         Intent mNotificationIntent = new Intent(context.getApplicationContext(), MainActivity.class);
@@ -73,7 +73,6 @@ public class TimeReceiver extends BroadcastReceiver {
         mChannel.enableLights(true);
         mNotificationManager.createNotificationChannel(mChannel);
         mNotificationManager.notify(5, notificationBuilder.build());
-
 
 
     }

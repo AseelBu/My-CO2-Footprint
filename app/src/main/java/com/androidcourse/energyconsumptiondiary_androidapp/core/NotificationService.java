@@ -40,12 +40,14 @@ public class NotificationService extends IntentService {
 //
 //        managerCompat.notify(NOTIFICATION_ID, notificationCompat);
 
+
 //        Uri soundURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 //        long[] mVibratePattern = { 0, 200, 200, 300 };
 //
 //        // Notification Text Elements
 //        String contentTitle = "Entry Reminder";
-//        String contentText = "Time to add new entry in my co2 footprint";
+//        int unicode=0x1F4C5;//calender emoji
+//        String contentText = "Time to add new entry "+ new String(Character.toChars(unicode));
 //
 //
 //        Intent mNotificationIntent = new Intent(getApplicationContext(), MainActivity.class);

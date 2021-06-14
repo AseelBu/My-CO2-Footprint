@@ -19,7 +19,7 @@ public class GaugeChartFragment extends Fragment {
     private HalfGauge resultGauge=null;
     private String resultId=null;
     private Result result=null;
-    private  TextView pointsValue=null;
+    private  TextView txtPointsValue =null;
     public GaugeChartFragment() {
         // Required empty public constructor
     }
@@ -38,7 +38,7 @@ public class GaugeChartFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView= inflater.inflate(R.layout.fragment_gauge_chart, container, false);
         resultGauge=(HalfGauge) rootView.findViewById(R.id.halfGauge);
-        pointsValue=(TextView) rootView.findViewById(R.id.txtPointsValueResults);
+        txtPointsValue =(TextView) rootView.findViewById(R.id.txtPointsValueResults);
         Bundle args = getArguments();
         if(args!=null){
             resultId=args.getString("resultId");
@@ -48,7 +48,13 @@ public class GaugeChartFragment extends Fragment {
         setColors();
         //set data
         loadGaugeData();
-        pointsValue.setText(String.valueOf(result.calculateResultPoints()));
+        int pointValue=result.calculateResultPoints();
+        txtPointsValue.setText(String.valueOf(pointValue));
+        if(pointValue <0) {
+            txtPointsValue.setTextColor(getContext().getColor(R.color.dangerRed));
+        }else{
+            txtPointsValue.setTextColor(getContext().getColor(R.color.bestGreen));
+        }
         return rootView;
     }
 
