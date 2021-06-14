@@ -92,7 +92,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
 
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             long c =  milliseconds(notiTime);
-            long interval = 1000 * 60 * 60 * 24;
+            long interval =  1000 * 60 * 60* 24;
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,c, interval, pendingIntent);
         }
 

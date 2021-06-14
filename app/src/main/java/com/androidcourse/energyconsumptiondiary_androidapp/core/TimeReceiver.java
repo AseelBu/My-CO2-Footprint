@@ -49,7 +49,8 @@ public class TimeReceiver extends BroadcastReceiver {
 
         // Notification Text Elements
         String contentTitle = "Entry Reminder";
-        String contentText = "Time to add new entry in my co2 footprint";
+        int unicode=0x1F4C5;//calender emoji
+        String contentText = "Time to add new entry! "+ new String(Character.toChars(unicode));
 
 
         Intent mNotificationIntent = new Intent(context.getApplicationContext(), MainActivity.class);
