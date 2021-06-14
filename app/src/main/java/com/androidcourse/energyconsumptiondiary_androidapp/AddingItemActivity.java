@@ -48,6 +48,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     public static final String TAG = "AddingItemActivity";
     private static final String IMPACTERTYPE = "ImpacterType";
     public static final int REQUEST_IMAGE_GET = 3;
+    private static  final int ADDING_REQ_CODE =100;
     private ImpactType impacterType;
     private Co2Impacter impacter=null;
     protected static final int NEW_ITEM_TAG = -111;
@@ -106,6 +107,7 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
             }
 
         } else {
+
             finish();
         }
 
@@ -398,6 +400,8 @@ public class AddingItemActivity extends AppCompatActivity implements AdapterView
     public void newActivity() {
         Intent intent = new Intent(this, AdminEditListActivity.class);
         intent.putExtra(IMPACTERTYPE, impacterType.name());
+        intent.putExtra("comebackName", impacter.getName());
+        intent.putExtra("action", "added");
         startActivity(intent);
         finish();
     }

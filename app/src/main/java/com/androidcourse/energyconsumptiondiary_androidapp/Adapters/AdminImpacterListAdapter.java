@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -161,7 +162,8 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
                                                     deleteImageFromCloudStorage(imageUrl);
                                                 }
                                                 db.removeImpacter(impacterType, imp.getImpacterID());
-                                                Toast.makeText(context, imp.getName()+" deleted", Toast.LENGTH_LONG).show();
+                                               ((AdminEditListActivity) context).showDeleteSnackBar(imp.getName());
+
 
                                             }
                                         })

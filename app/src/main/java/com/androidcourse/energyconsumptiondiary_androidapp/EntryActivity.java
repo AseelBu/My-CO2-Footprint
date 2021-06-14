@@ -398,7 +398,19 @@ public class EntryActivity extends AppCompatActivity  {
         switch (item.getItemId()) {
             case android.R.id.home:
 //                onFragmentBackClick(getCurrentFragmentEntries());
-                finish();
+                new AlertDialog.Builder(context)
+                        .setIcon(android.R.drawable.ic_delete)
+                        .setTitle("Are you sure ?")
+                        .setMessage("By clicking exit the changes you made to this entry will be deleted")
+                        .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                EntryActivity.this.finish();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+
                 return true;
             case R.id.menuEntryPrevResults:
                 Intent intent1 = new Intent(this, PreviousResultsActivity.class);

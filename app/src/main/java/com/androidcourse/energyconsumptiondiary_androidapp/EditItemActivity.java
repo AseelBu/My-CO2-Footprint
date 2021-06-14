@@ -55,6 +55,7 @@ import java.util.UUID;
 public class EditItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "EditItemActivity";
     public static final int REQUEST_IMAGE_GET = 3;
+    private static  final int EDIT_REQ_CODE =101;
     private static final String IMPACTERTYPE = "ImpacterType";
     private final MyCo2FootprintManager db = MyCo2FootprintManager.getInstance();
     public Spinner spinner;
@@ -177,7 +178,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                 new AlertDialog.Builder(context)
                         .setIcon(R.drawable.ic_baseline_warning_24)
                         .setTitle("Are you sure ?")
-                        .setMessage("Are you sure you want to save changes to" + impacter.getName())
+                        .setMessage("Are you sure you want to save changes to " + impacter.getName())
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -406,6 +407,8 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
     public void newActivity() {
         Intent intent = new Intent(context, AdminEditListActivity.class);
         intent.putExtra(IMPACTERTYPE, impacterType.name());
+        intent.putExtra("comebackName", impacter.getName());
+        intent.putExtra("action", "edited");
         startActivity(intent);
         finish();
     }

@@ -130,7 +130,9 @@
                     android:linksClickable="true"
                     android:onClick="SignUpClicked"
                     android:padding="3dp"
-                    android:text="@string/signupLink" />
+                    android:text="@string/signupLink"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
