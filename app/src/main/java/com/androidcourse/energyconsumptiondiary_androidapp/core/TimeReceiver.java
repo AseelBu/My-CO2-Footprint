@@ -16,7 +16,10 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.EntryActivity;
 import com.androidcourse.energyconsumptiondiary_androidapp.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class TimeReceiver extends BroadcastReceiver {
     @Override
@@ -51,9 +54,11 @@ public class TimeReceiver extends BroadcastReceiver {
         String contentTitle = "Entry Reminder";
         int unicode=0x1F4C5;//calender emoji
         String contentText = "Time to add new entry "+ new String(Character.toChars(unicode));
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
-        Intent mNotificationIntent = new Intent(context.getApplicationContext(), MainActivity.class);
+        Intent  mNotificationIntent = new Intent(context.getApplicationContext(), MainActivity.class);
+
        PendingIntent mContentIntent = PendingIntent.getActivity(context.getApplicationContext(),
                 0, mNotificationIntent, Intent.FILL_IN_ACTION);
 
