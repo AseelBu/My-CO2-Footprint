@@ -26,8 +26,8 @@ public class TimeReceiver extends BroadcastReceiver {
 //                Toast.LENGTH_SHORT);
 //
 //        toast.show();
-        Intent intent1 = new Intent(context, NotificationService.class);
-        context.startService(intent1);
+//        Intent intent1 = new Intent(context, NotificationService.class);
+//        context.startService(intent1);
 
 //        Notification.Builder builder = new Notification.Builder(context);
 //        builder.setContentTitle("Entry Reminder");
