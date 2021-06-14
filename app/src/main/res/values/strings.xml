@@ -135,6 +135,8 @@
     <string name="co2EmissionsAmount">Co2 emissions amount</string>
     <string name="homePage">Home</string>
     <string name="accountInfo">Account Information</string>
+    <string name="youGot">You got</string>
+    <string name="points">points</string>
 
 
 </resources>

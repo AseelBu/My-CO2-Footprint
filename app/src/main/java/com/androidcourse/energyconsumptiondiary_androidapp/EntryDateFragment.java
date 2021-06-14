@@ -35,6 +35,9 @@ public class EntryDateFragment extends Fragment {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_entry_date, container, false);
         datePicker=(DatePicker)v.findViewById(R.id.entryDateCal);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,0);
+        datePicker.setMaxDate(calendar.getTimeInMillis());
         datePicker.init(Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH),new DatePicker.OnDateChangedListener() {

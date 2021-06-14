@@ -58,7 +58,18 @@ private final static String TITLE="Title";
         tp.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                chosenTime=String.valueOf(hourOfDay)+":"+String.valueOf(minute);
+                String hours = String.valueOf(hourOfDay);
+                String minutes = String.valueOf(minute);
+
+                if(hourOfDay<10){
+                    hours=0+hours;
+                }
+                 if(minute<10) {
+                    minutes="0"+minutes;
+                 }
+
+                    chosenTime = String.valueOf(hours) + ":" + String.valueOf(minutes);
+
             }
         });
         saveBtn=(Button) view.findViewById(R.id.saveBtn);

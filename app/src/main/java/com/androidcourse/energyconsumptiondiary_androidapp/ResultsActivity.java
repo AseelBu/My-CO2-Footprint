@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidcourse.energyconsumptiondiary_androidapp.Model.MyCo2FootprintManager;
@@ -35,6 +36,9 @@ public class ResultsActivity extends AppCompatActivity {
     private PieChart resultPie = null;
     private HalfGauge resultGauge = null;
     private Context context = null;
+//    private Result result=null;
+    MyCo2FootprintManager dbManager= MyCo2FootprintManager.getInstance();
+    private  TextView pointsValue=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +46,13 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.results_activity);
         resultPie=(PieChart) findViewById(R.id.resultsPie);
         resultGauge=(HalfGauge) findViewById(R.id.halfGauge);
+        pointsValue=(TextView) findViewById(R.id.txtPointsValueResults);
         Intent intent = getIntent();
         if(intent!=null){
             resultId =intent.getStringExtra("resultId");
+//            result=dbManager.getResultById(resultId);
         }
+//        pointsValue.setText(String.valueOf(result.calculateResultPoints()));
 
         ActionBar ab = getSupportActionBar();
         ab.setTitle(R.string.yourResults);

@@ -77,14 +77,16 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
     public void save(View v) {
 
 
-        Intent notifyIntent = new Intent(this,MyReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast
-                (context,NOTIFICATION_REMINDER_NIGHT, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
-                1000 * 60 * 60 * 24, pendingIntent);
-                Intent intent = new Intent(context, SettingsActivity.class);
-        startActivity(intent);
+            Intent notifyIntent = new Intent(this, TimeReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, NOTIFICATION_REMINDER, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            long c =  milliseconds(notiTime);
+            long interval = 1000 * 60 * 60 * 24;
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,c, interval, pendingIntent);
+        }
+
+        finish();
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
