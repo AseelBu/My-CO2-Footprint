@@ -161,7 +161,7 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
                                                     deleteImageFromCloudStorage(imageUrl);
                                                 }
                                                 db.removeImpacter(impacterType, imp.getImpacterID());
-                                                Toast.makeText(context, imp.getName()+" deleted", Toast.LENGTH_LONG).show();
+
 
                                             }
                                         })

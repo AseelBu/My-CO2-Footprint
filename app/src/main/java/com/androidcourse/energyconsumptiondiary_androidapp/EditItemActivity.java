@@ -177,7 +177,7 @@ public class EditItemActivity extends AppCompatActivity implements AdapterView.O
                 new AlertDialog.Builder(context)
                         .setIcon(R.drawable.ic_baseline_warning_24)
                         .setTitle("Are you sure ?")
-                        .setMessage("Are you sure you want to save changes to" + impacter.getName())
+                        .setMessage("Are you sure you want to save changes to " + impacter.getName())
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
