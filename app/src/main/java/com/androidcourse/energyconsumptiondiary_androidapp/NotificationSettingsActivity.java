@@ -17,6 +17,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.androidcourse.energyconsumptiondiary_androidapp.core.TimeReceiver;
+
 public class NotificationSettingsActivity extends AppCompatActivity implements TimePickerListener {
     private Context context;
     private CheckBox entryReminder;
