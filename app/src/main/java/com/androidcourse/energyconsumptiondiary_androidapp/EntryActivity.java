@@ -86,6 +86,7 @@ public class EntryActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreateView()");
         super.onCreate(savedInstanceState);
+        dbManager.openDataBase(EntryActivity.this);
         setContentView(R.layout.activity_entry);
 
         //get user Id
@@ -281,6 +282,7 @@ public class EntryActivity extends AppCompatActivity  {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+                                    dbManager.openDataBase(EntryActivity.this);
                                     // save the new entry
                                     saveEntryToDB(entryData.getUserId());
 
@@ -293,7 +295,7 @@ public class EntryActivity extends AppCompatActivity  {
                                     int points = result.calculateResultPoints();
                                     //save points and result to cloud
                                     updateUserPointsinCloud(v, points,result);
-
+                                dbManager.closeDataBase();
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -501,6 +503,7 @@ public class EntryActivity extends AppCompatActivity  {
                         new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                dbManager.openDataBase(EntryActivity.this);
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
@@ -518,6 +521,7 @@ public class EntryActivity extends AppCompatActivity  {
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
+                                                        dbManager.openDataBase(EntryActivity.this);
                                                         final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), "points updated successfully from "+prevPoints +"to "+(prevPoints + resultPoints)+" resultPoints "+resultPoints, Snackbar.LENGTH_SHORT);
                                                         bar.setAction("Dismiss", new View.OnClickListener() {
                                                             @Override
@@ -532,6 +536,7 @@ public class EntryActivity extends AppCompatActivity  {
                                                         dbManager.replaceUserPoints(user);
                                                         //save result in cloud
                                                         saveResultToCloud(v,result);
+                                                        dbManager.closeDataBase();
                                                     }
                                                 })
                                                 .addOnFailureListener(new OnFailureListener() {
@@ -571,6 +576,7 @@ public class EntryActivity extends AppCompatActivity  {
                                     bar.setActionTextColor(getResources().getColor(R.color.dangerRed));
                                     bar.show();
                                 }
+                                dbManager.closeDataBase();
                             }
                         }
                 );
@@ -586,6 +592,7 @@ public class EntryActivity extends AppCompatActivity  {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        dbManager.openDataBase(EntryActivity.this);
                         final Snackbar bar = Snackbar.make(findViewById(android.R.id.content), "Result saved successfully", Snackbar.LENGTH_LONG);
                         bar.setAction("Dismiss", new View.OnClickListener() {
                             @Override
@@ -604,6 +611,7 @@ public class EntryActivity extends AppCompatActivity  {
                         intent.putExtra("resultId", result.getId());
                         intent.putExtra("date", entryData.getDate());
                         startActivity(intent);
+                        dbManager.closeDataBase();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

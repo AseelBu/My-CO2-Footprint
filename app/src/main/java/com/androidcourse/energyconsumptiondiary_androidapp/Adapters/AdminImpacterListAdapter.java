@@ -155,6 +155,7 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
+                                                db.openDataBase(context);
                                                 MyCo2FootprintManager.getInstance().removeImpacter(impacterType, imp.getImpacterID());
                                                 String imageUrl = imp.getUrlImage();
 
@@ -164,8 +165,9 @@ public class AdminImpacterListAdapter extends ArrayAdapter<Co2Impacter> {
                                                 db.removeImpacter(impacterType, imp.getImpacterID());
                                                ((AdminEditListActivity) context).showDeleteSnackBar(imp.getName());
 
-
+                                                db.openDataBase(context);
                                             }
+
                                         })
 
                                         .addOnFailureListener(new OnFailureListener() {

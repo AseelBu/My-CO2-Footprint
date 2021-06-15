@@ -32,6 +32,7 @@ public class LeaderboardAndPointsActivity extends AppCompatActivity {
 
         context=this;
         dbMngr=MyCo2FootprintManager.getInstance();
+        dbMngr.openDataBase(LeaderboardAndPointsActivity.this);
         leaderboardFragment=LeaderboardFragment.newInstance(1);
         pointsFragment=PointsFragment.newInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -40,7 +41,7 @@ public class LeaderboardAndPointsActivity extends AppCompatActivity {
         collRef.addSnapshotListener(LeaderboardAndPointsActivity.this,new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-
+                dbMngr.openDataBase(LeaderboardAndPointsActivity.this);
                 if (e != null) {
 
                     Toast.makeText(context, "Listen failed."+ e.getMessage(),
@@ -61,6 +62,7 @@ public class LeaderboardAndPointsActivity extends AppCompatActivity {
                     Toast.makeText(context, "Current data: null",
                             Toast.LENGTH_LONG).show();
                 }
+                dbMngr.closeDataBase();
             }
         });
 

@@ -33,7 +33,7 @@ public class LeaderboardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        dbMngr.openDataBase(context);
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -57,5 +57,17 @@ public class LeaderboardFragment extends Fragment {
     public void updateLeaderBoard(){
         adapter=new MyLeaderboardRecyclerViewAdapter(this.getContext(),dbMngr.getTopkUsers(10));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        dbMngr.openDataBase(context);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        dbMngr.closeDataBase();
+        super.onPause();
     }
 }

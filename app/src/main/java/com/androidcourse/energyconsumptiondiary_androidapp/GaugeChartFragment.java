@@ -62,18 +62,18 @@ public class GaugeChartFragment extends Fragment {
         Range range = new Range();
         range.setColor(getResources().getColor(R.color.bestGreen));
         range.setFrom( 0.0);
-        range.setTo( 200.0);
+        range.setTo( 500.0);
         Range range2 = new Range();
         range2.setColor(getResources().getColor(R.color.warningYellow));
-        range2.setFrom( 200.0);
-        range2.setTo( 500.0);
+        range2.setFrom( 500.0);
+        range2.setTo( 700.0);
         Range range3 = new Range();
         range3.setColor(getResources().getColor(R.color.warningOrange));
-        range3.setFrom(500.0);
-        range3.setTo(1000.0);
+        range3.setFrom(700.0);
+        range3.setTo(2000.0);
         Range range4 = new Range();
         range4.setColor(getResources().getColor(R.color.dangerRed));
-        range4.setFrom(1000.0);
+        range4.setFrom(2000.0);
         range4.setTo(3000.0);
         //add color ranges to gauge
         resultGauge.addRange(range);

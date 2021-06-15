@@ -1,5 +1,6 @@
 package com.androidcourse.energyconsumptiondiary_androidapp;
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.RectF;
@@ -38,6 +39,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     private ArrayList<Date> datesLabels=new ArrayList<>();
     PrevResultsFragmentListener mListener;
     private Activity activity;
+    private Context context;
 
     public BarChartFragment() {
     }
@@ -46,6 +48,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity=getActivity();
+        context=getContext();
         mListener = (PrevResultsFragmentListener) activity;
 
     }
@@ -55,6 +58,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
                              Bundle savedInstanceState) {
         Log.i(TAG, getClass().getSimpleName() + ":entered onCreateView()");
         View rootView= inflater.inflate(R.layout.fragment_bar_chart, container, false);
+        dbManager.openDataBase(getContext());
         barChart=(BarChart) rootView.findViewById(R.id.barChart);
 //        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
         String userId= FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -140,5 +144,18 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     @Override
     public void onNothingSelected() {
         mListener.onNothingSelected(BarChartFragment.this);
+    }
+
+
+    @Override
+    public void onResume() {
+        dbManager.openDataBase(context);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        dbManager.closeDataBase();
+        super.onPause();
     }
 }

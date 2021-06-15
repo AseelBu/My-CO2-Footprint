@@ -43,6 +43,7 @@ public class EntryDateFragment extends Fragment {
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH),new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
                selectedDate =new GregorianCalendar(year,monthOfYear,dayOfMonth).getTime();
             }
         });

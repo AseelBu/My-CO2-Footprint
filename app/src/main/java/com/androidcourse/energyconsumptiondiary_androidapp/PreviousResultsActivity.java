@@ -34,6 +34,7 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_previous_results);
+        db.openDataBase(PreviousResultsActivity.this);
         ActionBar ab = getSupportActionBar();
         ab.setTitle(R.string.prevResultsTitle);
         ab.setDisplayHomeAsUpEnabled(true);
@@ -102,6 +103,7 @@ public class PreviousResultsActivity extends AppCompatActivity implements PrevRe
                     }
                     onNothingSelected(prevResultsBars);
                 }
+                db.closeDataBase();
             }
         });
 

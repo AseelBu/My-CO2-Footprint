@@ -44,6 +44,7 @@ public class PointsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbMngr.openDataBase(context);
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         user = dbMngr.getUserInfoPoints(fUser.getUid());
     }
@@ -89,7 +90,17 @@ public class PointsFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
+
+        dbMngr.openDataBase(context);
         updatePointsAndRank();
+        super.onResume();
+    }
+
+
+
+    @Override
+    public void onPause() {
+        dbMngr.closeDataBase();
+        super.onPause();
     }
 }

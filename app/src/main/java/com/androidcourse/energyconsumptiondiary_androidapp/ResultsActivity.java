@@ -31,7 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class ResultsActivity extends AppCompatActivity {
     private static final String TAG = "ResultsActivity";
-    private  MyCo2FootprintManager db=MyCo2FootprintManager.getInstance();
+
     private String resultId=null;
     private PieChart resultPie = null;
     private HalfGauge resultGauge = null;
