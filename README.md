@@ -9,6 +9,10 @@ All data is stored in [Firestore database](https://firebase.google.com/docs/fire
 As part of the course we were asked to make and present ![investors presentation](./MyCo2Footprint-investors-presentation.pdf), persuading them to invest in our app
 
 ### Demo
+
+
+<img src="./entry-demo.gif" width="200">
+<img src="./leaderboard.png" width="200">
 ![New entry Demo](./entry-demo.gif)
 ![Leaderboard and points](./leaderboard.png )
 
