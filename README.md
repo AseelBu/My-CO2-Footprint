@@ -11,9 +11,7 @@ As part of the course we were asked to make and present ![investors presentation
 ### Demo
 
 
-<img src="./entry-demo.gif" width="200">
-<img src="./leaderboard.png" width="200">
-![New entry Demo](./entry-demo.gif)
-![Leaderboard and points](./leaderboard.png )
+<img src="./entry-demo.gif" width="200" alt="New entry Demo">
+<img src="./leaderboard.png" width="200" alt="Leaderboard and points">
 
 
